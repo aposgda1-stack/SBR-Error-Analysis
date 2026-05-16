@@ -82,34 +82,93 @@ export default function StatsPage() {
         {/* Tab Content */}
         <div className="animate-slide-up">
           {activeTab === 'overview' && (
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }} className="mobile-stack">
-              <StatCard label="Global Rank" val={`#${user.rank || 'N/A'}`} icon="workspace_premium" color="var(--primary)" />
-              <StatCard label="Total XP" val={user.xp || 0} icon="bolt" color="var(--secondary)" />
-              <StatCard label="Current Level" val={Math.floor((user.xp || 0) / 100) + 1} icon="upgrade" color="var(--success)" />
-              <StatCard label="Next Level In" val={`${100 - ((user.xp || 0) % 100)} XP`} icon="trending_up" color="var(--accent)" />
-            </div>
+            <>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 32 }} className="mobile-stack">
+                <StatCard label="Global Rank" val={`#${user.rank || 'N/A'}`} icon="workspace_premium" color="var(--primary)" />
+                <StatCard label="Total XP" val={user.xp || 0} icon="bolt" color="var(--secondary)" />
+                <StatCard label="Current Level" val={Math.floor((user.xp || 0) / 100) + 1} icon="upgrade" color="var(--success)" />
+                <StatCard label="Next Level In" val={`${100 - ((user.xp || 0) % 100)} XP`} icon="trending_up" color="var(--accent)" />
+              </div>
+
+              <div className="glass-panel" style={{ padding: '24px' }}>
+                <h4 style={{ fontSize: 13, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 2, marginBottom: 20 }}>Achievements</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
+                  <Badge 
+                    unlocked={user.done >= 1} 
+                    label="First Steps" icon="egg_alt" 
+                    desc="Completed your first training session." 
+                  />
+                  <Badge 
+                    unlocked={user.done >= 10} 
+                    label="Consistent" icon="auto_graph" 
+                    desc="Finished 10 modules." 
+                  />
+                  <Badge 
+                    unlocked={(user.xp || 0) >= 500} 
+                    label="Elite Scholar" icon="workspace_premium" 
+                    desc="Reached level 5." 
+                  />
+                  <Badge 
+                    unlocked={(user.vault || []).length >= 5} 
+                    label="Vault Keeper" icon="auto_delete" 
+                    desc="5+ mistakes recorded for review." 
+                  />
+                </div>
+              </div>
+            </>
           )}
 
           {activeTab === 'activity' && (
-            <div className="glass-panel" style={{ padding: 20 }}>
-              <h4 style={{ fontSize: 14, marginBottom: 20 }}>Recent Activity</h4>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                {user.updatedAt ? (
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: 12, borderBottom: '1px solid var(--border-glass)' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <span className="mi" style={{ color: 'var(--primary)', fontSize: 24 }}>check_circle</span>
-                      <div>
-                        <div style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>Platform Synchronization</div>
-                        <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{new Date(user.updatedAt).toLocaleString()}</div>
-                      </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+              {/* Progress Chart */}
+              <div className="glass-panel" style={{ padding: '24px' }}>
+                <h4 style={{ fontSize: 13, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 2, marginBottom: 24 }}>Progress Analytics</h4>
+                <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', height: 120, gap: 10, padding: '0 10px' }}>
+                  {(user.history || []).slice(-7).map((h, i) => (
+                    <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
+                      <div style={{ 
+                        width: '100%', 
+                        height: `${Math.min(100, (h.xp / 40) * 100)}%`, 
+                        background: 'var(--grad-primary)', 
+                        borderRadius: '4px 4px 0 0',
+                        opacity: 0.8,
+                        boxShadow: '0 0 15px var(--primary-glow)'
+                      }} />
+                      <span style={{ fontSize: 8, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
+                        {new Date(h.date).toLocaleDateString([], { weekday: 'short' })}
+                      </span>
                     </div>
-                  </div>
-                ) : (
-                  <div style={{ textAlign: 'center', padding: '20px 0', color: 'var(--text-muted)' }}>
-                    <span className="mi" style={{ fontSize: 32, marginBottom: 8, opacity: 0.5 }}>history_toggle_off</span>
-                    <p style={{ fontSize: 13 }}>No recent activity recorded yet.</p>
-                  </div>
-                )}
+                  ))}
+                  {(!user.history || user.history.length === 0) && (
+                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)', fontSize: 12 }}>
+                      Complete sessions to see charts.
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="glass-panel" style={{ padding: 20 }}>
+                <h4 style={{ fontSize: 13, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 2, marginBottom: 20 }}>Recent Activity</h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                  {(user.history || []).slice().reverse().slice(0, 5).map((h, i) => (
+                    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: 12, borderBottom: '1px solid var(--border-glass)' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                        <span className="mi" style={{ color: 'var(--primary)', fontSize: 24 }}>check_circle</span>
+                        <div>
+                          <div style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>{h.type || 'Session'} Complete</div>
+                          <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{new Date(h.date).toLocaleString()}</div>
+                        </div>
+                      </div>
+                      <div className="xp-badge">+{h.xp} XP</div>
+                    </div>
+                  ))}
+                  {(!user.history || user.history.length === 0) && (
+                    <div style={{ textAlign: 'center', padding: '20px 0', color: 'var(--text-muted)' }}>
+                      <span className="mi" style={{ fontSize: 32, marginBottom: 8, opacity: 0.5 }}>history_toggle_off</span>
+                      <p style={{ fontSize: 13 }}>No recent activity recorded yet.</p>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           )}
@@ -174,6 +233,31 @@ export default function StatsPage() {
 
       <BottomNav />
     </main>
+  );
+}
+
+function Badge({ unlocked, label, icon, desc }) {
+  return (
+    <div className="glass-card" style={{ 
+      padding: '16px', 
+      textAlign: 'center',
+      opacity: unlocked ? 1 : 0.4,
+      filter: unlocked ? 'none' : 'grayscale(1)',
+      border: `1px solid ${unlocked ? 'var(--primary)' : 'var(--border-glass)'}`,
+      background: unlocked ? 'rgba(167, 139, 250, 0.05)' : 'transparent'
+    }}>
+      <div style={{ 
+        width: 40, height: 40, borderRadius: 12, 
+        background: unlocked ? 'var(--grad-primary)' : 'rgba(255,255,255,0.05)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        margin: '0 auto 12px',
+        boxShadow: unlocked ? '0 0 15px var(--primary-glow)' : 'none'
+      }}>
+        <span className="mi" style={{ color: unlocked ? 'white' : 'var(--text-muted)', fontSize: 20 }}>{icon}</span>
+      </div>
+      <div style={{ fontSize: 12, fontWeight: 800, color: unlocked ? 'white' : 'var(--text-muted)' }}>{label}</div>
+      <div style={{ fontSize: 8, color: 'var(--text-muted)', marginTop: 4, lineHeight: 1.2 }}>{desc}</div>
+    </div>
   );
 }
 

@@ -40,7 +40,7 @@ export async function POST(req) {
     }
 
     if (data.action === 'sync') {
-      const { userId, progress, xp, level, incXp, incDone } = data;
+      const { userId, progress, xp, level, incXp, incDone, pushVault, pushHistory } = data;
       if (!userId) return NextResponse.json({ error: 'Missing userId' }, { status: 400 });
 
       const update = { $set: { updatedAt: new Date() } };
@@ -52,9 +52,13 @@ export async function POST(req) {
       if (incXp !== undefined) inc.xp = incXp;
       if (incDone !== undefined) inc.done = incDone;
 
-      const updateOp = Object.keys(inc).length > 0
-        ? { ...update, $inc: inc }
-        : update;
+      const push = {};
+      if (pushVault) push.vault = pushVault;
+      if (pushHistory) push.history = pushHistory;
+
+      const updateOp = { ...update };
+      if (Object.keys(inc).length > 0) updateOp.$inc = inc;
+      if (Object.keys(push).length > 0) updateOp.$push = push;
 
       await db.collection("progress").updateOne(
         { userId },

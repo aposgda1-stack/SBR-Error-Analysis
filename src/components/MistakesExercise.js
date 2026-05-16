@@ -131,10 +131,27 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
   const handleSelect = (opt) => {
     if (selectedOpt) return;
     setSelectedOpt(opt);
-    if (opt === correctOption) setScore(s => s + 1);
+    if (opt === correctOption) {
+      setScore(s => s + 1);
+    } else {
+      // Record failed question
+      if (!wrongAttempts.includes('opt_wrong')) {
+         setWrongAttempts(prev => [...prev, 'opt_wrong']);
+      }
+    }
   };
 
   const handleNext = () => {
+    if (wrongAttempts.length > 0) {
+      const alreadyFailed = JSON.parse(localStorage.getItem('sbr_failed_ids') || '[]');
+      if (!alreadyFailed.includes(currentItem.id)) {
+        localStorage.setItem('sbr_failed_ids', JSON.stringify([...alreadyFailed, currentItem.id]));
+        // Temporary local vault
+        const localVault = JSON.parse(localStorage.getItem('sbr_vault') || '[]');
+        localStorage.setItem('sbr_vault', JSON.stringify([...localVault, { ...currentItem, date: new Date() }]));
+      }
+    }
+
     if (currentIndex < mistakes.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setStep(1);
@@ -148,11 +165,26 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
 
   const handleComplete = () => {
     const uId = localStorage.getItem('sbr_user_id') || JSON.parse(localStorage.getItem('sbr_user') || '{}').userId;
-    if (uId && score > 0) {
+    if (uId) {
+      const localVault = JSON.parse(localStorage.getItem('sbr_vault') || '[]');
+      const payload = { 
+        action: 'sync', 
+        userId: uId, 
+        incXp: score, 
+        incDone: 1,
+        pushHistory: { date: new Date(), xp: score, type: 'Error Hunter' }
+      };
+
+      // Only push new items to server vault if they exist
+      if (localVault.length > 0) {
+        payload.pushVault = { $each: localVault };
+        localStorage.setItem('sbr_vault', '[]'); // Clear local after sync
+      }
+
       fetch('/api/user', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'sync', userId: uId, incXp: score, incDone: 1 })
+        body: JSON.stringify(payload)
       }).catch(console.error);
     }
     onComplete();
@@ -185,7 +217,7 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
 
   if (!currentItem) return null;
 
-  const words = currentItem.wrong.split(' ');
+  const words = currentItem.wrong.trim().split(/\s+/);
 
   return (
     <div className="animate-fade-in">
@@ -200,9 +232,9 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
         </div>
       </div>
 
-      <div className="glass-card" style={{ padding: '32px', marginBottom: 24, minHeight: 160, display: 'flex', flexDirection: 'column', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
+      <div className="glass-card" style={{ padding: '24px', marginBottom: 24, minHeight: 160, display: 'flex', flexDirection: 'column', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
         <div className="animate-shimmer" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: 4 }} />
-        <h3 style={{ fontSize: 14, color: step === 1 ? 'var(--error)' : 'var(--success)', fontWeight: 800, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
+        <h3 style={{ fontSize: 13, color: step === 1 ? 'var(--error)' : 'var(--success)', fontWeight: 800, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
           <span className="mi" style={{ fontSize: 18 }}>{step === 1 ? 'bug_report' : 'check_circle'}</span> 
           {step === 1 ? 'STEP 1: FIND THE ERROR WORD' : 'STEP 2: FIX THE ERROR'}
         </h3>

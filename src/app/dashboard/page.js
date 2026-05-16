@@ -139,6 +139,21 @@ export default function Dashboard() {
                     }} />
                   </div>
                 </div>
+
+                {/* Vault Shortcut */}
+                <button 
+                  onClick={() => router.push('/vault')}
+                  style={{ 
+                    marginTop: 16, background: 'rgba(255, 255, 255, 0.04)', border: '1px solid var(--border-glass)',
+                    borderRadius: 12, padding: '8px 12px', display: 'flex', alignItems: 'center', gap: 8,
+                    cursor: 'pointer', transition: '0.3s'
+                  }}
+                  className="hover-bright"
+                >
+                  <span className="mi" style={{ color: 'var(--gold)', fontSize: 16 }}>auto_delete</span>
+                  <span style={{ fontSize: 11, fontWeight: 700, color: 'white', textTransform: 'uppercase', letterSpacing: 0.5 }}>Open Review Vault</span>
+                  <span className="mi" style={{ color: 'var(--text-muted)', fontSize: 14 }}>chevron_right</span>
+                </button>
               </div>
             </div>
           </div>

@@ -460,3 +460,8 @@ h1, h2, h3, h4, .premium-font {
   h1 { font-size: 1.8rem !important; }
   .glass-panel { padding: 16px !important; }
 }
+
+.hover-bright:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  transform: translateY(-1px);
+}
