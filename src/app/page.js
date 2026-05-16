@@ -23,6 +23,8 @@ export default function Dashboard() {
 
     const progress = JSON.parse(localStorage.getItem('sbr_progress') || '{}');
     setStats(s => ({ ...s, done: Object.keys(progress).length }));
+  }, [router]);
+
   const timeRemaining = useMemo(() => {
     const examDate = new Date('2026-05-19T09:00:00');
     const now = new Date();
