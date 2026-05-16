@@ -4,24 +4,46 @@ import { useRouter } from 'next/navigation';
 
 export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
+  const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
   const router = useRouter();
 
   const handleAuth = async (e) => {
     e.preventDefault();
     setError('');
-    const res = await fetch('/api/user', {
-      method: 'POST',
-      body: JSON.stringify({ action: isLogin ? 'login' : 'register', name, password }),
-    });
-    const data = await res.json();
-    if (data.userId) {
-      localStorage.setItem('sbr_user', JSON.stringify({ name: data.name, userId: data.userId }));
-      router.push('/');
-    } else {
-      setError(data.error);
+    setLoading(true);
+
+    try {
+      const res = await fetch('/api/user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+          action: isLogin ? 'login' : 'signup', 
+          email, 
+          name: isLogin ? undefined : name, 
+          password 
+        }),
+      });
+      
+      const data = await res.json();
+      
+      if (data.userId) {
+        localStorage.setItem('sbr_user', JSON.stringify({ 
+          name: data.name, 
+          userId: data.userId,
+          image: data.image
+        }));
+        router.push('/');
+      } else {
+        setError(data.error || 'Authentication failed');
+      }
+    } catch (err) {
+      setError('Connection error. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -37,23 +59,42 @@ export default function AuthPage() {
             <span className="material-symbols-rounded" style={{ fontSize: 36, color: 'white' }}>auto_awesome</span>
           </div>
           <h1 style={{ fontSize: 32, fontWeight: 800, marginBottom: 8 }}>SBR Academy</h1>
-          <p style={{ color: 'var(--text-dim)' }}>{isLogin ? 'Welcome back to your studies' : 'Start your excellence journey'}</p>
+          <p style={{ color: 'var(--text-dim)' }}>{isLogin ? 'Login to your student account' : 'Register for the final exam'}</p>
         </div>
 
         <div className="glass-panel" style={{ padding: '32px' }}>
           <form onSubmit={handleAuth} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
             <div>
-              <label style={{ fontSize: 11, fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', display: 'block', marginBottom: 8, letterSpacing: 1 }}>Username</label>
+              <label style={{ fontSize: 11, fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', display: 'block', marginBottom: 8, letterSpacing: 1 }}>
+                Email Address
+              </label>
               <input 
-                type="text" 
+                type="email" 
                 className="premium-input" 
                 style={{ width: '100%' }} 
-                placeholder="Enter your name" 
-                value={name} 
-                onChange={(e) => setName(e.target.value)} 
+                placeholder="student@example.com" 
+                value={email} 
+                onChange={(e) => setEmail(e.target.value)} 
                 required 
               />
             </div>
+
+            {!isLogin && (
+              <div className="animate-fade-in">
+                <label style={{ fontSize: 11, fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', display: 'block', marginBottom: 8, letterSpacing: 1 }}>
+                  Full Name
+                </label>
+                <input 
+                  type="text" 
+                  className="premium-input" 
+                  style={{ width: '100%' }} 
+                  placeholder="Your display name" 
+                  value={name} 
+                  onChange={(e) => setName(e.target.value)} 
+                  required 
+                />
+              </div>
+            )}
             
             <div>
               <label style={{ fontSize: 11, fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', display: 'block', marginBottom: 8, letterSpacing: 1 }}>Password</label>
@@ -74,17 +115,17 @@ export default function AuthPage() {
               </div>
             )}
 
-            <button type="submit" className="premium-btn" style={{ width: '100%', padding: 18, marginTop: 8 }}>
-              {isLogin ? 'Sign In' : 'Create Account'}
+            <button type="submit" disabled={loading} className="premium-btn" style={{ width: '100%', padding: 18, marginTop: 8 }}>
+              {loading ? 'Processing...' : (isLogin ? 'Sign In' : 'Create Account')}
             </button>
           </form>
 
           <div style={{ marginTop: 24, textAlign: 'center' }}>
             <span style={{ color: 'var(--text-dim)', fontSize: 14 }}>
-              {isLogin ? "Don't have an account?" : "Already a member?"}
+              {isLogin ? "New student?" : "Already registered?"}
             </span>
             <button 
-              onClick={() => setIsLogin(!isLogin)}
+              onClick={() => { setIsLogin(!isLogin); setError(''); }}
               style={{ background: 'none', border: 'none', color: 'var(--primary)', fontWeight: 700, marginLeft: 8, cursor: 'pointer', fontSize: 14 }}
             >
               {isLogin ? 'Register now' : 'Login here'}
