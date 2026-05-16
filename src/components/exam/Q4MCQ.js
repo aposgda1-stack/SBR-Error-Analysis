@@ -11,6 +11,27 @@ const shuffleArray = (array) => {
   return newArr;
 };
 
+const generateDistractors = (correctWord) => {
+  const c = correctWord.toLowerCase();
+  let pool = [];
+  
+  if (['in', 'on', 'at', 'to', 'for', 'with', 'by', 'of', 'from', 'about', 'as', 'like', 'among', 'between'].includes(c)) {
+    pool = ['in', 'on', 'at', 'to', 'for', 'with', 'by', 'of', 'from', 'about', 'as', 'like', 'among', 'between'];
+  } else if (['a', 'an', 'the', 'some', 'any', 'much', 'many', 'few', 'little'].includes(c)) {
+    pool = ['a', 'an', 'the', 'some', 'any', 'much', 'many', 'few', 'little'];
+  } else if (['is', 'are', 'was', 'were', 'has', 'have', 'had', 'do', 'does', 'did', 'make', 'makes', 'made', 'can', 'must', 'should'].includes(c)) {
+    pool = ['is', 'are', 'was', 'were', 'has', 'have', 'had', 'do', 'does', 'did', 'make', 'makes', 'made', 'can', 'must', 'should'];
+  } else if (['he', 'she', 'it', 'they', 'we', 'i', 'you', 'him', 'her', 'them', 'us', 'me'].includes(c)) {
+    pool = ['he', 'she', 'it', 'they', 'we', 'I', 'you', 'him', 'her', 'them', 'us', 'me'];
+  } else if (['very', 'too', 'enough', 'quite', 'rather', 'so', 'such', 'well', 'badly', 'good', 'bad', 'hard', 'hardly'].includes(c)) {
+    pool = ['very', 'too', 'enough', 'quite', 'rather', 'so', 'such', 'well', 'badly', 'good', 'bad', 'hard', 'hardly'];
+  } else {
+    pool = ['different', 'similar', 'other', 'another'];
+  }
+  
+  return shuffleArray(pool.filter(word => word.toLowerCase() !== c)).slice(0, 3);
+};
+
 export default function Q4MCQ({ onScore }) {
   const grammar = sectionsData.grammar_guide;
   
@@ -20,13 +41,18 @@ export default function Q4MCQ({ onScore }) {
       if (!data.practice) return;
       data.practice.forEach((item, i) => {
         if (item.sentence && item.answer) {
-          const allOtherAnswers = [...new Set(
-            Object.values(grammar)
-              .flatMap(g => g.practice || [])
-              .map(x => x.answer)
-              .filter(ans => ans && ans !== item.answer)
-          )];
-          const wrongOptions = shuffleArray(allOtherAnswers).slice(0, 3);
+          let wrongOptions = generateDistractors(item.answer);
+          
+          if (wrongOptions.includes('different') || wrongOptions.length < 3) {
+            const allOtherAnswers = [...new Set(
+              Object.values(grammar)
+                .flatMap(g => g.practice || [])
+                .map(x => x.answer)
+                .filter(ans => ans && ans.toLowerCase() !== item.answer.toLowerCase())
+            )];
+            const mixed = shuffleArray([...wrongOptions.filter(x => x !== 'different' && x !== 'similar' && x !== 'other' && x !== 'another'), ...allOtherAnswers]);
+            wrongOptions = Array.from(new Set(mixed)).slice(0, 3);
+          }
           
           pool.push({
             id: `q4_${topic}_${i}`,
@@ -38,7 +64,7 @@ export default function Q4MCQ({ onScore }) {
       });
     });
     return shuffleArray(pool).slice(0, 20);
-  }, []);
+  }, [grammar]);
 
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);

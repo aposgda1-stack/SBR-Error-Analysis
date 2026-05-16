@@ -11,19 +11,68 @@ const shuffleArray = (array) => {
   return newArr;
 };
 
+const getDiffWord = (wrong, correct) => {
+  const w = wrong.split(' ');
+  const c = correct.split(' ');
+  let start = 0;
+  while (start < w.length && start < c.length && w[start] === c[start]) start++;
+  let endW = w.length - 1;
+  let endC = c.length - 1;
+  while (endW >= start && endC >= start && w[endW] === c[endC]) { endW--; endC--; }
+  if (endC < start) endC = start;
+  return c.slice(start, endC + 1).join(' ').replace(/[.,!?]$/, '');
+};
+
+const generateDistractors = (correctWord, wrongWord) => {
+  const c = correctWord.toLowerCase();
+  const w = (wrongWord || '').toLowerCase();
+  let pool = [];
+  
+  if (['in', 'on', 'at', 'to', 'for', 'with', 'by', 'of', 'from', 'about', 'as', 'like', 'among', 'between'].includes(c)) {
+    pool = ['in', 'on', 'at', 'to', 'for', 'with', 'by', 'of', 'from', 'about', 'as', 'like', 'among', 'between'];
+  } else if (['a', 'an', 'the', 'some', 'any', 'much', 'many', 'few', 'little'].includes(c)) {
+    pool = ['a', 'an', 'the', 'some', 'any', 'much', 'many', 'few', 'little'];
+  } else if (['is', 'are', 'was', 'were', 'has', 'have', 'had', 'do', 'does', 'did', 'make', 'makes', 'made', 'can', 'must', 'should'].includes(c)) {
+    pool = ['is', 'are', 'was', 'were', 'has', 'have', 'had', 'do', 'does', 'did', 'make', 'makes', 'made', 'can', 'must', 'should'];
+  } else if (['he', 'she', 'it', 'they', 'we', 'i', 'you', 'him', 'her', 'them', 'us', 'me'].includes(c)) {
+    pool = ['he', 'she', 'it', 'they', 'we', 'I', 'you', 'him', 'her', 'them', 'us', 'me'];
+  } else if (['very', 'too', 'enough', 'quite', 'rather', 'so', 'such', 'well', 'badly', 'good', 'bad', 'hard', 'hardly'].includes(c)) {
+    pool = ['very', 'too', 'enough', 'quite', 'rather', 'so', 'such', 'well', 'badly', 'good', 'bad', 'hard', 'hardly'];
+  } else {
+    pool = ['different', 'similar', 'other', 'another'];
+  }
+  
+  return shuffleArray(pool.filter(word => word.toLowerCase() !== c && word.toLowerCase() !== w)).slice(0, 3);
+};
+
 export default function Q1ErrorHunter({ onScore }) {
   const mistakes = sectionsData.identify_error_data.the_130_mistakes;
   
   const questions = useMemo(() => {
     return shuffleArray(mistakes).slice(0, 10).map((m, i) => {
-      const wrongOptions = shuffleArray(mistakes.filter(x => x.id !== m.id)).slice(0, 2).map(x => x.correct);
+      const correctOption = getDiffWord(m.wrong, m.correct);
+      const wrongOptionWord = getDiffWord(m.correct, m.wrong);
+      
+      let wrongOptions = generateDistractors(correctOption, wrongOptionWord);
+      
+      if (wrongOptions.includes('different') || wrongOptions.length < 3) {
+        const otherPhrases = mistakes
+          .filter(x => x.id !== m.id)
+          .map(x => getDiffWord(x.wrong, x.correct))
+          .filter(x => x.toLowerCase() !== correctOption.toLowerCase() && x.toLowerCase() !== wrongOptionWord.toLowerCase());
+        
+        const mixed = shuffleArray([...wrongOptions.filter(x => x !== 'different' && x !== 'similar' && x !== 'other' && x !== 'another'), ...otherPhrases]);
+        wrongOptions = Array.from(new Set(mixed)).slice(0, 3);
+      }
+
       return {
         ...m,
         id: `q1_${i}`,
-        options: shuffleArray([m.correct, ...wrongOptions])
+        correctOption,
+        options: shuffleArray([correctOption, ...wrongOptions])
       };
     });
-  }, []);
+  }, [mistakes]);
 
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
@@ -31,7 +80,7 @@ export default function Q1ErrorHunter({ onScore }) {
 
   const handleSubmit = () => {
     let correct = 0;
-    questions.forEach(q => { if (answers[q.id] === q.correct) correct++; });
+    questions.forEach(q => { if (answers[q.id] === q.correctOption) correct++; });
     const s = correct * 2;
     setScore(s);
     setSubmitted(true);
@@ -41,8 +90,8 @@ export default function Q1ErrorHunter({ onScore }) {
   return (
     <div className="animate-fade-in">
       <div className="glass-panel" style={{ padding: '24px', marginBottom: 32, borderLeft: '4px solid var(--primary)' }}>
-        <h3 style={{ fontSize: 20, fontWeight: 800, color: 'white', marginBottom: 8 }}>Part 1: Error Identification</h3>
-        <p style={{ color: 'var(--text-dim)', fontSize: 14 }}>Identify the correct version for each stylistic error below. (10 questions × 2 = 20 pts)</p>
+        <h3 style={{ fontSize: 20, fontWeight: 800, color: 'white', marginBottom: 8 }}>Part 1: Error Correction</h3>
+        <p style={{ color: 'var(--text-dim)', fontSize: 14 }}>Identify the correct replacement word/phrase for the error in each sentence. (10 questions × 2 = 20 pts)</p>
         {submitted && (
           <div style={{ marginTop: 16, display: 'inline-flex', alignItems: 'center', gap: 12, padding: '8px 16px', borderRadius: 12, background: 'var(--grad-primary)' }}>
             <span style={{ fontSize: 20, fontWeight: 800, color: 'white' }}>{score} / 20</span>
@@ -62,8 +111,8 @@ export default function Q1ErrorHunter({ onScore }) {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {q.options.map((opt, i) => {
                 const isSelected = answers[q.id] === opt;
-                const isCorrect = submitted && opt === q.correct;
-                const isWrong = submitted && isSelected && opt !== q.correct;
+                const isCorrect = submitted && opt === q.correctOption;
+                const isWrong = submitted && isSelected && opt !== q.correctOption;
                 
                 return (
                   <button
@@ -84,7 +133,7 @@ export default function Q1ErrorHunter({ onScore }) {
                     }}>
                       {isSelected && <div style={{ width: 12, height: 12, borderRadius: '50%', background: 'currentColor' }} />}
                     </div>
-                    <span style={{ fontSize: 15, fontWeight: 500 }}>{opt}</span>
+                    <span style={{ fontSize: 18, fontWeight: 700 }}>{opt}</span>
                   </button>
                 );
               })}
