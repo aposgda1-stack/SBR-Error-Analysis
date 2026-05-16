@@ -50,7 +50,7 @@ export default function VocabExercise({ task, onFinish }) {
     let text = task.text;
     gaps.forEach(key => {
       const escapedWord = correctAnswers[key].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      const regex = new RegExp(`\\(${key}\\)\\s+${escapedWord}`, 'g');
+      const regex = new RegExp(`\\(${key}\\)\\s*${escapedWord}`, 'g');
       text = text.replace(regex, `(${key}) ___`);
     });
     return text;

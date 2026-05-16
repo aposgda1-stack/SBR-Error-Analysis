@@ -36,7 +36,7 @@ export default function Q3WorkSheet({ onScore, reviewMode }) {
     // Looks for patterns like (1) word, (10) word, etc.
     gaps.forEach(key => {
       const escapedWord = correctAnswers[key].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      const regex = new RegExp(`\\(${key}\\)\\s+${escapedWord}`, 'g');
+      const regex = new RegExp(`\\(${key}\\)\\s*${escapedWord}`, 'g');
       text = text.replace(regex, `(${key}) ___`);
     });
     return text;

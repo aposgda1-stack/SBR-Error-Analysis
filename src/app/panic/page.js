@@ -15,16 +15,31 @@ export default function PanicMode() {
 
   const mistakes = sectionsData.identify_error_data.the_130_mistakes;
 
+  const getDiffWord = (wrong, correct) => {
+    const normalize = (s) => s.replace(/[.,!?]$/, '').trim().split(/\s+/);
+    const w = normalize(wrong);
+    const c = normalize(correct);
+    let start = 0;
+    while (start < w.length && start < c.length && w[start] === c[start]) start++;
+    let endW = w.length - 1, endC = c.length - 1;
+    while (endW >= start && endC >= start && w[endW] === c[endC]) { endW--; endC--; }
+    return c.slice(start, Math.max(start, endC + 1)).join(' ');
+  };
+
   const generateQuestion = () => {
     const q = mistakes[Math.floor(Math.random() * mistakes.length)];
-    // Simple logic for MCQ in panic mode
-    const correct = q.correct.split(/\s+/).slice(-1)[0] || 'word'; // Simplified for speed
-    const dist = ['the', 'is', 'at', 'with', 'from', 'to', 'for', 'by'];
-    const opts = [q.correct.split(' ').pop(), ...dist.sort(() => 0.5 - Math.random()).slice(0, 3)].sort(() => 0.5 - Math.random());
+    const correctWord = getDiffWord(q.wrong, q.correct);
+    const dist = ['the', 'is', 'at', 'with', 'from', 'to', 'for', 'by', 'on', 'in', 'an', 'a', 'as', 'but', 'so', 'yet'];
+    const filteredDist = dist.filter(d => d.toLowerCase() !== correctWord.toLowerCase());
+    const opts = shuffleArray([correctWord, ...filteredDist.sort(() => 0.5 - Math.random()).slice(0, 3)]);
     
-    setCurrentQuestion(q);
+    setCurrentQuestion({ ...q, correctWord });
     setOptions(opts);
   };
+
+  function shuffleArray(array) {
+    return [...array].sort(() => Math.random() - 0.5);
+  }
 
   useEffect(() => {
     if (gameState !== 'playing') return;
@@ -41,8 +56,7 @@ export default function PanicMode() {
   };
 
   const handleAnswer = (opt) => {
-    // Check if the correct full sentence contains the word or it matches the replacement
-    if (currentQuestion.correct.includes(opt)) {
+    if (opt.toLowerCase() === currentQuestion.correctWord.toLowerCase()) {
       setScore(s => s + 1);
     }
     generateQuestion();

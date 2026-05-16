@@ -6,14 +6,23 @@ import BottomNav from '../../components/BottomNav';
 export default function LeaderboardPage() {
   const [leaders, setLeaders] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const [refreshing, setRefreshing] = useState(false);
+ 
+  const fetchLeaders = async (isManual = false) => {
+    if (isManual) setRefreshing(true);
+    try {
+      const res = await fetch('/api/leaderboard');
+      const data = await res.json();
+      setLeaders(data.leaders || []);
+    } catch (err) { console.error(err); }
+    setLoading(false);
+    setRefreshing(false);
+  };
+ 
   useEffect(() => {
-    fetch('/api/leaderboard')
-      .then(res => res.json())
-      .then(data => {
-        setLeaders(data.leaders || []);
-        setLoading(false);
-      });
+    fetchLeaders();
+    const iv = setInterval(() => fetchLeaders(), 30000); // Poll every 30s
+    return () => clearInterval(iv);
   }, []);
 
   return (
@@ -29,7 +38,21 @@ export default function LeaderboardPage() {
             <span className="mi" style={{ fontSize: 32, color: 'white' }}>military_tech</span>
           </div>
           <h2 style={{ fontSize: 32, fontWeight: 800 }}>Hall of Fame</h2>
-          <p style={{ color: 'var(--text-dim)' }}>Top performing students this week</p>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, color: 'var(--text-dim)', fontSize: 13 }}>
+            <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--success)', boxShadow: '0 0 10px var(--success)', animation: 'pulse-glow 2s infinite' }} />
+              Live Updates
+            </span>
+            <span>•</span>
+            <button 
+              onClick={() => fetchLeaders(true)} 
+              disabled={refreshing}
+              style={{ background: 'none', border: 'none', color: 'var(--primary)', fontWeight: 700, cursor: 'pointer', padding: '4px 8px', display: 'flex', alignItems: 'center', gap: 4 }}
+            >
+              <span className={`mi ${refreshing ? 'animate-spin-slow' : ''}`} style={{ fontSize: 16 }}>refresh</span>
+              {refreshing ? 'Refreshing...' : 'Refresh Now'}
+            </button>
+          </div>
         </div>
 
         {/* Top 3 Podium */}

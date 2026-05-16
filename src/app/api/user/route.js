@@ -42,6 +42,10 @@ export async function POST(req) {
     if (data.action === 'sync') {
       const { userId, progress, xp, level, incXp, incDone, pushVault, pushHistory } = data;
       if (!userId) return NextResponse.json({ error: 'Missing userId' }, { status: 400 });
+ 
+      // Security: verify user exists
+      const userExists = await db.collection("users").findOne({ userId });
+      if (!userExists) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
       const update = { $set: { updatedAt: new Date() } };
       if (progress) update.$set.progress = progress;
@@ -78,8 +82,8 @@ export async function POST(req) {
 
       // --- Achievements check (server-side, non-blocking) ---
       const prog = await db.collection("progress").findOne({ userId });
-      const currentXp = (prog?.xp || 0) + (inc.xp || 0);
-      const currentDone = (prog?.done || 0) + (inc.done || 0);
+      const currentXp = prog?.xp || 0;
+      const currentDone = prog?.done || 0;
       const earnedBadges = prog?.badges || [];
       const newBadges = [...earnedBadges];
 
