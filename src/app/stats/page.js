@@ -110,7 +110,24 @@ export default function StatsPage() {
                 const newName = prompt('Enter new profile name:', user.name);
                 if (newName && newName.trim()) {
                   fetch('/api/user', { method: 'POST', body: JSON.stringify({ action: 'updateProfile', userId: user.userId, name: newName }) })
-                    .then(() => window.location.reload());
+                    .then(() => {
+                      const local = JSON.parse(localStorage.getItem('sbr_user') || '{}');
+                      local.name = newName;
+                      localStorage.setItem('sbr_user', JSON.stringify(local));
+                      window.location.reload();
+                    });
+                }
+              }} />
+              <ActionItem icon="image" label="Edit Profile Image" onClick={() => {
+                const newImage = prompt('Paste new image URL:', user.image || '');
+                if (newImage !== null) {
+                  fetch('/api/user', { method: 'POST', body: JSON.stringify({ action: 'updateProfile', userId: user.userId, image: newImage }) })
+                    .then(() => {
+                      const local = JSON.parse(localStorage.getItem('sbr_user') || '{}');
+                      local.image = newImage;
+                      localStorage.setItem('sbr_user', JSON.stringify(local));
+                      window.location.reload();
+                    });
                 }
               }} />
               <ActionItem icon="delete_sweep" label="Reset Local Progress" onClick={() => {
@@ -124,7 +141,7 @@ export default function StatsPage() {
           )}
         </div>
 
-        <p style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: 10, marginTop: 40, textTransform: 'uppercase', letterSpacing: 2 }}>SBR Academy Premium v2.0</p>
+        <p className="premium-font" style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: 10, marginTop: 40, textTransform: 'uppercase', letterSpacing: 2 }}>SBR - Error Analysis v2.0</p>
       </div>
 
       <BottomNav />
