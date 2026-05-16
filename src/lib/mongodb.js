@@ -1,11 +1,13 @@
 import { MongoClient } from "mongodb";
 
-if (!process.env.MONGODB_URI) {
-  throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');
-}
-
 const uri = process.env.MONGODB_URI;
 const options = {};
+
+if (!uri && process.env.NODE_ENV === "production") {
+  console.warn('Warning: MONGODB_URI is missing. This will cause runtime errors when connecting to the database.');
+} else if (!uri) {
+  throw new Error('Invalid/Missing environment variable: "MONGODB_URI"');
+}
 
 let client;
 let clientPromise;
