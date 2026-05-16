@@ -6,159 +6,99 @@ import BottomNav from '../../../components/BottomNav';
 import sectionsData from '../../../../data/sections.json';
 
 const GRAMMAR = sectionsData.grammar_guide;
-// Drills are built dynamically in buildDrills to avoid crashes with inconsistent data format.
 
-// Robust drill builder that handles different data formats and avoids crashes
 const buildDrills = () => {
   const pool = [];
-  
-  // 1. Process grammar_guide entries
   Object.entries(GRAMMAR).forEach(([topic, data]) => {
     if (!data.practice) return;
     const topicLabel = topic.replace(/_/g, ' ');
-    
     data.practice.forEach((item, i) => {
       if (item.sentence && item.answer) {
-        pool.push({
-          id: `g_${topic}_${i}`,
-          topic: topicLabel,
-          sentence: item.sentence,
-          answer: item.answer,
-          isBool: false
-        });
+        pool.push({ id: `g_${topic}_${i}`, topic: topicLabel, sentence: item.sentence, answer: item.answer, isBool: false });
       } else if (item.wrong && item.correct) {
-        pool.push({
-          id: `g_${topic}_${i}_t`,
-          topic: topicLabel,
-          sentence: item.correct,
-          correctAnswer: true,
-          isBool: true
-        });
-        pool.push({
-          id: `g_${topic}_${i}_f`,
-          topic: topicLabel,
-          sentence: item.wrong,
-          correctAnswer: false,
-          isBool: true
-        });
+        pool.push({ id: `g_${topic}_${i}_t`, topic: topicLabel, sentence: item.correct, correctAnswer: true, isBool: true });
+        pool.push({ id: `g_${topic}_${i}_f`, topic: topicLabel, sentence: item.wrong, correctAnswer: false, isBool: true });
       }
     });
   });
 
-  // 2. Mix and create final 20 drills
   const shuffled = [...pool].sort(() => Math.random() - 0.5);
-  const finalDrills = shuffled.slice(0, 40).map(item => {
+  return shuffled.slice(0, 40).map(item => {
     if (item.isBool) return item;
-    
-    // For fill-in-the-blank items, randomly make them True or False
     const makeTrue = Math.random() > 0.5;
-    if (makeTrue) {
-      return {
-        ...item,
-        sentence: (item.sentence || '').replace('___', item.answer),
-        correctAnswer: true
-      };
-    } else {
-      // Find a random distractor from the pool
-      const distractor = pool.find(x => x.answer && x.answer !== item.answer)?.answer || 'incorrectly';
-      return {
-        ...item,
-        sentence: (item.sentence || '').replace('___', distractor),
-        correctAnswer: false
-      };
-    }
-  });
-
-  return finalDrills.sort(() => Math.random() - 0.5).slice(0, 20);
+    if (makeTrue) return { ...item, sentence: (item.sentence || '').replace('___', item.answer), correctAnswer: true };
+    const distractor = pool.find(x => x.answer && x.answer !== item.answer)?.answer || 'incorrectly';
+    return { ...item, sentence: (item.sentence || '').replace('___', distractor), correctAnswer: false };
+  }).sort(() => Math.random() - 0.5).slice(0, 20);
 };
 
 export default function GrammarArena() {
-  const router = useRouter();
-  const [drills] = useState(buildDrills);
-  const [index, setIndex] = useState(0);
-  const [score, setScore] = useState({ right: 0, wrong: 0 });
-  const [feedback, setFeedback] = useState(null); // 'correct' | 'wrong'
-  const [done, setDone] = useState(false);
+  const [drills, setDrills] = useState([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [score, setScore] = useState(0);
+  const [completed, setCompleted] = useState(false);
+  const [feedback, setFeedback] = useState(null);
 
-  const handleAnswer = (ans) => {
+  useEffect(() => {
+    setDrills(buildDrills());
+  }, []);
+
+  const handleAnswer = (choice) => {
     if (feedback) return;
-    const correct = ans === drills[index].correctAnswer;
-    setFeedback(correct ? 'correct' : 'wrong');
-    setScore(s => ({ ...s, [correct ? 'right' : 'wrong']: s[correct ? 'right' : 'wrong'] + 1 }));
-
+    const current = drills[currentIndex];
+    const isCorrect = choice === current.correctAnswer;
+    if (isCorrect) setScore(s => s + 1);
+    setFeedback(isCorrect ? 'correct' : 'wrong');
     setTimeout(() => {
       setFeedback(null);
-      if (index + 1 >= drills.length) setDone(true);
-      else setIndex(i => i + 1);
+      if (currentIndex < drills.length - 1) setCurrentIndex(i => i + 1);
+      else setCompleted(true);
     }, 800);
   };
 
-  if (done) {
-    return (
-      <div style={{ minHeight: '100dvh', background: 'var(--background)', paddingTop: 48, paddingBottom: 80 }}>
-        <TopBar title="Grammar Drill" />
-        <main style={{ padding: 24, maxWidth: 480, margin: '0 auto', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 24, paddingTop: 40 }}>
-          <span className="material-symbols-outlined" style={{ fontSize: 64, color: 'var(--tertiary)' }}>bolt</span>
-          <h2 style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 28, color: 'var(--on-surface)', textAlign: 'center' }}>انتهت المهمة!</h2>
-          <div style={{ background: 'var(--surface-container)', borderRadius: 16, padding: 24, width: '100%', border: '1px solid var(--outline-variant)', display: 'flex', gap: 24, justifyContent: 'center' }}>
-            <div style={{ textAlign: 'center' }}><div style={{ fontSize: 36, fontWeight: 800, color: 'var(--primary)', fontFamily: 'JetBrains Mono' }}>{score.right}</div><div style={{ color: 'var(--on-surface-variant)', fontSize: 13 }}>صح ✓</div></div>
-            <div style={{ width: 1, background: 'var(--outline-variant)' }} />
-            <div style={{ textAlign: 'center' }}><div style={{ fontSize: 36, fontWeight: 800, color: 'var(--error)', fontFamily: 'JetBrains Mono' }}>{score.wrong}</div><div style={{ color: 'var(--on-surface-variant)', fontSize: 13 }}>غلط ✗</div></div>
-          </div>
-          <button onClick={() => router.push('/')} style={{ width: '100%', background: 'var(--tertiary-container)', color: 'var(--on-tertiary)', border: 'none', borderRadius: 12, padding: 16, fontFamily: 'Inter', fontWeight: 700, fontSize: 16, cursor: 'pointer' }}>العودة للرئيسية</button>
-        </main>
-        <BottomNav />
-      </div>
-    );
-  }
-
-  const current = drills[index];
+  if (!drills.length) return null;
 
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--background)', paddingTop: 48, paddingBottom: 80 }}>
-      <TopBar title="Arena 4: Grammar Drill" />
-      <main style={{ padding: '16px', maxWidth: 480, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 20 }}>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 10, paddingTop: 8 }}>
-          <h2 style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 22, color: 'var(--on-surface)' }}>Arena 4: Grammar Drill</h2>
-          <div style={{ width: '100%', maxWidth: 360 }}>
-            <div style={{ height: 6, background: 'var(--surface-container-high)', borderRadius: 999, overflow: 'hidden' }}>
-              <div style={{ width: `${((index + 1) / drills.length) * 100}%`, height: '100%', background: 'var(--tertiary)', borderRadius: 999, transition: 'width 0.4s' }} />
-            </div>
+    <main style={{ minHeight: '100vh', paddingBottom: 100 }}>
+      <TopBar />
+      <div style={{ padding: '24px 20px' }}>
+        <div className="animate-slide-up" style={{ marginBottom: 32 }}>
+          <div style={{ padding: '8px 12px', display: 'inline-block', background: 'rgba(0, 229, 255, 0.1)', border: '1px solid var(--secondary)', borderRadius: 12, color: 'var(--secondary)', fontSize: 12, fontWeight: 700, letterSpacing: 1, marginBottom: 12 }}>
+            MODULE 02
           </div>
+          <h2 style={{ fontSize: 32, fontWeight: 800 }}>Grammar Blitz</h2>
+          <p style={{ color: 'var(--text-dim)' }}>Rapid-fire true/false grammar challenge.</p>
         </div>
 
-        <div style={{
-          background: feedback === 'correct' ? 'rgba(27,47,33,0.8)' : (feedback === 'wrong' ? 'rgba(60,0,0,0.6)' : 'var(--surface-container)'),
-          border: `1px solid ${feedback === 'correct' ? '#2e5238' : (feedback === 'wrong' ? '#5c0000' : 'var(--outline-variant)')}`,
-          borderRadius: 24, padding: '48px 24px', textAlign: 'center', boxShadow: '0 12px 40px rgba(0,0,0,0.4)',
-          transition: 'all 0.2s', position: 'relative'
-        }}>
-          <span style={{ position: 'absolute', top: 16, right: 16, fontSize: 11, color: 'var(--on-surface-variant)', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{current.topic}</span>
-          <p style={{ fontFamily: 'Inter', fontWeight: 700, fontSize: 20, color: 'var(--on-surface)', direction: 'ltr', lineHeight: 1.6 }}>
-            "{current.sentence}"
-          </p>
-        </div>
+        <div className="glass-panel" style={{ padding: '40px 24px', textAlign: 'center', position: 'relative', overflow: 'hidden', minHeight: 320, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+          {feedback && (
+            <div style={{ position: 'absolute', inset: 0, zIndex: 10, background: feedback === 'correct' ? 'rgba(0, 230, 118, 0.9)' : 'rgba(255, 82, 82, 0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'fadeIn 0.2s ease' }}>
+              <span className="material-symbols-rounded" style={{ fontSize: 80, color: 'white' }}>{feedback === 'correct' ? 'check_circle' : 'cancel'}</span>
+            </div>
+          )}
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-          <button 
-            onClick={() => handleAnswer(true)}
-            style={{
-              background: 'rgba(136,226,165,0.1)', border: '2px solid #2e5238', color: '#88e2a5',
-              padding: '20px', borderRadius: 16, fontSize: 20, fontWeight: 800, cursor: 'pointer'
-            }}
-          >صح (True)</button>
-          <button 
-            onClick={() => handleAnswer(false)}
-            style={{
-              background: 'rgba(255,180,171,0.1)', border: '2px solid #5c0000', color: 'var(--error)',
-              padding: '20px', borderRadius: 16, fontSize: 20, fontWeight: 800, cursor: 'pointer'
-            }}
-          >غلط (False)</button>
+          {!completed ? (
+            <div className="animate-fade-in">
+              <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 800, marginBottom: 24, textTransform: 'uppercase', letterSpacing: 2 }}>Drill {currentIndex + 1} of {drills.length}</div>
+              <p style={{ fontSize: 22, fontWeight: 600, marginBottom: 48, lineHeight: 1.5, direction: 'ltr' }}>&ldquo;{drills[currentIndex].sentence}&rdquo;</p>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                <button onClick={() => handleAnswer(true)} className="premium-btn" style={{ background: 'rgba(0, 230, 118, 0.15)', color: 'var(--success)', border: '1px solid var(--success)' }}>TRUE</button>
+                <button onClick={() => handleAnswer(false)} className="premium-btn" style={{ background: 'rgba(255, 82, 82, 0.15)', color: 'var(--error)', border: '1px solid var(--error)' }}>FALSE</button>
+              </div>
+            </div>
+          ) : (
+            <div className="animate-slide-up">
+              <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'var(--grad-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px', boxShadow: '0 0 30px var(--primary-glow)' }}>
+                <span className="material-symbols-rounded" style={{ fontSize: 40, color: 'white' }}>military_tech</span>
+              </div>
+              <h3 style={{ fontSize: 24, fontWeight: 800, marginBottom: 8 }}>Drill Complete!</h3>
+              <div style={{ fontSize: 48, fontWeight: 800, color: 'var(--secondary)', marginBottom: 32, fontFamily: 'JetBrains Mono' }}>{score} / {drills.length}</div>
+              <button className="premium-btn" onClick={() => window.location.reload()} style={{ margin: '0 auto' }}>Restart Arena</button>
+            </div>
+          )}
         </div>
-
-        <p style={{ textAlign: 'center', color: 'var(--on-surface-variant)', fontSize: 13, fontFamily: 'Inter' }}>هل الجملة أعلاه صحيحة نحوياً؟</p>
-      </main>
+      </div>
       <BottomNav />
-    </div>
+    </main>
   );
 }

@@ -2,56 +2,54 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 
-export default function TopBar({ title, right }) {
-  const [time, setTime] = useState('');
+export default function TopBar() {
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Countdown to 9:00 AM tomorrow (exam time)
-    const updateTimer = () => {
-      const now = new Date();
-      const exam = new Date();
-      exam.setDate(exam.getDate() + (now.getHours() >= 9 ? 1 : 0));
-      exam.setHours(9, 0, 0, 0);
-      const diff = exam - now;
-      if (diff <= 0) { setTime('00:00:00'); return; }
-      const h = Math.floor(diff / 3600000);
-      const m = Math.floor((diff % 3600000) / 60000);
-      const s = Math.floor((diff % 60000) / 1000);
-      setTime(`${String(h).padStart(2,'0')}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`);
-    };
-    updateTimer();
-    const iv = setInterval(updateTimer, 1000);
-    return () => clearInterval(iv);
+    const data = JSON.parse(localStorage.getItem('sbr_user') || '{}');
+    if (data.name) setUser(data);
   }, []);
 
   return (
     <header style={{
-      position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
-      background: 'var(--surface)',
-      borderBottom: '1px solid var(--outline-variant)',
-      display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-      padding: '0 16px', height: 48,
+      position: 'sticky', top: 0, zIndex: 100,
+      background: 'rgba(5, 5, 5, 0.6)',
+      backdropFilter: 'blur(20px)',
+      borderBottom: '1px solid var(--border-glass)',
+      padding: '12px 20px',
+      display: 'flex', alignItems: 'center', justifyContent: 'space-between'
     }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-        <span className="material-symbols-outlined" style={{ color: 'var(--primary)', fontSize: 22 }}>clinical_notes</span>
-        <span style={{ fontFamily: 'Inter', fontWeight: 900, fontSize: 18, letterSpacing: '-0.02em', color: 'var(--primary)' }}>
-          {title || 'MISSION CONTROL'}
-        </span>
-      </div>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-        <Link href="/stats" style={{ textDecoration: 'none', display: 'flex' }}>
-          <span className="material-symbols-outlined" style={{ color: 'var(--on-surface-variant)', fontSize: 24 }}>account_circle</span>
-        </Link>
+      <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
         <div style={{
-          fontFamily: 'JetBrains Mono, monospace', fontSize: 13, fontWeight: 500,
-          color: 'var(--primary)',
-          background: 'var(--surface-container-high)',
-          padding: '4px 12px', borderRadius: 20,
-          border: '1px solid rgba(255,181,158,0.3)',
-          boxShadow: '0 0 8px rgba(255,181,158,0.15)',
+          width: 38, height: 38, borderRadius: 12,
+          background: 'var(--grad-primary)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          boxShadow: '0 0 15px var(--primary-glow)'
         }}>
-          {time}
+          <span className="material-symbols-rounded" style={{ color: 'white', fontSize: 20 }}>auto_awesome</span>
         </div>
+        <div>
+          <h1 style={{ fontSize: 16, fontWeight: 800, color: 'white', lineHeight: 1 }}>SBR ACADEMY</h1>
+          <span style={{ fontSize: 10, color: 'var(--text-dim)', letterSpacing: 1.5, fontWeight: 600 }}>ERROR ANALYSIS</span>
+        </div>
+      </Link>
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+        {user ? (
+          <div style={{ 
+            display: 'flex', alignItems: 'center', gap: 10, 
+            background: 'var(--bg-glass)', padding: '6px 12px 6px 6px', 
+            borderRadius: 30, border: '1px solid var(--border-glass)' 
+          }}>
+            <img 
+              src={user.image || 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + user.name} 
+              style={{ width: 28, height: 28, borderRadius: '50%', objectFit: 'cover', border: '1px solid var(--primary)' }}
+            />
+            <span style={{ fontSize: 13, fontWeight: 600, color: 'white' }}>{user.name.split(' ')[0]}</span>
+          </div>
+        ) : (
+          <Link href="/auth" className="premium-btn" style={{ padding: '8px 16px', fontSize: 13 }}>Login</Link>
+        )}
       </div>
     </header>
   );

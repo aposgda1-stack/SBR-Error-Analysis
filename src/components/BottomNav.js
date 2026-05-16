@@ -2,40 +2,44 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-const NAV = [
-  { href: '/', icon: 'home', label: 'Home' },
-  { href: '/leaderboard', icon: 'social_leaderboard', label: 'Rankings' },
-  { href: '/exam', icon: 'assignment', label: 'Exam' },
-  { href: '/stats', icon: 'query_stats', label: 'Stats' },
+const NAV_ITEMS = [
+  { id: 'home', label: 'Home', icon: 'home', href: '/' },
+  { id: 'exam', label: 'Exam', icon: 'timer', href: '/exam' },
+  { id: 'leaderboard', label: 'Leaderboard', icon: 'trophy', href: '/leaderboard' },
+  { id: 'stats', label: 'Profile', icon: 'person', href: '/stats' },
 ];
 
 export default function BottomNav() {
-  const path = usePathname();
+  const pathname = usePathname();
+
   return (
     <nav style={{
-      position: 'fixed', bottom: 0, left: 0, right: 0, zIndex: 50,
-      background: 'var(--surface-container)',
-      borderTop: '1px solid var(--outline-variant)',
+      position: 'fixed', bottom: 20, left: '50%', transform: 'translateX(-50%)',
+      width: 'calc(100% - 40px)', maxWidth: 400, zIndex: 100,
+      background: 'rgba(15, 15, 20, 0.8)',
+      backdropFilter: 'blur(24px)',
+      border: '1px solid var(--border-glass)',
+      borderRadius: '24px',
+      padding: '8px 12px',
       display: 'flex', justifyContent: 'space-around', alignItems: 'center',
-      padding: '8px 16px 12px',
+      boxShadow: '0 20px 40px rgba(0,0,0,0.4)'
     }}>
-      {NAV.map(n => {
-        const active = path === n.href || (n.href !== '/' && path.startsWith(n.href));
+      {NAV_ITEMS.map(item => {
+        const isActive = pathname === item.href;
         return (
-          <Link key={n.href} href={n.href} style={{ textDecoration: 'none' }}>
-            <div style={{
-              display: 'flex', flexDirection: 'column', alignItems: 'center',
-              gap: '2px',
-              padding: active ? '6px 16px' : '6px 12px',
-              borderRadius: '20px',
-              background: active ? 'var(--primary-container)' : 'transparent',
-              color: active ? 'var(--on-primary-container)' : 'var(--on-surface-variant)',
-              transition: 'all 0.2s ease',
-              minWidth: 56,
-            }}>
-              <span className="material-symbols-outlined" style={{ fontSize: 22 }}>{n.icon}</span>
-              <span style={{ fontFamily: 'JetBrains Mono, monospace', fontSize: 11, fontWeight: 500, letterSpacing: '0.05em' }}>{n.label}</span>
-            </div>
+          <Link key={item.id} href={item.href} style={{ 
+            textDecoration: 'none', display: 'flex', flexDirection: 'column', 
+            alignItems: 'center', gap: 4, padding: '8px 16px', borderRadius: 16,
+            transition: 'all 0.3s',
+            background: isActive ? 'rgba(124, 77, 255, 0.1)' : 'transparent',
+            color: isActive ? 'var(--primary)' : 'var(--text-dim)'
+          }}>
+            <span className="material-symbols-rounded" style={{ 
+              fontSize: 26, 
+              variationSettings: isActive ? "'FILL' 1" : "'FILL' 0",
+              filter: isActive ? 'drop-shadow(0 0 5px var(--primary-glow))' : 'none'
+            }}>{item.icon}</span>
+            <span style={{ fontSize: 10, fontWeight: isActive ? 700 : 500, letterSpacing: 0.5 }}>{item.label}</span>
           </Link>
         );
       })}

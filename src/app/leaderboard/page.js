@@ -1,145 +1,108 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import TopBar from '../../components/TopBar';
 import BottomNav from '../../components/BottomNav';
 
 export default function LeaderboardPage() {
-  const router = useRouter();
   const [leaders, setLeaders] = useState([]);
-  const [userRank, setUserRank] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await fetch('/api/leaderboard');
-        const data = await res.json();
-        setLeaders(data.leaderboard || []);
-
-        const userData = JSON.parse(localStorage.getItem('sbr_user') || '{}');
-        if (userData.userId) {
-          const userRes = await fetch(`/api/user?userId=${userData.userId}`);
-          const uData = await userRes.json();
-          setUserRank(uData.user);
-        }
-      } catch (err) {} finally {
+    fetch('/api/leaderboard')
+      .then(res => res.json())
+      .then(data => {
+        setLeaders(data.leaders || []);
         setLoading(false);
-      }
-    };
-    fetchData();
+      });
   }, []);
 
-  if (loading) return <div style={{ minHeight: '100dvh', background: 'var(--background)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--on-surface)' }}>Loading...</div>;
-
-  const top3 = [leaders[1], leaders[0], leaders[2]]; // Rank 2, 1, 3 for podium layout
-
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--background)', paddingTop: 48, paddingBottom: 80 }}>
-      <TopBar title="TOP 10 LEADERBOARD" />
-
-      <main style={{ padding: '24px 16px', maxWidth: 480, margin: '0 auto', direction: 'rtl' }}>
-        
-        {/* Page Title */}
-        <div style={{ textAlign: 'center', marginBottom: 40 }}>
-          <h2 style={{ fontFamily: 'Inter', fontWeight: 800, fontSize: 32, color: 'var(--primary)', marginBottom: 8 }}>لوحة الشرف: التوب 10</h2>
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, padding: '4px 12px', background: 'rgba(255,87,26,0.1)', border: '1px solid var(--primary-container)', borderRadius: 999 }}>
-            <span style={{ width: 8, height: 8, background: 'var(--primary)', borderRadius: '50%', animation: 'pulse 1.5s infinite' }}></span>
-            <span style={{ fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--primary)', textTransform: 'uppercase' }}>Mission Status: Active</span>
+    <main style={{ minHeight: '100vh', paddingBottom: 100 }}>
+      <TopBar />
+      <div style={{ padding: '24px 20px' }}>
+        <div className="animate-slide-up" style={{ marginBottom: 40, textAlign: 'center' }}>
+          <div style={{ 
+            width: 60, height: 60, borderRadius: 20, background: 'var(--grad-primary)', 
+            display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px',
+            boxShadow: '0 0 30px var(--primary-glow)'
+          }}>
+            <span className="material-symbols-rounded" style={{ fontSize: 32, color: 'white' }}>military_tech</span>
           </div>
+          <h2 style={{ fontSize: 32, fontWeight: 800 }}>Hall of Fame</h2>
+          <p style={{ color: 'var(--text-dim)' }}>Top performing students this week</p>
         </div>
 
         {/* Top 3 Podium */}
-        <section style={{ 
-          display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', alignItems: 'end', gap: 8, 
-          marginBottom: 48, background: 'linear-gradient(180deg, rgba(255,87,26,0.1) 0%, transparent 100%)',
-          padding: 16, borderRadius: 16, border: '1px solid rgba(173,137,126,0.3)'
-        }}>
-          {top3.map((user, i) => {
-            if (!user) return <div key={i} />;
-            const isFirst = i === 1;
-            const rank = i === 0 ? 2 : (i === 1 ? 1 : 3);
-            return (
-              <div key={user.userId} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', transform: isFirst ? 'translateY(-16px)' : 'none' }}>
-                <div style={{ position: 'relative', marginBottom: isFirst ? 16 : 12 }}>
-                  {isFirst && <span className="material-symbols-outlined" style={{ position: 'absolute', top: -32, left: '50%', transform: 'translateX(-50%)', color: 'var(--primary)', fontSize: 36, fontVariationSettings: "'FILL' 1" }}>workspace_premium</span>}
-                  <img src={user.image || `https://ui-avatars.com/api/?name=${user.name}&background=random`} 
-                    style={{ 
-                      width: isFirst ? 80 : 60, height: isFirst ? 80 : 60, borderRadius: '50%', 
-                      border: `${isFirst ? 4 : 2}px solid ${isFirst ? 'var(--primary)' : 'var(--outline)'}`,
-                      objectFit: 'cover', boxShadow: isFirst ? '0 0 15px rgba(255,181,158,0.3)' : 'none'
-                    }} 
-                  />
-                  <div style={{ 
-                    position: 'absolute', bottom: -8, left: -8, background: isFirst ? 'var(--primary)' : 'var(--surface-container-highest)', 
-                    color: isFirst ? 'var(--on-primary-container)' : 'var(--on-surface)',
-                    padding: isFirst ? '2px 10px' : '2px 8px', borderRadius: 20, fontSize: isFirst ? 14 : 12, fontWeight: 700 
-                  }}>{rank}</div>
-                </div>
-                <div style={{ 
-                  background: isFirst ? 'rgba(255,87,26,0.15)' : 'var(--surface-container-high)', 
-                  width: '100%', height: isFirst ? 100 : (rank === 2 ? 80 : 70), borderRadius: '12px 12px 0 0',
-                  display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 16,
-                  border: `1px solid ${isFirst ? 'var(--primary-container)' : 'var(--outline-variant)'}`,
-                  borderBottom: 'none'
-                }}>
-                  <span style={{ fontSize: isFirst ? 14 : 11, fontWeight: 700, color: 'var(--on-surface)', textAlign: 'center', padding: '0 4px', maxWidth: '100%', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.name}</span>
-                  <span style={{ fontSize: isFirst ? 18 : 14, fontWeight: 800, color: 'var(--primary)', fontFamily: 'JetBrains Mono' }}>{user.xp || 0}%</span>
-                </div>
-              </div>
-            );
-          })}
-        </section>
+        {!loading && leaders.length >= 3 && (
+          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'center', gap: 12, marginBottom: 48, padding: '0 10px' }}>
+            {/* 2nd Place */}
+            <PodiumUser user={leaders[1]} rank={2} height={120} color="#cbd5e1" />
+            {/* 1st Place */}
+            <PodiumUser user={leaders[0]} rank={1} height={160} color="#fbbf24" isFirst />
+            {/* 3rd Place */}
+            <PodiumUser user={leaders[2]} rank={3} height={100} color="#92400e" />
+          </div>
+        )}
 
-        {/* List 4-10 */}
-        <section style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-          {leaders.slice(3).map((user, i) => (
-            <div key={user.userId} style={{
-              background: 'var(--surface-container)', borderRadius: 16, padding: 16,
-              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              border: '1px solid var(--outline-variant)', transition: 'all 0.2s'
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-                <span style={{ fontFamily: 'JetBrains Mono', fontSize: 14, width: 24, color: 'var(--on-surface-variant)' }}>{i + 4}</span>
-                <div style={{ display: 'flex', flexDirection: 'column' }}>
-                  <span style={{ fontWeight: 700, fontSize: 16 }}>{user.name}</span>
-                  <span style={{ fontSize: 11, color: 'var(--secondary)', letterSpacing: '0.05em', textTransform: 'uppercase' }}>[STUDENT ELITE]</span>
-                </div>
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 24 }}>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
-                  <span style={{ fontFamily: 'JetBrains Mono', fontSize: 14, fontWeight: 700, color: 'var(--primary)' }}>{user.xp || 0}%</span>
-                  <div style={{ width: 80, height: 4, background: 'var(--surface-container-highest)', borderRadius: 999, marginTop: 4 }}>
-                    <div style={{ width: `${user.xp || 0}%`, height: '100%', background: 'var(--primary)', borderRadius: 999 }} />
+        {/* Full List */}
+        <div className="glass-panel" style={{ padding: '8px' }}>
+          {loading ? (
+            <div style={{ padding: 40, textAlign: 'center', color: 'var(--text-muted)' }}>Loading champions...</div>
+          ) : (
+            leaders.slice(3).map((u, i) => (
+              <div key={i} className="animate-slide-up" style={{ 
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                padding: '16px 20px', borderBottom: i === leaders.length - 4 ? 'none' : '1px solid var(--border-glass)',
+                animationDelay: `${i * 0.05}s`
+              }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+                  <span style={{ fontSize: 13, fontWeight: 800, color: 'var(--text-muted)', width: 20 }}>{i + 4}</span>
+                  <img src={u.image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${u.name}`} style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--bg-glass)' }} />
+                  <div>
+                    <div style={{ fontSize: 15, fontWeight: 700 }}>{u.name}</div>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Level {Math.floor(u.score / 100) + 1}</div>
                   </div>
                 </div>
-                <span className="material-symbols-outlined" style={{ color: 'var(--on-surface-variant)' }}>emoji_events</span>
+                <div style={{ textAlign: 'right' }}>
+                  <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--primary)', fontFamily: 'JetBrains Mono' }}>{u.score}</div>
+                  <div style={{ fontSize: 9, color: 'var(--text-muted)', textTransform: 'uppercase' }}>XP Points</div>
+                </div>
               </div>
-            </div>
-          ))}
-        </section>
-
-        {/* User Stats Card */}
-        {userRank && (
-          <section style={{ marginTop: 32, padding: 24, background: 'var(--surface-container-high)', borderRadius: 20, borderLeft: '4px solid var(--primary)', boxShadow: '0 8px 24px rgba(0,0,0,0.3)' }}>
-            <h3 style={{ fontSize: 20, fontWeight: 800, color: 'var(--primary)', marginBottom: 8 }}>حالة التقدم الخاص بك</h3>
-            <p style={{ fontSize: 14, color: 'var(--on-surface-variant)', lineHeight: 1.6, marginBottom: 20 }}>
-              أنت الآن في المركز رقم {userRank.rank} من أصل {leaders.length > 0 ? 'مئات' : '...'} الطلاب. استمر في التدريبات المكثفة لتصل إلى لوحة الشرف.
-            </p>
-            <button 
-              onClick={() => router.push('/')}
-              style={{
-                width: '100%', background: 'var(--primary-container)', color: 'var(--on-primary-container)',
-                border: 'none', borderRadius: 12, padding: 14, fontWeight: 800, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, cursor: 'pointer'
-              }}
-            >
-              <span className="material-symbols-outlined">rocket_launch</span>
-              بدء جلسة جديدة
-            </button>
-          </section>
-        )}
-      </main>
+            ))
+          )}
+        </div>
+      </div>
       <BottomNav />
+    </main>
+  );
+}
+
+function PodiumUser({ user, rank, height, color, isFirst }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, position: 'relative' }}>
+      <div style={{ position: 'relative', marginBottom: 12 }}>
+        <img 
+          src={user?.image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.name}`} 
+          style={{ 
+            width: isFirst ? 80 : 64, height: isFirst ? 80 : 64, borderRadius: '50%', 
+            border: `3px solid ${color}`, padding: 3, background: 'var(--bg-main)',
+            boxShadow: isFirst ? `0 0 25px ${color}40` : 'none'
+          }} 
+        />
+        <div style={{ 
+          position: 'absolute', bottom: -5, left: '50%', transform: 'translateX(-50%)',
+          background: color, color: '#000', width: 24, height: 24, borderRadius: '50%',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 12, fontWeight: 900
+        }}>{rank}</div>
+      </div>
+      <div style={{ 
+        width: '100%', height, background: `linear-gradient(180deg, ${color}20 0%, transparent 100%)`,
+        borderTop: `2px solid ${color}`, borderRadius: '12px 12px 0 0',
+        display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 12
+      }}>
+        <div style={{ fontSize: 12, fontWeight: 800, color: 'white', maxWidth: 80, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user?.name || '---'}</div>
+        <div style={{ fontSize: 14, fontWeight: 900, color, fontFamily: 'JetBrains Mono' }}>{user?.score || 0}</div>
+      </div>
     </div>
   );
 }
