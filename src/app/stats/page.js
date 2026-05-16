@@ -91,26 +91,28 @@ export default function StatsPage() {
           )}
 
           {activeTab === 'activity' && (
-            <div className="glass-panel" style={{ padding: 20 }}>
-              <h4 style={{ fontSize: 14, marginBottom: 20 }}>Recent Activity</h4>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                {user.updatedAt ? (
-                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: 12, borderBottom: '1px solid var(--border-glass)' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                      <span className="mi" style={{ color: 'var(--primary)', fontSize: 24 }}>check_circle</span>
-                      <div>
-                        <div style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>Platform Synchronization</div>
-                        <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{new Date(user.updatedAt).toLocaleString()}</div>
-                      </div>
-                    </div>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              {[
+                { icon: 'bolt', label: 'Total XP Earned', val: user.xp || 0, color: 'var(--primary)', suffix: ' XP' },
+                { icon: 'auto_stories', label: 'Modules Completed', val: user.done || 0, color: 'var(--secondary)', suffix: ' sessions' },
+                { icon: 'upgrade', label: 'Current Level', val: Math.floor((user.xp || 0) / 100) + 1, color: 'var(--success)', suffix: '' },
+                { icon: 'workspace_premium', label: 'Global Rank', val: user.rank ? `#${user.rank}` : 'Unranked', color: 'var(--accent)', suffix: '' },
+              ].map((item, i) => (
+                <div key={i} className="glass-card" style={{ padding: '20px', display: 'flex', alignItems: 'center', gap: 16 }}>
+                  <div style={{ width: 48, height: 48, borderRadius: 14, background: `${item.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <span className="mi" style={{ fontSize: 24, color: item.color }}>{item.icon}</span>
                   </div>
-                ) : (
-                  <div style={{ textAlign: 'center', padding: '20px 0', color: 'var(--text-muted)' }}>
-                    <span className="mi" style={{ fontSize: 32, marginBottom: 8, opacity: 0.5 }}>history_toggle_off</span>
-                    <p style={{ fontSize: 13 }}>No recent activity recorded yet.</p>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1 }}>{item.label}</div>
+                    <div style={{ fontSize: 22, fontWeight: 800, fontFamily: 'JetBrains Mono', color: 'white' }}>{item.val}{item.suffix}</div>
                   </div>
-                )}
-              </div>
+                </div>
+              ))}
+              {user.updatedAt && (
+                <p style={{ fontSize: 11, color: 'var(--text-muted)', textAlign: 'center', marginTop: 8 }}>
+                  Last synced: {new Date(user.updatedAt).toLocaleString()}
+                </p>
+              )}
             </div>
           )}
 

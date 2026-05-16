@@ -14,7 +14,7 @@ const TRAINING_MODULES = [
 export default function Dashboard() {
   const router = useRouter();
   const [user, setUser] = useState(null);
-  const [stats, setStats] = useState({ done: 0, xp: 0, rank: 0 });
+  const [stats, setStats] = useState({ done: 0, xp: 0, rank: 0, sessions: 0 });
 
   useEffect(() => {
     const localUser = JSON.parse(localStorage.getItem('sbr_user') || '{}');
@@ -25,10 +25,18 @@ export default function Dashboard() {
       .then(res => res.json())
       .then(data => {
         if (data.user) {
+          // Also sync user image from server to local storage
+          const local = JSON.parse(localStorage.getItem('sbr_user') || '{}');
+          if (data.user.image && !local.image) {
+            local.image = data.user.image;
+            localStorage.setItem('sbr_user', JSON.stringify(local));
+            setUser({ ...local });
+          }
           setStats({ 
             done: data.user.done || 0, 
             xp: data.user.xp || 0,
-            rank: data.user.rank || 'Unranked'
+            rank: data.user.rank || 'Unranked',
+            sessions: data.user.done || 0
           });
         }
       });
@@ -113,8 +121,8 @@ export default function Dashboard() {
                 <h5 style={{ fontSize: 17, fontWeight: 800, marginBottom: 4, color: 'white' }}>{module.label}</h5>
                 <p style={{ fontSize: 11, color: 'var(--text-dim)', fontWeight: 500 }}>{module.sub}</p>
 
-                <div style={{ height: 4, background: 'rgba(255,255,255,0.03)', borderRadius: 2, marginTop: 16, overflow: 'hidden' }}>
-                  <div style={{ width: '45%', height: '100%', background: module.color, boxShadow: `0 0 10px ${module.color}` }}></div>
+                <div style={{ height: 3, background: 'rgba(255,255,255,0.04)', borderRadius: 2, marginTop: 16, overflow: 'hidden' }}>
+                  <div style={{ width: stats.done > 0 ? `${Math.min(100, stats.done * 8)}%` : '0%', height: '100%', background: module.color, boxShadow: `0 0 10px ${module.color}`, transition: '1s ease' }} />
                 </div>
               </div>
             ))}

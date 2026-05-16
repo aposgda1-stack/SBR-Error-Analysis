@@ -60,8 +60,21 @@ export default function GrammarArena() {
     setFeedback(isCorrect ? 'correct' : 'wrong');
     setTimeout(() => {
       setFeedback(null);
-      if (currentIndex < drills.length - 1) setCurrentIndex(i => i + 1);
-      else setCompleted(true);
+      if (currentIndex < drills.length - 1) {
+        setCurrentIndex(i => i + 1);
+      } else {
+        setCompleted(true);
+        // Sync XP to server
+        const newScore = isCorrect ? score + 1 : score;
+        const uId = JSON.parse(localStorage.getItem('sbr_user') || '{}').userId;
+        if (uId && newScore > 0) {
+          fetch('/api/user', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'sync', userId: uId, incXp: newScore, incDone: 1 })
+          }).catch(console.error);
+        }
+      }
     }, 800);
   };
 

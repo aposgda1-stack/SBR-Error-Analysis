@@ -70,8 +70,12 @@ export async function POST(req) {
       if (!userId) return NextResponse.json({ error: 'Missing userId' }, { status: 400 });
       
       const update = {};
-      if (name) update.name = name;
-      if (image) update.image = image;
+      if (name !== undefined && name.trim()) update.name = name.trim();
+      if (image !== undefined) update.image = image; // allow empty string to clear
+      
+      if (Object.keys(update).length === 0) {
+        return NextResponse.json({ success: true });
+      }
       
       await db.collection("users").updateOne({ userId }, { $set: update });
       return NextResponse.json({ success: true });
