@@ -116,13 +116,21 @@ export default function Q2PhrasalVerbs({ onScore, reviewMode }) {
                 {q.sentence.split('___')[0]}
                 <span style={{ 
                   display: 'inline-block', minWidth: 100, padding: '4px 12px', margin: '0 8px',
-                  background: 'rgba(255,255,255,0.05)', borderBottom: `2px solid ${answers[q.id] ? 'var(--primary)' : 'var(--border-glass)'}`,
-                  color: 'var(--primary)', fontWeight: 800, textAlign: 'center'
+                  background: submitted && !isCorrect ? 'rgba(255, 82, 82, 0.1)' : 'rgba(255,255,255,0.05)', 
+                  borderBottom: `2px solid ${isCorrect ? 'var(--success)' : submitted ? 'var(--error)' : 'var(--primary)'}`,
+                  color: isCorrect ? 'var(--success)' : submitted ? 'var(--error)' : 'var(--primary)', 
+                  fontWeight: 800, textAlign: 'center'
                 }}>
                   {answers[q.id]?.word || '...'}
                 </span>
                 {q.sentence.split('___')[1]}
               </p>
+              
+              {submitted && !isCorrect && (
+                <div style={{ marginTop: 12, padding: '12px 16px', borderRadius: 8, background: 'rgba(0, 230, 118, 0.05)', border: '1px dashed var(--success)', fontSize: 14 }}>
+                  <span style={{ color: 'var(--success)', fontWeight: 800 }}>✓ Correct Answer:</span> <span style={{ color: 'white' }}>{q.answer}</span>
+                </div>
+              )}
               
               {!submitted && (
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 20 }}>

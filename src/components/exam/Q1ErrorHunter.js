@@ -31,8 +31,8 @@ const getDiffWord = (wrong, correct) => {
   return c.slice(start, endC + 1).join(' ');
 };
 
-const generateDistractors = (correctWord, wrongWord) => {
-  const c = correctWord.toLowerCase();
+const generateDistractors = (correctWord, wrongWord, contextPool = []) => {
+  const c = (correctWord || '').toLowerCase();
   const w = (wrongWord || '').toLowerCase();
   let pool = [];
   
@@ -44,10 +44,8 @@ const generateDistractors = (correctWord, wrongWord) => {
     pool = ['is', 'are', 'was', 'were', 'has', 'have', 'had', 'do', 'does', 'did', 'make', 'makes', 'made', 'can', 'must', 'should'];
   } else if (['he', 'she', 'it', 'they', 'we', 'i', 'you', 'him', 'her', 'them', 'us', 'me'].includes(c)) {
     pool = ['he', 'she', 'it', 'they', 'we', 'I', 'you', 'him', 'her', 'them', 'us', 'me'];
-  } else if (['very', 'too', 'enough', 'quite', 'rather', 'so', 'such', 'well', 'badly', 'good', 'bad', 'hard', 'hardly'].includes(c)) {
-    pool = ['very', 'too', 'enough', 'quite', 'rather', 'so', 'such', 'well', 'badly', 'good', 'bad', 'hard', 'hardly'];
   } else {
-    pool = ['different', 'similar', 'other', 'another'];
+    pool = contextPool.length > 5 ? contextPool : ['different', 'similar', 'other', 'another'];
   }
   
   return shuffleArray(pool.filter(word => word.toLowerCase() !== c && word.toLowerCase() !== w)).slice(0, 3);
@@ -57,11 +55,13 @@ export default function Q1ErrorHunter({ onScore, reviewMode }) {
   const mistakes = sectionsData.identify_error_data.the_130_mistakes;
   
   const questions = useMemo(() => {
+    const contextPool = mistakes.map(m => getDiffWord(m.wrong, m.correct));
+    
     return shuffleArray(mistakes).slice(0, 10).map((m, i) => {
       const correctOption = getDiffWord(m.wrong, m.correct);
       const wrongOptionWord = getDiffWord(m.correct, m.wrong);
       
-      let wrongOptions = generateDistractors(correctOption, wrongOptionWord);
+      let wrongOptions = generateDistractors(correctOption, wrongOptionWord, contextPool);
       
       if (wrongOptions.includes('different') || wrongOptions.length < 3) {
         const otherPhrases = mistakes
@@ -97,11 +97,25 @@ export default function Q1ErrorHunter({ onScore, reviewMode }) {
     onScore(s);
   };
 
+  const getHighlightedSentence = (wrong, correct) => {
+    const normalize = (s) => s.trim().split(/\s+/);
+    const w = normalize(wrong);
+    const c = normalize(correct);
+    let start = 0;
+    while (start < w.length && start < c.length && w[start].replace(/[.,!?]/g, '') === c[start].replace(/[.,!?]/g, '')) start++;
+    
+    return w.map((word, i) => (
+      <span key={i} style={{ color: i === start ? 'var(--error)' : 'inherit', textDecoration: i === start ? 'underline' : 'none', textDecorationStyle: 'wavy' }}>
+        {word}{' '}
+      </span>
+    ));
+  };
+
   return (
     <div className="animate-fade-in">
       <div className="glass-panel" style={{ padding: '24px', marginBottom: 32, borderLeft: '4px solid var(--primary)' }}>
         <h3 style={{ fontSize: 20, fontWeight: 800, color: 'white', marginBottom: 8 }}>Part 1: Error Correction</h3>
-        <p style={{ color: 'var(--text-dim)', fontSize: 14 }}>Identify the correct replacement word/phrase for the error in each sentence. (10 questions × 2.5 = 25 pts)</p>
+        <p style={{ color: 'var(--text-dim)', fontSize: 14 }}>Identify the correct replacement for the highlighted error. (10 questions × 2.5 = 25 pts)</p>
         {submitted && (
           <div style={{ marginTop: 16, display: 'inline-flex', alignItems: 'center', gap: 12, padding: '8px 16px', borderRadius: 12, background: 'var(--grad-primary)' }}>
             <span style={{ fontSize: 20, fontWeight: 800, color: 'white' }}>{score} / 25</span>
@@ -114,8 +128,8 @@ export default function Q1ErrorHunter({ onScore, reviewMode }) {
         {questions.map((q, idx) => (
           <div key={q.id} className="glass-card" style={{ padding: '24px' }}>
             <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 800, marginBottom: 12, textTransform: 'uppercase', letterSpacing: 1 }}>Question {idx + 1}</div>
-            <p style={{ fontSize: 18, fontWeight: 600, color: 'white', marginBottom: 20, lineHeight: 1.5, direction: 'ltr' }}>
-              &ldquo;{q.wrong}&rdquo;
+            <p style={{ fontSize: 18, fontWeight: 600, color: 'white', marginBottom: 20, lineHeight: 1.6, direction: 'ltr' }}>
+              &ldquo;{getHighlightedSentence(q.wrong, q.correct)}&rdquo;
             </p>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -148,6 +162,13 @@ export default function Q1ErrorHunter({ onScore, reviewMode }) {
                 );
               })}
             </div>
+            
+            {submitted && answers[q.id] !== q.correctOption && (
+              <div style={{ marginTop: 16, padding: '12px 16px', borderRadius: 8, background: 'rgba(0, 230, 118, 0.05)', border: '1px dashed var(--success)', fontSize: 14 }}>
+                <span style={{ color: 'var(--success)', fontWeight: 800 }}>✓ Correct Replacement:</span> <span style={{ color: 'white' }}>{q.correctOption}</span>
+                <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 4 }}>Rule: {q.topic}</div>
+              </div>
+            )}
           </div>
         ))}
       </div>

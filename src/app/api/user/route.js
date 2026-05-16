@@ -56,7 +56,10 @@ export async function POST(req) {
       const push = {};
       // pushVault expects { $each: [...] } already or a single item
       if (pushVault) {
-        push.vault = pushVault.$each ? pushVault : { $each: [pushVault] };
+        const items = pushVault.$each ? pushVault.$each : [pushVault];
+        // Deduplicate incoming items by ID
+        const uniqueItems = Array.from(new Map(items.map(item => [item.id, item])).values());
+        push.vault = { $each: uniqueItems };
       }
       // pushHistory is always a single history item object
       if (pushHistory && typeof pushHistory === 'object') {

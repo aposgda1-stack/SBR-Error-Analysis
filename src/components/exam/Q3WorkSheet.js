@@ -120,8 +120,20 @@ export default function Q3WorkSheet({ onScore, reviewMode }) {
               )}
             </span>
           );
-        })}
       </div>
+ 
+      {submitted && (
+        <div className="animate-slide-up" style={{ marginTop: -20, marginBottom: 40, padding: '24px', borderRadius: 20, background: 'rgba(0, 230, 118, 0.05)', border: '1px dashed var(--success)' }}>
+          <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--success)', marginBottom: 16, textTransform: 'uppercase', letterSpacing: 1 }}>Correction Key</div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 12 }}>
+            {gaps.map(g => (
+              <div key={g} style={{ fontSize: 13, color: 'white' }}>
+                <span style={{ color: 'var(--text-muted)' }}>({g})</span> {correctAnswers[g]}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {!submitted && (
         <button className="premium-btn" style={{ width: '100%', padding: 20 }} onClick={handleSubmit}>

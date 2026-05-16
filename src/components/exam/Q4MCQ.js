@@ -11,8 +11,8 @@ const shuffleArray = (array) => {
   return newArr;
 };
 
-const generateDistractors = (correctWord) => {
-  const c = correctWord.toLowerCase();
+const generateDistractors = (correctWord, grammarPool = []) => {
+  const c = (correctWord || '').toLowerCase();
   let pool = [];
   
   if (['in', 'on', 'at', 'to', 'for', 'with', 'by', 'of', 'from', 'about', 'as', 'like', 'among', 'between'].includes(c)) {
@@ -23,10 +23,9 @@ const generateDistractors = (correctWord) => {
     pool = ['is', 'are', 'was', 'were', 'has', 'have', 'had', 'do', 'does', 'did', 'make', 'makes', 'made', 'can', 'must', 'should'];
   } else if (['he', 'she', 'it', 'they', 'we', 'i', 'you', 'him', 'her', 'them', 'us', 'me'].includes(c)) {
     pool = ['he', 'she', 'it', 'they', 'we', 'I', 'you', 'him', 'her', 'them', 'us', 'me'];
-  } else if (['very', 'too', 'enough', 'quite', 'rather', 'so', 'such', 'well', 'badly', 'good', 'bad', 'hard', 'hardly'].includes(c)) {
-    pool = ['very', 'too', 'enough', 'quite', 'rather', 'so', 'such', 'well', 'badly', 'good', 'bad', 'hard', 'hardly'];
   } else {
-    pool = ['different', 'similar', 'other', 'another'];
+    // Academic Fallback: Use other answers from the same grammar pool
+    pool = grammarPool.length > 5 ? grammarPool : ['different', 'similar', 'other', 'another'];
   }
   
   return shuffleArray(pool.filter(word => word.toLowerCase() !== c)).slice(0, 3);
@@ -36,12 +35,19 @@ export default function Q4MCQ({ onScore, reviewMode }) {
   const grammar = sectionsData.grammar_guide;
   
   const questions = useMemo(() => {
+    const allPossibleAnswers = [...new Set(
+      Object.values(grammar)
+        .flatMap(g => g.practice || [])
+        .map(x => x.answer)
+        .filter(ans => ans && typeof ans === 'string')
+    )];
+
     const pool = [];
     Object.entries(grammar).forEach(([topic, data]) => {
       if (!data.practice) return;
       data.practice.forEach((item, i) => {
         if (item.sentence && item.answer) {
-          let wrongOptions = generateDistractors(item.answer);
+          let wrongOptions = generateDistractors(item.answer, allPossibleAnswers);
           
           if (wrongOptions.includes('different') || wrongOptions.length < 3) {
             const allOtherAnswers = [...new Set(
