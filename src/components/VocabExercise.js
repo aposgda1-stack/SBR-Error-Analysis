@@ -21,6 +21,15 @@ export default function VocabExercise({ task, onFinish }) {
     });
     setScore(currentScore);
     setSubmitted(true);
+
+    const uId = localStorage.getItem('sbr_user_id') || JSON.parse(localStorage.getItem('sbr_user') || '{}').userId;
+    if (uId && currentScore > 0) {
+      fetch('/api/user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'sync', userId: uId, incXp: currentScore, incDone: 1 })
+      }).catch(console.error);
+    }
   };
 
   return (

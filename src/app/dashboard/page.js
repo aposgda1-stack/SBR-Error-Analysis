@@ -25,9 +25,8 @@ export default function Dashboard() {
       .then(res => res.json())
       .then(data => {
         if (data.user) {
-          const progress = data.user.progress || {};
           setStats({ 
-            done: Object.keys(progress).length, 
+            done: data.user.done || 0, 
             xp: data.user.xp || 0,
             rank: data.user.rank || 'Unranked'
           });

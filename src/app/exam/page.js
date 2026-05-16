@@ -43,13 +43,13 @@ export default function ExamPage() {
 
   const handleFinish = async () => {
     setMode('result');
-    const uId = localStorage.getItem('sbr_user_id');
+    const uId = JSON.parse(localStorage.getItem('sbr_user') || '{}').userId;
     if (uId && totalScore > 0) {
       try {
         await fetch('/api/user', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'sync', userId: uId, incXp: totalScore })
+          body: JSON.stringify({ action: 'sync', userId: uId, incXp: totalScore, incDone: 4 })
         });
       } catch (err) { console.error('Failed to sync score', err); }
     }

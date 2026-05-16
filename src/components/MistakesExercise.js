@@ -140,6 +140,18 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
     }
   };
 
+  const handleComplete = () => {
+    const uId = localStorage.getItem('sbr_user_id') || JSON.parse(localStorage.getItem('sbr_user') || '{}').userId;
+    if (uId && score > 0) {
+      fetch('/api/user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'sync', userId: uId, incXp: score, incDone: 1 })
+      }).catch(console.error);
+    }
+    onComplete();
+  };
+
   if (completed) {
     return (
       <div style={{ textAlign: 'center', padding: '40px 20px' }} className="animate-slide-up">
@@ -154,11 +166,11 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
         <p style={{ color: 'var(--text-dim)', marginBottom: 32 }}>Great job mastering these errors.</p>
         
         <div className="glass-card" style={{ padding: '30px', maxWidth: 300, margin: '0 auto 32px' }}>
-          <div style={{ fontSize: 48, fontWeight: 800, color: 'var(--primary)', fontFamily: 'JetBrains Mono' }}>{score}/{mistakes.length}</div>
-          <div style={{ fontSize: 12, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 2 }}>Correct Answers</div>
+          <div style={{ fontSize: 48, fontWeight: 800, color: 'var(--primary)', fontFamily: 'JetBrains Mono' }}>+{score} XP</div>
+          <div style={{ fontSize: 12, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 2 }}>Earned</div>
         </div>
 
-        <button className="premium-btn" style={{ margin: '0 auto' }} onClick={onComplete}>
+        <button className="premium-btn" style={{ margin: '0 auto' }} onClick={handleComplete}>
           <span className="mi">list</span> Back to Modules
         </button>
       </div>
