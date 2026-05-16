@@ -120,6 +120,7 @@ export default function Q3WorkSheet({ onScore, reviewMode }) {
               )}
             </span>
           );
+        })}
       </div>
  
       {submitted && (
