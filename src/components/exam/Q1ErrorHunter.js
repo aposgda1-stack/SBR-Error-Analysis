@@ -2,131 +2,88 @@
 import { useState, useMemo } from 'react';
 import sectionsData from '../../../data/sections.json';
 
-const ALL = sectionsData.identify_error_data.the_130_mistakes;
-
-function findDiff(wrong, correct) {
-  const wWords = wrong.split(' ');
-  const cWords = correct.split(' ');
-  for (let i = 0; i < Math.max(wWords.length, cWords.length); i++) {
-    const w = (wWords[i] || '').replace(/[.,!?'"]/g, '');
-    const c = (cWords[i] || '').replace(/[.,!?'"]/g, '');
-    if (w.toLowerCase() !== c.toLowerCase() && w && c) return { wrongWord: wWords[i], correctWord: cWords[i] };
-  }
-  return { wrongWord: wWords[wWords.length - 1], correctWord: cWords[cWords.length - 1] };
-}
-
-function buildOptions(correctWord, allItems, currentId) {
-  const pool = allItems
-    .filter(m => m.id !== currentId)
-    .map(m => findDiff(m.wrong, m.correct).correctWord)
-    .filter(w => w && w.toLowerCase() !== correctWord.toLowerCase() && w.length < 12)
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 2);
-  return [correctWord, ...pool].sort(() => Math.random() - 0.5);
-}
-
 export default function Q1ErrorHunter({ onScore }) {
-  const questions = useMemo(() => ALL.sort(() => Math.random() - 0.5).slice(0, 20), []);
-  const [answers, setAnswers] = useState({}); // { id: { clicked: bool, chosen: string } }
+  const mistakes = sectionsData.identify_error_data.the_130_mistakes;
+  
+  const questions = useMemo(() => {
+    return [...mistakes].sort(() => Math.random() - 0.5).slice(0, 10).map((m, i) => ({
+      ...m,
+      id: `q1_${i}`,
+      options: [m.correct, ...mistakes.filter(x => x.id !== m.id).sort(() => Math.random() - 0.5).slice(0, 2).map(x => x.correct)].sort(() => Math.random() - 0.5)
+    }));
+  }, []);
+
+  const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(null);
 
-  // Pre-compute all options and diffs BEFORE render (fixes React Hooks violation)
-  const questionData = useMemo(() => {
-    return questions.map(q => {
-      const { wrongWord, correctWord } = findDiff(q.wrong, q.correct);
-      const opts = buildOptions(correctWord, ALL, q.id);
-      return { ...q, wrongWord, correctWord, opts };
-    });
-  }, [questions]);
-
   const handleSubmit = () => {
     let correct = 0;
-    questionData.forEach(q => {
-      const ans = answers[q.id];
-      if (ans?.chosen?.toLowerCase().replace(/[.,!?]/g,'') === q.correctWord.toLowerCase().replace(/[.,!?]/g,'')) correct++;
-    });
-    const s = correct * 2; // 20 questions × 2 marks = 40
+    questions.forEach(q => { if (answers[q.id] === q.correct) correct++; });
+    const s = correct * 2;
     setScore(s);
     setSubmitted(true);
     onScore(s);
   };
 
   return (
-    <div dir="ltr">
-      <div style={{ background:'var(--surface-container)', borderRadius:16, padding:'20px', marginBottom:20, border:'1px solid var(--outline-variant)', direction:'rtl' }}>
-        <h2 style={{ fontSize:18, fontWeight:800, color:'var(--primary)', marginBottom:8 }}>Question 1: Identify the Error and Correct It</h2>
-        <p style={{ fontSize:13, color:'var(--on-surface-variant)' }}>اضغط على الكلمة الخاطئة في كل جملة، ثم اختر التصحيح الصحيح. (20 جملة × 2 = 40 درجة)</p>
-        {submitted && <div style={{ marginTop:12, fontSize:22, fontWeight:900, color:'var(--primary)', fontFamily:'JetBrains Mono' }}>Score: {score} / 40</div>}
+    <div className="animate-fade-in">
+      <div className="glass-panel" style={{ padding: '24px', marginBottom: 32, borderLeft: '4px solid var(--primary)' }}>
+        <h3 style={{ fontSize: 20, fontWeight: 800, color: 'white', marginBottom: 8 }}>Part 1: Error Identification</h3>
+        <p style={{ color: 'var(--text-dim)', fontSize: 14 }}>Identify the correct version for each stylistic error below. (10 questions × 2 = 20 pts)</p>
+        {submitted && (
+          <div style={{ marginTop: 16, display: 'inline-flex', alignItems: 'center', gap: 12, padding: '8px 16px', borderRadius: 12, background: 'var(--grad-primary)' }}>
+            <span style={{ fontSize: 20, fontWeight: 800, color: 'white' }}>{score} / 20</span>
+            <span style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.8)', textTransform: 'uppercase' }}>Points Earned</span>
+          </div>
+        )}
       </div>
 
-      {questionData.map((q, idx) => {
-        const { wrongWord, correctWord, opts } = q;
-        const ans = answers[q.id];
-        const isCorrect = submitted && ans?.chosen?.toLowerCase().replace(/[.,!?]/g,'') === correctWord.toLowerCase().replace(/[.,!?]/g,'');
-
-        return (
-          <div key={q.id} style={{
-            background: submitted ? (isCorrect ? 'rgba(27,47,33,0.5)' : 'rgba(60,0,0,0.4)') : 'var(--surface-container)',
-            border: `1px solid ${submitted ? (isCorrect ? '#2e5238' : '#5c0000') : 'var(--outline-variant)'}`,
-            borderRadius:16, padding:'20px', marginBottom:16
-          }}>
-            <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:14, direction:'rtl' }}>
-              <span style={{ background:'var(--surface-container-highest)', color:'var(--primary)', fontFamily:'JetBrains Mono', fontSize:11, padding:'2px 8px', borderRadius:6 }}>#{idx+1}</span>
-              <span style={{ fontSize:11, color:'var(--on-surface-variant)', textTransform:'uppercase' }}>{q.topic}</span>
-            </div>
-
-            {/* Sentence with clickable wrong word */}
-            <p style={{ fontSize:17, fontWeight:600, color:'var(--on-surface)', lineHeight:2, marginBottom:16, wordBreak:'break-word' }}>
-              {q.wrong.split(' ').map((word, wi) => {
-                const clean = word.replace(/[.,!?'"]/g, '');
-                const isWrong = clean.toLowerCase() === (wrongWord||'').replace(/[.,!?'"]/g,'').toLowerCase();
-                if (isWrong) return (
-                  <span key={wi}>
-                    <button onClick={() => !submitted && setAnswers(a => ({ ...a, [q.id]: { ...a[q.id], clicked: true } }))} style={{
-                      display:'inline-block', padding:'2px 8px', margin:'0 2px',
-                      background: ans?.clicked ? 'rgba(255,87,26,0.2)' : 'transparent',
-                      border:'2px solid var(--primary)', color:'var(--primary)', borderRadius:6,
-                      fontWeight:800, fontSize:'inherit', cursor:submitted?'default':'pointer',
-                    }}>{word}</button>{' '}
-                  </span>
-                );
-                return <span key={wi}>{word} </span>;
-              })}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+        {questions.map((q, idx) => (
+          <div key={q.id} className="glass-card" style={{ padding: '24px' }}>
+            <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 800, marginBottom: 12, textTransform: 'uppercase', letterSpacing: 1 }}>Question {idx + 1}</div>
+            <p style={{ fontSize: 18, fontWeight: 600, color: 'white', marginBottom: 20, lineHeight: 1.5, direction: 'ltr' }}>
+              &ldquo;{q.wrong}&rdquo;
             </p>
-
-            {/* Options - only show after clicking */}
-            {(ans?.clicked || submitted) && (
-              <div style={{ display:'flex', gap:10, flexWrap:'wrap' }}>
-                {opts.map(opt => {
-                  let bg = 'var(--surface-container-high)';
-                  let border = '1px solid var(--outline-variant)';
-                  let color = 'var(--on-surface)';
-                  if (submitted) {
-                    if (opt.toLowerCase().replace(/[.,!?]/g,'') === correctWord.toLowerCase().replace(/[.,!?]/g,'')) { bg='rgba(27,47,33,0.9)'; border='1px solid #2e5238'; color='#88e2a5'; }
-                    else if (opt === ans?.chosen) { bg='rgba(60,0,0,0.7)'; border='1px solid #5c0000'; color='var(--error)'; }
-                  } else if (ans?.chosen === opt) { bg='rgba(255,87,26,0.15)'; border='1px solid var(--primary)'; }
-                  return (
-                    <button key={opt} onClick={() => !submitted && setAnswers(a => ({ ...a, [q.id]: { ...a[q.id], clicked:true, chosen:opt } }))} style={{ background:bg, border, color, borderRadius:10, padding:'10px 18px', fontFamily:'JetBrains Mono', fontSize:14, fontWeight:600, cursor:submitted?'default':'pointer', transition:'all 0.15s' }}>
-                      {opt}
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-
-            {submitted && (
-              <div style={{ marginTop:12, fontSize:13, color: isCorrect ? '#88e2a5' : 'var(--error)', direction:'rtl' }}>
-                Error: <strong>{wrongWord}</strong> → Correct: <strong>{correctWord}</strong>
-              </div>
-            )}
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {q.options.map((opt, i) => {
+                const isSelected = answers[q.id] === opt;
+                const isCorrect = submitted && opt === q.correct;
+                const isWrong = submitted && isSelected && opt !== q.correct;
+                
+                return (
+                  <button
+                    key={i}
+                    onClick={() => !submitted && setAnswers({ ...answers, [q.id]: opt })}
+                    style={{
+                      width: '100%', padding: '16px 20px', borderRadius: 14, textAlign: 'left',
+                      background: isCorrect ? 'rgba(0, 230, 118, 0.1)' : isWrong ? 'rgba(255, 82, 82, 0.1)' : isSelected ? 'rgba(124, 77, 255, 0.1)' : 'rgba(255,255,255,0.03)',
+                      border: `1px solid ${isCorrect ? 'var(--success)' : isWrong ? 'var(--error)' : isSelected ? 'var(--primary)' : 'var(--border-glass)'}`,
+                      color: isCorrect ? 'var(--success)' : isWrong ? 'var(--error)' : 'white',
+                      transition: 'all 0.2s', cursor: submitted ? 'default' : 'pointer',
+                      display: 'flex', alignItems: 'center', gap: 12, direction: 'ltr'
+                    }}
+                  >
+                    <div style={{ 
+                      width: 24, height: 24, borderRadius: '50%', border: '2px solid currentColor',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0
+                    }}>
+                      {isSelected && <div style={{ width: 12, height: 12, borderRadius: '50%', background: 'currentColor' }} />}
+                    </div>
+                    <span style={{ fontSize: 15, fontWeight: 500 }}>{opt}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        );
-      })}
+        ))}
+      </div>
 
       {!submitted && (
-        <button onClick={handleSubmit} style={{ width:'100%', background:'var(--primary-container)', color:'var(--on-primary-container)', border:'none', borderRadius:16, padding:18, fontWeight:900, fontSize:17, cursor:'pointer', marginTop:8 }}>
-          Submit Q1 ({Object.values(answers).filter(a => a?.chosen).length}/{questions.length} answered)
+        <button className="premium-btn" style={{ width: '100%', marginTop: 40, padding: 20 }} onClick={handleSubmit}>
+          Save & Next Section <span className="material-symbols-rounded">arrow_forward</span>
         </button>
       )}
     </div>

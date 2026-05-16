@@ -1,6 +1,5 @@
 'use client';
 import { useState, useMemo } from 'react';
-import sectionsData from '../../../data/sections.json';
 
 const RAW_SENTENCES = [
   { base: 'come', sentence: 'I came ___ an old friend in the market.', answer: 'across' },
@@ -44,29 +43,21 @@ export default function Q2PhrasalVerbs({ onScore }) {
   }, []);
 
   const wordBox = useMemo(() => buildWordBox(questions), [questions]);
-  
-  const [answers, setAnswers] = useState({}); // { qId: { word: string, key: string } }
+  const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(null);
 
-  const usedKeys = useMemo(() => {
-    return new Set(Object.values(answers).map(a => a?.key).filter(Boolean));
-  }, [answers]);
+  const usedKeys = useMemo(() => new Set(Object.values(answers).map(a => a?.key).filter(Boolean)), [answers]);
 
   const handleSelect = (qId, word, key) => {
     if (submitted) return;
-    
-    // If the key is already used by another question, we can't use it
     if (usedKeys.has(key) && answers[qId]?.key !== key) return;
-
     setAnswers(a => ({ ...a, [qId]: { word, key } }));
   };
 
   const handleSubmit = () => {
     let correct = 0;
-    questions.forEach(q => { 
-      if ((answers[q.id]?.word || '').toLowerCase() === q.answer.toLowerCase()) correct++; 
-    });
+    questions.forEach(q => { if ((answers[q.id]?.word || '').toLowerCase() === q.answer.toLowerCase()) correct++; });
     const s = correct * 2;
     setScore(s);
     setSubmitted(true);
@@ -74,100 +65,80 @@ export default function Q2PhrasalVerbs({ onScore }) {
   };
 
   return (
-    <div dir="ltr">
-      <div style={{ background: 'var(--surface-container)', borderRadius: 16, padding: '20px', marginBottom: 20, border: '1px solid var(--outline-variant)', direction: 'rtl' }}>
-        <h2 style={{ fontSize: 18, fontWeight: 800, color: 'var(--primary)', marginBottom: 8 }}>Question 2: Phrasal Verbs – Word Box</h2>
-        <p style={{ fontSize: 13, color: 'var(--on-surface-variant)' }}>اختر حرف الجر المناسب من الـ Word Box لإكمال كل جملة. (10 جمل × 2 = 20 درجة)</p>
-        {submitted && <div style={{ marginTop: 12, fontSize: 22, fontWeight: 900, color: 'var(--primary)', fontFamily: 'JetBrains Mono' }}>Score: {score} / 20</div>}
+    <div className="animate-fade-in">
+      <div className="glass-panel" style={{ padding: '24px', marginBottom: 32, borderLeft: '4px solid var(--accent)' }}>
+        <h3 style={{ fontSize: 20, fontWeight: 800, color: 'white', marginBottom: 8 }}>Part 2: Phrasal Verbs</h3>
+        <p style={{ color: 'var(--text-dim)', fontSize: 14 }}>Select the correct particle from the word box. (10 questions × 2 = 20 pts)</p>
+        {submitted && (
+          <div style={{ marginTop: 16, display: 'inline-flex', alignItems: 'center', gap: 12, padding: '8px 16px', borderRadius: 12, background: 'var(--grad-primary)' }}>
+            <span style={{ fontSize: 20, fontWeight: 800, color: 'white' }}>{score} / 20</span>
+          </div>
+        )}
       </div>
 
-      {/* Word Box */}
-      <div style={{ background: 'var(--surface-container-high)', borderRadius: 16, padding: '16px', marginBottom: 24, border: '1px solid var(--primary)', direction: 'rtl' }}>
-        <div style={{ fontSize: 12, color: 'var(--primary)', fontFamily: 'JetBrains Mono', marginBottom: 12, textTransform: 'uppercase', letterSpacing: '0.08em' }}>📦 Word Box</div>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+      <div className="glass-panel" style={{ padding: '20px', marginBottom: 32, background: 'rgba(255,255,255,0.02)' }}>
+        <div style={{ fontSize: 11, color: 'var(--primary)', fontWeight: 800, textTransform: 'uppercase', marginBottom: 12, letterSpacing: 1 }}>Word Box</div>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
           {wordBox.map(w => {
             const isUsed = usedKeys.has(w.key);
             return (
-              <span key={w.key} style={{
-                background: isUsed ? 'var(--surface-container-highest)' : 'var(--primary-container)',
-                color: isUsed ? 'var(--on-surface-variant)' : 'var(--on-primary-container)',
-                padding: '6px 14px', borderRadius: 20, fontFamily: 'JetBrains Mono', fontSize: 13, fontWeight: 600,
-                textDecoration: isUsed ? 'line-through' : 'none', direction: 'ltr',
-                opacity: isUsed ? 0.4 : 1,
-              }}>{w.word}</span>
+              <span key={w.key} className="glass-card" style={{ 
+                padding: '6px 14px', fontSize: 13, color: isUsed ? 'var(--text-muted)' : 'white', borderRadius: 12, 
+                background: isUsed ? 'rgba(255,255,255,0.02)' : 'rgba(124, 77, 255, 0.1)',
+                textDecoration: isUsed ? 'line-through' : 'none', opacity: isUsed ? 0.5 : 1
+              }}>
+                {w.word}
+              </span>
             );
           })}
         </div>
       </div>
 
-      {/* Questions */}
-      {questions.map((q, idx) => {
-        const isCorrect = submitted && answers[q.id]?.word?.toLowerCase() === q.answer.toLowerCase();
-        return (
-          <div key={q.id} style={{ 
-            background: submitted ? (isCorrect ? 'rgba(27,47,33,0.5)' : 'rgba(60,0,0,0.4)') : 'var(--surface-container)', 
-            border: `1px solid ${submitted ? (isCorrect ? '#2e5238' : '#5c0000') : 'var(--outline-variant)'}`, 
-            borderRadius: 16, padding: '20px', marginBottom: 14 
-          }}>
-            <span style={{ fontSize: 11, color: 'var(--on-surface-variant)', fontFamily: 'JetBrains Mono' }}>#{idx + 1} [{q.base.toUpperCase()}]</span>
-            <p style={{ fontSize: 17, fontWeight: 600, color: 'var(--on-surface)', margin: '10px 0', lineHeight: 1.8 }}>
-              {q.sentence.split('___')[0]}
-              <button 
-                onClick={() => {
-                  if (submitted) return;
-                  if (answers[q.id]) {
-                    setAnswers(a => { const n = { ...a }; delete n[q.id]; return n; });
-                  }
-                }}
-                style={{
-                  display: 'inline-block', minWidth: 80, padding: '4px 12px', margin: '0 4px',
-                  background: answers[q.id] ? 'rgba(255,87,26,0.15)' : 'transparent',
-                  border: `2px dashed ${answers[q.id] ? 'var(--primary)' : 'var(--outline)'}`,
-                  color: answers[q.id] ? 'var(--primary)' : 'var(--on-surface-variant)',
-                  borderRadius: 8, fontFamily: 'JetBrains Mono', fontWeight: 700, fontSize: 15, cursor: 'pointer',
-                }}
-              >
-                {answers[q.id]?.word || '  ?  '}
-              </button>
-              {q.sentence.split('___')[1]}
-            </p>
-            
-            {/* Options */}
-            {!submitted && (
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 12 }}>
-                {wordBox.map(w => {
-                  const isUsed = usedKeys.has(w.key);
-                  if (isUsed && answers[q.id]?.key !== w.key) return null;
-                  return (
-                    <button 
-                      key={w.key} 
-                      disabled={isUsed && answers[q.id]?.key !== w.key}
-                      onClick={() => handleSelect(q.id, w.word, w.key)} 
-                      style={{
-                        background: isUsed ? 'var(--primary-container)' : 'var(--surface-container-high)', 
-                        border: isUsed ? '1px solid var(--primary)' : '1px solid var(--outline-variant)', 
-                        color: isUsed ? 'var(--on-primary-container)' : 'var(--on-surface)', 
-                        borderRadius: 20, padding: '6px 14px', fontFamily: 'JetBrains Mono', fontSize: 12, cursor: 'pointer',
-                        opacity: isUsed && answers[q.id]?.key !== w.key ? 0.3 : 1
-                      }}
-                    >
-                      {w.word}
-                    </button>
-                  );
-                })}
-              </div>
-            )}
-            
-            {submitted && <div style={{ fontSize: 13, color: isCorrect ? '#88e2a5' : 'var(--error)', marginTop: 8, direction: 'ltr' }}>
-              Answer: <strong>{q.answer}</strong>{!isCorrect && <> — You chose: <em>{answers[q.id]?.word || 'nothing'}</em></>}
-            </div>}
-          </div>
-        );
-      })}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        {questions.map((q, idx) => {
+          const isCorrect = submitted && answers[q.id]?.word?.toLowerCase() === q.answer.toLowerCase();
+          return (
+            <div key={q.id} className="glass-card" style={{ padding: '24px', border: submitted ? `1px solid ${isCorrect ? 'var(--success)' : 'var(--error)'}` : '1px solid var(--border-glass)' }}>
+              <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 800, marginBottom: 12, textTransform: 'uppercase' }}>{idx + 1} • {q.base.toUpperCase()}</div>
+              <p style={{ fontSize: 18, color: 'white', lineHeight: 1.6, direction: 'ltr' }}>
+                {q.sentence.split('___')[0]}
+                <span style={{ 
+                  display: 'inline-block', minWidth: 100, padding: '4px 12px', margin: '0 8px',
+                  background: 'rgba(255,255,255,0.05)', borderBottom: `2px solid ${answers[q.id] ? 'var(--primary)' : 'var(--border-glass)'}`,
+                  color: 'var(--primary)', fontWeight: 800, textAlign: 'center'
+                }}>
+                  {answers[q.id]?.word || '...'}
+                </span>
+                {q.sentence.split('___')[1]}
+              </p>
+              
+              {!submitted && (
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 20 }}>
+                  {wordBox.map(w => {
+                    const isUsed = usedKeys.has(w.key);
+                    const isSelected = answers[q.id]?.key === w.key;
+                    if (isUsed && !isSelected) return null;
+                    return (
+                      <button 
+                        key={w.key} 
+                        onClick={() => handleSelect(q.id, w.word, w.key)}
+                        className="premium-input"
+                        style={{ padding: '6px 12px', fontSize: 12, cursor: 'pointer', background: isSelected ? 'var(--primary)' : 'rgba(255,255,255,0.05)' }}
+                      >
+                        {w.word}
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
 
       {!submitted && (
-        <button onClick={handleSubmit} style={{ width: '100%', background: 'var(--primary-container)', color: 'var(--on-primary-container)', border: 'none', borderRadius: 16, padding: 18, fontWeight: 900, fontSize: 17, cursor: 'pointer', marginTop: 8 }}>
-          Submit Q2 ({Object.keys(answers).length}/{questions.length} answered)
+        <button className="premium-btn" style={{ width: '100%', marginTop: 40, padding: 20 }} onClick={handleSubmit}>
+          Validate Section 2 <span className="material-symbols-rounded">check_circle</span>
         </button>
       )}
     </div>
