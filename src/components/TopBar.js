@@ -19,7 +19,7 @@ export default function TopBar() {
       padding: '12px 20px',
       display: 'flex', alignItems: 'center', justifyContent: 'space-between'
     }}>
-      <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none' }}>
+      <Link href="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none' }}>
         <div style={{
           width: 40, height: 40, borderRadius: 12,
           background: 'var(--grad-primary)',

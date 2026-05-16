@@ -9,7 +9,7 @@ export async function POST(req) {
     const data = await req.json();
     
     if (data.action === 'signup') {
-      const { name, email, password } = data;
+      const { name, email, password, image } = data;
       const existing = await db.collection("users").findOne({ email });
       if (existing) return NextResponse.json({ error: 'User exists' }, { status: 400 });
       
@@ -18,11 +18,11 @@ export async function POST(req) {
       
       const user = {
         userId, name, email, password: hashedPassword, createdAt: new Date(),
-        image: null
+        image: image || null
       };
       
       await db.collection("users").insertOne(user);
-      return NextResponse.json({ success: true, userId, name });
+      return NextResponse.json({ success: true, userId, name, image: user.image });
     }
 
     if (data.action === 'login') {

@@ -6,6 +6,7 @@ export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
+  const [image, setImage] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -24,6 +25,7 @@ export default function AuthPage() {
           action: isLogin ? 'login' : 'signup', 
           email, 
           name: isLogin ? undefined : name, 
+          image: isLogin ? undefined : image,
           password 
         }),
       });
@@ -58,7 +60,7 @@ export default function AuthPage() {
           }}>
             <span className="mi" style={{ fontSize: 36, color: 'white' }}>fact_check</span>
           </div>
-          <h1 style={{ fontSize: 32, fontWeight: 800, marginBottom: 8, letterSpacing: -0.5 }}>SBR - Error Analysis</h1>
+          <h1 className="premium-font" style={{ fontSize: 32, fontWeight: 800, marginBottom: 8, letterSpacing: -0.5 }}>SBR - Error Analysis</h1>
           <p style={{ color: 'var(--text-dim)', fontSize: 15 }}>{isLogin ? 'Login to your student account' : 'Register for the final exam'}</p>
         </div>
 
@@ -67,7 +69,7 @@ export default function AuthPage() {
           borderRadius: 16, padding: '16px', marginBottom: 32, textAlign: 'center' 
         }}>
           <p style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: 12, lineHeight: 1.6 }}>
-            <span style={{ color: '#ffea00', fontWeight: 800 }}>⚠️ DISCLAIMER:</span> This platform is a non-profit educational initiative developed by student <strong>Abdelrahman</strong> to help peers prepare for the May 19th exam. It is not affiliated with the official university administration.
+            <span style={{ color: '#ffea00', fontWeight: 800 }}>⚠️ DISCLAIMER:</span> This platform is a non-profit educational initiative developed by students to help peers prepare for the final exam. It is not affiliated with the official university administration.
           </p>
         </div>
 
@@ -88,19 +90,36 @@ export default function AuthPage() {
             </div>
 
             {!isLogin && (
-              <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                <label style={{ fontSize: 11, fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>
-                  Full Name
-                </label>
-                <input 
-                  type="text" 
-                  className="premium-input" 
-                  placeholder="Your display name" 
-                  value={name} 
-                  onChange={(e) => setName(e.target.value)} 
-                  required 
-                />
-              </div>
+              <>
+                <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <label style={{ fontSize: 11, fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>
+                    Full Name
+                  </label>
+                  <input 
+                    type="text" 
+                    className="premium-input" 
+                    placeholder="Your display name" 
+                    value={name} 
+                    onChange={(e) => setName(e.target.value)} 
+                    required 
+                  />
+                </div>
+                
+                <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  <label style={{ fontSize: 11, fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>
+                    Profile Image URL (Optional)
+                  </label>
+                  <input 
+                    type="url" 
+                    className="premium-input" 
+                    placeholder="https://example.com/photo.jpg" 
+                    value={typeof image !== 'undefined' ? image : ''} 
+                    onChange={(e) => {
+                      if (typeof setImage !== 'undefined') setImage(e.target.value);
+                    }} 
+                  />
+                </div>
+              </>
             )}
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
