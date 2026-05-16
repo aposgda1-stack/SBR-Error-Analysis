@@ -68,7 +68,7 @@ export default function Q2PhrasalVerbs({ onScore }) {
   const handleSubmit = () => {
     let correct = 0;
     questions.forEach(q => { if ((answers[q.id]?.word || '').toLowerCase() === q.answer.toLowerCase()) correct++; });
-    const s = correct * 2;
+    const s = correct * 2.5;
     setScore(s);
     setSubmitted(true);
     onScore(s);
@@ -78,10 +78,10 @@ export default function Q2PhrasalVerbs({ onScore }) {
     <div className="animate-fade-in">
       <div className="glass-panel" style={{ padding: '24px', marginBottom: 32, borderLeft: '4px solid var(--accent)' }}>
         <h3 style={{ fontSize: 20, fontWeight: 800, color: 'white', marginBottom: 8 }}>Part 2: Phrasal Verbs</h3>
-        <p style={{ color: 'var(--text-dim)', fontSize: 14 }}>Select the correct particle from the word box. (10 questions × 2 = 20 pts)</p>
+        <p style={{ color: 'var(--text-dim)', fontSize: 14 }}>Select the correct particle from the word box. (10 questions × 2.5 = 25 pts)</p>
         {submitted && (
           <div style={{ marginTop: 16, display: 'inline-flex', alignItems: 'center', gap: 12, padding: '8px 16px', borderRadius: 12, background: 'var(--grad-primary)' }}>
-            <span style={{ fontSize: 20, fontWeight: 800, color: 'white' }}>{score} / 20</span>
+            <span style={{ fontSize: 20, fontWeight: 800, color: 'white' }}>{score} / 25</span>
           </div>
         )}
       </div>

@@ -28,6 +28,15 @@ export default function PhrasalArena() {
       setShowAnswer(false);
     } else {
       setCompleted(true);
+      // Sync results
+      const uId = JSON.parse(localStorage.getItem('sbr_user') || '{}').userId;
+      if (uId) {
+        fetch('/api/user', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'sync', userId: uId, incXp: 10, incDone: 1 })
+        }).catch(console.error);
+      }
     }
   };
 

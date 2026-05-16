@@ -26,7 +26,8 @@ export default function Q3WorkSheet({ onScore }) {
     Object.keys(correctAnswers).forEach(key => {
       if (answers[key]?.toLowerCase().trim() === correctAnswers[key].toLowerCase().trim()) correct++;
     });
-    const s = Math.round((correct / Object.keys(correctAnswers).length) * 20);
+    const total = Object.keys(correctAnswers).length;
+    const s = Math.round((correct / total) * 25);
     setScore(s);
     setSubmitted(true);
     onScore(s);
@@ -36,10 +37,10 @@ export default function Q3WorkSheet({ onScore }) {
     <div className="animate-fade-in">
       <div className="glass-panel" style={{ padding: '24px', marginBottom: 32, borderLeft: '4px solid #ffea00' }}>
         <h3 style={{ fontSize: 20, fontWeight: 800, color: 'white', marginBottom: 8 }}>Part 3: Work Vocabulary</h3>
-        <p style={{ color: 'var(--text-dim)', fontSize: 14 }}>Fill in the blanks with the correct professional terms. (20 pts total)</p>
+        <p style={{ color: 'var(--text-dim)', fontSize: 14 }}>Fill in the blanks with the correct professional terms. (25 pts total)</p>
         {submitted && (
           <div style={{ marginTop: 16, display: 'inline-flex', alignItems: 'center', gap: 12, padding: '8px 16px', borderRadius: 12, background: 'var(--grad-primary)' }}>
-            <span style={{ fontSize: 20, fontWeight: 800, color: 'white' }}>{score} / 20</span>
+            <span style={{ fontSize: 20, fontWeight: 800, color: 'white' }}>{score} / 25</span>
           </div>
         )}
       </div>

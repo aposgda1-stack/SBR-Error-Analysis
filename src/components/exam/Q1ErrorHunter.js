@@ -81,7 +81,7 @@ export default function Q1ErrorHunter({ onScore }) {
   const handleSubmit = () => {
     let correct = 0;
     questions.forEach(q => { if (answers[q.id] === q.correctOption) correct++; });
-    const s = correct * 2;
+    const s = correct * 2.5;
     setScore(s);
     setSubmitted(true);
     onScore(s);
@@ -91,10 +91,10 @@ export default function Q1ErrorHunter({ onScore }) {
     <div className="animate-fade-in">
       <div className="glass-panel" style={{ padding: '24px', marginBottom: 32, borderLeft: '4px solid var(--primary)' }}>
         <h3 style={{ fontSize: 20, fontWeight: 800, color: 'white', marginBottom: 8 }}>Part 1: Error Correction</h3>
-        <p style={{ color: 'var(--text-dim)', fontSize: 14 }}>Identify the correct replacement word/phrase for the error in each sentence. (10 questions × 2 = 20 pts)</p>
+        <p style={{ color: 'var(--text-dim)', fontSize: 14 }}>Identify the correct replacement word/phrase for the error in each sentence. (10 questions × 2.5 = 25 pts)</p>
         {submitted && (
           <div style={{ marginTop: 16, display: 'inline-flex', alignItems: 'center', gap: 12, padding: '8px 16px', borderRadius: 12, background: 'var(--grad-primary)' }}>
-            <span style={{ fontSize: 20, fontWeight: 800, color: 'white' }}>{score} / 20</span>
+            <span style={{ fontSize: 20, fontWeight: 800, color: 'white' }}>{score} / 25</span>
             <span style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,0.8)', textTransform: 'uppercase' }}>Points Earned</span>
           </div>
         )}

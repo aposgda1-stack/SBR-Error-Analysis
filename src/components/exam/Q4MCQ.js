@@ -73,7 +73,7 @@ export default function Q4MCQ({ onScore }) {
   const handleSubmit = () => {
     let correct = 0;
     questions.forEach(q => { if (answers[q.id] === q.correct) correct++; });
-    const s = correct; // 20 questions, 1 pt each
+    const s = correct * 1.25; 
     setScore(s);
     setSubmitted(true);
     onScore(s);
@@ -83,7 +83,7 @@ export default function Q4MCQ({ onScore }) {
     <div className="animate-fade-in">
       <div className="glass-panel" style={{ padding: '24px', marginBottom: 32, borderLeft: '4px solid #00e5ff' }}>
         <h3 style={{ fontSize: 20, fontWeight: 800, color: 'white', marginBottom: 8 }}>Part 4: Grammar MCQ</h3>
-        <p style={{ color: 'var(--text-dim)', fontSize: 14 }}>Select the most appropriate answer for each grammatical context. (20 questions × 1 = 20 pts)</p>
+        <p style={{ color: 'var(--text-dim)', fontSize: 14 }}>Select the most appropriate answer for each grammatical context. (20 questions × 1.25 = 25 pts)</p>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>

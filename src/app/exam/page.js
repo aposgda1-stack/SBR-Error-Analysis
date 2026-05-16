@@ -43,13 +43,14 @@ export default function ExamPage() {
 
   const handleFinish = async () => {
     setMode('result');
+    const roundedScore = Math.round(totalScore);
     const uId = JSON.parse(localStorage.getItem('sbr_user') || '{}').userId;
-    if (uId && totalScore > 0) {
+    if (uId && roundedScore > 0) {
       try {
         await fetch('/api/user', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ action: 'sync', userId: uId, incXp: totalScore, incDone: 4 })
+          body: JSON.stringify({ action: 'sync', userId: uId, incXp: roundedScore, incDone: 4 })
         });
       } catch (err) { console.error('Failed to sync score', err); }
     }
@@ -97,6 +98,8 @@ export default function ExamPage() {
     </div>
   );
 
+  const displayScore = Math.round(totalScore);
+
   return (
     <div style={{ minHeight:'100dvh', background:'var(--bg-main)', paddingTop:120, paddingBottom:80 }}>
       <TopBar />
@@ -105,11 +108,11 @@ export default function ExamPage() {
         <main style={{ padding:'40px 24px', maxWidth:480, margin:'0 auto', textAlign:'center', marginTop: -60 }}>
           <div className="animate-slide-up" style={{ marginBottom: 32 }}>
             <div style={{ width:160, height:160, borderRadius:'50%', border:'6px solid var(--primary)', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', margin:'0 auto 24px', background:'var(--bg-card)', boxShadow: '0 0 40px var(--primary-glow)' }}>
-                <span style={{ fontSize:48, fontWeight:900, color:'white', fontFamily:'monospace' }}>{totalScore}</span>
+                <span style={{ fontSize:48, fontWeight:900, color:'white', fontFamily:'monospace' }}>{displayScore}</span>
                 <span style={{ fontSize:14, color:'var(--text-muted)', fontWeight: 800 }}>OF 100</span>
             </div>
             <h2 style={{ fontSize:24, fontWeight:800, color:'white', marginBottom:32 }}>
-                {totalScore >= 85 ? "🎉 Excellence! You're ready." : totalScore >= 60 ? "👍 Good effort, keep refining." : "💪 Focus more on the core modules."}
+                {displayScore >= 85 ? "🎉 Excellence! You're ready." : displayScore >= 50 ? "👍 Good effort, keep refining." : "💪 Focus more on the core modules."}
             </h2>
           </div>
 
