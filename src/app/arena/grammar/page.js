@@ -1,9 +1,34 @@
 'use client';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import TopBar from '../../../components/TopBar';
 import BottomNav from '../../../components/BottomNav';
 import sectionsData from '../../../../data/sections.json';
 import audioManager from '../../../utils/audio.js';
+import { calcAnswerXP, calcEndBonus, syncXP, XP_BASE, STREAK_THRESHOLD } from '../../../utils/scoring.js';
+
+function XPToast({ xp, bonuses, onDone }) {
+  useEffect(() => { const t = setTimeout(onDone, 2200); return () => clearTimeout(t); }, [onDone]);
+  return (
+    <div style={{ position: 'fixed', top: 80, right: 20, zIndex: 9999, display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-end', pointerEvents: 'none' }}>
+      <div style={{ background: 'var(--grad-primary)', color: 'white', padding: '10px 20px', borderRadius: 16, fontWeight: 900, fontSize: 20, boxShadow: '0 8px 30px var(--primary-glow)', animation: 'slideUp 0.4s cubic-bezier(0.16,1,0.3,1) both' }}>+{xp} XP</div>
+      {bonuses.map((b, i) => (
+        <div key={i} style={{ background: 'rgba(12,8,25,0.9)', border: '1px solid var(--border-bright)', color: 'var(--primary)', padding: '6px 14px', borderRadius: 12, fontWeight: 700, fontSize: 13, animation: `slideUp 0.4s cubic-bezier(0.16,1,0.3,1) ${0.1*(i+1)}s both` }}>{b}</div>
+      ))}
+    </div>
+  );
+}
+
+function StreakBadge({ streak }) {
+  if (streak < 1) return null;
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+      {Array.from({ length: STREAK_THRESHOLD }).map((_, i) => (
+        <div key={i} style={{ width: 10, height: 10, borderRadius: '50%', background: i < streak % STREAK_THRESHOLD || (streak % STREAK_THRESHOLD === 0 && streak > 0) ? '#f87171' : 'rgba(255,255,255,0.1)', boxShadow: i < streak % STREAK_THRESHOLD ? '0 0 8px #f87171' : 'none', transition: '0.3s' }} />
+      ))}
+      <span style={{ fontSize: 12, fontWeight: 800, color: '#f87171' }}>🔥 {streak}</span>
+    </div>
+  );
+}
 
 const GRAMMAR = sectionsData.grammar_guide;
 
@@ -114,8 +139,12 @@ export default function GrammarArena() {
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOpt, setSelectedOpt] = useState(null);
-  const [score, setScore] = useState(0);
+  const [totalXp, setTotalXp] = useState(0);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [streak, setStreak] = useState(0);
   const [completed, setCompleted] = useState(false);
+  const [toast, setToast] = useState(null);
+  const questionStartRef = useRef(Date.now());
 
   const startModule = (topicKey) => {
     audioManager.play('CLICK');
@@ -124,8 +153,11 @@ export default function GrammarArena() {
     setActiveModule(topicKey);
     setCurrentIndex(0);
     setSelectedOpt(null);
-    setScore(0);
+    setTotalXp(0);
+    setCorrectCount(0);
+    setStreak(0);
     setCompleted(false);
+    questionStartRef.current = Date.now();
   };
 
   const current = questions[currentIndex];
@@ -135,9 +167,17 @@ export default function GrammarArena() {
     setSelectedOpt(opt);
     if (opt.toLowerCase() === current.answer.toLowerCase()) {
       audioManager.play('SUCCESS');
-      setScore(s => s + 1);
+      const newStreak = streak + 1;
+      const elapsed = Date.now() - questionStartRef.current;
+      const { xp, bonuses } = calcAnswerXP({ elapsedMs: elapsed, streak: newStreak, firstTry: true });
+      setTotalXp(p => p + xp);
+      setCorrectCount(p => p + 1);
+      setStreak(newStreak);
+      setToast({ xp, bonuses });
+      syncXP({ incXp: xp });
     } else {
       audioManager.play('ERROR');
+      setStreak(0);
     }
   };
 
@@ -146,20 +186,16 @@ export default function GrammarArena() {
     if (currentIndex < questions.length - 1) {
       setCurrentIndex(i => i + 1);
       setSelectedOpt(null);
+      questionStartRef.current = Date.now();
     } else {
       audioManager.play('VICTORY');
+      const { xp: bonusXp, isPerfect } = calcEndBonus(correctCount, questions.length);
+      if (bonusXp > 0) syncXP({ incXp: bonusXp });
+      syncXP({
+        incXp: 0, incDone: 1,
+        historyEntry: { date: new Date(), xp: totalXp + bonusXp, type: 'Grammar Blitz', accuracy: Math.round((correctCount / questions.length) * 100) }
+      });
       setCompleted(true);
-      const uId = JSON.parse(localStorage.getItem('sbr_user') || '{}').userId;
-      if (uId && score > 0) {
-        fetch('/api/user', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            action: 'sync', userId: uId, incXp: score, incDone: 1,
-            pushHistory: { date: new Date(), xp: score, type: 'Grammar Blitz', accuracy: Math.round((score / questions.length) * 100) }
-          })
-        }).catch(console.error);
-      }
     }
   };
 
@@ -217,14 +253,17 @@ export default function GrammarArena() {
 
             {!completed ? (
               <div className="animate-fade-in" key={currentIndex}>
+                {toast && <XPToast xp={toast.xp} bonuses={toast.bonuses} onDone={() => setToast(null)} />}
                 {/* Header */}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
                   <div>
                     <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase' }}>Question</div>
                     <div style={{ fontSize: 20, fontWeight: 800 }}>{currentIndex + 1} <span style={{ color: 'var(--text-muted)', fontWeight: 400, fontSize: 14 }}>/ {questions.length}</span></div>
                   </div>
-                  <div style={{ background: 'var(--grad-primary)', borderRadius: 20, padding: '6px 16px', fontSize: 13, fontWeight: 800, color: 'white' }}>
-                    {score} pts
+                  <StreakBadge streak={streak} />
+                  <div style={{ textAlign: 'right' }}>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase' }}>XP</div>
+                    <div style={{ fontFamily: 'JetBrains Mono', fontSize: 20, fontWeight: 900, color: 'var(--primary)' }}>{totalXp}</div>
                   </div>
                 </div>
 
@@ -327,14 +366,16 @@ export default function GrammarArena() {
                 }}>
                   <span className="mi" style={{ fontSize: 48, color: 'white' }}>military_tech</span>
                 </div>
-                <h2 style={{ fontSize: 28, fontWeight: 800, marginBottom: 8 }}>Module Complete!</h2>
+                <h2 style={{ fontSize: 28, fontWeight: 800, marginBottom: 8 }}>{calcEndBonus(correctCount, questions.length).isPerfect ? '🏆 Perfect Score!' : 'Module Complete!'}</h2>
                 <p style={{ color: 'var(--text-dim)', marginBottom: 32 }}>
-                  You answered <strong style={{ color: 'var(--secondary)' }}>{score}/{questions.length}</strong> correctly.
+                  <strong style={{ color: 'var(--secondary)' }}>{correctCount}/{questions.length}</strong> correct · {Math.round((correctCount/questions.length)*100)}% accuracy
                 </p>
-                <div className="glass-card" style={{ padding: 24, marginBottom: 32 }}>
-                  <div style={{ fontSize: 48, fontWeight: 900, color: 'var(--secondary)', fontFamily: 'monospace' }}>{score}</div>
-                  <div style={{ fontSize: 12, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 2 }}>of {questions.length} correct</div>
-                  <div style={{ marginTop: 8, fontSize: 22, fontWeight: 800, color: 'var(--primary)' }}>+{score} XP Earned</div>
+                <div className="glass-card" style={{ padding: 24, marginBottom: 32, display: 'flex', flexDirection: 'column', gap: 12 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ color: 'var(--text-dim)', fontSize: 13 }}>Base XP</span><span style={{ fontFamily: 'JetBrains Mono', fontWeight: 900 }}>{correctCount * XP_BASE}</span></div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ color: 'var(--text-dim)', fontSize: 13 }}>Bonuses</span><span style={{ fontFamily: 'JetBrains Mono', fontWeight: 900, color: 'var(--primary)' }}>+{totalXp - correctCount * XP_BASE}</span></div>
+                  {calcEndBonus(correctCount, questions.length).isPerfect && <div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ color: 'var(--gold)', fontSize: 13 }}>💎 Perfect</span><span style={{ fontFamily: 'JetBrains Mono', fontWeight: 900, color: 'var(--gold)' }}>+30</span></div>}
+                  <div style={{ height: 1, background: 'var(--border-glass)' }} />
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ fontSize: 15, fontWeight: 800 }}>Total XP</span><span style={{ fontFamily: 'JetBrains Mono', fontSize: 24, fontWeight: 900, color: 'var(--primary)' }}>+{totalXp + calcEndBonus(correctCount, questions.length).xp}</span></div>
                 </div>
                 <button className="premium-btn" onClick={() => setActiveModule(null)} style={{ margin: '0 auto' }}>
                   Back to Modules <span className="mi">list</span>

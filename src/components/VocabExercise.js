@@ -1,6 +1,7 @@
 'use client';
 import { useState, useMemo } from 'react';
 import audioManager from '../utils/audio.js';
+import { calcEndBonus, syncXP, XP_BASE } from '../utils/scoring.js';
 
 export default function VocabExercise({ task, onFinish }) {
   const [answers, setAnswers] = useState({});
@@ -29,27 +30,23 @@ export default function VocabExercise({ task, onFinish }) {
   };
 
   const handleSubmit = () => {
-    let currentScore = 0;
+    let correctCount = 0;
     gaps.forEach(key => {
       if (answers[key]?.word?.toLowerCase().trim() === correctAnswers[key].toLowerCase().trim()) {
-        currentScore++;
+        correctCount++;
       }
     });
-    setScore(currentScore);
+    const baseXp = correctCount * XP_BASE;
+    const { xp: bonusXp, isPerfect } = calcEndBonus(correctCount, gaps.length);
+    const totalXp = baseXp + bonusXp;
+    setScore(totalXp);
     setSubmitted(true);
 
-    if (currentScore === gaps.length) audioManager.play('VICTORY');
-    else if (currentScore > 0) audioManager.play('SUCCESS');
+    if (isPerfect) audioManager.play('VICTORY');
+    else if (correctCount > 0) audioManager.play('SUCCESS');
     else audioManager.play('ERROR');
 
-    const uId = localStorage.getItem('sbr_user_id') || JSON.parse(localStorage.getItem('sbr_user') || '{}').userId;
-    if (uId && currentScore > 0) {
-      fetch('/api/user', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ action: 'sync', userId: uId, incXp: currentScore, incDone: 1 })
-      }).catch(console.error);
-    }
+    syncXP({ incXp: totalXp, incDone: 1 });
   };
 
   const processedText = useMemo(() => {
@@ -156,10 +153,21 @@ export default function VocabExercise({ task, onFinish }) {
         </button>
       ) : (
         <div style={{ textAlign: 'center' }} className="animate-slide-up">
-          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 16, padding: '16px 32px', borderRadius: 20, background: 'var(--grad-primary)', boxShadow: '0 10px 30px var(--primary-glow)' }}>
-            <span style={{ fontSize: 32, fontWeight: 800, color: 'white' }}>{score} / {gaps.length}</span>
-            <div style={{ height: 30, width: 1, background: 'rgba(255,255,255,0.2)' }} />
-            <span style={{ fontSize: 14, fontWeight: 600, color: 'rgba(255,255,255,0.9)' }}>Results Locked</span>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: '20px 28px', borderRadius: 24, background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-glass)', marginBottom: 20 }}>
+            {(() => {
+              const correct = gaps.filter(k => answers[k]?.word?.toLowerCase().trim() === correctAnswers[k].toLowerCase().trim()).length;
+              const base = correct * XP_BASE;
+              const { xp: bonus, isPerfect } = calcEndBonus(correct, gaps.length);
+              return (
+                <>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ color: 'var(--text-dim)', fontSize: 13 }}>Correct</span><span style={{ fontFamily: 'JetBrains Mono', fontWeight: 900 }}>{correct}/{gaps.length}</span></div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ color: 'var(--text-dim)', fontSize: 13 }}>Base XP</span><span style={{ fontFamily: 'JetBrains Mono', fontWeight: 900 }}>{base}</span></div>
+                  {isPerfect && <div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ color: 'var(--gold)', fontSize: 13 }}>💎 Perfect Bonus</span><span style={{ fontFamily: 'JetBrains Mono', fontWeight: 900, color: 'var(--gold)' }}>+30</span></div>}
+                  <div style={{ height: 1, background: 'var(--border-glass)' }} />
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}><span style={{ fontSize: 15, fontWeight: 800, color: 'white' }}>Total XP</span><span style={{ fontFamily: 'JetBrains Mono', fontSize: 22, fontWeight: 900, color: 'var(--primary)' }}>+{base + bonus}</span></div>
+                </>
+              );
+            })()}
           </div>
           <br />
           <button
