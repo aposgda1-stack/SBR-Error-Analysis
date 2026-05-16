@@ -94,19 +94,19 @@ export default function StatsPage() {
                 <h4 style={{ fontSize: 13, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 2, marginBottom: 20 }}>Achievements</h4>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
                   <Badge 
-                    unlocked={user.done >= 1} 
+                    unlocked={(user.badges || []).includes('first_steps') || (user.done || 0) >= 1} 
                     label="First Steps" icon="egg_alt" 
                     desc="Completed your first training session." 
                   />
                   <Badge 
-                    unlocked={user.done >= 10} 
+                    unlocked={(user.badges || []).includes('consistent') || (user.done || 0) >= 10} 
                     label="Consistent" icon="auto_graph" 
                     desc="Finished 10 modules." 
                   />
                   <Badge 
-                    unlocked={(user.xp || 0) >= 500} 
+                    unlocked={(user.badges || []).includes('elite_scholar') || (user.xp || 0) >= 500} 
                     label="Elite Scholar" icon="workspace_premium" 
-                    desc="Reached level 5." 
+                    desc="Reached 500 XP (Level 5)." 
                   />
                   <Badge 
                     unlocked={(user.vault || []).length >= 5} 

@@ -49,12 +49,19 @@ export async function POST(req) {
       if (level !== undefined) update.$set.level = level;
 
       const inc = {};
-      if (incXp !== undefined) inc.xp = incXp;
-      if (incDone !== undefined) inc.done = incDone;
+      // Guard: only add positive XP
+      if (incXp !== undefined && incXp > 0) inc.xp = incXp;
+      if (incDone !== undefined && incDone > 0) inc.done = incDone;
 
       const push = {};
-      if (pushVault) push.vault = pushVault;
-      if (pushHistory) push.history = pushHistory;
+      // pushVault expects { $each: [...] } already or a single item
+      if (pushVault) {
+        push.vault = pushVault.$each ? pushVault : { $each: [pushVault] };
+      }
+      // pushHistory is always a single history item object
+      if (pushHistory && typeof pushHistory === 'object') {
+        push.history = { $each: [{ ...pushHistory, date: new Date() }] };
+      }
 
       const updateOp = { ...update };
       if (Object.keys(inc).length > 0) updateOp.$inc = inc;
@@ -66,7 +73,22 @@ export async function POST(req) {
         { upsert: true }
       );
 
-      return NextResponse.json({ success: true });
+      // --- Achievements check (server-side, non-blocking) ---
+      const prog = await db.collection("progress").findOne({ userId });
+      const currentXp = (prog?.xp || 0) + (inc.xp || 0);
+      const currentDone = (prog?.done || 0) + (inc.done || 0);
+      const earnedBadges = prog?.badges || [];
+      const newBadges = [...earnedBadges];
+
+      if (currentDone >= 1 && !newBadges.includes('first_steps')) newBadges.push('first_steps');
+      if (currentDone >= 10 && !newBadges.includes('consistent')) newBadges.push('consistent');
+      if (currentXp >= 500 && !newBadges.includes('elite_scholar')) newBadges.push('elite_scholar');
+
+      if (newBadges.length > earnedBadges.length) {
+        await db.collection("progress").updateOne({ userId }, { $set: { badges: newBadges } });
+      }
+
+      return NextResponse.json({ success: true, newBadges: newBadges.filter(b => !earnedBadges.includes(b)) });
     }
 
     if (data.action === 'updateProfile') {

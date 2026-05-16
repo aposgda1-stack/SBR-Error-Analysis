@@ -1,103 +1,162 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useMemo } from 'react';
 import TopBar from '../../../components/TopBar';
 import BottomNav from '../../../components/BottomNav';
 import sectionsData from '../../../../data/sections.json';
 
 const GRAMMAR = sectionsData.grammar_guide;
 
-const buildDrills = (topicKey) => {
-  const pool = [];
+const OPTION_LABELS = ['A', 'B', 'C', 'D'];
+
+const shuffleArray = (arr) => {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+};
+
+const buildMCQ = (topicKey) => {
   const data = GRAMMAR[topicKey];
   if (!data || !data.practice) return [];
 
-  const topicLabel = topicKey.replace(/_/g, ' ');
-  
-  // Collect all possible answers for THIS topic to use as distractors
-  const topicAnswers = data.practice
-    .map(item => item.answer)
+  // Collect all answers from ALL topics for cross-topic distractors
+  const allAnswers = Object.values(GRAMMAR)
+    .flatMap(g => g.practice || [])
+    .map(p => p.answer)
     .filter(Boolean)
     .flatMap(a => a.split(' / '));
 
+  const questions = [];
+
   data.practice.forEach((item, i) => {
     if (item.sentence && item.answer) {
-      pool.push({ id: `g_${topicKey}_${i}`, topic: topicLabel, sentence: item.sentence, answer: item.answer, isBool: false });
+      // Standard fill-in-the-blank MCQ
+      const correctAns = item.answer.split(' / ')[0]; // take first if multiple
+      
+      // Build distractors from same topic first, then cross-topic
+      const sameTopicAnswers = data.practice
+        .filter((_, idx) => idx !== i)
+        .map(p => p.answer)
+        .filter(Boolean)
+        .flatMap(a => a.split(' / '))
+        .filter(a => a.toLowerCase() !== correctAns.toLowerCase());
+
+      const crossTopicAnswers = allAnswers.filter(
+        a => a.toLowerCase() !== correctAns.toLowerCase()
+      );
+
+      const distractor_pool = shuffleArray([
+        ...sameTopicAnswers,
+        ...crossTopicAnswers.slice(0, 10)
+      ]);
+
+      const distractors = [...new Set(distractor_pool)].slice(0, 3);
+      const options = shuffleArray([correctAns, ...distractors]);
+
+      questions.push({
+        id: `g_${topicKey}_${i}`,
+        type: 'fill',
+        sentence: item.sentence,
+        hint: `Fill in the blank with the correct form.`,
+        answer: correctAns,
+        options,
+        topic: topicKey.replace(/_/g, ' ')
+      });
+
     } else if (item.wrong && item.correct) {
-      pool.push({ id: `g_${topicKey}_${i}_t`, topic: topicLabel, sentence: item.correct, correctAnswer: true, isBool: true });
-      pool.push({ id: `g_${topicKey}_${i}_f`, topic: topicLabel, sentence: item.wrong, correctAnswer: false, isBool: true });
+      // Error-identification MCQ: show wrong version, 4 options for correction
+      // The blank is the error word
+      const wrongWords = item.wrong.trim().split(/\s+/);
+      const correctWords = item.correct.trim().split(/\s+/);
+
+      // Find the differing word position
+      let diffIdx = -1;
+      for (let j = 0; j < Math.min(wrongWords.length, correctWords.length); j++) {
+        if (wrongWords[j].replace(/[.,!?]/g, '') !== correctWords[j].replace(/[.,!?]/g, '')) {
+          diffIdx = j;
+          break;
+        }
+      }
+
+      if (diffIdx >= 0) {
+        const wrongWord = wrongWords[diffIdx].replace(/[.,!?]/g, '');
+        const correctWord = correctWords[diffIdx].replace(/[.,!?]/g, '');
+
+        const distractors = shuffleArray(
+          allAnswers.filter(a => a.toLowerCase() !== correctWord.toLowerCase() && a.toLowerCase() !== wrongWord.toLowerCase())
+        ).slice(0, 2);
+
+        const options = shuffleArray([correctWord, wrongWord, ...distractors]);
+
+        const highlighted = item.wrong.replace(wrongWords[diffIdx], `[${wrongWords[diffIdx]}]`);
+
+        questions.push({
+          id: `g_${topicKey}_${i}_err`,
+          type: 'error',
+          sentence: highlighted,
+          hint: `The bracketed word is incorrect. Choose the correct replacement.`,
+          answer: correctWord,
+          options,
+          topic: topicKey.replace(/_/g, ' ')
+        });
+      }
     }
   });
 
-  return [...pool].map(item => {
-    if (item.isBool) return item;
-    
-    const makeTrue = Math.random() > 0.5;
-    if (makeTrue) {
-      return { 
-        ...item, 
-        sentence: (item.sentence || '').replace('___', item.answer), 
-        correctAnswer: true 
-      };
-    }
-
-    // Pick a logical distractor from the same topic
-    const distractors = topicAnswers.filter(a => a !== item.answer);
-    const distractor = distractors.length > 0 
-      ? distractors[Math.floor(Math.random() * distractors.length)]
-      : (item.answer.includes('ing') ? 'doing' : 'make'); // Fallback
-
-    return { 
-      ...item, 
-      sentence: (item.sentence || '').replace('___', distractor), 
-      correctAnswer: false 
-    };
-  }).sort(() => Math.random() - 0.5);
+  return shuffleArray(questions);
 };
 
 export default function GrammarArena() {
   const [activeModule, setActiveModule] = useState(null);
-  const [drills, setDrills] = useState([]);
+  const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [selectedOpt, setSelectedOpt] = useState(null);
   const [score, setScore] = useState(0);
   const [completed, setCompleted] = useState(false);
-  const [feedback, setFeedback] = useState(null);
 
   const startModule = (topicKey) => {
-    setDrills(buildDrills(topicKey));
+    const qs = buildMCQ(topicKey);
+    setQuestions(qs);
     setActiveModule(topicKey);
     setCurrentIndex(0);
+    setSelectedOpt(null);
     setScore(0);
     setCompleted(false);
-    setFeedback(null);
   };
 
-  const handleAnswer = (choice) => {
-    if (feedback) return;
-    const current = drills[currentIndex];
-    const isCorrect = choice === current.correctAnswer;
-    const finalScore = isCorrect ? score + 1 : score;
-    if (isCorrect) setScore(s => s + 1);
-    
-    setFeedback(isCorrect ? 'correct' : 'wrong');
-    setTimeout(() => {
-      setFeedback(null);
-      if (currentIndex < drills.length - 1) {
-        setCurrentIndex(i => i + 1);
-      } else {
-        setCompleted(true);
-        // Sync results using the computed finalScore
-        const uId = JSON.parse(localStorage.getItem('sbr_user') || '{}').userId;
-        if (uId && finalScore > 0) {
-          fetch('/api/user', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'sync', userId: uId, incXp: finalScore, incDone: 1 })
-          }).catch(console.error);
-        }
-      }
-    }, 800);
+  const current = questions[currentIndex];
+
+  const handleSelect = (opt) => {
+    if (selectedOpt) return;
+    setSelectedOpt(opt);
+    if (opt.toLowerCase() === current.answer.toLowerCase()) {
+      setScore(s => s + 1);
+    }
   };
+
+  const handleNext = () => {
+    if (currentIndex < questions.length - 1) {
+      setCurrentIndex(i => i + 1);
+      setSelectedOpt(null);
+    } else {
+      setCompleted(true);
+      const uId = JSON.parse(localStorage.getItem('sbr_user') || '{}').userId;
+      if (uId && score > 0) {
+        fetch('/api/user', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'sync', userId: uId, incXp: score, incDone: 1,
+            pushHistory: { date: new Date(), xp: score, type: 'Grammar Blitz', accuracy: Math.round((score / questions.length) * 100) }
+          })
+        }).catch(console.error);
+      }
+    }
+  };
+
+  const topicKeys = Object.keys(GRAMMAR).filter(k => GRAMMAR[k].practice);
 
   return (
     <main style={{ minHeight: '100vh', paddingBottom: 100 }}>
@@ -106,13 +165,16 @@ export default function GrammarArena() {
         {activeModule === null ? (
           <div className="animate-fade-in">
             <div style={{ marginBottom: 32 }}>
+              <div style={{ padding: '8px 12px', display: 'inline-block', background: 'rgba(0, 229, 255, 0.1)', border: '1px solid var(--secondary)', borderRadius: 12, color: 'var(--secondary)', fontSize: 12, fontWeight: 700, letterSpacing: 1, marginBottom: 12 }}>
+                MODULE 01
+              </div>
               <h2 style={{ fontSize: 32, fontWeight: 800, color: 'white' }}>Grammar Blitz</h2>
-              <p style={{ color: 'var(--text-dim)', fontSize: 15 }}>Master grammar rules topic by topic.</p>
+              <p style={{ color: 'var(--text-dim)', fontSize: 15 }}>MCQ questions testing each grammar rule topic by topic.</p>
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              {Object.keys(GRAMMAR).map((topicKey, i) => {
-                if (!GRAMMAR[topicKey].practice) return null;
+              {topicKeys.map((topicKey, i) => {
+                const qCount = buildMCQ(topicKey).length;
                 const title = topicKey.replace(/_/g, ' ').toUpperCase();
                 return (
                   <button
@@ -126,10 +188,11 @@ export default function GrammarArena() {
                   >
                     <div>
                       <div style={{ fontSize: 13, color: 'var(--secondary)', fontWeight: 800, letterSpacing: 1, textTransform: 'uppercase', marginBottom: 4 }}>Module {i + 1}</div>
-                      <div style={{ fontSize: 16, fontWeight: 600, color: 'white' }}>{title}</div>
+                      <div style={{ fontSize: 15, fontWeight: 700, color: 'white' }}>{title}</div>
+                      <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4 }}>{qCount} questions</div>
                     </div>
                     <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(0, 229, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--secondary)' }}>
-                      <span className="mi">play_arrow</span>
+                      <span className="mi">quiz</span>
                     </div>
                   </button>
                 );
@@ -145,33 +208,132 @@ export default function GrammarArena() {
               <span className="mi" style={{ fontSize: 18 }}>arrow_back</span> Back to Modules
             </button>
 
-            <div className="glass-panel" style={{ padding: '40px 24px', textAlign: 'center', position: 'relative', overflow: 'hidden', minHeight: 320, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-              {feedback && (
-                <div style={{ position: 'absolute', inset: 0, zIndex: 10, background: feedback === 'correct' ? 'rgba(0, 230, 118, 0.9)' : 'rgba(255, 82, 82, 0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'fadeIn 0.2s ease' }}>
-                  <span className="mi" style={{ fontSize: 80, color: 'white' }}>{feedback === 'correct' ? 'check_circle' : 'cancel'}</span>
+            {!completed ? (
+              <div className="animate-fade-in" key={currentIndex}>
+                {/* Header */}
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+                  <div>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase' }}>Question</div>
+                    <div style={{ fontSize: 20, fontWeight: 800 }}>{currentIndex + 1} <span style={{ color: 'var(--text-muted)', fontWeight: 400, fontSize: 14 }}>/ {questions.length}</span></div>
+                  </div>
+                  <div style={{ background: 'var(--grad-primary)', borderRadius: 20, padding: '6px 16px', fontSize: 13, fontWeight: 800, color: 'white' }}>
+                    {score} pts
+                  </div>
                 </div>
-              )}
 
-              {!completed ? (
-                <div className="animate-fade-in">
-                  <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 800, marginBottom: 24, textTransform: 'uppercase', letterSpacing: 2 }}>Drill {currentIndex + 1} of {drills.length}</div>
-                  <p style={{ fontSize: 'clamp(18px, 5vw, 22px)', fontWeight: 600, marginBottom: 48, lineHeight: 1.5, direction: 'ltr' }}>&ldquo;{drills[currentIndex].sentence}&rdquo;</p>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
-                    <button onClick={() => handleAnswer(true)} className="premium-btn" style={{ background: 'rgba(0, 230, 118, 0.15)', color: 'var(--success)', border: '1px solid var(--success)' }}>TRUE</button>
-                    <button onClick={() => handleAnswer(false)} className="premium-btn" style={{ background: 'rgba(255, 82, 82, 0.15)', color: 'var(--error)', border: '1px solid var(--error)' }}>FALSE</button>
-                  </div>
+                {/* Progress bar */}
+                <div style={{ height: 4, background: 'rgba(255,255,255,0.05)', borderRadius: 4, marginBottom: 24, overflow: 'hidden' }}>
+                  <div style={{
+                    height: '100%', width: `${((currentIndex) / questions.length) * 100}%`,
+                    background: 'var(--secondary)', borderRadius: 4, transition: '0.5s'
+                  }} />
                 </div>
-              ) : (
-                <div className="animate-slide-up">
-                  <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'var(--grad-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px', boxShadow: '0 0 30px var(--primary-glow)' }}>
-                    <span className="mi" style={{ fontSize: 40, color: 'white' }}>military_tech</span>
+
+                {/* Question Card */}
+                <div className="glass-card" style={{ padding: '28px', marginBottom: 20, position: 'relative', overflow: 'hidden' }}>
+                  <div className="animate-shimmer" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: 3 }} />
+
+                  {/* Hint */}
+                  <div style={{ fontSize: 10, color: current?.type === 'error' ? 'var(--error)' : 'var(--secondary)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 12 }}>
+                    {current?.type === 'error' ? '⚠ Find the correct replacement' : '📝 Fill in the blank'}
                   </div>
-                  <h3 style={{ fontSize: 24, fontWeight: 800, marginBottom: 8 }}>Module Complete!</h3>
-                  <div style={{ fontSize: 48, fontWeight: 800, color: 'var(--secondary)', marginBottom: 32, fontFamily: 'JetBrains Mono' }}>{score} / {drills.length}</div>
-                  <button className="premium-btn" onClick={() => setActiveModule(null)} style={{ margin: '0 auto' }}>Back to Modules</button>
+
+                  {/* Topic tag */}
+                  <div style={{ display: 'inline-block', background: 'rgba(0,229,255,0.08)', border: '1px solid rgba(0,229,255,0.2)', borderRadius: 8, padding: '3px 10px', fontSize: 9, color: 'var(--secondary)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1, marginBottom: 16 }}>
+                    {current?.topic}
+                  </div>
+
+                  {/* Sentence */}
+                  <p style={{ fontSize: 20, fontWeight: 600, color: 'white', lineHeight: 1.6, direction: 'ltr' }}>
+                    &ldquo;{current?.sentence}&rdquo;
+                  </p>
                 </div>
-              )}
-            </div>
+
+                {/* Options */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 20 }}>
+                  {current?.options.map((opt, i) => {
+                    const isSelected = selectedOpt === opt;
+                    const isCorrect = selectedOpt && opt.toLowerCase() === current.answer.toLowerCase();
+                    const isWrong = selectedOpt && isSelected && opt.toLowerCase() !== current.answer.toLowerCase();
+
+                    return (
+                      <button
+                        key={i}
+                        onClick={() => handleSelect(opt)}
+                        style={{
+                          width: '100%', padding: '16px 20px', borderRadius: 14, textAlign: 'left',
+                          cursor: selectedOpt ? 'default' : 'pointer',
+                          background: isCorrect ? 'rgba(0, 230, 118, 0.1)' : isWrong ? 'rgba(255, 82, 82, 0.1)' : isSelected ? 'rgba(0,229,255,0.08)' : 'rgba(255,255,255,0.03)',
+                          border: `1px solid ${isCorrect ? 'var(--success)' : isWrong ? 'var(--error)' : isSelected ? 'var(--secondary)' : 'var(--border-glass)'}`,
+                          color: isCorrect ? 'var(--success)' : isWrong ? 'var(--error)' : 'white',
+                          transition: 'all 0.2s',
+                          display: 'flex', alignItems: 'center', gap: 14, direction: 'ltr'
+                        }}
+                      >
+                        <div style={{
+                          width: 30, height: 30, borderRadius: 8, flexShrink: 0,
+                          background: isCorrect ? 'var(--success)' : isWrong ? 'var(--error)' : isSelected ? 'var(--secondary)' : 'rgba(255,255,255,0.06)',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          fontSize: isCorrect || isWrong ? 16 : 12,
+                          fontWeight: 900, color: isCorrect || isWrong || isSelected ? 'white' : 'var(--text-muted)'
+                        }}>
+                          {isCorrect ? <span className="mi" style={{ fontSize: 16 }}>check</span> : isWrong ? <span className="mi" style={{ fontSize: 16 }}>close</span> : OPTION_LABELS[i]}
+                        </div>
+                        <span style={{ fontSize: 16, fontWeight: 600 }}>{opt}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Feedback after answering */}
+                {selectedOpt && (
+                  <div className="animate-slide-up" style={{ marginBottom: 20 }}>
+                    <div style={{
+                      padding: '12px 16px', borderRadius: 12,
+                      background: selectedOpt.toLowerCase() === current.answer.toLowerCase() ? 'rgba(0,230,118,0.05)' : 'rgba(255,82,82,0.05)',
+                      border: `1px solid ${selectedOpt.toLowerCase() === current.answer.toLowerCase() ? 'var(--success)' : 'var(--error)'}`,
+                      fontSize: 13, color: 'var(--text-dim)'
+                    }}>
+                      {selectedOpt.toLowerCase() !== current.answer.toLowerCase() && (
+                        <strong style={{ color: 'var(--success)', display: 'block', marginBottom: 4 }}>
+                          ✓ Correct: {current.answer}
+                        </strong>
+                      )}
+                      Topic: <strong style={{ color: 'white' }}>{current.topic}</strong>
+                    </div>
+                  </div>
+                )}
+
+                {selectedOpt && (
+                  <button className="premium-btn" style={{ width: '100%', padding: 18 }} onClick={handleNext}>
+                    {currentIndex < questions.length - 1 ? 'Next Question' : 'See Results'}
+                    <span className="mi">arrow_forward</span>
+                  </button>
+                )}
+              </div>
+            ) : (
+              <div className="animate-slide-up" style={{ textAlign: 'center', padding: '40px 20px' }}>
+                <div style={{
+                  width: 100, height: 100, borderRadius: '50%', background: 'var(--grad-primary)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px',
+                  boxShadow: '0 0 40px var(--primary-glow)'
+                }}>
+                  <span className="mi" style={{ fontSize: 48, color: 'white' }}>military_tech</span>
+                </div>
+                <h2 style={{ fontSize: 28, fontWeight: 800, marginBottom: 8 }}>Module Complete!</h2>
+                <p style={{ color: 'var(--text-dim)', marginBottom: 32 }}>
+                  You answered <strong style={{ color: 'var(--secondary)' }}>{score}/{questions.length}</strong> correctly.
+                </p>
+                <div className="glass-card" style={{ padding: 24, marginBottom: 32 }}>
+                  <div style={{ fontSize: 48, fontWeight: 900, color: 'var(--secondary)', fontFamily: 'monospace' }}>{score}</div>
+                  <div style={{ fontSize: 12, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 2 }}>of {questions.length} correct</div>
+                  <div style={{ marginTop: 8, fontSize: 22, fontWeight: 800, color: 'var(--primary)' }}>+{score} XP Earned</div>
+                </div>
+                <button className="premium-btn" onClick={() => setActiveModule(null)} style={{ margin: '0 auto' }}>
+                  Back to Modules <span className="mi">list</span>
+                </button>
+              </div>
+            )}
           </div>
         )}
       </div>

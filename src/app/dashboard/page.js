@@ -184,22 +184,32 @@ export default function Dashboard() {
             {/* Daily Goal Section */}
             <div className="glass-card animate-slide-up" style={{ marginTop: 20, padding: 24, textAlign: 'center', animationDelay: '0.3s' }}>
                 <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: 2, marginBottom: 16 }}>Daily Focus</div>
-                <div style={{ position: 'relative', width: 80, height: 80, margin: '0 auto 16px' }}>
-                    <svg width="80" height="80" viewBox="0 0 80 80">
-                        <circle cx="40" cy="40" r="35" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="6" />
-                        <circle cx="40" cy="40" r="35" fill="none" stroke="var(--success)" strokeWidth="6" 
-                            strokeDasharray={`${(Math.min(user.done || 0, 3) / 3) * 220} 220`}
+                {(() => {
+                  const today = new Date().toDateString();
+                  const todaySessions = (user.history || []).filter(h => new Date(h.date).toDateString() === today).length;
+                  const goalMet = todaySessions >= 3;
+                  const pct = Math.min(todaySessions / 3, 1);
+                  return (
+                    <>
+                      <div style={{ position: 'relative', width: 80, height: 80, margin: '0 auto 16px' }}>
+                        <svg width="80" height="80" viewBox="0 0 80 80">
+                          <circle cx="40" cy="40" r="35" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="6" />
+                          <circle cx="40" cy="40" r="35" fill="none" stroke={goalMet ? 'var(--success)' : 'var(--primary)'} strokeWidth="6"
+                            strokeDasharray={`${pct * 220} 220`}
                             strokeLinecap="round" transform="rotate(-90 40 40)"
                             style={{ transition: 'stroke-dasharray 1s ease' }}
-                        />
-                    </svg>
-                    <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, fontWeight: 900 }}>
-                        {Math.min(user.done || 0, 3)}/3
-                    </div>
-                </div>
-                <div style={{ fontSize: 13, fontWeight: 600, color: 'white' }}>
-                    {user.done >= 3 ? "Goal Reached! 🔥" : "Complete 3 modules today"}
-                </div>
+                          />
+                        </svg>
+                        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, fontWeight: 900, color: goalMet ? 'var(--success)' : 'white' }}>
+                          {todaySessions}/3
+                        </div>
+                      </div>
+                      <div style={{ fontSize: 13, fontWeight: 600, color: goalMet ? 'var(--success)' : 'white' }}>
+                        {goalMet ? 'Daily Goal Reached! 🔥' : `${3 - todaySessions} more sessions today`}
+                      </div>
+                    </>
+                  );
+                })()}
             </div>
           </div>
         </div>
