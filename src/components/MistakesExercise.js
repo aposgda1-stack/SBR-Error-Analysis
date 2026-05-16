@@ -28,7 +28,7 @@ export default function MistakesExercise({ data }) {
           display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px',
           boxShadow: '0 0 30px var(--primary-glow)'
         }}>
-          <span className="material-symbols-rounded" style={{ fontSize: 40, color: 'white' }}>celebration</span>
+          <span className="mi" style={{ fontSize: 40, color: 'white' }}>celebration</span>
         </div>
         <h2 style={{ fontSize: 28, fontWeight: 800, marginBottom: 8 }}>Session Complete!</h2>
         <p style={{ color: 'var(--text-dim)', marginBottom: 32 }}>Your progress has been synchronized.</p>
@@ -39,7 +39,7 @@ export default function MistakesExercise({ data }) {
         </div>
 
         <button className="premium-btn" style={{ margin: '0 auto' }} onClick={() => window.location.reload()}>
-          <span className="material-symbols-rounded">refresh</span> Restart Session
+          <span className="mi">refresh</span> Restart Session
         </button>
       </div>
     );
@@ -64,7 +64,7 @@ export default function MistakesExercise({ data }) {
         <div className="animate-shimmer" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: 4 }} />
         
         <h3 style={{ fontSize: 14, color: 'var(--primary)', fontWeight: 700, marginBottom: 16, display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span className="material-symbols-rounded" style={{ fontSize: 18 }}>find_replace</span> FIND THE ERROR
+          <span className="mi" style={{ fontSize: 18 }}>find_replace</span> FIND THE ERROR
         </h3>
         
         <p style={{ fontSize: 20, fontWeight: 500, lineHeight: 1.6, color: 'white', direction: 'ltr' }}>
@@ -74,7 +74,7 @@ export default function MistakesExercise({ data }) {
 
       {!showAnswer ? (
         <button className="premium-btn" style={{ width: '100%', padding: '20px' }} onClick={() => setShowAnswer(true)}>
-          Reveal Solution <span className="material-symbols-rounded">visibility</span>
+          Reveal Solution <span className="mi">visibility</span>
         </button>
       ) : (
         <div className="animate-slide-up">
@@ -85,7 +85,7 @@ export default function MistakesExercise({ data }) {
           
           <div className="glass-card" style={{ padding: '16px 20px', marginBottom: 32, display: 'flex', alignItems: 'center', gap: 12 }}>
             <div style={{ width: 32, height: 32, borderRadius: 8, background: 'rgba(255,255,255,0.05)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <span className="material-symbols-rounded" style={{ fontSize: 18, color: 'var(--text-dim)' }}>book</span>
+              <span className="mi" style={{ fontSize: 18, color: 'var(--text-dim)' }}>book</span>
             </div>
             <div style={{ fontSize: 13, color: 'var(--text-dim)' }}>
               <strong>Rule:</strong> {currentItem.topic}

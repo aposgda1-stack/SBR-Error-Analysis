@@ -68,13 +68,13 @@ export default function PhrasalArena() {
 
               <button className="premium-btn" style={{ width: '100%', background: showAnswer ? 'var(--bg-glass)' : 'var(--grad-primary)', border: showAnswer ? '1px solid var(--border-glass)' : 'none' }} onClick={() => showAnswer ? handleNext() : setShowAnswer(true)}>
                 {showAnswer ? 'Next Verb' : 'Show Meaning'}
-                <span className="material-symbols-rounded">{showAnswer ? 'arrow_forward' : 'visibility'}</span>
+                <span className="mi">{showAnswer ? 'arrow_forward' : 'visibility'}</span>
               </button>
             </div>
           ) : (
             <div className="animate-slide-up">
               <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'var(--grad-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px', boxShadow: '0 0 30px var(--primary-glow)' }}>
-                <span className="material-symbols-rounded" style={{ fontSize: 40, color: 'white' }}>done_all</span>
+                <span className="mi" style={{ fontSize: 40, color: 'white' }}>done_all</span>
               </div>
               <h3 style={{ fontSize: 24, fontWeight: 800, marginBottom: 8 }}>All Verbs Reviewed!</h3>
               <p style={{ color: 'var(--text-dim)', marginBottom: 32 }}>You're becoming a phrasal verb expert.</p>

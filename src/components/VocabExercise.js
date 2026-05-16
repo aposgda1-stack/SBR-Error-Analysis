@@ -67,7 +67,7 @@ export default function VocabExercise({ data }) {
                     }}
                   />
                   {submitted && (
-                    <span className="material-symbols-rounded" style={{ 
+                    <span className="mi" style={{ 
                       position: 'absolute', right: 12, top: '50%', transform: 'translateY(-50%)',
                       color: isRight ? 'var(--success)' : 'var(--error)', fontSize: 20
                     }}>
@@ -88,7 +88,7 @@ export default function VocabExercise({ data }) {
 
       {!submitted ? (
         <button className="premium-btn" style={{ width: '100%', padding: '18px' }} onClick={handleSubmit}>
-          Validate Answers <span className="material-symbols-rounded">done_all</span>
+          Validate Answers <span className="mi">done_all</span>
         </button>
       ) : (
         <div style={{ textAlign: 'center' }} className="animate-slide-up">

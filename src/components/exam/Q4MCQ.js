@@ -80,7 +80,7 @@ export default function Q4MCQ({ onScore }) {
 
       {!submitted && (
         <button className="premium-btn" style={{ width: '100%', marginTop: 40, padding: 20 }} onClick={handleSubmit}>
-          Complete Exam <span className="material-symbols-rounded">stars</span>
+          Complete Exam <span className="mi">stars</span>
         </button>
       )}
     </div>

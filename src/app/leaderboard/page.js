@@ -26,7 +26,7 @@ export default function LeaderboardPage() {
             display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px',
             boxShadow: '0 0 30px var(--primary-glow)'
           }}>
-            <span className="material-symbols-rounded" style={{ fontSize: 32, color: 'white' }}>military_tech</span>
+            <span className="mi" style={{ fontSize: 32, color: 'white' }}>military_tech</span>
           </div>
           <h2 style={{ fontSize: 32, fontWeight: 800 }}>Hall of Fame</h2>
           <p style={{ color: 'var(--text-dim)' }}>Top performing students this week</p>

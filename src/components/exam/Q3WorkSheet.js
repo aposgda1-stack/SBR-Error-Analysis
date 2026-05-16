@@ -64,7 +64,7 @@ export default function Q3WorkSheet({ onScore }) {
 
       {!submitted && (
         <button className="premium-btn" style={{ width: '100%', padding: 20 }} onClick={handleSubmit}>
-          Validate Section 3 <span className="material-symbols-rounded">playlist_add_check</span>
+          Validate Section 3 <span className="mi">playlist_add_check</span>
         </button>
       )}
     </div>

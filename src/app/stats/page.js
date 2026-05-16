@@ -76,7 +76,7 @@ export default function StatsPage() {
 function StatCard({ label, val, icon, color }) {
   return (
     <div className="glass-card" style={{ padding: '24px 20px' }}>
-      <span className="material-symbols-rounded" style={{ color, fontSize: 24, marginBottom: 12 }}>{icon}</span>
+      <span className="mi" style={{ color, fontSize: 24, marginBottom: 12 }}>{icon}</span>
       <div style={{ fontSize: 24, fontWeight: 800, fontFamily: 'JetBrains Mono' }}>{val}</div>
       <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', marginTop: 4 }}>{label}</div>
     </div>
@@ -94,10 +94,10 @@ function ActionItem({ icon, label, color = 'white', onClick, last }) {
       }}
     >
       <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-        <span className="material-symbols-rounded" style={{ color: color === 'white' ? 'var(--text-dim)' : color, fontSize: 22 }}>{icon}</span>
+        <span className="mi" style={{ color: color === 'white' ? 'var(--text-dim)' : color, fontSize: 22 }}>{icon}</span>
         <span style={{ fontSize: 15, fontWeight: 600, color }}>{label}</span>
       </div>
-      <span className="material-symbols-rounded" style={{ color: 'var(--text-muted)', fontSize: 20 }}>chevron_right</span>
+      <span className="mi" style={{ color: 'var(--text-muted)', fontSize: 20 }}>chevron_right</span>
     </div>
   );
 }

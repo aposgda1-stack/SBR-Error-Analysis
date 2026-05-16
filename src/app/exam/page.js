@@ -41,7 +41,7 @@ export default function ExamPage() {
     <div style={{ minHeight:'100dvh', background:'var(--background)', paddingTop:48, paddingBottom:80 }}>
       <TopBar title="FINAL EXAM SIMULATOR" />
       <main style={{ padding:32, maxWidth:480, margin:'0 auto', textAlign:'center', paddingTop:60 }}>
-        <span className="material-symbols-outlined" style={{ fontSize:72, color:'var(--primary)' }}>assignment</span>
+        <span className="mi" style={{ fontSize:72, color:'var(--primary)' }}>assignment</span>
         <h1 style={{ fontSize:28, fontWeight:900, color:'var(--on-surface)', margin:'16px 0' }}>محاكي الامتحان النهائي</h1>
         <p style={{ color:'var(--on-surface-variant)', lineHeight:1.7, marginBottom:32 }}>
           يحتوي الامتحان على 4 أسئلة تغطي كامل المنهج.<br/>الوقت المتاح: <strong style={{ color:'var(--primary)' }}>40 دقيقة</strong>.<br/>لن يظهر أي تصحيح حتى تنتهي وتضغط Submit.
@@ -49,7 +49,7 @@ export default function ExamPage() {
         <div style={{ display:'flex', flexDirection:'column', gap:12, marginBottom:40, textAlign:'right' }}>
           {QUESTIONS.map(q => (
             <div key={q} style={{ background:'var(--surface-container)', border:'1px solid var(--outline-variant)', borderRadius:12, padding:'12px 16px', display:'flex', alignItems:'center', gap:12 }}>
-              <span className="material-symbols-outlined" style={{ color:'var(--primary)', fontSize:20 }}>radio_button_unchecked</span>
+              <span className="mi" style={{ color:'var(--primary)', fontSize:20 }}>radio_button_unchecked</span>
               <span style={{ fontSize:14, color:'var(--on-surface)' }}>{LABELS[q]}</span>
             </div>
           ))}

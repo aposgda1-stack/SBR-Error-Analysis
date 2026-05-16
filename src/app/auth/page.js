@@ -48,30 +48,29 @@ export default function AuthPage() {
   };
 
   return (
-    <main style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 }}>
+    <main style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24 }}>
       <div className="animate-slide-up" style={{ width: '100%', maxWidth: 400 }}>
         <div style={{ textAlign: 'center', marginBottom: 40 }}>
           <div style={{ 
-            width: 72, height: 72, borderRadius: 24, background: 'var(--grad-primary)', 
-            display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 20px',
-            boxShadow: '0 0 40px var(--primary-glow)'
+            width: 80, height: 80, borderRadius: 24, background: 'var(--grad-primary)', 
+            display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px',
+            boxShadow: '0 8px 30px var(--primary-glow)'
           }}>
-            <span className="material-symbols-rounded" style={{ fontSize: 36, color: 'white' }}>auto_awesome</span>
+            <span className="mi" style={{ fontSize: 36, color: 'white' }}>auto_awesome</span>
           </div>
-          <h1 style={{ fontSize: 32, fontWeight: 800, marginBottom: 8 }}>SBR Academy</h1>
-          <p style={{ color: 'var(--text-dim)' }}>{isLogin ? 'Login to your student account' : 'Register for the final exam'}</p>
+          <h1 style={{ fontSize: 32, fontWeight: 800, marginBottom: 8, letterSpacing: -0.5 }}>SBR Academy</h1>
+          <p style={{ color: 'var(--text-dim)', fontSize: 15 }}>{isLogin ? 'Login to your student account' : 'Register for the final exam'}</p>
         </div>
 
         <div className="glass-panel" style={{ padding: '32px' }}>
-          <form onSubmit={handleAuth} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-            <div>
-              <label style={{ fontSize: 11, fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', display: 'block', marginBottom: 8, letterSpacing: 1 }}>
+          <form onSubmit={handleAuth} style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <label style={{ fontSize: 11, fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>
                 Email Address
               </label>
               <input 
                 type="email" 
                 className="premium-input" 
-                style={{ width: '100%' }} 
                 placeholder="student@example.com" 
                 value={email} 
                 onChange={(e) => setEmail(e.target.value)} 
@@ -80,14 +79,13 @@ export default function AuthPage() {
             </div>
 
             {!isLogin && (
-              <div className="animate-fade-in">
-                <label style={{ fontSize: 11, fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', display: 'block', marginBottom: 8, letterSpacing: 1 }}>
+              <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <label style={{ fontSize: 11, fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>
                   Full Name
                 </label>
                 <input 
                   type="text" 
                   className="premium-input" 
-                  style={{ width: '100%' }} 
                   placeholder="Your display name" 
                   value={name} 
                   onChange={(e) => setName(e.target.value)} 
@@ -96,12 +94,11 @@ export default function AuthPage() {
               </div>
             )}
             
-            <div>
-              <label style={{ fontSize: 11, fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', display: 'block', marginBottom: 8, letterSpacing: 1 }}>Password</label>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              <label style={{ fontSize: 11, fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>Password</label>
               <input 
                 type="password" 
                 className="premium-input" 
-                style={{ width: '100%' }} 
                 placeholder="••••••••" 
                 value={password} 
                 onChange={(e) => setPassword(e.target.value)} 
@@ -110,17 +107,17 @@ export default function AuthPage() {
             </div>
 
             {error && (
-              <div style={{ padding: '12px', background: 'rgba(255, 82, 82, 0.1)', border: '1px solid var(--error)', borderRadius: 12, color: 'var(--error)', fontSize: 13, textAlign: 'center' }}>
+              <div style={{ padding: '12px', background: 'rgba(255, 82, 82, 0.08)', border: '1px solid var(--error)', borderRadius: 12, color: 'var(--error)', fontSize: 13, textAlign: 'center' }}>
                 {error}
               </div>
             )}
 
-            <button type="submit" disabled={loading} className="premium-btn" style={{ width: '100%', padding: 18, marginTop: 8 }}>
+            <button type="submit" disabled={loading} className="premium-btn" style={{ padding: 18, marginTop: 8 }}>
               {loading ? 'Processing...' : (isLogin ? 'Sign In' : 'Create Account')}
             </button>
           </form>
 
-          <div style={{ marginTop: 24, textAlign: 'center' }}>
+          <div style={{ marginTop: 32, textAlign: 'center' }}>
             <span style={{ color: 'var(--text-dim)', fontSize: 14 }}>
               {isLogin ? "New student?" : "Already registered?"}
             </span>

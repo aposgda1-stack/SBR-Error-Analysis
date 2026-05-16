@@ -73,7 +73,7 @@ export default function GrammarArena() {
         <div className="glass-panel" style={{ padding: '40px 24px', textAlign: 'center', position: 'relative', overflow: 'hidden', minHeight: 320, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
           {feedback && (
             <div style={{ position: 'absolute', inset: 0, zIndex: 10, background: feedback === 'correct' ? 'rgba(0, 230, 118, 0.9)' : 'rgba(255, 82, 82, 0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'fadeIn 0.2s ease' }}>
-              <span className="material-symbols-rounded" style={{ fontSize: 80, color: 'white' }}>{feedback === 'correct' ? 'check_circle' : 'cancel'}</span>
+              <span className="mi" style={{ fontSize: 80, color: 'white' }}>{feedback === 'correct' ? 'check_circle' : 'cancel'}</span>
             </div>
           )}
 
@@ -89,7 +89,7 @@ export default function GrammarArena() {
           ) : (
             <div className="animate-slide-up">
               <div style={{ width: 80, height: 80, borderRadius: '50%', background: 'var(--grad-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px', boxShadow: '0 0 30px var(--primary-glow)' }}>
-                <span className="material-symbols-rounded" style={{ fontSize: 40, color: 'white' }}>military_tech</span>
+                <span className="mi" style={{ fontSize: 40, color: 'white' }}>military_tech</span>
               </div>
               <h3 style={{ fontSize: 24, fontWeight: 800, marginBottom: 8 }}>Drill Complete!</h3>
               <div style={{ fontSize: 48, fontWeight: 800, color: 'var(--secondary)', marginBottom: 32, fontFamily: 'JetBrains Mono' }}>{score} / {drills.length}</div>

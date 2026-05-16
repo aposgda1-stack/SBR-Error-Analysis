@@ -138,7 +138,7 @@ export default function Q2PhrasalVerbs({ onScore }) {
 
       {!submitted && (
         <button className="premium-btn" style={{ width: '100%', marginTop: 40, padding: 20 }} onClick={handleSubmit}>
-          Validate Section 2 <span className="material-symbols-rounded">check_circle</span>
+          Validate Section 2 <span className="mi">check_circle</span>
         </button>
       )}
     </div>

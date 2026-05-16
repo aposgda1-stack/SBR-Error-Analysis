@@ -83,7 +83,7 @@ export default function Q1ErrorHunter({ onScore }) {
 
       {!submitted && (
         <button className="premium-btn" style={{ width: '100%', marginTop: 40, padding: 20 }} onClick={handleSubmit}>
-          Save & Next Section <span className="material-symbols-rounded">arrow_forward</span>
+          Save & Next Section <span className="mi">arrow_forward</span>
         </button>
       )}
     </div>
