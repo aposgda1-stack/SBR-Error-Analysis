@@ -5,7 +5,7 @@ import TopBar from '../../../components/TopBar';
 import BottomNav from '../../../components/BottomNav';
 import sectionsData from '../../../../data/sections.json';
 import MistakesExercise from '../../../components/MistakesExercise';
-import SentenceGrid from '../../../components/SentenceGrid';
+
 
 function ErrorsContent() {
   const searchParams = useSearchParams();
@@ -13,52 +13,59 @@ function ErrorsContent() {
   
   const data = sectionsData.identify_error_data;
   const mistakes = data.the_130_mistakes;
-  const [view, setView] = useState(initialMode); // 'card' or 'grid'
-  const [selectedIndex, setSelectedIndex] = useState(0);
-
-  const handleSelect = (index) => {
-    setSelectedIndex(index);
-    setView('card');
-  };
+  const MODULE_SIZE = 10;
+  const totalModules = Math.ceil(mistakes.length / MODULE_SIZE);
+  
+  const [activeModuleIndex, setActiveModuleIndex] = useState(null);
 
   return (
     <>
       <div style={{ padding: '24px 20px', maxWidth: 600, margin: '0 auto' }}>
-        <div className="animate-slide-up" style={{ marginBottom: 32 }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-            <div style={{ padding: '8px 12px', background: 'rgba(124, 77, 255, 0.1)', border: '1px solid var(--primary)', borderRadius: 12, color: 'var(--primary)', fontSize: 10, fontWeight: 800, letterSpacing: 1, textTransform: 'uppercase' }}>
-              Module 01
+        {activeModuleIndex === null ? (
+          <div className="animate-fade-in">
+            <div style={{ marginBottom: 32 }}>
+              <h2 style={{ fontSize: 32, fontWeight: 800, color: 'white' }}>Error Hunter</h2>
+              <p style={{ color: 'var(--text-dim)', fontSize: 15 }}>Master the 130 most common mistakes gradually.</p>
             </div>
             
-            {/* View Switcher */}
-            <div style={{ display: 'flex', background: 'var(--bg-glass)', borderRadius: 10, padding: 4 }}>
-              <button 
-                onClick={() => setView('card')}
-                style={{ padding: '6px 12px', border: 'none', borderRadius: 8, background: view === 'card' ? 'var(--primary)' : 'transparent', color: 'white', cursor: 'pointer', transition: '0.3s' }}
-              >
-                <span className="mi" style={{ fontSize: 18 }}>view_carousel</span>
-              </button>
-              <button 
-                onClick={() => setView('grid')}
-                style={{ padding: '6px 12px', border: 'none', borderRadius: 8, background: view === 'grid' ? 'var(--primary)' : 'transparent', color: 'white', cursor: 'pointer', transition: '0.3s' }}
-              >
-                <span className="mi" style={{ fontSize: 18 }}>grid_view</span>
-              </button>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {Array.from({ length: totalModules }).map((_, i) => {
+                const start = i * MODULE_SIZE + 1;
+                const end = Math.min((i + 1) * MODULE_SIZE, mistakes.length);
+                return (
+                  <button
+                    key={i}
+                    onClick={() => setActiveModuleIndex(i)}
+                    className="glass-card"
+                    style={{
+                      width: '100%', padding: '20px', textAlign: 'left', display: 'flex', justifyContent: 'space-between',
+                      alignItems: 'center', cursor: 'pointer', transition: '0.2s', border: '1px solid var(--border-glass)'
+                    }}
+                  >
+                    <div>
+                      <div style={{ fontSize: 13, color: 'var(--primary)', fontWeight: 800, letterSpacing: 1, textTransform: 'uppercase', marginBottom: 4 }}>Module {i + 1}</div>
+                      <div style={{ fontSize: 16, fontWeight: 600, color: 'white' }}>Sentences {start} - {end}</div>
+                    </div>
+                    <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(124, 77, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)' }}>
+                      <span className="mi">play_arrow</span>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
-          <h2 style={{ fontSize: 32, fontWeight: 800, color: 'white' }}>Error Hunter</h2>
-          <p style={{ color: 'var(--text-dim)', fontSize: 15 }}>Master the 130 most common mistakes.</p>
-        </div>
-
-        {view === 'card' ? (
-          <div className="animate-fade-in">
-            <MistakesExercise data={data} startIndex={selectedIndex} />
-          </div>
         ) : (
-          <div className="animate-slide-up glass-panel" style={{ padding: '24px' }}>
-            <h4 style={{ fontSize: 14, fontWeight: 700, marginBottom: 8 }}>Select a Sentence</h4>
-            <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 20 }}>Jump directly to any specific case.</p>
-            <SentenceGrid sentences={mistakes} onSelect={handleSelect} activeIndex={selectedIndex} />
+          <div className="animate-slide-up">
+            <button 
+              onClick={() => setActiveModuleIndex(null)}
+              style={{ background: 'none', border: 'none', color: 'var(--text-dim)', fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4, cursor: 'pointer', marginBottom: 24 }}
+            >
+              <span className="mi" style={{ fontSize: 18 }}>arrow_back</span> Back to Modules
+            </button>
+            <MistakesExercise 
+              data={mistakes.slice(activeModuleIndex * MODULE_SIZE, (activeModuleIndex + 1) * MODULE_SIZE)} 
+              onComplete={() => setActiveModuleIndex(null)} 
+            />
           </div>
         )}
       </div>
