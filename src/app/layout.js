@@ -1,8 +1,8 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'SBR Academy: Error Analysis Rescue',
-  description: 'كبسولة ليلة الامتحان - منصة تفاعلية لمادة Error Analysis',
+  title: 'SBR - Error Analysis',
+  description: 'Interactive Error Analysis preparation platform for the final exam.',
 };
 
 export default function RootLayout({ children }) {

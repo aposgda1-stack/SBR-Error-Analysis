@@ -56,10 +56,19 @@ export default function AuthPage() {
             display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px',
             boxShadow: '0 8px 30px var(--primary-glow)'
           }}>
-            <span className="mi" style={{ fontSize: 36, color: 'white' }}>auto_awesome</span>
+            <span className="mi" style={{ fontSize: 36, color: 'white' }}>fact_check</span>
           </div>
-          <h1 style={{ fontSize: 32, fontWeight: 800, marginBottom: 8, letterSpacing: -0.5 }}>SBR Academy</h1>
+          <h1 style={{ fontSize: 32, fontWeight: 800, marginBottom: 8, letterSpacing: -0.5 }}>SBR - Error Analysis</h1>
           <p style={{ color: 'var(--text-dim)', fontSize: 15 }}>{isLogin ? 'Login to your student account' : 'Register for the final exam'}</p>
+        </div>
+
+        <div style={{ 
+          background: 'rgba(255, 234, 0, 0.05)', border: '1px solid rgba(255, 234, 0, 0.2)', 
+          borderRadius: 16, padding: '16px', marginBottom: 32, textAlign: 'center' 
+        }}>
+          <p style={{ color: 'rgba(255, 255, 255, 0.8)', fontSize: 12, lineHeight: 1.6 }}>
+            <span style={{ color: '#ffea00', fontWeight: 800 }}>⚠️ DISCLAIMER:</span> This platform is a non-profit educational initiative developed by student <strong>Abdelrahman</strong> to help peers prepare for the May 19th exam. It is not affiliated with the official university administration.
+          </p>
         </div>
 
         <div className="glass-panel" style={{ padding: '32px' }}>

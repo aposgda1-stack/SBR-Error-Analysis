@@ -29,8 +29,8 @@ export default function TopBar() {
           <span className="mi" style={{ color: 'white', fontSize: 22 }}>auto_awesome</span>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <h1 style={{ fontSize: 16, fontWeight: 800, color: 'white', lineHeight: 1.1, letterSpacing: 0.5 }}>SBR ACADEMY</h1>
-          <span style={{ fontSize: 10, color: 'var(--text-dim)', letterSpacing: 1.2, fontWeight: 600, textTransform: 'uppercase' }}>Error Analysis</span>
+          <h1 style={{ fontSize: 16, fontWeight: 800, color: 'white', lineHeight: 1.1, letterSpacing: 0.5 }}>SBR - ERROR ANALYSIS</h1>
+          <span style={{ fontSize: 10, color: 'var(--text-dim)', letterSpacing: 1.2, fontWeight: 600, textTransform: 'uppercase' }}>Interactive Preparation</span>
         </div>
       </Link>
 
