@@ -29,17 +29,27 @@ const RAW_SENTENCES = [
   { base: 'make', sentence: 'She made ___ the property to her son.', answer: 'over' },
 ];
 
+const shuffleArray = (array) => {
+  const newArr = [...array];
+  for (let i = newArr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+  }
+  return newArr;
+};
+
 function buildWordBox(questions) {
   const counts = {};
   questions.forEach(q => { counts[q.answer] = (counts[q.answer] || 0) + 1; });
-  return Object.entries(counts).flatMap(([word, count]) =>
+  const items = Object.entries(counts).flatMap(([word, count]) =>
     Array.from({ length: count }, (_, i) => ({ word, key: word + '_' + i }))
-  ).sort(() => Math.random() - 0.5);
+  );
+  return shuffleArray(items);
 }
 
 export default function Q2PhrasalVerbs({ onScore }) {
   const questions = useMemo(() => {
-    return RAW_SENTENCES.sort(() => Math.random() - 0.5).slice(0, 10).map((q, i) => ({ ...q, id: `pv_${i}` }));
+    return shuffleArray(RAW_SENTENCES).slice(0, 10).map((q, i) => ({ ...q, id: `pv_${i}` }));
   }, []);
 
   const wordBox = useMemo(() => buildWordBox(questions), [questions]);

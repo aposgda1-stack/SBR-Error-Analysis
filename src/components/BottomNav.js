@@ -3,7 +3,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
 const NAV_ITEMS = [
-  { id: 'home', label: 'Home', icon: 'home', href: '/' },
+  { id: 'home', label: 'Home', icon: 'grid_view', href: '/' },
+  { id: 'training', label: 'Practice', icon: 'auto_stories', href: '/training' },
   { id: 'exam', label: 'Exam', icon: 'timer', href: '/exam' },
   { id: 'leaderboard', label: 'Leaders', icon: 'emoji_events', href: '/leaderboard' },
   { id: 'stats', label: 'Profile', icon: 'person', href: '/stats' },

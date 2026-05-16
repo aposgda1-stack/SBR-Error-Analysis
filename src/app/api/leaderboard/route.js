@@ -30,7 +30,7 @@ export async function GET() {
       }
     ]).toArray();
 
-    return NextResponse.json({ leaderboard: topUsers });
+    return NextResponse.json({ leaders: topUsers });
   } catch (err) {
     console.error("Leaderboard API Error:", err);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });

@@ -60,11 +60,11 @@ export default function LeaderboardPage() {
                   <img src={u.image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${u.name}`} style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--bg-glass)' }} />
                   <div>
                     <div style={{ fontSize: 15, fontWeight: 700 }}>{u.name}</div>
-                    <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Level {Math.floor(u.score / 100) + 1}</div>
+                    <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Level {Math.floor(u.xp / 100) + 1}</div>
                   </div>
                 </div>
                 <div style={{ textAlign: 'right' }}>
-                  <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--primary)', fontFamily: 'JetBrains Mono' }}>{u.score}</div>
+                  <div style={{ fontSize: 16, fontWeight: 800, color: 'var(--primary)', fontFamily: 'JetBrains Mono' }}>{u.xp}</div>
                   <div style={{ fontSize: 9, color: 'var(--text-muted)', textTransform: 'uppercase' }}>XP Points</div>
                 </div>
               </div>
@@ -101,7 +101,7 @@ function PodiumUser({ user, rank, height, color, isFirst }) {
         display: 'flex', flexDirection: 'column', alignItems: 'center', paddingTop: 12
       }}>
         <div style={{ fontSize: 12, fontWeight: 800, color: 'white', maxWidth: 80, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user?.name || '---'}</div>
-        <div style={{ fontSize: 14, fontWeight: 900, color, fontFamily: 'JetBrains Mono' }}>{user?.score || 0}</div>
+        <div style={{ fontSize: 14, fontWeight: 900, color, fontFamily: 'JetBrains Mono' }}>{user?.xp || 0}</div>
       </div>
     </div>
   );

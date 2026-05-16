@@ -1,11 +1,17 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-export default function MistakesExercise({ data }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+export default function MistakesExercise({ data, startIndex = 0 }) {
+  const [currentIndex, setCurrentIndex] = useState(startIndex);
   const [showAnswer, setShowAnswer] = useState(false);
   const [score, setScore] = useState(0);
   const [completed, setCompleted] = useState(false);
+
+  useEffect(() => {
+    setCurrentIndex(startIndex);
+    setShowAnswer(false);
+    setCompleted(false);
+  }, [startIndex]);
 
   const mistakes = data.the_130_mistakes;
   const currentItem = mistakes[currentIndex];

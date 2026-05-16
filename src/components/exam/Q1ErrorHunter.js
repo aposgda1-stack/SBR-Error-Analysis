@@ -2,15 +2,27 @@
 import { useState, useMemo } from 'react';
 import sectionsData from '../../../data/sections.json';
 
+const shuffleArray = (array) => {
+  const newArr = [...array];
+  for (let i = newArr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+  }
+  return newArr;
+};
+
 export default function Q1ErrorHunter({ onScore }) {
   const mistakes = sectionsData.identify_error_data.the_130_mistakes;
   
   const questions = useMemo(() => {
-    return [...mistakes].sort(() => Math.random() - 0.5).slice(0, 10).map((m, i) => ({
-      ...m,
-      id: `q1_${i}`,
-      options: [m.correct, ...mistakes.filter(x => x.id !== m.id).sort(() => Math.random() - 0.5).slice(0, 2).map(x => x.correct)].sort(() => Math.random() - 0.5)
-    }));
+    return shuffleArray(mistakes).slice(0, 10).map((m, i) => {
+      const wrongOptions = shuffleArray(mistakes.filter(x => x.id !== m.id)).slice(0, 2).map(x => x.correct);
+      return {
+        ...m,
+        id: `q1_${i}`,
+        options: shuffleArray([m.correct, ...wrongOptions])
+      };
+    });
   }, []);
 
   const [answers, setAnswers] = useState({});

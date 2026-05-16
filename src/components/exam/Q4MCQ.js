@@ -2,6 +2,15 @@
 import { useState, useMemo } from 'react';
 import sectionsData from '../../../data/sections.json';
 
+const shuffleArray = (array) => {
+  const newArr = [...array];
+  for (let i = newArr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArr[i], newArr[j]] = [newArr[j], newArr[i]];
+  }
+  return newArr;
+};
+
 export default function Q4MCQ({ onScore }) {
   const grammar = sectionsData.grammar_guide;
   
@@ -11,16 +20,24 @@ export default function Q4MCQ({ onScore }) {
       if (!data.practice) return;
       data.practice.forEach((item, i) => {
         if (item.sentence && item.answer) {
+          const allOtherAnswers = [...new Set(
+            Object.values(grammar)
+              .flatMap(g => g.practice || [])
+              .map(x => x.answer)
+              .filter(ans => ans && ans !== item.answer)
+          )];
+          const wrongOptions = shuffleArray(allOtherAnswers).slice(0, 3);
+          
           pool.push({
             id: `q4_${topic}_${i}`,
             sentence: item.sentence,
             correct: item.answer,
-            options: [item.answer, ...Object.values(grammar).flatMap(g => g.practice || []).filter(x => x.answer && x.answer !== item.answer).sort(() => Math.random() - 0.5).slice(0, 3).map(x => x.answer)].sort(() => Math.random() - 0.5)
+            options: shuffleArray([item.answer, ...wrongOptions])
           });
         }
       });
     });
-    return pool.sort(() => Math.random() - 0.5).slice(0, 20);
+    return shuffleArray(pool).slice(0, 20);
   }, []);
 
   const [answers, setAnswers] = useState({});
