@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+// Final Deployment Trigger - Production Ready
 import { useRouter } from 'next/navigation';
 import TopBar from '../components/TopBar';
 import BottomNav from '../components/BottomNav';
