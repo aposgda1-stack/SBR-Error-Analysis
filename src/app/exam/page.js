@@ -7,6 +7,7 @@ import Q1ErrorHunter from '../../components/exam/Q1ErrorHunter';
 import Q2PhrasalVerbs from '../../components/exam/Q2PhrasalVerbs';
 import Q3WorkSheet from '../../components/exam/Q3WorkSheet';
 import Q4MCQ from '../../components/exam/Q4MCQ';
+import audioManager from '../../utils/audio.js';
 
 const QUESTIONS = ['Q1', 'Q2', 'Q3', 'Q4'];
 const LABELS = {
@@ -26,7 +27,10 @@ export default function ExamPage() {
   useEffect(() => {
     if (mode !== 'exam') return;
     if (timeLeft <= 0) { handleFinish(); return; }
-    const iv = setInterval(() => setTimeLeft(t => t - 1), 1000);
+    const iv = setInterval(() => {
+        if (timeLeft <= 300 && timeLeft % 60 === 0) audioManager.play('TICK');
+        setTimeLeft(t => t - 1);
+    }, 1000);
     
     const handleBeforeUnload = (e) => { e.preventDefault(); e.returnValue = ''; };
     window.addEventListener('beforeunload', handleBeforeUnload);
@@ -37,11 +41,15 @@ export default function ExamPage() {
     };
   }, [mode, timeLeft]);
 
-  const handleScore = (q, score) => setScores(s => ({ ...s, [q]: score }));
+  const handleScore = (q, score) => {
+    if (scores[q] === null) audioManager.play('SUCCESS');
+    setScores(s => ({ ...s, [q]: score }));
+  };
 
   const totalScore = Object.values(scores).reduce((a, b) => a + (b || 0), 0);
 
   const handleFinish = async () => {
+    audioManager.play('VICTORY');
     setMode('result');
     const roundedScore = Math.round(totalScore);
     const uId = JSON.parse(localStorage.getItem('sbr_user') || '{}').userId;
@@ -60,6 +68,7 @@ export default function ExamPage() {
   const ss = String(timeLeft % 60).padStart(2, '0');
 
   const reviewExam = () => {
+    audioManager.play('CLICK');
     setMode('review');
   };
 

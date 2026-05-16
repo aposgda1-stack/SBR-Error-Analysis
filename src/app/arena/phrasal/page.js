@@ -3,6 +3,7 @@ import { useState, useMemo } from 'react';
 import TopBar from '../../../components/TopBar';
 import BottomNav from '../../../components/BottomNav';
 import sectionsData from '../../../../data/sections.json';
+import audioManager from '../../../utils/audio.js';
 
 const PHRASAL_DATA = sectionsData.phrasal_verbs || {};
 
@@ -59,6 +60,7 @@ export default function PhrasalArena() {
   const [completed, setCompleted] = useState(false);
 
   const startModule = (root) => {
+    audioManager.play('CLICK');
     const qs = buildQuestions(root);
     setQuestions(qs);
     setActiveRoot(root);
@@ -74,15 +76,20 @@ export default function PhrasalArena() {
     if (selectedOpt) return;
     setSelectedOpt(opt);
     if (opt === current.correctParticle) {
+      audioManager.play('SUCCESS');
       setScore(s => s + 1);
+    } else {
+      audioManager.play('ERROR');
     }
   };
 
   const handleNext = () => {
+    audioManager.play('CLICK');
     if (currentIndex < questions.length - 1) {
       setCurrentIndex(i => i + 1);
       setSelectedOpt(null);
     } else {
+      audioManager.play('VICTORY');
       setCompleted(true);
       const uId = JSON.parse(localStorage.getItem('sbr_user') || '{}').userId;
       if (uId) {

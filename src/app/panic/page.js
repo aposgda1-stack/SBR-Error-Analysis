@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import TopBar from '../../components/TopBar';
 import BottomNav from '../../components/BottomNav';
 import sectionsData from '../../../data/sections.json';
+import audioManager from '../../utils/audio.js';
 
 export default function PanicMode() {
   const router = useRouter();
@@ -43,12 +44,20 @@ export default function PanicMode() {
 
   useEffect(() => {
     if (gameState !== 'playing') return;
-    if (timeLeft <= 0) { setGameState('result'); return; }
-    const iv = setInterval(() => setTimeLeft(t => t - 1), 1000);
+    if (timeLeft <= 0) { 
+      audioManager.play('VICTORY');
+      setGameState('result'); 
+      return; 
+    }
+    const iv = setInterval(() => {
+      if (timeLeft <= 10) audioManager.play('TICK');
+      setTimeLeft(t => t - 1);
+    }, 1000);
     return () => clearInterval(iv);
   }, [gameState, timeLeft]);
 
   const startPanic = () => {
+    audioManager.play('CLICK');
     setScore(0);
     setTimeLeft(60);
     setGameState('playing');
@@ -57,7 +66,10 @@ export default function PanicMode() {
 
   const handleAnswer = (opt) => {
     if (opt.toLowerCase() === currentQuestion.correctWord.toLowerCase()) {
+      audioManager.play('SUCCESS');
       setScore(s => s + 1);
+    } else {
+      audioManager.play('ERROR');
     }
     generateQuestion();
   };

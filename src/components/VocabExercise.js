@@ -1,5 +1,6 @@
 'use client';
 import { useState, useMemo } from 'react';
+import audioManager from '../utils/audio.js';
 
 export default function VocabExercise({ task, onFinish }) {
   const [answers, setAnswers] = useState({});
@@ -20,6 +21,7 @@ export default function VocabExercise({ task, onFinish }) {
 
   const handleWordSelect = (wordObj) => {
     if (submitted || !activeGap) return;
+    audioManager.play('CLICK');
     setAnswers(prev => ({ ...prev, [activeGap]: wordObj }));
     // Move to next gap automatically if available
     const nextGap = gaps[gaps.indexOf(activeGap) + 1];
@@ -35,6 +37,10 @@ export default function VocabExercise({ task, onFinish }) {
     });
     setScore(currentScore);
     setSubmitted(true);
+
+    if (currentScore === gaps.length) audioManager.play('VICTORY');
+    else if (currentScore > 0) audioManager.play('SUCCESS');
+    else audioManager.play('ERROR');
 
     const uId = localStorage.getItem('sbr_user_id') || JSON.parse(localStorage.getItem('sbr_user') || '{}').userId;
     if (uId && currentScore > 0) {

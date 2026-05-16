@@ -3,6 +3,7 @@ import { useState, useMemo } from 'react';
 import TopBar from '../../../components/TopBar';
 import BottomNav from '../../../components/BottomNav';
 import sectionsData from '../../../../data/sections.json';
+import audioManager from '../../../utils/audio.js';
 
 const GRAMMAR = sectionsData.grammar_guide;
 
@@ -117,6 +118,7 @@ export default function GrammarArena() {
   const [completed, setCompleted] = useState(false);
 
   const startModule = (topicKey) => {
+    audioManager.play('CLICK');
     const qs = buildMCQ(topicKey);
     setQuestions(qs);
     setActiveModule(topicKey);
@@ -132,15 +134,20 @@ export default function GrammarArena() {
     if (selectedOpt) return;
     setSelectedOpt(opt);
     if (opt.toLowerCase() === current.answer.toLowerCase()) {
+      audioManager.play('SUCCESS');
       setScore(s => s + 1);
+    } else {
+      audioManager.play('ERROR');
     }
   };
 
   const handleNext = () => {
+    audioManager.play('CLICK');
     if (currentIndex < questions.length - 1) {
       setCurrentIndex(i => i + 1);
       setSelectedOpt(null);
     } else {
+      audioManager.play('VICTORY');
       setCompleted(true);
       const uId = JSON.parse(localStorage.getItem('sbr_user') || '{}').userId;
       if (uId && score > 0) {
