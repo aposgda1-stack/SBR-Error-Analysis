@@ -13,6 +13,13 @@ const buildDrills = (topicKey) => {
   if (!data || !data.practice) return [];
 
   const topicLabel = topicKey.replace(/_/g, ' ');
+  
+  // Collect all possible answers for THIS topic to use as distractors
+  const topicAnswers = data.practice
+    .map(item => item.answer)
+    .filter(Boolean)
+    .flatMap(a => a.split(' / '));
+
   data.practice.forEach((item, i) => {
     if (item.sentence && item.answer) {
       pool.push({ id: `g_${topicKey}_${i}`, topic: topicLabel, sentence: item.sentence, answer: item.answer, isBool: false });
@@ -24,14 +31,27 @@ const buildDrills = (topicKey) => {
 
   return [...pool].map(item => {
     if (item.isBool) return item;
+    
     const makeTrue = Math.random() > 0.5;
-    if (makeTrue) return { ...item, sentence: (item.sentence || '').replace('___', item.answer), correctAnswer: true };
+    if (makeTrue) {
+      return { 
+        ...item, 
+        sentence: (item.sentence || '').replace('___', item.answer), 
+        correctAnswer: true 
+      };
+    }
 
-    // Attempt semantic distractors or use another answer from the same topic
-    const otherAnswers = pool.filter(x => x.answer && x.answer !== item.answer).map(x => x.answer);
-    let distractor = otherAnswers.length ? otherAnswers[Math.floor(Math.random() * otherAnswers.length)] : 'incorrectly';
+    // Pick a logical distractor from the same topic
+    const distractors = topicAnswers.filter(a => a !== item.answer);
+    const distractor = distractors.length > 0 
+      ? distractors[Math.floor(Math.random() * distractors.length)]
+      : (item.answer.includes('ing') ? 'doing' : 'make'); // Fallback
 
-    return { ...item, sentence: (item.sentence || '').replace('___', distractor), correctAnswer: false };
+    return { 
+      ...item, 
+      sentence: (item.sentence || '').replace('___', distractor), 
+      correctAnswer: false 
+    };
   }).sort(() => Math.random() - 0.5);
 };
 

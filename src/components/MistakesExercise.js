@@ -11,27 +11,33 @@ const shuffleArray = (array) => {
 };
 
 const getErrorSpan = (wrong, correct) => {
-  const w = wrong.split(' ');
-  const c = correct.split(' ');
+  const normalize = (s) => s.replace(/[.,!?]$/, '').trim().split(/\s+/);
+  const w = normalize(wrong);
+  const c = normalize(correct);
   let start = 0;
   while (start < w.length && start < c.length && w[start] === c[start]) start++;
   let endW = w.length - 1;
   let endC = c.length - 1;
   while (endW >= start && endC >= start && w[endW] === c[endC]) { endW--; endC--; }
-  if (endW < start) endW = start; // Handle missing words by pointing to the word before it or the end
+  if (endW < start) endW = start; 
   return { start, endW };
 };
 
 const getDiffWord = (wrong, correct) => {
-  const w = wrong.split(' ');
-  const c = correct.split(' ');
+  const normalize = (s) => s.replace(/[.,!?]$/, '').trim().split(/\s+/);
+  const w = normalize(wrong);
+  const c = normalize(correct);
   let start = 0;
   while (start < w.length && start < c.length && w[start] === c[start]) start++;
   let endW = w.length - 1;
   let endC = c.length - 1;
   while (endW >= start && endC >= start && w[endW] === c[endC]) { endW--; endC--; }
   if (endC < start) endC = start;
-  return c.slice(start, endC + 1).join(' ').replace(/[.,!?]$/, '');
+  return {
+    word: c.slice(start, endC + 1).join(' '),
+    start,
+    endW
+  };
 };
 
 const generateDistractors = (correctWord, wrongWord) => {

@@ -12,15 +12,23 @@ const shuffleArray = (array) => {
 };
 
 const getDiffWord = (wrong, correct) => {
-  const w = wrong.split(' ');
-  const c = correct.split(' ');
+  // Normalize by removing trailing punctuation and extra spaces
+  const normalize = (s) => s.replace(/[.,!?]$/, '').trim().split(/\s+/);
+  const w = normalize(wrong);
+  const c = normalize(correct);
+  
   let start = 0;
   while (start < w.length && start < c.length && w[start] === c[start]) start++;
+  
   let endW = w.length - 1;
   let endC = c.length - 1;
-  while (endW >= start && endC >= start && w[endW] === c[endC]) { endW--; endC--; }
+  while (endW >= start && endC >= start && w[endW] === c[endC]) {
+    endW--;
+    endC--;
+  }
+  
   if (endC < start) endC = start;
-  return c.slice(start, endC + 1).join(' ').replace(/[.,!?]$/, '');
+  return c.slice(start, endC + 1).join(' ');
 };
 
 const generateDistractors = (correctWord, wrongWord) => {
