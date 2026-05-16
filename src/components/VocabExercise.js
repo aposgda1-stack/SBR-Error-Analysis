@@ -1,12 +1,11 @@
 'use client';
 import { useState } from 'react';
 
-export default function VocabExercise({ data }) {
+export default function VocabExercise({ task, onFinish }) {
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [score, setScore] = useState(0);
 
-  const task = data.task_2_nouns || Object.values(data)[0]; 
   const correctAnswers = task.answers || {};
 
   const handleChange = (id, val) => {
@@ -100,7 +99,7 @@ export default function VocabExercise({ data }) {
           <br />
           <button
             style={{ marginTop: 24, background: 'transparent', border: 'none', color: 'var(--text-dim)', fontWeight: 600, cursor: 'pointer' }}
-            onClick={() => window.location.reload()}
+            onClick={() => onFinish ? onFinish() : window.location.reload()}
           >
             Try another session
           </button>
