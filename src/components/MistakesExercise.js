@@ -139,6 +139,16 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
     if (opt === correctOption) {
       audioManager.play('SUCCESS');
       setScore(s => s + 1);
+      
+      // Real-time XP sync
+      const uId = localStorage.getItem('sbr_user_id') || JSON.parse(localStorage.getItem('sbr_user') || '{}').userId;
+      if (uId) {
+        fetch('/api/user', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'sync', userId: uId, incXp: 2 })
+        }).catch(console.error);
+      }
     } else {
       audioManager.play('ERROR');
       // Record failed question

@@ -17,275 +17,262 @@ export default function StatsPage() {
     fetch(`/api/user?userId=${local.userId}`)
       .then(res => res.json())
       .then(data => {
-        setUser({ ...data.user, userId: local.userId });
+        if (data.user) setUser({ ...data.user, userId: local.userId });
         setLoading(false);
-      });
-  }, []);
+      })
+      .catch(() => setLoading(false));
+  }, [router]);
 
   const handleLogout = () => {
     localStorage.clear();
     router.push('/auth');
   };
 
-  if (loading) return null;
+  if (loading) return (
+    <div style={{ minHeight: '100vh', background: 'var(--bg-main)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 20 }}>
+      <div className="animate-pulse" style={{ width: 80, height: 80, borderRadius: '50%', background: 'rgba(167, 139, 250, 0.1)', border: '2px solid rgba(167,139,250,0.3)' }} />
+      <div className="animate-pulse" style={{ width: 140, height: 10, background: 'rgba(255,255,255,0.05)', borderRadius: 10 }} />
+    </div>
+  );
+
+  if (!user) return null;
+
+  const level = Math.floor((user.xp || 0) / 100) + 1;
+  const currentXp = (user.xp || 0) % 100;
+
+  const badges = [
+    { label: 'Pioneer', icon: 'rocket_launch', unlocked: (user.done || 0) >= 1, desc: 'Complete your first module' },
+    { label: 'Scholar', icon: 'school', unlocked: (user.done || 0) >= 10, desc: '10 modules complete' },
+    { label: 'Elite', icon: 'diamond', unlocked: (user.xp || 0) >= 1000, desc: 'Reach 1000 XP' },
+    { label: 'Curator', icon: 'auto_stories', unlocked: (user.vault || []).length > 0, desc: 'Save to Review Vault' },
+  ];
 
   return (
-    <main style={{ minHeight: '100vh', paddingBottom: 100 }}>
+    <main style={{ minHeight: '100vh', paddingBottom: 110, background: 'var(--bg-main)', position: 'relative' }}>
       <TopBar />
 
-      <div style={{ padding: '40px 20px', maxWidth: 600, margin: '0 auto' }}>
-        {/* Profile Header */}
-        <div style={{ textAlign: 'center', marginBottom: 40 }}>
-          <div style={{ position: 'relative', display: 'inline-block', marginBottom: 20 }}>
-            <div style={{
-              position: 'absolute', inset: -4, borderRadius: '50%',
-              background: 'var(--grad-primary)', filter: 'blur(15px)', opacity: 0.5
-            }} />
-            {user.image ? (
-              <img
-                src={user.image}
-                style={{ width: 100, height: 100, borderRadius: '50%', border: '4px solid var(--bg-main)', position: 'relative', objectFit: 'cover' }}
-              />
-            ) : (
-              <div style={{
-                width: 100, height: 100, borderRadius: '50%', border: '4px solid var(--bg-main)', position: 'relative',
-                background: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 40, fontWeight: 800, color: 'white'
-              }}>
-                {user.name.charAt(0).toUpperCase()}
+      {/* Ambient orbs */}
+      <div style={{ position: 'fixed', top: '-10%', right: '-10%', width: '60vw', height: '60vw', background: 'radial-gradient(circle, rgba(167,139,250,0.07) 0%, transparent 70%)', filter: 'blur(80px)', pointerEvents: 'none', zIndex: 0 }} />
+      <div style={{ position: 'fixed', bottom: '-15%', left: '-10%', width: '50vw', height: '50vw', background: 'radial-gradient(circle, rgba(34,211,238,0.05) 0%, transparent 70%)', filter: 'blur(80px)', pointerEvents: 'none', zIndex: 0 }} />
+
+      <div style={{ padding: '32px 20px', maxWidth: 700, margin: '0 auto', position: 'relative', zIndex: 1 }}>
+
+        {/* ── PROFILE HERO ── */}
+        <div className="animate-slide-up" style={{ marginBottom: 32 }}>
+          <div style={{
+            background: 'rgba(167,139,250,0.04)',
+            border: '1px solid rgba(167,139,250,0.12)',
+            borderRadius: 28, padding: '36px 24px',
+            textAlign: 'center', position: 'relative', overflow: 'hidden'
+          }}>
+            {/* Aurora bar */}
+            <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 2, background: 'linear-gradient(90deg, var(--primary), var(--secondary), var(--accent))', opacity: 0.6 }} />
+
+            {/* Avatar */}
+            <div style={{ position: 'relative', display: 'inline-block', marginBottom: 20 }}>
+              <div style={{ position: 'absolute', inset: -3, borderRadius: '50%', background: 'var(--grad-primary)', opacity: 0.4, filter: 'blur(12px)' }} />
+              <div style={{ width: 100, height: 100, borderRadius: '50%', overflow: 'hidden', border: '3px solid var(--primary)', boxShadow: '0 0 30px var(--primary-glow)', position: 'relative' }}>
+                {user.image
+                  ? <img src={user.image} style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="avatar" />
+                  : <div style={{ width: '100%', height: '100%', background: 'var(--grad-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 40, fontWeight: 900, color: 'white' }}>{(user.name || 'S').charAt(0).toUpperCase()}</div>
+                }
               </div>
-            )}
+              {/* Level badge */}
+              <div style={{ position: 'absolute', bottom: -4, right: -4, background: 'var(--grad-primary)', color: 'white', padding: '3px 9px', borderRadius: 10, fontSize: 12, fontWeight: 900, border: '2px solid var(--bg-main)', boxShadow: '0 4px 12px var(--primary-glow)' }}>
+                LV{level}
+              </div>
+            </div>
+
+            <h2 style={{ fontSize: 26, fontWeight: 900, color: 'white', letterSpacing: -0.5, marginBottom: 4 }}>{user.name}</h2>
+            <p style={{ fontSize: 11, color: 'var(--primary)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: 2, marginBottom: 24 }}>Premium Candidate</p>
+
+            {/* Mini stats */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, background: 'rgba(255,255,255,0.02)', borderRadius: 20, padding: 16, border: '1px solid var(--border-glass)' }}>
+              {[
+                { val: user.xp || 0, label: 'XP', color: 'var(--primary)' },
+                { val: `#${user.rank || '--'}`, label: 'Rank', color: 'var(--gold)' },
+                { val: user.done || 0, label: 'Modules', color: 'var(--secondary)' }
+              ].map((s, i) => (
+                <div key={i} style={{ textAlign: 'center', borderLeft: i > 0 ? '1px solid var(--border-glass)' : 'none' }}>
+                  <div style={{ fontSize: 20, fontWeight: 900, color: s.color }}>{s.val}</div>
+                  <div style={{ fontSize: 9, color: 'var(--text-muted)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: 1 }}>{s.label}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* XP progress */}
+            <div style={{ marginTop: 20 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8, fontSize: 11, fontWeight: 700 }}>
+                <span style={{ color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>Level {level}</span>
+                <span style={{ color: 'var(--primary)' }}>{currentXp} / 100 XP</span>
+              </div>
+              <div style={{ height: 6, background: 'rgba(255,255,255,0.05)', borderRadius: 10, overflow: 'hidden' }}>
+                <div style={{ width: `${currentXp}%`, height: '100%', background: 'var(--grad-primary)', boxShadow: '0 0 10px var(--primary-glow)', transition: '1.2s cubic-bezier(0.4, 0, 0.2, 1)', borderRadius: 10 }} />
+              </div>
+            </div>
           </div>
-          <h2 style={{ fontSize: 24, fontWeight: 800 }}>{user.name}</h2>
-          <p style={{ color: 'var(--text-dim)', fontSize: 13 }}>Student ID: <span style={{ fontFamily: 'monospace' }}>#{user.userId.slice(-6)}</span></p>
         </div>
 
-        {/* Custom Tabs */}
-        <div className="glass-card" style={{ display: 'flex', padding: 6, marginBottom: 32, borderRadius: 16 }}>
-          {['overview', 'activity', 'settings'].map(tab => (
+        {/* ── TABS ── */}
+        <div style={{ display: 'flex', background: 'rgba(255,255,255,0.03)', borderRadius: 18, padding: 5, marginBottom: 28, border: '1px solid var(--border-glass)' }}>
+          {[
+            { id: 'overview', label: 'Overview', icon: 'grid_view' },
+            { id: 'history', label: 'History', icon: 'history' },
+            { id: 'settings', label: 'Settings', icon: 'settings' }
+          ].map(tab => (
             <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
+              key={tab.id}
+              onClick={() => setActiveTab(tab.id)}
               style={{
-                flex: 1, padding: '12px', border: 'none', borderRadius: 12,
-                background: activeTab === tab ? 'var(--primary)' : 'transparent',
-                color: activeTab === tab ? 'white' : 'var(--text-dim)',
-                fontSize: 12, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1,
-                cursor: 'pointer', transition: '0.3s'
+                flex: 1, padding: '12px 8px', borderRadius: 14, border: 'none',
+                background: activeTab === tab.id ? 'var(--grad-primary)' : 'transparent',
+                color: activeTab === tab.id ? 'white' : 'var(--text-dim)',
+                fontSize: 12, fontWeight: 800,
+                display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 6,
+                cursor: 'pointer', transition: 'all 0.3s ease',
+                boxShadow: activeTab === tab.id ? '0 6px 20px var(--primary-glow)' : 'none'
               }}
             >
-              {tab}
+              <span className="mi" style={{ fontSize: 16 }}>{tab.icon}</span>
+              <span className="mobile-hide">{tab.label}</span>
             </button>
           ))}
         </div>
 
-        {/* Tab Content */}
-        <div className="animate-slide-up">
+        {/* ── CONTENT ── */}
+        <div className="animate-fade-in" key={activeTab}>
           {activeTab === 'overview' && (
-            <>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, marginBottom: 32 }} className="mobile-stack">
-                <StatCard label="Global Rank" val={`#${user.rank || 'N/A'}`} icon="workspace_premium" color="var(--primary)" />
-                <StatCard label="Total XP" val={user.xp || 0} icon="bolt" color="var(--secondary)" />
-                <StatCard label="Current Level" val={Math.floor((user.xp || 0) / 100) + 1} icon="upgrade" color="var(--success)" />
-                <StatCard label="Next Level In" val={`${100 - ((user.xp || 0) % 100)} XP`} icon="trending_up" color="var(--accent)" />
-              </div>
-
-              <div className="glass-panel" style={{ padding: '24px' }}>
-                <h4 style={{ fontSize: 13, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 2, marginBottom: 20 }}>Achievements</h4>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+              {/* Badge grid */}
+              <div className="glass-panel" style={{ padding: 20 }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+                  <span style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: 2 }}>Honor Badges</span>
+                  <span className="mi" style={{ color: 'var(--gold)', fontSize: 20 }}>stars</span>
+                </div>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 12 }}>
-                  <Badge 
-                    unlocked={(user.badges || []).includes('first_steps') || (user.done || 0) >= 1} 
-                    label="First Steps" icon="egg_alt" 
-                    desc="Completed your first training session." 
-                  />
-                  <Badge 
-                    unlocked={(user.badges || []).includes('consistent') || (user.done || 0) >= 10} 
-                    label="Consistent" icon="auto_graph" 
-                    desc="Finished 10 modules." 
-                  />
-                  <Badge 
-                    unlocked={(user.badges || []).includes('elite_scholar') || (user.xp || 0) >= 500} 
-                    label="Elite Scholar" icon="workspace_premium" 
-                    desc="Reached 500 XP (Level 5)." 
-                  />
-                  <Badge 
-                    unlocked={(user.vault || []).length >= 5} 
-                    label="Vault Keeper" icon="auto_delete" 
-                    desc="5+ mistakes recorded for review." 
-                  />
+                  {badges.map((b, i) => (
+                    <div key={i} className="glass-card" style={{
+                      padding: 16, textAlign: 'center',
+                      opacity: b.unlocked ? 1 : 0.3,
+                      filter: b.unlocked ? 'none' : 'grayscale(1)',
+                      border: b.unlocked ? '1px solid rgba(167,139,250,0.3)' : '1px solid var(--border-glass)'
+                    }}>
+                      <div style={{ width: 44, height: 44, borderRadius: 14, background: b.unlocked ? 'var(--grad-primary)' : 'rgba(255,255,255,0.04)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 10px', boxShadow: b.unlocked ? '0 0 20px var(--primary-glow)' : 'none' }}>
+                        <span className="mi" style={{ color: b.unlocked ? 'white' : 'var(--text-muted)', fontSize: 22 }}>{b.icon}</span>
+                      </div>
+                      <div style={{ fontSize: 12, fontWeight: 800, color: b.unlocked ? 'white' : 'var(--text-muted)' }}>{b.label}</div>
+                      <div style={{ fontSize: 9, color: 'var(--text-dim)', marginTop: 3, lineHeight: 1.3 }}>{b.desc}</div>
+                    </div>
+                  ))}
                 </div>
               </div>
-            </>
+
+              {/* Stats detail */}
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                <div className="glass-card" style={{ padding: 20, textAlign: 'center' }}>
+                  <span className="mi" style={{ color: 'var(--primary)', fontSize: 28, marginBottom: 8 }}>trending_up</span>
+                  <div style={{ fontSize: 20, fontWeight: 900, color: 'white' }}>{level > 5 ? 'Advanced' : 'Initiate'}</div>
+                  <div style={{ fontSize: 10, color: 'var(--text-muted)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: 1.5 }}>Skill Tier</div>
+                </div>
+                <div className="glass-card" style={{ padding: 20, textAlign: 'center' }}>
+                  <span className="mi" style={{ color: 'var(--secondary)', fontSize: 28, marginBottom: 8 }}>psychology</span>
+                  <div style={{ fontSize: 20, fontWeight: 900, color: 'white' }}>{Math.min(100, (user.done || 0) * 10)}%</div>
+                  <div style={{ fontSize: 10, color: 'var(--text-muted)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: 1.5 }}>Mastery</div>
+                </div>
+              </div>
+            </div>
           )}
 
-          {activeTab === 'activity' && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
-              {/* Progress Chart */}
-              <div className="glass-panel" style={{ padding: '24px' }}>
-                <h4 style={{ fontSize: 13, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 2, marginBottom: 24 }}>Progress Analytics</h4>
-                <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', height: 120, gap: 10, padding: '0 10px' }}>
-                  {(user.history || []).slice(-7).map((h, i) => (
-                    <div key={i} style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 8 }}>
-                      <div style={{ 
-                        width: '100%', 
-                        height: `${Math.min(100, (h.xp / 40) * 100)}%`, 
-                        background: 'var(--grad-primary)', 
-                        borderRadius: '4px 4px 0 0',
-                        opacity: 0.8,
-                        boxShadow: '0 0 15px var(--primary-glow)'
-                      }} />
-                      <span style={{ fontSize: 8, color: 'var(--text-muted)', textTransform: 'uppercase' }}>
-                        {new Date(h.date).toLocaleDateString([], { weekday: 'short' })}
-                      </span>
-                    </div>
-                  ))}
-                  {(!user.history || user.history.length === 0) && (
-                    <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)', fontSize: 12 }}>
-                      Complete sessions to see charts.
-                    </div>
-                  )}
+          {activeTab === 'history' && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {(!user.history || user.history.length === 0) ? (
+                <div className="glass-panel" style={{ padding: 48, textAlign: 'center' }}>
+                  <span className="mi" style={{ fontSize: 48, color: 'var(--text-muted)', marginBottom: 12, display: 'block' }}>history_toggle_off</span>
+                  <p style={{ color: 'var(--text-muted)', fontSize: 14 }}>No activity yet. Start a training module!</p>
                 </div>
-              </div>
-
-              <div className="glass-panel" style={{ padding: 20 }}>
-                <h4 style={{ fontSize: 13, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 2, marginBottom: 20 }}>Recent Activity</h4>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                  {(user.history || []).slice().reverse().slice(0, 5).map((h, i) => (
-                    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: 12, borderBottom: '1px solid var(--border-glass)' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                        <span className="mi" style={{ color: 'var(--primary)', fontSize: 24 }}>check_circle</span>
-                        <div>
-                          <div style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>{h.type || 'Session'} Complete</div>
-                          <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{new Date(h.date).toLocaleString()}</div>
-                        </div>
+              ) : (
+                user.history.slice().reverse().slice(0, 15).map((h, i) => (
+                  <div key={i} className="glass-card" style={{ padding: '16px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+                      <div style={{ width: 40, height: 40, borderRadius: 12, background: 'rgba(167,139,250,0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                        <span className="mi" style={{ color: 'var(--primary)', fontSize: 20 }}>auto_stories</span>
                       </div>
-                      <div className="xp-badge">+{h.xp} XP</div>
+                      <div>
+                        <div style={{ fontSize: 14, fontWeight: 700, color: 'white' }}>{h.type || 'Session'}</div>
+                        <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{new Date(h.date).toLocaleString('en-EG', { dateStyle: 'medium', timeStyle: 'short' })}</div>
+                      </div>
                     </div>
-                  ))}
-                  {(!user.history || user.history.length === 0) && (
-                    <div style={{ textAlign: 'center', padding: '20px 0', color: 'var(--text-muted)' }}>
-                      <span className="mi" style={{ fontSize: 32, marginBottom: 8, opacity: 0.5 }}>history_toggle_off</span>
-                      <p style={{ fontSize: 13 }}>No recent activity recorded yet.</p>
+                    <div style={{ textAlign: 'right', flexShrink: 0 }}>
+                      <div style={{ fontSize: 15, fontWeight: 900, color: 'var(--success)' }}>+{h.xp} XP</div>
+                      {h.accuracy && <div style={{ fontSize: 9, color: 'var(--text-muted)', fontWeight: 700 }}>{h.accuracy}% ACC</div>}
                     </div>
-                  )}
-                </div>
-              </div>
+                  </div>
+                ))
+              )}
             </div>
           )}
 
           {activeTab === 'settings' && (
-            <div className="glass-panel" style={{ padding: '8px' }}>
-              <ActionItem icon="edit" label="Edit Profile Name" onClick={() => {
-                const newName = prompt('Enter new profile name:', user.name);
-                if (newName && newName.trim()) {
-                  fetch('/api/user', { method: 'POST', body: JSON.stringify({ action: 'updateProfile', userId: user.userId, name: newName }) })
-                    .then(() => {
-                      const local = JSON.parse(localStorage.getItem('sbr_user') || '{}');
-                      local.name = newName;
-                      localStorage.setItem('sbr_user', JSON.stringify(local));
-                      window.location.reload();
-                    });
+            <div className="glass-panel" style={{ padding: 8 }}>
+              <SettingRow icon="badge" label="Update Display Name" desc="Change your public leaderboard name" onClick={() => {
+                const n = prompt('New Name:', user.name);
+                if (n && n.trim()) {
+                  fetch('/api/user', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'updateProfile', userId: user.userId, name: n.trim() }) })
+                    .then(() => window.location.reload());
                 }
               }} />
-              <ActionItem icon="image" label="Upload Profile Image" onClick={() => {
+              <SettingRow icon="camera_enhance" label="Update Avatar" desc="Upload a new profile picture" onClick={() => {
                 const input = document.createElement('input');
-                input.type = 'file';
-                input.accept = 'image/*';
-                input.onchange = (e) => {
-                  const file = e.target.files[0];
-                  if (!file) return;
-                  if (file.size > 2 * 1024 * 1024) {
-                    alert('Image is too large. Please select an image under 2MB.');
-                    return;
-                  }
-
-                  const reader = new FileReader();
-                  reader.onload = (event) => {
-                    const base64Image = event.target.result;
-                    fetch('/api/user', {
-                      method: 'POST',
-                      body: JSON.stringify({ action: 'updateProfile', userId: user.userId, image: base64Image })
-                    })
-                      .then(() => {
-                        const local = JSON.parse(localStorage.getItem('sbr_user') || '{}');
-                        local.image = base64Image;
-                        localStorage.setItem('sbr_user', JSON.stringify(local));
-                        window.location.reload();
-                      });
+                input.type = 'file'; input.accept = 'image/*';
+                input.onchange = e => {
+                  const f = e.target.files[0];
+                  if (!f) return;
+                  if (f.size > 2 * 1024 * 1024) { alert('Image must be under 2MB.'); return; }
+                  const r = new FileReader();
+                  r.onload = ev => {
+                    fetch('/api/user', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ action: 'updateProfile', userId: user.userId, image: ev.target.result }) })
+                      .then(() => window.location.reload());
                   };
-                  reader.readAsDataURL(file);
+                  r.readAsDataURL(f);
                 };
                 input.click();
               }} />
-              <ActionItem icon="delete_sweep" label="Reset Local Progress" onClick={() => {
-                if (confirm('Are you sure you want to clear your local training progress? Your XP will remain on the server.')) {
-                  localStorage.removeItem('sbr_progress');
-                  alert('Local progress cleared.');
-                }
+              <SettingRow icon="delete_sweep" label="Clear Local Cache" desc="Reset local storage data (safe)" onClick={() => {
+                if (confirm('Clear local cache? Your server progress is safe.')) { localStorage.removeItem('sbr_progress'); alert('Done.'); }
               }} />
-              <ActionItem icon="logout" label="Sign Out" color="var(--error)" onClick={handleLogout} last />
+              <SettingRow icon="logout" label="Sign Out" desc="Log out from SBR Academy" color="var(--error)" onClick={handleLogout} last />
             </div>
           )}
         </div>
 
-        <p className="premium-font" style={{ textAlign: 'center', color: 'var(--text-muted)', fontSize: 10, marginTop: 40, textTransform: 'uppercase', letterSpacing: 2 }}>SBR - Error Analysis v2.0</p>
       </div>
-
       <BottomNav />
     </main>
   );
 }
 
-function Badge({ unlocked, label, icon, desc }) {
-  return (
-    <div className="glass-card" style={{ 
-      padding: '16px', 
-      textAlign: 'center',
-      opacity: unlocked ? 1 : 0.4,
-      filter: unlocked ? 'none' : 'grayscale(1)',
-      border: `1px solid ${unlocked ? 'var(--primary)' : 'var(--border-glass)'}`,
-      background: unlocked ? 'rgba(167, 139, 250, 0.05)' : 'transparent'
-    }}>
-      <div style={{ 
-        width: 40, height: 40, borderRadius: 12, 
-        background: unlocked ? 'var(--grad-primary)' : 'rgba(255,255,255,0.05)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        margin: '0 auto 12px',
-        boxShadow: unlocked ? '0 0 15px var(--primary-glow)' : 'none'
-      }}>
-        <span className="mi" style={{ color: unlocked ? 'white' : 'var(--text-muted)', fontSize: 20 }}>{icon}</span>
-      </div>
-      <div style={{ fontSize: 12, fontWeight: 800, color: unlocked ? 'white' : 'var(--text-muted)' }}>{label}</div>
-      <div style={{ fontSize: 8, color: 'var(--text-muted)', marginTop: 4, lineHeight: 1.2 }}>{desc}</div>
-    </div>
-  );
-}
-
-function StatCard({ label, val, icon, color }) {
-  return (
-    <div className="glass-card" style={{ padding: '24px 16px' }}>
-      <span className="mi" style={{ color, fontSize: 24, marginBottom: 12 }}>{icon}</span>
-      <div style={{ fontSize: 20, fontWeight: 800, fontFamily: 'monospace' }}>{val}</div>
-      <div style={{ fontSize: 9, color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', marginTop: 4 }}>{label}</div>
-    </div>
-  );
-}
-
-function ActionItem({ icon, label, color = 'white', onClick, last }) {
+function SettingRow({ icon, label, desc, onClick, color = 'white', last }) {
   return (
     <div
       onClick={onClick}
+      className="hover-bright"
       style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        padding: '18px 20px', cursor: 'pointer',
-        borderBottom: last ? 'none' : '1px solid var(--border-glass)'
+        padding: '18px 16px', cursor: 'pointer',
+        borderBottom: last ? 'none' : '1px solid var(--border-glass)',
+        borderRadius: last ? '0 0 20px 20px' : 0, transition: '0.2s'
       }}
     >
-      <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-        <span className="mi" style={{ color: color === 'white' ? 'var(--text-dim)' : color, fontSize: 22 }}>{icon}</span>
-        <span style={{ fontSize: 14, fontWeight: 600, color }}>{label}</span>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
+        <div style={{ width: 42, height: 42, borderRadius: 13, background: 'rgba(255,255,255,0.03)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+          <span className="mi" style={{ color: color === 'white' ? 'var(--primary)' : color, fontSize: 22 }}>{icon}</span>
+        </div>
+        <div>
+          <div style={{ fontSize: 14, fontWeight: 700, color }}>{label}</div>
+          <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 2 }}>{desc}</div>
+        </div>
       </div>
-      <span className="mi" style={{ color: 'var(--text-muted)', fontSize: 20 }}>chevron_right</span>
+      <span className="mi" style={{ color: 'var(--text-muted)', fontSize: 20, flexShrink: 0 }}>chevron_right</span>
     </div>
   );
 }

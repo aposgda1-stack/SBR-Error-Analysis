@@ -134,11 +134,16 @@ h1, h2, h3, h4, .premium-font {
 .glass-card:hover {
   background: var(--bg-glass-hover);
   border-color: var(--border-bright);
-  transform: translateY(-6px) scale(1.01);
   box-shadow:
-    0 30px 60px rgba(0, 0, 0, 0.5),
+    0 20px 40px rgba(0, 0, 0, 0.4),
     0 0 0 1px rgba(167, 139, 250, 0.15),
-    0 0 40px rgba(167, 139, 250, 0.08);
+    0 0 30px rgba(167, 139, 250, 0.07);
+}
+
+@media (min-width: 769px) {
+  .glass-card:hover {
+    transform: translateY(-4px) scale(1.01);
+  }
 }
 
 .glass-card:hover::before {
@@ -297,6 +302,11 @@ h1, h2, h3, h4, .premium-font {
   to { transform: rotate(360deg); }
 }
 
+@keyframes pulse-skeleton {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
 @keyframes scale-in {
   from { opacity: 0; transform: scale(0.8); }
   to { opacity: 1; transform: scale(1); }
@@ -314,6 +324,14 @@ h1, h2, h3, h4, .premium-font {
 
 .animate-fade-in {
   animation: fadeIn 0.6s ease both;
+}
+
+.animate-spin-slow {
+  animation: spin-slow 1.2s linear infinite;
+}
+
+.animate-pulse {
+  animation: pulse-skeleton 1.5s ease-in-out infinite;
 }
 
 .animate-scale-in {
