@@ -22,6 +22,40 @@ const getErrorSpan = (wrong, correct) => {
   return { start, endW };
 };
 
+const getDiffWord = (wrong, correct) => {
+  const w = wrong.split(' ');
+  const c = correct.split(' ');
+  let start = 0;
+  while (start < w.length && start < c.length && w[start] === c[start]) start++;
+  let endW = w.length - 1;
+  let endC = c.length - 1;
+  while (endW >= start && endC >= start && w[endW] === c[endC]) { endW--; endC--; }
+  if (endC < start) endC = start;
+  return c.slice(start, endC + 1).join(' ').replace(/[.,!?]$/, '');
+};
+
+const generateDistractors = (correctWord, wrongWord) => {
+  const c = correctWord.toLowerCase();
+  const w = (wrongWord || '').toLowerCase();
+  let pool = [];
+  
+  if (['in', 'on', 'at', 'to', 'for', 'with', 'by', 'of', 'from', 'about', 'as', 'like', 'among', 'between'].includes(c)) {
+    pool = ['in', 'on', 'at', 'to', 'for', 'with', 'by', 'of', 'from', 'about', 'as', 'like', 'among', 'between'];
+  } else if (['a', 'an', 'the', 'some', 'any', 'much', 'many', 'few', 'little'].includes(c)) {
+    pool = ['a', 'an', 'the', 'some', 'any', 'much', 'many', 'few', 'little'];
+  } else if (['is', 'are', 'was', 'were', 'has', 'have', 'had', 'do', 'does', 'did', 'make', 'makes', 'made', 'can', 'must', 'should'].includes(c)) {
+    pool = ['is', 'are', 'was', 'were', 'has', 'have', 'had', 'do', 'does', 'did', 'make', 'makes', 'made', 'can', 'must', 'should'];
+  } else if (['he', 'she', 'it', 'they', 'we', 'i', 'you', 'him', 'her', 'them', 'us', 'me'].includes(c)) {
+    pool = ['he', 'she', 'it', 'they', 'we', 'I', 'you', 'him', 'her', 'them', 'us', 'me'];
+  } else if (['very', 'too', 'enough', 'quite', 'rather', 'so', 'such', 'well', 'badly', 'good', 'bad', 'hard', 'hardly'].includes(c)) {
+    pool = ['very', 'too', 'enough', 'quite', 'rather', 'so', 'such', 'well', 'badly', 'good', 'bad', 'hard', 'hardly'];
+  } else {
+    pool = ['different', 'similar', 'other', 'another']; // Fallback triggers merging with other module words
+  }
+  
+  return shuffleArray(pool.filter(word => word.toLowerCase() !== c && word.toLowerCase() !== w)).slice(0, 3);
+};
+
 export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
   const [currentIndex, setCurrentIndex] = useState(startIndex);
   const [step, setStep] = useState(1); // 1 = find error word, 2 = choose correct option
@@ -40,7 +74,7 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
     setCompleted(false);
   }, [startIndex]);
 
-  const mistakes = data; // Note: data is now the sliced array of mistakes for the current module
+  const mistakes = data;
   const currentItem = mistakes[currentIndex];
 
   const errorSpan = useMemo(() => {
@@ -48,13 +82,33 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
     return getErrorSpan(currentItem.wrong, currentItem.correct);
   }, [currentItem]);
 
+  const correctOption = useMemo(() => {
+    if (!currentItem) return '';
+    return getDiffWord(currentItem.wrong, currentItem.correct);
+  }, [currentItem]);
+
+  const wrongOptionWord = useMemo(() => {
+    if (!currentItem) return '';
+    return getDiffWord(currentItem.correct, currentItem.wrong);
+  }, [currentItem]);
+
   const options = useMemo(() => {
     if (!currentItem) return [];
-    // We want 3 wrong options from OTHER mistakes
-    const otherMistakes = mistakes.filter(x => x.id !== currentItem.id);
-    const wrongOptions = shuffleArray(otherMistakes).slice(0, 3).map(x => x.correct);
-    return shuffleArray([currentItem.correct, ...wrongOptions]);
-  }, [currentIndex, currentItem, mistakes]);
+    
+    let wrongOptions = generateDistractors(correctOption, wrongOptionWord);
+    
+    if (wrongOptions.includes('different') || wrongOptions.length < 3) {
+      const otherPhrases = mistakes
+        .filter(x => x.id !== currentItem.id)
+        .map(x => getDiffWord(x.wrong, x.correct))
+        .filter(x => x.toLowerCase() !== correctOption.toLowerCase() && x.toLowerCase() !== wrongOptionWord.toLowerCase());
+      
+      const mixed = shuffleArray([...wrongOptions.filter(x => x !== 'different' && x !== 'similar' && x !== 'other' && x !== 'another'), ...otherPhrases]);
+      wrongOptions = Array.from(new Set(mixed)).slice(0, 3);
+    }
+    
+    return shuffleArray([correctOption, ...wrongOptions]);
+  }, [currentItem, correctOption, wrongOptionWord, mistakes]);
 
   const handleWordClick = (index) => {
     if (step !== 1) return;
@@ -71,7 +125,7 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
   const handleSelect = (opt) => {
     if (selectedOpt) return;
     setSelectedOpt(opt);
-    if (opt === currentItem.correct) setScore(s => s + 1);
+    if (opt === correctOption) setScore(s => s + 1);
   };
 
   const handleNext = () => {
@@ -184,11 +238,11 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
 
       {step === 2 && (
         <div className="animate-slide-up" style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 24 }}>
-          <h4 style={{ fontSize: 13, color: 'var(--text-dim)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 1 }}>Select the correct sentence:</h4>
+          <h4 style={{ fontSize: 13, color: 'var(--text-dim)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 1 }}>Select the correct replacement:</h4>
           {options.map((opt, i) => {
             const isSelected = selectedOpt === opt;
-            const isCorrect = selectedOpt && opt === currentItem.correct;
-            const isWrong = selectedOpt && isSelected && opt !== currentItem.correct;
+            const isCorrect = selectedOpt && opt === correctOption;
+            const isWrong = selectedOpt && isSelected && opt !== correctOption;
             
             return (
               <button
@@ -209,7 +263,7 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
                 }}>
                   {isSelected && <div style={{ width: 12, height: 12, borderRadius: '50%', background: 'currentColor' }} />}
                 </div>
-                <span style={{ fontSize: 15, fontWeight: 500 }}>{opt}</span>
+                <span style={{ fontSize: 18, fontWeight: 700 }}>{opt}</span>
               </button>
             );
           })}
