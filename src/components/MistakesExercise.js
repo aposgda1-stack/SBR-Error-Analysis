@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect, useMemo } from 'react';
+import audioManager from '../utils/audio.js';
 
 const shuffleArray = (array) => {
   const newArr = [...array];
@@ -88,15 +89,19 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
     return getErrorSpan(currentItem.wrong, currentItem.correct);
   }, [currentItem]);
 
-  const correctOption = useMemo(() => {
-    if (!currentItem) return '';
+  const correctOptionObj = useMemo(() => {
+    if (!currentItem) return { word: '', start: 0, endW: 0 };
     return getDiffWord(currentItem.wrong, currentItem.correct);
   }, [currentItem]);
 
-  const wrongOptionWord = useMemo(() => {
-    if (!currentItem) return '';
+  const correctOption = correctOptionObj.word;
+
+  const wrongOptionWordObj = useMemo(() => {
+    if (!currentItem) return { word: '', start: 0, endW: 0 };
     return getDiffWord(currentItem.correct, currentItem.wrong);
   }, [currentItem]);
+
+  const wrongOptionWord = wrongOptionWordObj.word;
 
   const options = useMemo(() => {
     if (!currentItem) return [];
@@ -106,7 +111,7 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
     if (wrongOptions.includes('different') || wrongOptions.length < 3) {
       const otherPhrases = mistakes
         .filter(x => x.id !== currentItem.id)
-        .map(x => getDiffWord(x.wrong, x.correct))
+        .map(x => getDiffWord(x.wrong, x.correct).word)
         .filter(x => x.toLowerCase() !== correctOption.toLowerCase() && x.toLowerCase() !== wrongOptionWord.toLowerCase());
       
       const mixed = shuffleArray([...wrongOptions.filter(x => x !== 'different' && x !== 'similar' && x !== 'other' && x !== 'another'), ...otherPhrases]);
@@ -132,8 +137,10 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
     if (selectedOpt) return;
     setSelectedOpt(opt);
     if (opt === correctOption) {
+      audioManager.play('SUCCESS');
       setScore(s => s + 1);
     } else {
+      audioManager.play('ERROR');
       // Record failed question
       if (!wrongAttempts.includes('opt_wrong')) {
          setWrongAttempts(prev => [...prev, 'opt_wrong']);
@@ -142,6 +149,7 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
   };
 
   const handleNext = () => {
+    audioManager.play('CLICK');
     if (wrongAttempts.length > 0) {
       const localVault = JSON.parse(localStorage.getItem('sbr_vault') || '[]');
       const isAlreadyInVault = localVault.some(v => v.id === currentItem.id);
@@ -150,7 +158,7 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
         localStorage.setItem('sbr_vault', JSON.stringify([...localVault, { ...currentItem, date: new Date() }]));
       }
     }
-
+ 
     if (currentIndex < mistakes.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setStep(1);
@@ -158,6 +166,7 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
       setSelectedOpt(null);
       setWrongAttempts([]);
     } else {
+      audioManager.play('VICTORY');
       setCompleted(true);
     }
   };
