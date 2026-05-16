@@ -32,8 +32,12 @@ export default function Q3WorkSheet({ onScore, reviewMode }) {
 
   const processedText = useMemo(() => {
     let text = data.text;
+    // Remove the answers from the text completely using regex
+    // Looks for patterns like (1) word, (10) word, etc.
     gaps.forEach(key => {
-      text = text.replace(`(${key}) ${correctAnswers[key]}`, `(${key}) ___`);
+      const escapedWord = correctAnswers[key].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(`\\(${key}\\)\\s+${escapedWord}`, 'g');
+      text = text.replace(regex, `(${key}) ___`);
     });
     return text;
   }, [data.text, correctAnswers, gaps]);

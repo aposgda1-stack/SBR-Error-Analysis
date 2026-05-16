@@ -46,6 +46,16 @@ export default function VocabExercise({ task, onFinish }) {
     }
   };
 
+  const processedText = useMemo(() => {
+    let text = task.text;
+    gaps.forEach(key => {
+      const escapedWord = correctAnswers[key].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(`\\(${key}\\)\\s+${escapedWord}`, 'g');
+      text = text.replace(regex, `(${key}) ___`);
+    });
+    return text;
+  }, [task.text, correctAnswers, gaps]);
+
   return (
     <div className="animate-fade-in">
       <h3 style={{ fontSize: 24, fontWeight: 800, marginBottom: 8, color: 'white' }}>{task.title}</h3>
@@ -78,13 +88,13 @@ export default function VocabExercise({ task, onFinish }) {
           })}
         </div>
       </div>
-
+ 
       <div className="glass-card" style={{ padding: '32px', marginBottom: 32, position: 'relative' }}>
         <div className="animate-shimmer" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: 2, opacity: 0.5 }} />
         
         {/* Interactive Text Area */}
         <div style={{ lineHeight: '2.5', fontSize: 18, color: 'var(--text-dim)', direction: 'ltr' }}>
-          {task.text.split('___').map((part, i, arr) => {
+          {processedText.split('___').map((part, i, arr) => {
             const gapId = String(i + 1);
             const isLast = i === arr.length - 1;
             const answer = answers[gapId];
