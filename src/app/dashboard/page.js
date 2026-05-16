@@ -45,10 +45,20 @@ export default function Dashboard() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
             <div style={{ position: 'relative' }}>
               <div style={{ position: 'absolute', inset: -2, background: 'var(--grad-primary)', borderRadius: '50%', opacity: 0.3, filter: 'blur(8px)' }} />
-              <img 
-                src={user?.image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.name || 'Explorer'}`} 
-                style={{ width: 64, height: 64, borderRadius: '50%', border: '2px solid var(--primary)', position: 'relative', objectFit: 'cover' }}
-              />
+              {user?.image ? (
+                <img 
+                  src={user.image} 
+                  style={{ width: 64, height: 64, borderRadius: '50%', border: '2px solid var(--primary)', position: 'relative', objectFit: 'cover' }}
+                />
+              ) : (
+                <div style={{ 
+                  width: 64, height: 64, borderRadius: '50%', border: '2px solid var(--primary)', position: 'relative',
+                  background: 'var(--bg-glass)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontSize: 28, fontWeight: 800, color: 'var(--primary)'
+                }}>
+                  {(user?.name || 'S').charAt(0).toUpperCase()}
+                </div>
+              )}
             </div>
             <div>
               <h2 style={{ fontSize: 16, fontWeight: 500, color: 'var(--text-dim)', marginBottom: 2 }}>Welcome back,</h2>

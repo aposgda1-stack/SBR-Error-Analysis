@@ -41,10 +41,20 @@ export default function TopBar() {
             background: 'var(--bg-glass)', padding: '5px 12px 5px 6px', 
             borderRadius: 30, border: '1px solid var(--border-glass)' 
           }}>
-            <img 
-              src={user.image || 'https://api.dicebear.com/7.x/avataaars/svg?seed=' + user.name} 
-              style={{ width: 28, height: 28, borderRadius: '50%', objectFit: 'cover', border: '1.5px solid var(--primary)' }}
-            />
+            {user.image ? (
+              <img 
+                src={user.image} 
+                style={{ width: 28, height: 28, borderRadius: '50%', objectFit: 'cover', border: '1.5px solid var(--primary)' }}
+              />
+            ) : (
+              <div style={{ 
+                width: 28, height: 28, borderRadius: '50%', background: 'var(--primary)', 
+                display: 'flex', alignItems: 'center', justifyContent: 'center', 
+                color: 'white', fontWeight: 800, fontSize: 14 
+              }}>
+                {user.name.charAt(0).toUpperCase()}
+              </div>
+            )}
             <span style={{ fontSize: 13, fontWeight: 700, color: 'white' }}>{user.name.split(' ')[0]}</span>
           </div>
         ) : (

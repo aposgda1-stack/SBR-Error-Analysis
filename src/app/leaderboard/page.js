@@ -57,7 +57,13 @@ export default function LeaderboardPage() {
               }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
                   <span style={{ fontSize: 13, fontWeight: 800, color: 'var(--text-muted)', width: 20 }}>{i + 4}</span>
-                  <img src={u.image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${u.name}`} style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--bg-glass)' }} />
+                  {u.image ? (
+                    <img src={u.image} style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--bg-glass)', objectFit: 'cover' }} />
+                  ) : (
+                    <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', fontWeight: 800 }}>
+                      {u.name.charAt(0).toUpperCase()}
+                    </div>
+                  )}
                   <div>
                     <div style={{ fontSize: 15, fontWeight: 700 }}>{u.name}</div>
                     <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>Level {Math.floor(u.xp / 100) + 1}</div>
@@ -81,14 +87,26 @@ function PodiumUser({ user, rank, height, color, isFirst }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1, position: 'relative' }}>
       <div style={{ position: 'relative', marginBottom: 12 }}>
-        <img 
-          src={user?.image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.name}`} 
-          style={{ 
+        {user?.image ? (
+          <img 
+            src={user.image} 
+            style={{ 
+              width: isFirst ? 80 : 64, height: isFirst ? 80 : 64, borderRadius: '50%', 
+              border: `3px solid ${color}`, padding: 3, background: 'var(--bg-main)',
+              boxShadow: isFirst ? `0 0 25px ${color}40` : 'none', objectFit: 'cover'
+            }} 
+          />
+        ) : (
+          <div style={{
             width: isFirst ? 80 : 64, height: isFirst ? 80 : 64, borderRadius: '50%', 
-            border: `3px solid ${color}`, padding: 3, background: 'var(--bg-main)',
-            boxShadow: isFirst ? `0 0 25px ${color}40` : 'none'
-          }} 
-        />
+            border: `3px solid ${color}`, padding: 3, background: 'var(--bg-glass)',
+            boxShadow: isFirst ? `0 0 25px ${color}40` : 'none',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: isFirst ? 32 : 24, fontWeight: 800, color: 'white'
+          }}>
+            {(user?.name || '-').charAt(0).toUpperCase()}
+          </div>
+        )}
         <div style={{ 
           position: 'absolute', bottom: -5, left: '50%', transform: 'translateX(-50%)',
           background: color, color: '#000', width: 24, height: 24, borderRadius: '50%',

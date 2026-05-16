@@ -41,10 +41,20 @@ export default function StatsPage() {
               position: 'absolute', inset: -4, borderRadius: '50%', 
               background: 'var(--grad-primary)', filter: 'blur(15px)', opacity: 0.5 
             }} />
-            <img 
-              src={user.image || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}`} 
-              style={{ width: 100, height: 100, borderRadius: '50%', border: '4px solid var(--bg-main)', position: 'relative', objectFit: 'cover' }} 
-            />
+            {user.image ? (
+              <img 
+                src={user.image} 
+                style={{ width: 100, height: 100, borderRadius: '50%', border: '4px solid var(--bg-main)', position: 'relative', objectFit: 'cover' }} 
+              />
+            ) : (
+              <div style={{
+                width: 100, height: 100, borderRadius: '50%', border: '4px solid var(--bg-main)', position: 'relative',
+                background: 'var(--primary)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 40, fontWeight: 800, color: 'white'
+              }}>
+                {user.name.charAt(0).toUpperCase()}
+              </div>
+            )}
           </div>
           <h2 style={{ fontSize: 24, fontWeight: 800 }}>{user.name}</h2>
           <p style={{ color: 'var(--text-dim)', fontSize: 13 }}>Student ID: <span style={{ fontFamily: 'monospace' }}>#{user.userId.slice(-6)}</span></p>
@@ -118,17 +128,35 @@ export default function StatsPage() {
                     });
                 }
               }} />
-              <ActionItem icon="image" label="Edit Profile Image" onClick={() => {
-                const newImage = prompt('Paste new image URL:', user.image || '');
-                if (newImage !== null) {
-                  fetch('/api/user', { method: 'POST', body: JSON.stringify({ action: 'updateProfile', userId: user.userId, image: newImage }) })
+              <ActionItem icon="image" label="Upload Profile Image" onClick={() => {
+                const input = document.createElement('input');
+                input.type = 'file';
+                input.accept = 'image/*';
+                input.onchange = (e) => {
+                  const file = e.target.files[0];
+                  if (!file) return;
+                  if (file.size > 2 * 1024 * 1024) {
+                    alert('Image is too large. Please select an image under 2MB.');
+                    return;
+                  }
+                  
+                  const reader = new FileReader();
+                  reader.onload = (event) => {
+                    const base64Image = event.target.result;
+                    fetch('/api/user', { 
+                      method: 'POST', 
+                      body: JSON.stringify({ action: 'updateProfile', userId: user.userId, image: base64Image }) 
+                    })
                     .then(() => {
                       const local = JSON.parse(localStorage.getItem('sbr_user') || '{}');
-                      local.image = newImage;
+                      local.image = base64Image;
                       localStorage.setItem('sbr_user', JSON.stringify(local));
                       window.location.reload();
                     });
-                }
+                  };
+                  reader.readAsDataURL(file);
+                };
+                input.click();
               }} />
               <ActionItem icon="delete_sweep" label="Reset Local Progress" onClick={() => {
                 if (confirm('Are you sure you want to clear your local training progress? Your XP will remain on the server.')) {

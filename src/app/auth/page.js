@@ -6,7 +6,6 @@ export default function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
-  const [image, setImage] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -25,7 +24,6 @@ export default function AuthPage() {
           action: isLogin ? 'login' : 'signup', 
           email, 
           name: isLogin ? undefined : name, 
-          image: isLogin ? undefined : image,
           password 
         }),
       });
@@ -90,36 +88,19 @@ export default function AuthPage() {
             </div>
 
             {!isLogin && (
-              <>
-                <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  <label style={{ fontSize: 11, fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>
-                    Full Name
-                  </label>
-                  <input 
-                    type="text" 
-                    className="premium-input" 
-                    placeholder="Your display name" 
-                    value={name} 
-                    onChange={(e) => setName(e.target.value)} 
-                    required 
-                  />
-                </div>
-                
-                <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  <label style={{ fontSize: 11, fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>
-                    Profile Image URL (Optional)
-                  </label>
-                  <input 
-                    type="url" 
-                    className="premium-input" 
-                    placeholder="https://example.com/photo.jpg" 
-                    value={typeof image !== 'undefined' ? image : ''} 
-                    onChange={(e) => {
-                      if (typeof setImage !== 'undefined') setImage(e.target.value);
-                    }} 
-                  />
-                </div>
-              </>
+              <div className="animate-fade-in" style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                <label style={{ fontSize: 11, fontWeight: 800, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 1 }}>
+                  Full Name
+                </label>
+                <input 
+                  type="text" 
+                  className="premium-input" 
+                  placeholder="Your display name" 
+                  value={name} 
+                  onChange={(e) => setName(e.target.value)} 
+                  required 
+                />
+              </div>
             )}
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
