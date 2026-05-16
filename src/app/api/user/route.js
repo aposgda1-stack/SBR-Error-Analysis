@@ -7,20 +7,20 @@ export async function POST(req) {
     const client = await clientPromise;
     const db = client.db("sbr_error_analysis");
     const data = await req.json();
-    
+
     if (data.action === 'signup') {
       const { name, email, password, image } = data;
       const existing = await db.collection("users").findOne({ email });
       if (existing) return NextResponse.json({ error: 'User exists' }, { status: 400 });
-      
+
       const userId = 'user_' + Math.random().toString(36).substr(2, 9);
       const hashedPassword = await bcrypt.hash(password, 10);
-      
+
       const user = {
         userId, name, email, password: hashedPassword, createdAt: new Date(),
         image: image || null
       };
-      
+
       await db.collection("users").insertOne(user);
       return NextResponse.json({ success: true, userId, name, image: user.image });
     }
@@ -31,11 +31,11 @@ export async function POST(req) {
       if (!user || !(await bcrypt.compare(password, user.password))) {
         return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
       }
-      return NextResponse.json({ 
-        success: true, 
-        userId: user.userId, 
-        name: user.name, 
-        image: user.image 
+      return NextResponse.json({
+        success: true,
+        userId: user.userId,
+        name: user.name,
+        image: user.image
       });
     }
 
@@ -52,8 +52,8 @@ export async function POST(req) {
       if (incXp !== undefined) inc.xp = incXp;
       if (incDone !== undefined) inc.done = incDone;
 
-      const updateOp = Object.keys(inc).length > 0 
-        ? { ...update, $inc: inc } 
+      const updateOp = Object.keys(inc).length > 0
+        ? { ...update, $inc: inc }
         : update;
 
       await db.collection("progress").updateOne(
@@ -68,15 +68,11 @@ export async function POST(req) {
     if (data.action === 'updateProfile') {
       const { userId, name, image } = data;
       if (!userId) return NextResponse.json({ error: 'Missing userId' }, { status: 400 });
-      
+
       const update = {};
-      if (name !== undefined && name.trim()) update.name = name.trim();
-      if (image !== undefined) update.image = image; // allow empty string to clear
-      
-      if (Object.keys(update).length === 0) {
-        return NextResponse.json({ success: true });
-      }
-      
+      if (name) update.name = name;
+      if (image) update.image = image;
+
       await db.collection("users").updateOne({ userId }, { $set: update });
       return NextResponse.json({ success: true });
     }
@@ -103,7 +99,7 @@ export async function GET(req) {
     const xp = userProgress.xp || 0;
     const rank = await db.collection("progress").countDocuments({ xp: { $gt: xp } }) + 1;
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       user: {
         ...userProgress,
         name: userBase?.name || 'Student',

@@ -32,19 +32,19 @@ export default function StatsPage() {
   return (
     <main style={{ minHeight: '100vh', paddingBottom: 100 }}>
       <TopBar />
-      
+
       <div style={{ padding: '40px 20px', maxWidth: 600, margin: '0 auto' }}>
         {/* Profile Header */}
         <div style={{ textAlign: 'center', marginBottom: 40 }}>
           <div style={{ position: 'relative', display: 'inline-block', marginBottom: 20 }}>
-            <div style={{ 
-              position: 'absolute', inset: -4, borderRadius: '50%', 
-              background: 'var(--grad-primary)', filter: 'blur(15px)', opacity: 0.5 
+            <div style={{
+              position: 'absolute', inset: -4, borderRadius: '50%',
+              background: 'var(--grad-primary)', filter: 'blur(15px)', opacity: 0.5
             }} />
             {user.image ? (
-              <img 
-                src={user.image} 
-                style={{ width: 100, height: 100, borderRadius: '50%', border: '4px solid var(--bg-main)', position: 'relative', objectFit: 'cover' }} 
+              <img
+                src={user.image}
+                style={{ width: 100, height: 100, borderRadius: '50%', border: '4px solid var(--bg-main)', position: 'relative', objectFit: 'cover' }}
               />
             ) : (
               <div style={{
@@ -91,28 +91,26 @@ export default function StatsPage() {
           )}
 
           {activeTab === 'activity' && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-              {[
-                { icon: 'bolt', label: 'Total XP Earned', val: user.xp || 0, color: 'var(--primary)', suffix: ' XP' },
-                { icon: 'auto_stories', label: 'Modules Completed', val: user.done || 0, color: 'var(--secondary)', suffix: ' sessions' },
-                { icon: 'upgrade', label: 'Current Level', val: Math.floor((user.xp || 0) / 100) + 1, color: 'var(--success)', suffix: '' },
-                { icon: 'workspace_premium', label: 'Global Rank', val: user.rank ? `#${user.rank}` : 'Unranked', color: 'var(--accent)', suffix: '' },
-              ].map((item, i) => (
-                <div key={i} className="glass-card" style={{ padding: '20px', display: 'flex', alignItems: 'center', gap: 16 }}>
-                  <div style={{ width: 48, height: 48, borderRadius: 14, background: `${item.color}15`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <span className="mi" style={{ fontSize: 24, color: item.color }}>{item.icon}</span>
+            <div className="glass-panel" style={{ padding: 20 }}>
+              <h4 style={{ fontSize: 14, marginBottom: 20 }}>Recent Activity</h4>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                {user.updatedAt ? (
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: 12, borderBottom: '1px solid var(--border-glass)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                      <span className="mi" style={{ color: 'var(--primary)', fontSize: 24 }}>check_circle</span>
+                      <div>
+                        <div style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>Platform Synchronization</div>
+                        <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{new Date(user.updatedAt).toLocaleString()}</div>
+                      </div>
+                    </div>
                   </div>
-                  <div style={{ flex: 1 }}>
-                    <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1 }}>{item.label}</div>
-                    <div style={{ fontSize: 22, fontWeight: 800, fontFamily: 'JetBrains Mono', color: 'white' }}>{item.val}{item.suffix}</div>
+                ) : (
+                  <div style={{ textAlign: 'center', padding: '20px 0', color: 'var(--text-muted)' }}>
+                    <span className="mi" style={{ fontSize: 32, marginBottom: 8, opacity: 0.5 }}>history_toggle_off</span>
+                    <p style={{ fontSize: 13 }}>No recent activity recorded yet.</p>
                   </div>
-                </div>
-              ))}
-              {user.updatedAt && (
-                <p style={{ fontSize: 11, color: 'var(--text-muted)', textAlign: 'center', marginTop: 8 }}>
-                  Last synced: {new Date(user.updatedAt).toLocaleString()}
-                </p>
-              )}
+                )}
+              </div>
             </div>
           )}
 
@@ -141,20 +139,20 @@ export default function StatsPage() {
                     alert('Image is too large. Please select an image under 2MB.');
                     return;
                   }
-                  
+
                   const reader = new FileReader();
                   reader.onload = (event) => {
                     const base64Image = event.target.result;
-                    fetch('/api/user', { 
-                      method: 'POST', 
-                      body: JSON.stringify({ action: 'updateProfile', userId: user.userId, image: base64Image }) 
+                    fetch('/api/user', {
+                      method: 'POST',
+                      body: JSON.stringify({ action: 'updateProfile', userId: user.userId, image: base64Image })
                     })
-                    .then(() => {
-                      const local = JSON.parse(localStorage.getItem('sbr_user') || '{}');
-                      local.image = base64Image;
-                      localStorage.setItem('sbr_user', JSON.stringify(local));
-                      window.location.reload();
-                    });
+                      .then(() => {
+                        const local = JSON.parse(localStorage.getItem('sbr_user') || '{}');
+                        local.image = base64Image;
+                        localStorage.setItem('sbr_user', JSON.stringify(local));
+                        window.location.reload();
+                      });
                   };
                   reader.readAsDataURL(file);
                 };
@@ -191,9 +189,9 @@ function StatCard({ label, val, icon, color }) {
 
 function ActionItem({ icon, label, color = 'white', onClick, last }) {
   return (
-    <div 
+    <div
       onClick={onClick}
-      style={{ 
+      style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         padding: '18px 20px', cursor: 'pointer',
         borderBottom: last ? 'none' : '1px solid var(--border-glass)'

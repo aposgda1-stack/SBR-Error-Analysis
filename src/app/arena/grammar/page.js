@@ -11,7 +11,7 @@ const buildDrills = (topicKey) => {
   const pool = [];
   const data = GRAMMAR[topicKey];
   if (!data || !data.practice) return [];
-  
+
   const topicLabel = topicKey.replace(/_/g, ' ');
   data.practice.forEach((item, i) => {
     if (item.sentence && item.answer) {
@@ -26,11 +26,11 @@ const buildDrills = (topicKey) => {
     if (item.isBool) return item;
     const makeTrue = Math.random() > 0.5;
     if (makeTrue) return { ...item, sentence: (item.sentence || '').replace('___', item.answer), correctAnswer: true };
-    
+
     // Attempt semantic distractors or use another answer from the same topic
     const otherAnswers = pool.filter(x => x.answer && x.answer !== item.answer).map(x => x.answer);
     let distractor = otherAnswers.length ? otherAnswers[Math.floor(Math.random() * otherAnswers.length)] : 'incorrectly';
-    
+
     return { ...item, sentence: (item.sentence || '').replace('___', distractor), correctAnswer: false };
   }).sort(() => Math.random() - 0.5);
 };
@@ -60,21 +60,8 @@ export default function GrammarArena() {
     setFeedback(isCorrect ? 'correct' : 'wrong');
     setTimeout(() => {
       setFeedback(null);
-      if (currentIndex < drills.length - 1) {
-        setCurrentIndex(i => i + 1);
-      } else {
-        setCompleted(true);
-        // Sync XP to server
-        const newScore = isCorrect ? score + 1 : score;
-        const uId = JSON.parse(localStorage.getItem('sbr_user') || '{}').userId;
-        if (uId && newScore > 0) {
-          fetch('/api/user', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'sync', userId: uId, incXp: newScore, incDone: 1 })
-          }).catch(console.error);
-        }
-      }
+      if (currentIndex < drills.length - 1) setCurrentIndex(i => i + 1);
+      else setCompleted(true);
     }, 800);
   };
 
@@ -88,7 +75,7 @@ export default function GrammarArena() {
               <h2 style={{ fontSize: 32, fontWeight: 800, color: 'white' }}>Grammar Blitz</h2>
               <p style={{ color: 'var(--text-dim)', fontSize: 15 }}>Master grammar rules topic by topic.</p>
             </div>
-            
+
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {Object.keys(GRAMMAR).map((topicKey, i) => {
                 if (!GRAMMAR[topicKey].practice) return null;
@@ -117,13 +104,13 @@ export default function GrammarArena() {
           </div>
         ) : (
           <div className="animate-slide-up">
-            <button 
+            <button
               onClick={() => setActiveModule(null)}
               style={{ background: 'none', border: 'none', color: 'var(--text-dim)', fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4, cursor: 'pointer', marginBottom: 24 }}
             >
               <span className="mi" style={{ fontSize: 18 }}>arrow_back</span> Back to Modules
             </button>
-            
+
             <div className="glass-panel" style={{ padding: '40px 24px', textAlign: 'center', position: 'relative', overflow: 'hidden', minHeight: 320, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
               {feedback && (
                 <div style={{ position: 'absolute', inset: 0, zIndex: 10, background: feedback === 'correct' ? 'rgba(0, 230, 118, 0.9)' : 'rgba(255, 82, 82, 0.9)', display: 'flex', alignItems: 'center', justifyContent: 'center', animation: 'fadeIn 0.2s ease' }}>
