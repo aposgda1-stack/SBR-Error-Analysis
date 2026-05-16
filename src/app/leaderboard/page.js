@@ -1,8 +1,8 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import TopBar from '../components/TopBar';
-import BottomNav from '../components/BottomNav';
+import TopBar from '../../components/TopBar';
+import BottomNav from '../../components/BottomNav';
 
 export default function LeaderboardPage() {
   const router = useRouter();

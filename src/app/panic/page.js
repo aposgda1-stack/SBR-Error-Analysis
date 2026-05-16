@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import TopBar from '../../components/TopBar';
 import BottomNav from '../../components/BottomNav';
-import sectionsData from '../../data/sections.json';
+import sectionsData from '../../../data/sections.json';
 
 const MISTAKES = sectionsData.identify_error_data.the_130_mistakes;
 

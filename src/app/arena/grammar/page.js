@@ -6,52 +6,70 @@ import BottomNav from '../../../components/BottomNav';
 import sectionsData from '../../../../data/sections.json';
 
 const GRAMMAR = sectionsData.grammar_guide;
-const DRILLS = Object.entries(GRAMMAR).flatMap(([topic, data]) => {
-  if (!data.practice) return [];
-  return data.practice.map((item, i) => ({
-    id: `grammar_${topic}_${i}`,
-    topic: topic.replace(/_/g, ' '),
-    sentence: item.sentence.replace('___', item.answer), // Correct sentence
-    correctAnswer: true,
-    explanation: data.rules?.[0] || 'قاعدة عامة'
-  }));
-});
+// Drills are built dynamically in buildDrills to avoid crashes with inconsistent data format.
 
-// Create false sentences by swapping the correct answer with a distractor
+// Robust drill builder that handles different data formats and avoids crashes
 const buildDrills = () => {
-  const allPractice = Object.entries(GRAMMAR).flatMap(([topic, data]) => {
-    if (!data.practice) return [];
-    return data.practice.map((item, i) => ({
-      id: `grammar_${topic}_${i}`,
-      topic: topic.replace(/_/g, ' '),
-      answer: item.answer,
-      sentence: item.sentence,
-      explanation: data.rules?.[0] || 'قاعدة عامة'
-    }));
+  const pool = [];
+  
+  // 1. Process grammar_guide entries
+  Object.entries(GRAMMAR).forEach(([topic, data]) => {
+    if (!data.practice) return;
+    const topicLabel = topic.replace(/_/g, ' ');
+    
+    data.practice.forEach((item, i) => {
+      if (item.sentence && item.answer) {
+        pool.push({
+          id: `g_${topic}_${i}`,
+          topic: topicLabel,
+          sentence: item.sentence,
+          answer: item.answer,
+          isBool: false
+        });
+      } else if (item.wrong && item.correct) {
+        pool.push({
+          id: `g_${topic}_${i}_t`,
+          topic: topicLabel,
+          sentence: item.correct,
+          correctAnswer: true,
+          isBool: true
+        });
+        pool.push({
+          id: `g_${topic}_${i}_f`,
+          topic: topicLabel,
+          sentence: item.wrong,
+          correctAnswer: false,
+          isBool: true
+        });
+      }
+    });
   });
 
-  // Build true drills (correct sentences)
-  const shuffled = [...allPractice].sort(() => Math.random() - 0.5);
-  const trueOnes = shuffled.slice(0, 10).map(item => ({
-    ...item,
-    id: item.id + '_t',
-    sentence: item.sentence.replace('___', item.answer),
-    correctAnswer: true,
-  }));
-
-  // Build false drills (swap answer with another topic's answer)
-  const falseOnes = shuffled.slice(0, 10).map((item, i) => {
-    // Pick a distractor from a different item
-    const distractor = allPractice[(allPractice.indexOf(item) + 3 + i) % allPractice.length]?.answer || 'wrong';
-    return {
-      ...item,
-      id: item.id + '_f',
-      sentence: item.sentence.replace('___', distractor),
-      correctAnswer: false,
-    };
+  // 2. Mix and create final 20 drills
+  const shuffled = [...pool].sort(() => Math.random() - 0.5);
+  const finalDrills = shuffled.slice(0, 40).map(item => {
+    if (item.isBool) return item;
+    
+    // For fill-in-the-blank items, randomly make them True or False
+    const makeTrue = Math.random() > 0.5;
+    if (makeTrue) {
+      return {
+        ...item,
+        sentence: (item.sentence || '').replace('___', item.answer),
+        correctAnswer: true
+      };
+    } else {
+      // Find a random distractor from the pool
+      const distractor = pool.find(x => x.answer && x.answer !== item.answer)?.answer || 'incorrectly';
+      return {
+        ...item,
+        sentence: (item.sentence || '').replace('___', distractor),
+        correctAnswer: false
+      };
+    }
   });
 
-  return [...trueOnes, ...falseOnes].sort(() => Math.random() - 0.5).slice(0, 20);
+  return finalDrills.sort(() => Math.random() - 0.5).slice(0, 20);
 };
 
 export default function GrammarArena() {

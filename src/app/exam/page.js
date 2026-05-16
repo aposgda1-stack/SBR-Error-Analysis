@@ -1,8 +1,8 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import TopBar from '../components/TopBar';
-import BottomNav from '../components/BottomNav';
+import TopBar from '../../components/TopBar';
+import BottomNav from '../../components/BottomNav';
 import Q1ErrorHunter from '../../components/exam/Q1ErrorHunter';
 import Q2PhrasalVerbs from '../../components/exam/Q2PhrasalVerbs';
 import Q3WorkSheet from '../../components/exam/Q3WorkSheet';
