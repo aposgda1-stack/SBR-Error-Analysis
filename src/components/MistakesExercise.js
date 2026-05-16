@@ -143,11 +143,10 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
 
   const handleNext = () => {
     if (wrongAttempts.length > 0) {
-      const alreadyFailed = JSON.parse(localStorage.getItem('sbr_failed_ids') || '[]');
-      if (!alreadyFailed.includes(currentItem.id)) {
-        localStorage.setItem('sbr_failed_ids', JSON.stringify([...alreadyFailed, currentItem.id]));
-        // Temporary local vault
-        const localVault = JSON.parse(localStorage.getItem('sbr_vault') || '[]');
+      const localVault = JSON.parse(localStorage.getItem('sbr_vault') || '[]');
+      const isAlreadyInVault = localVault.some(v => v.id === currentItem.id);
+      
+      if (!isAlreadyInVault) {
         localStorage.setItem('sbr_vault', JSON.stringify([...localVault, { ...currentItem, date: new Date() }]));
       }
     }
@@ -172,13 +171,13 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
         userId: uId, 
         incXp: score, 
         incDone: 1,
-        pushHistory: { date: new Date(), xp: score, type: 'Error Hunter' }
+        pushHistory: { date: new Date(), xp: score, type: 'Error Hunter', accuracy: Math.round((score / mistakes.length) * 100) }
       };
 
-      // Only push new items to server vault if they exist
       if (localVault.length > 0) {
+        // On server, we should handle uniqueness too, but for now we'll push
         payload.pushVault = { $each: localVault };
-        localStorage.setItem('sbr_vault', '[]'); // Clear local after sync
+        localStorage.setItem('sbr_vault', '[]'); 
       }
 
       fetch('/api/user', {

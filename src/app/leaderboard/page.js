@@ -33,15 +33,22 @@ export default function LeaderboardPage() {
         </div>
 
         {/* Top 3 Podium */}
-        {!loading && leaders.length >= 3 && (
+        {!loading && leaders.length > 0 && (
           <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'center', gap: 12, marginBottom: 48, padding: '0 10px' }}>
             {/* 2nd Place */}
-            <PodiumUser user={leaders[1]} rank={2} height={120} color="#cbd5e1" />
+            {leaders.length >= 2 && <PodiumUser user={leaders[1]} rank={2} height={120} color="#cbd5e1" />}
             {/* 1st Place */}
-            <PodiumUser user={leaders[0]} rank={1} height={160} color="#fbbf24" isFirst />
+            {leaders.length >= 1 && <PodiumUser user={leaders[0]} rank={1} height={160} color="#fbbf24" isFirst />}
             {/* 3rd Place */}
-            <PodiumUser user={leaders[2]} rank={3} height={100} color="#92400e" />
+            {leaders.length >= 3 && <PodiumUser user={leaders[2]} rank={3} height={100} color="#92400e" />}
           </div>
+        )}
+
+        {leaders.length === 0 && !loading && (
+           <div className="glass-panel" style={{ padding: 40, textAlign: 'center', color: 'var(--text-muted)' }}>
+              <span className="mi" style={{ fontSize: 48, marginBottom: 16, opacity: 0.3 }}>groups</span>
+              <p>No champions yet. Be the first!</p>
+           </div>
         )}
 
         {/* Full List */}

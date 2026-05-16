@@ -156,6 +156,51 @@ export default function Dashboard() {
                 </button>
               </div>
             </div>
+
+            {/* Panic Mode Feature Card */}
+            <div 
+              onClick={() => router.push('/panic')}
+              className="glass-card animate-slide-up" 
+              style={{ 
+                marginTop: 20, padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 16, 
+                cursor: 'pointer', background: 'linear-gradient(90deg, rgba(239, 68, 68, 0.1), transparent)',
+                border: '1px solid rgba(239, 68, 68, 0.2)', animationDelay: '0.2s'
+              }}
+            >
+              <div style={{ 
+                width: 44, height: 44, borderRadius: 12, background: 'var(--error)', 
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                boxShadow: '0 0 20px rgba(239, 68, 68, 0.4)'
+              }}>
+                <span className="mi" style={{ color: 'white', fontSize: 22 }}>bolt</span>
+              </div>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 14, fontWeight: 800, color: 'white' }}>Panic Mode</div>
+                <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>60s high-speed challenge</div>
+              </div>
+              <span className="mi" style={{ color: 'var(--error)' }}>chevron_right</span>
+            </div>
+
+            {/* Daily Goal Section */}
+            <div className="glass-card animate-slide-up" style={{ marginTop: 20, padding: 24, textAlign: 'center', animationDelay: '0.3s' }}>
+                <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: 2, marginBottom: 16 }}>Daily Focus</div>
+                <div style={{ position: 'relative', width: 80, height: 80, margin: '0 auto 16px' }}>
+                    <svg width="80" height="80" viewBox="0 0 80 80">
+                        <circle cx="40" cy="40" r="35" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="6" />
+                        <circle cx="40" cy="40" r="35" fill="none" stroke="var(--success)" strokeWidth="6" 
+                            strokeDasharray={`${(Math.min(user.done || 0, 3) / 3) * 220} 220`}
+                            strokeLinecap="round" transform="rotate(-90 40 40)"
+                            style={{ transition: 'stroke-dasharray 1s ease' }}
+                        />
+                    </svg>
+                    <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, fontWeight: 900 }}>
+                        {Math.min(user.done || 0, 3)}/3
+                    </div>
+                </div>
+                <div style={{ fontSize: 13, fontWeight: 600, color: 'white' }}>
+                    {user.done >= 3 ? "Goal Reached! 🔥" : "Complete 3 modules today"}
+                </div>
+            </div>
           </div>
         </div>
 

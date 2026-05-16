@@ -32,7 +32,7 @@ const generateDistractors = (correctWord) => {
   return shuffleArray(pool.filter(word => word.toLowerCase() !== c)).slice(0, 3);
 };
 
-export default function Q4MCQ({ onScore }) {
+export default function Q4MCQ({ onScore, reviewMode }) {
   const grammar = sectionsData.grammar_guide;
   
   const questions = useMemo(() => {
@@ -67,15 +67,17 @@ export default function Q4MCQ({ onScore }) {
   }, [grammar]);
 
   const [answers, setAnswers] = useState({});
-  const [submitted, setSubmitted] = useState(false);
+  const [internalSubmitted, setInternalSubmitted] = useState(false);
   const [score, setScore] = useState(null);
+
+  const submitted = internalSubmitted || reviewMode;
 
   const handleSubmit = () => {
     let correct = 0;
     questions.forEach(q => { if (answers[q.id] === q.correct) correct++; });
     const s = correct * 1.25; 
     setScore(s);
-    setSubmitted(true);
+    setInternalSubmitted(true);
     onScore(s);
   };
 

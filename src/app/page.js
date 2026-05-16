@@ -6,9 +6,9 @@ import { useRouter } from 'next/navigation';
 
 const features = [
   { icon: 'troubleshoot', title: 'Smart Error Detection', desc: 'Pinpoint syntax and semantic errors interactively with instant feedback.', color: 'var(--primary)' },
-  { icon: 'menu_book', title: 'Modular Grammar', desc: 'Focus on specific grammatical rules with precision drills designed for your exam.', color: 'var(--secondary)' },
-  { icon: 'emoji_events', title: 'Live Leaderboard', desc: 'Compete with peers, track your global rank, and rise to the top in real time.', color: 'var(--gold)' },
-  { icon: 'sync_alt', title: 'Phrasal Verbs', desc: 'Master 5 essential verb groups: cut, come, give, do & make.', color: 'var(--accent)' },
+  { icon: 'auto_delete', title: 'Review Vault', desc: 'Automatic tracking of your mistakes for personalized review sessions.', color: 'var(--gold)' },
+  { icon: 'bolt', title: 'Panic Mode', desc: 'High-speed 60-second challenges to test your accuracy under pressure.', color: 'var(--error)' },
+  { icon: 'emoji_events', title: 'Live Leaderboard', desc: 'Compete with peers, track your global rank, and rise to the top.', color: 'var(--accent)' },
 ];
 
 const containerVariants = {

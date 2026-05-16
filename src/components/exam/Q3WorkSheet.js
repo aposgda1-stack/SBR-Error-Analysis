@@ -2,15 +2,17 @@
 import { useState, useMemo } from 'react';
 import sectionsData from '../../../data/sections.json';
 
-export default function Q3WorkSheet({ onScore }) {
+export default function Q3WorkSheet({ onScore, reviewMode }) {
   const data = sectionsData.work_vocabulary.task_2_nouns;
   const correctAnswers = data.answers;
   const gaps = Object.keys(correctAnswers);
 
   const [answers, setAnswers] = useState({});
-  const [submitted, setSubmitted] = useState(false);
+  const [internalSubmitted, setInternalSubmitted] = useState(false);
   const [activeGap, setActiveGap] = useState(null);
   const [score, setScore] = useState(null);
+
+  const submitted = internalSubmitted || reviewMode;
 
   const wordBox = useMemo(() => {
     return (data.box_words || []).map((w, i) => ({ word: w, id: `w3_${i}` }));
@@ -43,7 +45,7 @@ export default function Q3WorkSheet({ onScore }) {
     });
     const s = Math.round((correct / gaps.length) * 25);
     setScore(s);
-    setSubmitted(true);
+    setInternalSubmitted(true);
     onScore(s);
   };
 

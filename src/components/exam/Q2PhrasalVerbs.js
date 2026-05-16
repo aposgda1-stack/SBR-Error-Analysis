@@ -47,15 +47,17 @@ function buildWordBox(questions) {
   return shuffleArray(items);
 }
 
-export default function Q2PhrasalVerbs({ onScore }) {
+export default function Q2PhrasalVerbs({ onScore, reviewMode }) {
   const questions = useMemo(() => {
     return shuffleArray(RAW_SENTENCES).slice(0, 10).map((q, i) => ({ ...q, id: `pv_${i}` }));
   }, []);
 
   const wordBox = useMemo(() => buildWordBox(questions), [questions]);
   const [answers, setAnswers] = useState({});
-  const [submitted, setSubmitted] = useState(false);
+  const [internalSubmitted, setInternalSubmitted] = useState(false);
   const [score, setScore] = useState(null);
+
+  const submitted = internalSubmitted || reviewMode;
 
   const usedKeys = useMemo(() => new Set(Object.values(answers).map(a => a?.key).filter(Boolean)), [answers]);
 
@@ -70,7 +72,7 @@ export default function Q2PhrasalVerbs({ onScore }) {
     questions.forEach(q => { if ((answers[q.id]?.word || '').toLowerCase() === q.answer.toLowerCase()) correct++; });
     const s = correct * 2.5;
     setScore(s);
-    setSubmitted(true);
+    setInternalSubmitted(true);
     onScore(s);
   };
 

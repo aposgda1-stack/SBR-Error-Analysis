@@ -53,7 +53,7 @@ const generateDistractors = (correctWord, wrongWord) => {
   return shuffleArray(pool.filter(word => word.toLowerCase() !== c && word.toLowerCase() !== w)).slice(0, 3);
 };
 
-export default function Q1ErrorHunter({ onScore }) {
+export default function Q1ErrorHunter({ onScore, reviewMode }) {
   const mistakes = sectionsData.identify_error_data.the_130_mistakes;
   
   const questions = useMemo(() => {
@@ -83,15 +83,17 @@ export default function Q1ErrorHunter({ onScore }) {
   }, [mistakes]);
 
   const [answers, setAnswers] = useState({});
-  const [submitted, setSubmitted] = useState(false);
+  const [internalSubmitted, setInternalSubmitted] = useState(false);
   const [score, setScore] = useState(null);
+
+  const submitted = internalSubmitted || reviewMode;
 
   const handleSubmit = () => {
     let correct = 0;
     questions.forEach(q => { if (answers[q.id] === q.correctOption) correct++; });
     const s = correct * 2.5;
     setScore(s);
-    setSubmitted(true);
+    setInternalSubmitted(true);
     onScore(s);
   };
 

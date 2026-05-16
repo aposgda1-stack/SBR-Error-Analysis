@@ -5,112 +5,135 @@ import TopBar from '../../components/TopBar';
 import BottomNav from '../../components/BottomNav';
 import sectionsData from '../../../data/sections.json';
 
-const MISTAKES = sectionsData.identify_error_data.the_130_mistakes;
-
-export default function PanicPage() {
+export default function PanicMode() {
   const router = useRouter();
-  const [wrongItems, setWrongItems] = useState([]);
-  const [index, setIndex] = useState(0);
-  const [loading, setLoading] = useState(true);
-  const [feedback, setFeedback] = useState(null);
+  const [gameState, setGameState] = useState('lobby'); // lobby | playing | result
+  const [timeLeft, setTimeLeft] = useState(60);
+  const [score, setScore] = useState(0);
+  const [currentQuestion, setCurrentQuestion] = useState(null);
+  const [options, setOptions] = useState([]);
 
-  useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem('sbr_progress') || '{}');
-    const wrongIds = new Set(saved.errors?.wrong || []);
-    const items = MISTAKES.filter(m => wrongIds.has(m.id));
-    setWrongItems(items);
-    setLoading(false);
-  }, []);
+  const mistakes = sectionsData.identify_error_data.the_130_mistakes;
 
-  const handleFix = (isFixed) => {
-    setFeedback(isFixed ? 'fixed' : 'still_wrong');
+  const generateQuestion = () => {
+    const q = mistakes[Math.floor(Math.random() * mistakes.length)];
+    // Simple logic for MCQ in panic mode
+    const correct = q.correct.split(/\s+/).slice(-1)[0] || 'word'; // Simplified for speed
+    const dist = ['the', 'is', 'at', 'with', 'from', 'to', 'for', 'by'];
+    const opts = [q.correct.split(' ').pop(), ...dist.sort(() => 0.5 - Math.random()).slice(0, 3)].sort(() => 0.5 - Math.random());
     
-    if (isFixed) {
-      // Remove from wrong list in localStorage
-      try {
-        const saved = JSON.parse(localStorage.getItem('sbr_progress') || '{}');
-        const id = wrongItems[index].id;
-        saved.errors.wrong = saved.errors.wrong.filter(w => w !== id);
-        if (!saved.errors.done.includes(id)) saved.errors.done.push(id);
-        localStorage.setItem('sbr_progress', JSON.stringify(saved));
-      } catch (e) {}
-    }
-
-    setTimeout(() => {
-      setFeedback(null);
-      if (index + 1 >= wrongItems.length) {
-        setWrongItems(wrongItems.filter((_, i) => i !== index || !isFixed));
-        setIndex(0);
-      } else {
-        setIndex(i => i + 1);
-      }
-    }, 1000);
+    setCurrentQuestion(q);
+    setOptions(opts);
   };
 
-  if (loading) return null;
+  useEffect(() => {
+    if (gameState !== 'playing') return;
+    if (timeLeft <= 0) { setGameState('result'); return; }
+    const iv = setInterval(() => setTimeLeft(t => t - 1), 1000);
+    return () => clearInterval(iv);
+  }, [gameState, timeLeft]);
 
-  if (wrongItems.length === 0) {
-    return (
-      <div style={{ minHeight: '100dvh', background: 'var(--background)', paddingTop: 48, paddingBottom: 80 }}>
-        <TopBar title="PANIC BUTTON: CLEARED" />
-        <main style={{ padding: 32, maxWidth: 480, margin: '0 auto', textAlign: 'center', paddingTop: 80 }}>
-          <span className="material-symbols-outlined" style={{ fontSize: 80, color: '#88e2a5', marginBottom: 24 }}>check_circle</span>
-          <h2 style={{ fontSize: 28, fontWeight: 900, color: 'var(--on-surface)', marginBottom: 16 }}>Mission Clear!</h2>
-          <p style={{ color: 'var(--on-surface-variant)', lineHeight: 1.6, marginBottom: 32 }}>
-            لقد قمت بمراجعة وتصحيح جميع أخطائك السابقة. أنت الآن جاهز للامتحان بنسبة 100%.
-          </p>
-          <button onClick={() => router.push('/')} style={{ width: '100%', background: 'var(--primary-container)', color: 'var(--on-primary-container)', border: 'none', borderRadius: 16, padding: 18, fontWeight: 800, cursor: 'pointer' }}>العودة للرئيسية</button>
-        </main>
-        <BottomNav />
-      </div>
-    );
-  }
+  const startPanic = () => {
+    setScore(0);
+    setTimeLeft(60);
+    setGameState('playing');
+    generateQuestion();
+  };
 
-  const current = wrongItems[index];
+  const handleAnswer = (opt) => {
+    // Check if the correct full sentence contains the word or it matches the replacement
+    if (currentQuestion.correct.includes(opt)) {
+      setScore(s => s + 1);
+    }
+    generateQuestion();
+  };
+
+  const syncPanic = () => {
+    const uId = JSON.parse(localStorage.getItem('sbr_user') || '{}').userId;
+    if (uId && score > 0) {
+      fetch('/api/user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+            action: 'sync', userId: uId, incXp: score, incDone: 1,
+            pushHistory: { date: new Date(), xp: score, type: 'Panic Mode', accuracy: 100 }
+        })
+      });
+    }
+    router.push('/dashboard');
+  };
 
   return (
-    <div style={{ minHeight: '100dvh', background: 'var(--background)', paddingTop: 48, paddingBottom: 80 }}>
-      <TopBar title="RESCUE MODE: FIXING ERRORS" />
+    <main style={{ minHeight: '100vh', paddingBottom: 110 }}>
+      <TopBar />
       
-      <main style={{ padding: '24px 16px', maxWidth: 480, margin: '0 auto' }}>
-        <div style={{ textAlign: 'center', marginBottom: 32 }}>
-          <h2 style={{ fontSize: 24, fontWeight: 800, color: 'var(--error)', marginBottom: 8 }}>وضع الإنقاذ ليلة الامتحان</h2>
-          <p style={{ color: 'var(--on-surface-variant)', fontSize: 14 }}>نحن نركز فقط على الأسئلة التي تعثرت فيها سابقاً</p>
-          <div style={{ marginTop: 16, fontFamily: 'JetBrains Mono', fontSize: 12, color: 'var(--primary)' }}>Remaining: {wrongItems.length}</div>
-        </div>
-
-        <div style={{ 
-          background: 'var(--surface-container)', borderRadius: 24, padding: 32, 
-          border: '1px solid var(--error)', position: 'relative', overflow: 'hidden',
-          boxShadow: '0 0 30px rgba(147,0,10,0.2)', animation: 'slideUp 0.3s ease'
-        }}>
-          <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: 4, background: 'var(--error)' }} />
-          
-          <p style={{ fontSize: 13, color: 'var(--on-surface-variant)', marginBottom: 16, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Identify the error:</p>
-          <p style={{ fontSize: 20, fontWeight: 700, color: 'var(--on-surface)', direction: 'ltr', lineHeight: 1.6, marginBottom: 32 }}>
-            "{current.wrong}"
-          </p>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <div style={{ fontSize: 14, color: 'var(--on-surface-variant)', marginBottom: 4 }}>التصحيح الصحيح هو:</div>
-            <div style={{ background: 'var(--surface-container-high)', padding: 16, borderRadius: 12, border: '1px solid var(--outline-variant)', direction: 'ltr', fontWeight: 600 }}>
-              {current.correct}
+      <div style={{ padding: '32px 20px', maxWidth: 480, margin: '0 auto' }}>
+        {gameState === 'lobby' && (
+          <div className="animate-slide-up" style={{ textAlign: 'center', marginTop: 40 }}>
+            <div style={{ 
+              width: 100, height: 100, borderRadius: '50%', background: 'rgba(239, 68, 68, 0.1)', 
+              border: '2px solid var(--error)', display: 'flex', alignItems: 'center', justifyContent: 'center',
+              margin: '0 auto 24px', boxShadow: '0 0 40px rgba(239, 68, 68, 0.3)'
+            }}>
+              <span className="mi animate-pulse" style={{ fontSize: 48, color: 'var(--error)' }}>bolt</span>
             </div>
+            <h2 style={{ fontSize: 32, fontWeight: 900, color: 'white' }}>PANIC MODE</h2>
+            <p style={{ color: 'var(--text-dim)', marginBottom: 40 }}>60 Seconds. Infinite Questions. How many can you get right?</p>
+            <button onClick={startPanic} className="premium-btn" style={{ width: '100%', padding: 20, fontSize: 18, background: 'var(--error)' }}>
+              RELEASE THE CHAOS
+            </button>
           </div>
-        </div>
+        )}
 
-        <div style={{ marginTop: 32, display: 'flex', flexDirection: 'column', gap: 16 }}>
-          <button 
-            onClick={() => handleFix(true)}
-            style={{ width: '100%', background: '#2e5238', color: '#88e2a5', border: '1px solid #88e2a5', borderRadius: 16, padding: 18, fontWeight: 800, cursor: 'pointer' }}
-          >فهمتها، احذفها من القائمة</button>
-          <button 
-            onClick={() => handleFix(false)}
-            style={{ width: '100%', background: 'transparent', color: 'var(--on-surface-variant)', border: '1px solid var(--outline-variant)', borderRadius: 16, padding: 16, fontWeight: 600, cursor: 'pointer' }}
-          >ما زلت بحاجة لمراجعتها لاحقاً</button>
-        </div>
-      </main>
+        {gameState === 'playing' && (
+          <div className="animate-fade-in">
+             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 40 }}>
+                <div style={{ background: 'rgba(255,255,255,0.05)', padding: '12px 20px', borderRadius: 16 }}>
+                    <span style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 800 }}>TIME</span>
+                    <div style={{ fontSize: 24, fontWeight: 900, color: timeLeft < 10 ? 'var(--error)' : 'white' }}>{timeLeft}s</div>
+                </div>
+                <div style={{ background: 'var(--grad-primary)', padding: '12px 20px', borderRadius: 16, textAlign: 'right' }}>
+                    <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.6)', fontWeight: 800 }}>SCORE</span>
+                    <div style={{ fontSize: 24, fontWeight: 900, color: 'white' }}>{score}</div>
+                </div>
+             </div>
+
+             <div className="glass-panel" style={{ padding: 32, marginBottom: 32, textAlign: 'center', border: '1px solid var(--error)' }}>
+                <div style={{ fontSize: 10, color: 'var(--error)', fontWeight: 800, marginBottom: 12 }}>FIND THE ERROR</div>
+                <p style={{ fontSize: 20, fontWeight: 600, color: 'white', lineHeight: 1.4 }}>&ldquo;{currentQuestion?.wrong}&rdquo;</p>
+             </div>
+
+             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                {options.map((opt, i) => (
+                  <button 
+                    key={i} 
+                    onClick={() => handleAnswer(opt)}
+                    className="glass-card"
+                    style={{ padding: 20, fontSize: 16, fontWeight: 800, color: 'white', cursor: 'pointer' }}
+                  >
+                    {opt}
+                  </button>
+                ))}
+             </div>
+          </div>
+        )}
+
+        {gameState === 'result' && (
+          <div className="animate-slide-up" style={{ textAlign: 'center', marginTop: 40 }}>
+            <h2 style={{ fontSize: 48, fontWeight: 900, color: 'white' }}>{score}</h2>
+            <p style={{ color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 2, marginBottom: 40 }}>Questions Correct</p>
+            <div className="glass-panel" style={{ padding: 24, marginBottom: 32 }}>
+                <div style={{ fontSize: 13, color: 'var(--success)', fontWeight: 800, marginBottom: 8 }}>+ {score} XP EARNED</div>
+                <p style={{ fontSize: 14, color: 'var(--text-dim)' }}>Your accuracy was tested. Keep it up!</p>
+            </div>
+            <button onClick={syncPanic} className="premium-btn" style={{ width: '100%', padding: 18 }}>
+              SYNC & EXIT
+            </button>
+          </div>
+        )}
+      </div>
+
       <BottomNav />
-    </div>
+    </main>
   );
 }

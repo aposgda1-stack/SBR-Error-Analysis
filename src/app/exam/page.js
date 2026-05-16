@@ -192,16 +192,16 @@ export default function ExamPage() {
               </div>
           </div>
           <div style={{ display: activeQ === 'Q1' ? 'block' : 'none' }}>
-            <Q1ErrorHunter onScore={(s) => handleScore('Q1', s)} />
+            <Q1ErrorHunter onScore={(s) => handleScore('Q1', s)} reviewMode={mode === 'review'} />
           </div>
           <div style={{ display: activeQ === 'Q2' ? 'block' : 'none' }}>
-            <Q2PhrasalVerbs onScore={(s) => handleScore('Q2', s)} />
+            <Q2PhrasalVerbs onScore={(s) => handleScore('Q2', s)} reviewMode={mode === 'review'} />
           </div>
           <div style={{ display: activeQ === 'Q3' ? 'block' : 'none' }}>
-            <Q3WorkSheet onScore={(s) => handleScore('Q3', s)} />
+            <Q3WorkSheet onScore={(s) => handleScore('Q3', s)} reviewMode={mode === 'review'} />
           </div>
           <div style={{ display: activeQ === 'Q4' ? 'block' : 'none' }}>
-            <Q4MCQ onScore={(s) => handleScore('Q4', s)} />
+            <Q4MCQ onScore={(s) => handleScore('Q4', s)} reviewMode={mode === 'review'} />
           </div>
         </main>
       </div>

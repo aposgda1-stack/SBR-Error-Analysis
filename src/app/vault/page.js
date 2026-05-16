@@ -23,6 +23,19 @@ export default function ReviewVault() {
       });
   }, []);
 
+  const removeMistake = async (itemId) => {
+    const local = JSON.parse(localStorage.getItem('sbr_user') || '{}');
+    setVault(prev => prev.filter(v => v.id !== itemId));
+    
+    try {
+      await fetch('/api/user', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'removeFromVault', userId: local.userId, itemId })
+      });
+    } catch (err) { console.error('Failed to remove mistake', err); }
+  };
+
   return (
     <main style={{ minHeight: '100vh', paddingBottom: 110 }}>
       <TopBar />
@@ -61,7 +74,14 @@ export default function ReviewVault() {
         ) : (
           <div className="animate-slide-up" style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
             {vault.map((item, i) => (
-              <div key={i} className="glass-card" style={{ padding: '24px' }}>
+              <div key={i} className="glass-card" style={{ padding: '24px', position: 'relative' }}>
+                <button 
+                  onClick={() => removeMistake(item.id)}
+                  style={{ position: 'absolute', top: 20, right: 20, background: 'rgba(52, 211, 153, 0.1)', border: '1px solid var(--success)', color: 'var(--success)', borderRadius: 8, padding: '4px 8px', fontSize: 10, fontWeight: 800, cursor: 'pointer' }}
+                >
+                  <span className="mi" style={{ fontSize: 14, verticalAlign: 'middle', marginRight: 4 }}>done_all</span>
+                  MASTERED
+                </button>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 16 }}>
                   <span className="neon-tag" style={{ fontSize: 9 }}>{item.topic}</span>
                   <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>{new Date(item.date).toLocaleDateString()}</span>

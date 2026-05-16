@@ -81,6 +81,17 @@ export async function POST(req) {
       return NextResponse.json({ success: true });
     }
 
+    if (data.action === 'removeFromVault') {
+      const { userId, itemId } = data;
+      if (!userId || !itemId) return NextResponse.json({ error: 'Missing data' }, { status: 400 });
+
+      await db.collection("progress").updateOne(
+        { userId },
+        { $pull: { vault: { id: itemId } } }
+      );
+      return NextResponse.json({ success: true });
+    }
+
     return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
   } catch (err) {
     console.error('API Error:', err);
