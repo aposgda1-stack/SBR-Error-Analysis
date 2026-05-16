@@ -75,37 +75,50 @@ export default function StatsPage() {
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
               <StatCard label="Global Rank" val={`#${user.rank || 'N/A'}`} icon="workspace_premium" color="var(--primary)" />
               <StatCard label="Total XP" val={user.xp || 0} icon="bolt" color="var(--secondary)" />
-              <StatCard label="Accuracy" val="92%" icon="shutter_speed" color="var(--success)" />
-              <StatCard label="Days Streak" val="14" icon="local_fire_department" color="var(--accent)" />
+              <StatCard label="Current Level" val={Math.floor((user.xp || 0) / 100) + 1} icon="upgrade" color="var(--success)" />
+              <StatCard label="Next Level In" val={`${100 - ((user.xp || 0) % 100)} XP`} icon="trending_up" color="var(--accent)" />
             </div>
           )}
 
           {activeTab === 'activity' && (
             <div className="glass-panel" style={{ padding: 20 }}>
-              <h4 style={{ fontSize: 14, marginBottom: 20 }}>Recent Progress</h4>
+              <h4 style={{ fontSize: 14, marginBottom: 20 }}>Recent Activity</h4>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                {[
-                  { task: '130 Sentences', time: '2h ago', xp: '+45' },
-                  { task: 'Grammar Quiz', time: 'Yesterday', xp: '+120' },
-                  { task: 'Work Vocab', time: '3 days ago', xp: '+30' }
-                ].map((act, i) => (
-                  <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: 12, borderBottom: '1px solid var(--border-glass)' }}>
-                    <div>
-                      <div style={{ fontSize: 14, fontWeight: 600 }}>{act.task}</div>
-                      <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{act.time}</div>
+                {user.updatedAt ? (
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingBottom: 12, borderBottom: '1px solid var(--border-glass)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                      <span className="mi" style={{ color: 'var(--primary)', fontSize: 24 }}>check_circle</span>
+                      <div>
+                        <div style={{ fontSize: 14, fontWeight: 600, color: 'white' }}>Platform Synchronization</div>
+                        <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>{new Date(user.updatedAt).toLocaleString()}</div>
+                      </div>
                     </div>
-                    <div style={{ color: 'var(--success)', fontWeight: 800 }}>{act.xp} XP</div>
                   </div>
-                ))}
+                ) : (
+                  <div style={{ textAlign: 'center', padding: '20px 0', color: 'var(--text-muted)' }}>
+                    <span className="mi" style={{ fontSize: 32, marginBottom: 8, opacity: 0.5 }}>history_toggle_off</span>
+                    <p style={{ fontSize: 13 }}>No recent activity recorded yet.</p>
+                  </div>
+                )}
               </div>
             </div>
           )}
 
           {activeTab === 'settings' && (
             <div className="glass-panel" style={{ padding: '8px' }}>
-              <ActionItem icon="edit" label="Edit Profile" />
-              <ActionItem icon="notifications" label="Study Reminders" />
-              <ActionItem icon="security" label="Privacy Settings" />
+              <ActionItem icon="edit" label="Edit Profile Name" onClick={() => {
+                const newName = prompt('Enter new profile name:', user.name);
+                if (newName && newName.trim()) {
+                  fetch('/api/user', { method: 'POST', body: JSON.stringify({ action: 'updateProfile', userId: user.userId, name: newName }) })
+                    .then(() => window.location.reload());
+                }
+              }} />
+              <ActionItem icon="delete_sweep" label="Reset Local Progress" onClick={() => {
+                if (confirm('Are you sure you want to clear your local training progress? Your XP will remain on the server.')) {
+                  localStorage.removeItem('sbr_progress');
+                  alert('Local progress cleared.');
+                }
+              }} />
               <ActionItem icon="logout" label="Sign Out" color="var(--error)" onClick={handleLogout} last />
             </div>
           )}
