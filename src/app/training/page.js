@@ -62,7 +62,7 @@ export default function TrainingPage() {
       
       <div style={{ padding: '32px 20px', maxWidth: 800, margin: '0 auto' }}>
         <div className="animate-slide-up" style={{ marginBottom: 40 }}>
-          <h2 style={{ fontSize: 32, fontWeight: 800, color: 'white', marginBottom: 12 }}>Curriculum Hub</h2>
+          <h2 style={{ fontSize: 'clamp(24px, 8vw, 32px)', fontWeight: 800, color: 'white', marginBottom: 12 }}>Curriculum Hub</h2>
           
           {/* Search Bar */}
           <div style={{ position: 'relative', marginTop: 24 }}>

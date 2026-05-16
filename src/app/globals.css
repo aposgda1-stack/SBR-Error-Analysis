@@ -397,3 +397,66 @@ h1, h2, h3, h4, .premium-font {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
+
+/* ==============================
+   RESPONSIVE (MOBILE OPTIMIZATION)
+   ============================== */
+
+@media (max-width: 768px) {
+  :root {
+    --glass-blur: 16px;
+  }
+
+  body {
+    font-size: 14px;
+  }
+
+  .glass-panel {
+    border-radius: 20px;
+    padding: 20px !important;
+  }
+
+  .glass-card {
+    border-radius: 18px;
+  }
+
+  h1 { font-size: 2.2rem !important; }
+  h2 { font-size: 1.8rem !important; }
+  h3 { font-size: 1.4rem !important; }
+
+  .premium-btn {
+    padding: 12px 20px;
+    font-size: 14px;
+    border-radius: 14px;
+  }
+
+  .premium-input {
+    padding: 12px 15px;
+    font-size: 14px;
+    border-radius: 12px;
+  }
+
+  /* Grid fixes */
+  .mobile-stack {
+    grid-template-columns: 1fr !important;
+  }
+
+  .mobile-padding {
+    padding: 16px !important;
+  }
+
+  .mobile-hide {
+    display: none !important;
+  }
+
+  /* Adjust spacing */
+  main {
+    padding-bottom: 90px !important;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+  h1 { font-size: 1.8rem !important; }
+  .glass-panel { padding: 16px !important; }
+}

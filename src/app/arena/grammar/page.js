@@ -155,7 +155,7 @@ export default function GrammarArena() {
               {!completed ? (
                 <div className="animate-fade-in">
                   <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 800, marginBottom: 24, textTransform: 'uppercase', letterSpacing: 2 }}>Drill {currentIndex + 1} of {drills.length}</div>
-                  <p style={{ fontSize: 22, fontWeight: 600, marginBottom: 48, lineHeight: 1.5, direction: 'ltr' }}>&ldquo;{drills[currentIndex].sentence}&rdquo;</p>
+                  <p style={{ fontSize: 'clamp(18px, 5vw, 22px)', fontWeight: 600, marginBottom: 48, lineHeight: 1.5, direction: 'ltr' }}>&ldquo;{drills[currentIndex].sentence}&rdquo;</p>
                   <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
                     <button onClick={() => handleAnswer(true)} className="premium-btn" style={{ background: 'rgba(0, 230, 118, 0.15)', color: 'var(--success)', border: '1px solid var(--success)' }}>TRUE</button>
                     <button onClick={() => handleAnswer(false)} className="premium-btn" style={{ background: 'rgba(255, 82, 82, 0.15)', color: 'var(--error)', border: '1px solid var(--error)' }}>FALSE</button>

@@ -78,7 +78,7 @@ export default function LandingPage() {
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           style={{
             display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-            padding: '24px 0', marginBottom: 60
+            padding: '20px 0', marginBottom: 40, flexWrap: 'wrap', gap: 16
           }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 14 }}>
@@ -197,7 +197,7 @@ export default function LandingPage() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.9, duration: 0.8 }}
-            style={{ display: 'flex', justifyContent: 'center', gap: 48, marginTop: 64, flexWrap: 'wrap' }}
+            style={{ display: 'flex', justifyContent: 'center', gap: '24px 48px', marginTop: 64, flexWrap: 'wrap' }}
           >
             {[
               { val: '130+', label: 'Error Patterns' },

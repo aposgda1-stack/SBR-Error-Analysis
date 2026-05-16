@@ -107,9 +107,9 @@ export default function ExamPage() {
       {mode === 'result' && (
         <main style={{ padding:'40px 24px', maxWidth:480, margin:'0 auto', textAlign:'center', marginTop: -60 }}>
           <div className="animate-slide-up" style={{ marginBottom: 32 }}>
-            <div style={{ width:160, height:160, borderRadius:'50%', border:'6px solid var(--primary)', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', margin:'0 auto 24px', background:'var(--bg-card)', boxShadow: '0 0 40px var(--primary-glow)' }}>
-                <span style={{ fontSize:48, fontWeight:900, color:'white', fontFamily:'monospace' }}>{displayScore}</span>
-                <span style={{ fontSize:14, color:'var(--text-muted)', fontWeight: 800 }}>OF 100</span>
+            <div style={{ width:130, height:130, borderRadius:'50%', border:'6px solid var(--primary)', display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', margin:'0 auto 24px', background:'var(--bg-card)', boxShadow: '0 0 40px var(--primary-glow)' }}>
+                <span style={{ fontSize:42, fontWeight:900, color:'white', fontFamily:'monospace' }}>{displayScore}</span>
+                <span style={{ fontSize:12, color:'var(--text-muted)', fontWeight: 800 }}>OF 100</span>
             </div>
             <h2 style={{ fontSize:24, fontWeight:800, color:'white', marginBottom:32 }}>
                 {displayScore >= 85 ? "🎉 Excellence! You're ready." : displayScore >= 50 ? "👍 Good effort, keep refining." : "💪 Focus more on the core modules."}
@@ -139,8 +139,8 @@ export default function ExamPage() {
       )}
 
       <div style={{ display: (mode === 'exam' || mode === 'review') ? 'block' : 'none' }}>
-        <header style={{ position:'fixed', top:64, left:0, right:0, zIndex:100 }}>
-          <div style={{ background:'rgba(5, 5, 7, 0.9)', backdropFilter: 'blur(20px)', borderBottom:'1px solid var(--border-glass)', height:56, display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 20px' }}>
+        <header style={{ position:'fixed', top:58, left:0, right:0, zIndex:100 }}>
+          <div style={{ background:'rgba(5, 5, 7, 0.9)', backdropFilter: 'blur(20px)', borderBottom:'1px solid var(--border-glass)', height:50, display:'flex', alignItems:'center', justifyContent:'space-between', padding:'0 16px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
               {mode === 'exam' ? (
                 <button onClick={() => { if(confirm('Are you sure you want to exit? Your progress will be lost.')) { setMode('landing'); setScores({ Q1:null, Q2:null, Q3:null, Q4:null }); } }} style={{ background:'transparent', border:'none', color:'var(--error)', cursor:'pointer', display:'flex', alignItems:'center', padding: 4 }}>

@@ -91,7 +91,7 @@ export default function PhrasalArena() {
                 <div className="animate-fade-in" key={index}>
                   <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 800, marginBottom: 32, textTransform: 'uppercase', letterSpacing: 2 }}>Verb {index + 1} of {currentPhrasals.length}</div>
                   
-                  <div style={{ fontSize: 36, fontWeight: 800, color: 'var(--accent)', marginBottom: 8, letterSpacing: -1 }}>{current.verb}</div>
+                  <div style={{ fontSize: 'clamp(24px, 8vw, 36px)', fontWeight: 800, color: 'var(--accent)', marginBottom: 8, letterSpacing: -1 }}>{current.verb}</div>
                   <p style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 48, fontWeight: 600, textTransform: 'uppercase' }}>Root: {activeRoot}</p>
                   
                   {showAnswer ? (

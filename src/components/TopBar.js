@@ -34,9 +34,9 @@ export default function TopBar() {
         opacity: 0.6
       }} />
 
-      <Link href="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: 12, textDecoration: 'none' }}>
+      <Link href="/dashboard" style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}>
         <div style={{
-          width: 42, height: 42, borderRadius: 14,
+          width: 38, height: 38, borderRadius: 12,
           background: 'var(--grad-primary)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           boxShadow: '0 4px 20px var(--primary-glow), 0 0 0 1px rgba(167,139,250,0.2)',
@@ -47,14 +47,14 @@ export default function TopBar() {
             position: 'absolute', inset: 0,
             background: 'linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 60%)'
           }} />
-          <span className="mi" style={{ color: 'white', fontSize: 22, position: 'relative' }}>fact_check</span>
+          <span className="mi" style={{ color: 'white', fontSize: 20, position: 'relative' }}>fact_check</span>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column' }}>
           <span style={{
-            fontSize: 15, fontWeight: 800, color: 'white', lineHeight: 1.2,
+            fontSize: 14, fontWeight: 800, color: 'white', lineHeight: 1.2,
             letterSpacing: 0.5, fontFamily: 'Plus Jakarta Sans'
           }}>SBR — ERROR ANALYSIS</span>
-          <span style={{
+          <span className="mobile-hide" style={{
             fontSize: 9, color: 'var(--primary)', letterSpacing: 2,
             fontWeight: 700, textTransform: 'uppercase', opacity: 0.8
           }}>Interactive Preparation</span>

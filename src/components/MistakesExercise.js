@@ -240,7 +240,7 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
                   border: border,
                   padding: '4px 8px',
                   borderRadius: 6,
-                  fontSize: 22,
+                  fontSize: 'clamp(16px, 5vw, 22px)',
                   fontWeight: 600,
                   cursor: step === 1 ? 'pointer' : 'default',
                   transition: '0.2s',

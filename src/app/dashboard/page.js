@@ -67,7 +67,7 @@ export default function Dashboard() {
           <div style={{
             background: 'rgba(167,139,250,0.04)',
             border: '1px solid rgba(167,139,250,0.12)',
-            borderRadius: 28, padding: '28px 24px',
+            borderRadius: 28, padding: '24px 20px',
             position: 'relative', overflow: 'hidden'
           }}>
             {/* Top aurora */}
@@ -145,8 +145,8 @@ export default function Dashboard() {
         </div>
 
         {/* === STATS ROW === */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 36 }}
-          className="animate-slide-up"
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 10, marginBottom: 36 }}
+          className="animate-slide-up mobile-stack"
         >
           {[
             { label: 'Sessions', val: stats.done, icon: 'auto_stories', color: 'var(--secondary)', bg: 'rgba(34,211,238,0.08)' },

@@ -82,7 +82,7 @@ export default function StatsPage() {
         {/* Tab Content */}
         <div className="animate-slide-up">
           {activeTab === 'overview' && (
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }} className="mobile-stack">
               <StatCard label="Global Rank" val={`#${user.rank || 'N/A'}`} icon="workspace_premium" color="var(--primary)" />
               <StatCard label="Total XP" val={user.xp || 0} icon="bolt" color="var(--secondary)" />
               <StatCard label="Current Level" val={Math.floor((user.xp || 0) / 100) + 1} icon="upgrade" color="var(--success)" />
