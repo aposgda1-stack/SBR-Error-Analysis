@@ -223,7 +223,7 @@ export default function PhrasalArena() {
             </div>
           </div>
         ) : (
-          <div className="animate-slide-up">
+          <div className="animate-slide-up" key={activeRoot}>
             <button
               onClick={() => setActiveRoot(null)}
               style={{ background: 'none', border: 'none', color: 'var(--text-dim)', fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4, cursor: 'pointer', marginBottom: 24 }}
@@ -372,9 +372,24 @@ export default function PhrasalArena() {
                   <div style={{ height: 1, background: 'var(--border-glass)' }} />
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><span style={{ fontSize: 15, fontWeight: 800 }}>Total XP</span><span style={{ fontFamily: 'JetBrains Mono', fontSize: 24, fontWeight: 900, color: 'var(--primary)' }}>+{totalXp + calcEndBonus(correctCount, questions.length).xp}</span></div>
                 </div>
-                <button className="premium-btn" onClick={() => setActiveRoot(null)} style={{ margin: '0 auto' }}>
-                  Back to Modules <span className="mi">list</span>
-                </button>
+                {(() => {
+                  const phrasalRoots = Object.keys(PHRASAL_DATA);
+                  const currentIdx = phrasalRoots.indexOf(activeRoot);
+                  const nextRoot = (currentIdx !== -1 && currentIdx < phrasalRoots.length - 1) ? phrasalRoots[currentIdx + 1] : null;
+                  return nextRoot ? (
+                    <button 
+                      className="premium-btn" 
+                      onClick={() => startModule(nextRoot)} 
+                      style={{ margin: '0 auto', width: '100%' }}
+                    >
+                      Next Set (الانتقال للقسم التالي) <span className="mi">arrow_forward</span>
+                    </button>
+                  ) : (
+                    <button className="premium-btn" onClick={() => setActiveRoot(null)} style={{ margin: '0 auto', width: '100%' }}>
+                      Finish & Exit <span className="mi">done_all</span>
+                    </button>
+                  );
+                })()}
               </div>
             )}
           </div>
