@@ -58,7 +58,8 @@ const CATEGORIES = {
       'hope_vs_wish',
       'opinions',
       'give_provide_offer',
-      'still_already_yet'
+      'still_already_yet',
+      'opportunity_possibility_chance'
     ]
   }
 };
@@ -90,7 +91,8 @@ const LOGICAL_DISTRACTORS = {
   opinions: ['On the contrary', 'According to', 'Firstly', 'At first', 'However', 'Therefore', 'Furthermore', 'In addition', 'On the other hand'],
   give_provide_offer: ['give', 'provide', 'offer', 'gave', 'provided', 'offered', 'giving', 'providing', 'offering', 'gives', 'provides', 'offers'],
   still_already_yet: ['still', 'already', 'yet', 'anymore', 'any longer', 'no longer'],
-  do_vs_make: ['do', 'make', 'did', 'made', 'does', 'makes', 'doing', 'making', 'done', 'doing']
+  do_vs_make: ['do', 'make', 'did', 'made', 'does', 'makes', 'doing', 'making', 'done', 'doing'],
+  opportunity_possibility_chance: ['opportunity', 'possibility', 'chance', 'opportunities', 'possibilities', 'chances', 'occasion', 'occasions']
 };
 
 const buildMCQ = (topicKey) => {

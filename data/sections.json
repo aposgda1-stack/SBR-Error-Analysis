@@ -1256,55 +1256,26 @@
   },
   "grammar_guide": {
     "big_great_large": {
-      "expressions": {
-        "great": [
-          "fun",
-          "importance",
-          "pleasure",
-          "success",
-          "variety"
-        ],
-        "high": [
-          "level",
-          "prices",
-          "standard",
-          "wages"
-        ],
-        "large": [
-          "amount",
-          "number",
-          "quantity"
-        ],
-        "wide": [
-          "choice",
-          "range",
-          "variety"
-        ],
-        "limited": [
-          "choice",
-          "range"
-        ],
-        "short": [
-          "break",
-          "holiday",
-          "time"
-        ],
-        "low": [
-          "level",
-          "pay",
-          "prices",
-          "standard",
-          "wages"
-        ]
+      "rules": {
+        "big_adjectives": "great fun, of great importance, a great pleasure, a great success, a great variety, a high level, high prices, a high standard, high wages, a large amount/number/quantity, a wide choice/range/variety.",
+        "little_adjectives": "a limited choice, a limited/narrow range, a small amount/number/quantity, a small business, a short break/holiday/time, a low level, low pay/prices, low wages. Also: a minor problem, light rain."
       },
       "practice": [
         {
-          "sentence": "We think our work here is of ___ importance.",
-          "answer": "great"
+          "wrong": "We think our work here is of big importance.",
+          "correct": "We think our work here is of great importance."
         },
         {
-          "sentence": "The choice of hot meals is too ___.",
-          "answer": "limited"
+          "wrong": "The choice of hot meals is too little.",
+          "correct": "The choice of hot meals is too limited."
+        },
+        {
+          "wrong": "We're a little business, but we have plans to expand.",
+          "correct": "We're a small business, but we have plans to expand."
+        },
+        {
+          "sentence": "It's a ___ pleasure to meet you.",
+          "answer": "great"
         },
         {
           "sentence": "We were paid a ___ amount of money as a bonus.",
@@ -1315,12 +1286,20 @@
           "answer": "wide"
         },
         {
+          "sentence": "We've worked hard. It's time for a ___ break.",
+          "answer": "short"
+        },
+        {
           "sentence": "Thanks to a strong economy, we have a ___ standard of living.",
           "answer": "high"
         },
         {
-          "sentence": "The forecast is for ___ rain.",
+          "sentence": "We don't need an umbrella - the forecast is for ___ rain.",
           "answer": "light"
+        },
+        {
+          "sentence": "We have only a ___ number of items left to sell.",
+          "answer": "small"
         },
         {
           "sentence": "It's a crime to give ___ information to the police.",
@@ -1330,83 +1309,134 @@
     },
     "hope_vs_wish": {
       "rules": {
-        "hope": "Something possible (I hope we can see you soon).",
-        "wish_past": "Unlikely / impossible (I wish we could come again).",
-        "wish_past_perfect": "Regret for the past (I wish I had seen the advert).",
-        "wish_would": "Dissatisfaction with current behavior (I wish you would stop whistling)."
+        "hope": "We use hope for something we think is possible.",
+        "wish_past": "We use wish + past tense for something which is unlikely/impossible.",
+        "wish_perfect": "We use wish + past perfect when we express regret for something in the past.",
+        "wish_would": "We use wish + would to say we don't like someone's current behaviour and want them to act differently."
       },
       "practice": [
+        {
+          "wrong": "The show was so funny. I wish you would be there.",
+          "correct": "The show was so funny. I wish you had been there."
+        },
+        {
+          "wrong": "I wish you enjoyed your stay with us.",
+          "correct": "I hope you enjoyed your stay with us."
+        },
+        {
+          "wrong": "I wish you have a wonderful time here!",
+          "correct": "I hope you have a wonderful time here!"
+        },
         {
           "sentence": "He's going to take an exam. I ___ he passes.",
           "answer": "hope"
         },
         {
-          "sentence": "I ___ I had worked harder for the exam. I'm sure I've failed.",
-          "answer": "wish"
+          "sentence": "I wish I ___ harder for the exam. I'm sure I've failed.",
+          "answer": "had worked"
         },
         {
-          "sentence": "I ___ I could come with you, but I'll be working.",
-          "answer": "wish"
+          "sentence": "I wish I ___ with you, but I'll be working all next week.",
+          "answer": "could come"
         },
         {
-          "sentence": "Good luck! We ___ you win first prize.",
-          "answer": "hope"
+          "sentence": "I wish I ___ to work! Why is life so hard?",
+          "answer": "didn't have to"
         },
         {
-          "sentence": "I ___ she enjoys it.",
-          "answer": "hope"
+          "sentence": "Good luck! We hope you ___ first prize.",
+          "answer": "win"
         },
         {
-          "sentence": "Be quiet! I ___ you would stop whistling!",
-          "answer": "wish"
+          "sentence": "Milena comes back from holiday today. I hope she ___ it.",
+          "answer": "enjoyed"
+        },
+        {
+          "sentence": "Be quiet! I wish you ___ whistling all the time!",
+          "answer": "would stop"
+        },
+        {
+          "sentence": "She left work half an hour ago so I hope she ___ in time for the performance.",
+          "answer": "arrives"
         }
       ]
     },
     "opinions": {
-      "expressions": [
-        "On the one hand... on the other hand",
-        "On the contrary",
-        "In my opinion",
-        "According to",
-        "Firstly / First of all",
-        "At first"
-      ],
+      "rules": {
+        "opinion_transitions": "on the one hand ... on the other hand, on the contrary, in my opinion, according to, firstly / first of all, at first."
+      },
       "practice": [
+        {
+          "wrong": "The plan has some benefits but on the other side it has some problems.",
+          "correct": "The plan has some benefits but on the other hand it has some problems."
+        },
+        {
+          "wrong": "According to me buying an investment property can be risky.",
+          "correct": "In my opinion, buying an investment property can be risky."
+        },
+        {
+          "wrong": "Firstly, I didn't like eating snails but now I enjoy them.",
+          "correct": "At first, I didn't like eating snails but now I enjoy them."
+        },
         {
           "sentence": "He's not mean. ___, he's very generous.",
           "answer": "On the contrary"
         },
         {
-          "sentence": "If we move we can buy a bigger house. ___, we'll lose touch with friends.",
+          "sentence": "If we move we can buy a bigger house. ___, we'll lose touch with our friends.",
           "answer": "On the other hand"
         },
         {
-          "sentence": "___, we should get more public holidays.",
-          "answer": "In my opinion"
+          "wrong": "Our objectives are at first to recover from last year's losses.",
+          "correct": "Our objectives are firstly to recover from last year's losses."
         },
         {
-          "sentence": "___ check the prices, then book the cheapest.",
+          "wrong": "According to me, we should get more public holidays.",
+          "correct": "In my opinion, we should get more public holidays."
+        },
+        {
+          "wrong": "A new terminal could be useful. On the contrary, it could be very noisy.",
+          "correct": "A new terminal could be useful. On the other hand, it could be very noisy."
+        },
+        {
+          "sentence": "___, check the prices of the hotels, then book the cheapest.",
           "answer": "Firstly"
         },
         {
-          "sentence": "___, at first he was very shy, but he soon settled in.",
-          "answer": "At first"
+          "sentence": "___ Dr Su, animals shouldn't be kept in zoos.",
+          "answer": "According to"
+        },
+        {
+          "wrong": "Firstly, Karim was very shy, but he soon settled in.",
+          "correct": "At first, Karim was very shy, but he soon settled in."
         }
       ]
     },
     "give_provide_offer": {
       "rules": {
-        "provide": "Talk about services already happened or formal 'give'.",
-        "offer": "Possible future services.",
-        "give": "Informal or general."
+        "provide": "We use provide to talk about services which have already happened or instead of give in more formal contexts.",
+        "offer": "We use offer to talk about possible services which someone might choose in the future.",
+        "structures": "offer (someone something) / offer (something) to (someone). provide (someone) with (something) / provide (something) for (someone)."
       },
       "practice": [
+        {
+          "wrong": "We wish to complain about the service given by your company.",
+          "correct": "We wish to complain about the service provided by your company."
+        },
+        {
+          "wrong": "The service you offered did not match your promises.",
+          "correct": "The service you provided did not match your promises."
+        },
+        {
+          "wrong": "In fact, we can give individual tuition.",
+          "correct": "In fact, we can offer individual tuition."
+        },
         {
           "sentence": "We can ___ the food if you can supply the entertainment.",
           "answer": "provide"
         },
         {
-          "sentence": "If you sign the contract today, we can ___ you a 10% discount.",
+          "sentence": "If you sign the contract today, we can ___ a 10% discount.",
           "answer": "offer"
         },
         {
@@ -1420,38 +1450,70 @@
         {
           "sentence": "It's our policy to ___ clients with the best service possible.",
           "answer": "provide"
+        },
+        {
+          "sentence": "For a small surcharge, we ___ clients the option of bringing a guest.",
+          "answer": "offer"
+        },
+        {
+          "sentence": "I've ___ you all the information I have available.",
+          "answer": "given"
+        },
+        {
+          "sentence": "Would you ___ me the name of your manager, please.",
+          "answer": "give"
         }
       ]
     },
     "still_already_yet": {
       "rules": {
-        "still": "Something is continuing, later than expected.",
-        "already": "Something happened sooner than expected.",
-        "yet": "Expected to happen (questions/negatives)."
+        "still": "Something is continuing, usually later than expected.",
+        "already": "Something has happened sooner than expected.",
+        "yet": "We expect something to happen. Used in questions and negatives, goes at the end."
       },
       "practice": [
         {
-          "sentence": "He's only just bought his car and he's ___ bored with it.",
+          "wrong": "Jon's only just bought his new car and he's still bored with it.",
+          "correct": "Jon's only just bought his new car and he's already bored with it."
+        },
+        {
+          "wrong": "It's very late. Hasn't the film finished already?",
+          "correct": "It's very late. Hasn't the film finished yet?"
+        },
+        {
+          "wrong": "I can remember yet when you were this high!",
+          "correct": "I can still remember when you were this high!"
+        },
+        {
+          "sentence": "You don't need to do the washing up. I've ___ done it.",
           "answer": "already"
         },
         {
-          "sentence": "It's very late. Hasn't the film finished ___?",
-          "answer": "yet"
-        },
-        {
-          "sentence": "I've ___ done the washing up.",
-          "answer": "already"
-        },
-        {
-          "sentence": "He's been unemployed for a year. He is ___ looking for a job.",
+          "sentence": "Jo's been unemployed for a year. He's ___ looking for another job.",
           "answer": "still"
         },
         {
-          "sentence": "She's only three but she can ___ read.",
+          "sentence": "Karen didn't want to see the new Scorsese film. She's ___ seen it.",
           "answer": "already"
         },
         {
-          "sentence": "No one's fixed it ___.",
+          "sentence": "Susan's a very bright child. She's only three but she can ___ read.",
+          "answer": "already"
+        },
+        {
+          "sentence": "Chris sent the work in last month. No one's paid him for it ___.",
+          "answer": "yet"
+        },
+        {
+          "sentence": "They're ___ looking for a cure for cancer after years of research.",
+          "answer": "still"
+        },
+        {
+          "sentence": "He was paid three days ago. He's ___ spent it!",
+          "answer": "already"
+        },
+        {
+          "sentence": "My phone has been out of order for weeks! No one's fixed it ___.",
           "answer": "yet"
         }
       ]
@@ -1995,6 +2057,60 @@
         {
           "wrong": "The guests arrived with their wifes.",
           "correct": "The guests arrived with their wives."
+        }
+      ]
+    },
+    "opportunity_possibility_chance": {
+      "rules": {
+        "opportunity": "We use opportunity for a situation in which it's possible to do something you want to do.",
+        "occasion": "An occasion is a particular time when something happens (e.g. birthday).",
+        "possibility": "We use a possibility for something that might or might not happen.",
+        "chance": "The meaning of chance can overlap with both, but is less formal."
+      },
+      "practice": [
+        {
+          "wrong": "The job gave me the possibility to travel to Scotland.",
+          "correct": "The job gave me the opportunity to travel to Scotland."
+        },
+        {
+          "wrong": "When you have the occasion, ask your father for his advice.",
+          "correct": "When you have the opportunity, ask your father for his advice."
+        },
+        {
+          "wrong": "Thanks for giving me a second opportunity. I won't disappoint you.",
+          "correct": "Thanks for giving me a second chance."
+        },
+        {
+          "sentence": "We want to improve our ___ of winning future contracts.",
+          "answer": "chances"
+        },
+        {
+          "sentence": "Everyone here has the ___ to learn a second language.",
+          "answer": "chance"
+        },
+        {
+          "sentence": "Everyone should have equal ___ in education.",
+          "answer": "opportunities"
+        },
+        {
+          "sentence": "There was no ___ for him to be entered for the exam.",
+          "answer": "possibility"
+        },
+        {
+          "sentence": "There is a ___ it will snow tonight.",
+          "answer": "possibility"
+        },
+        {
+          "sentence": "Thank you for this ___ to broaden my knowledge.",
+          "answer": "opportunity"
+        },
+        {
+          "sentence": "Nursing gives one the ___ to help others.",
+          "answer": "chance"
+        },
+        {
+          "sentence": "Going to a party is a great ___ to meet new people.",
+          "answer": "opportunity"
         }
       ]
     }
