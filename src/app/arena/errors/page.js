@@ -1,5 +1,5 @@
 'use client';
-import { useState, Suspense } from 'react';
+import { useState, Suspense, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import TopBar from '../../../components/TopBar';
 import BottomNav from '../../../components/BottomNav';
