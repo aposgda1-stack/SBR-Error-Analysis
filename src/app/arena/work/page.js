@@ -11,8 +11,8 @@ export default function WorkArena() {
   const verbsTask = sectionsData.work_vocabulary.task_1_verbs;
   const nounsTask = sectionsData.work_vocabulary.task_2_nouns;
   const idiomsTask = sectionsData.work_vocabulary.task_3_idioms;
-  const jobOrWork = sectionsData.working_life_data.task_6_job_or_work;
-  const jobOrCareer = sectionsData.working_life_data.task_7_job_or_career;
+  const jobOrWork = sectionsData.employment_data.task_6_job_or_work;
+  const jobOrCareer = sectionsData.employment_data.task_7_job_or_career;
 
   const gapModules = [
     {
