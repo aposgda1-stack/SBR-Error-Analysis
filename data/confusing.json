@@ -1,0 +1,285 @@
+[
+  {
+    "id": 1,
+    "pair": "actually / now",
+    "sentences": [
+      { "text": "Please can we go home ___?", "answer": "now" },
+      { "text": "It looks quite small, but ___ it's over 5 metres high.", "answer": "actually" }
+    ]
+  },
+  {
+    "id": 2,
+    "pair": "advice / advise",
+    "sentences": [
+      { "text": "My grandfather gave me a very useful piece of ___.", "answer": "advice" },
+      { "text": "I ___ you to put all your money into a deposit account.", "answer": "advise" }
+    ]
+  },
+  {
+    "id": 3,
+    "pair": "affect / effect",
+    "sentences": [
+      { "text": "The cuts in spending will have a serious ___ on the hospital.", "answer": "effect" },
+      { "text": "The strike will seriously ___ the train service.", "answer": "affect" }
+    ]
+  },
+  {
+    "id": 4,
+    "pair": "already / yet",
+    "sentences": [
+      { "text": "I haven't seen her ___ this morning.", "answer": "yet" },
+      { "text": "I've ___ done my shopping.", "answer": "already" }
+    ]
+  },
+  {
+    "id": 5,
+    "pair": "afraid of / worried about",
+    "sentences": [
+      { "text": "I am ___ snakes.", "answer": "afraid of" },
+      { "text": "She's ___ the baby; he doesn't look very well.", "answer": "worried about" }
+    ]
+  },
+  {
+    "id": 6,
+    "pair": "avoid / prevent",
+    "note": "Prevent implies taking action; avoid implies staying away.",
+    "sentences": [
+      { "text": "The police will ___ anyone from leaving the building.", "answer": "prevent" },
+      { "text": "You should travel early to ___ the traffic jams.", "answer": "avoid" }
+    ]
+  },
+  {
+    "id": 7,
+    "pair": "beside / besides",
+    "sentences": [
+      { "text": "Come and sit down ___ me.", "answer": "beside" },
+      { "text": "___ managing the shop, he also teaches in the evening.", "answer": "besides" }
+    ]
+  },
+  {
+    "id": 8,
+    "pair": "bring / fetch",
+    "note": "These verbs relate to movement.",
+    "sentences": [
+      { "text": "It's your turn to ___ the children from school.", "answer": "fetch" },
+      { "text": "Don't forget to ___ the books to school with you.", "answer": "bring" }
+    ]
+  },
+  {
+    "id": 9,
+    "pair": "chance / possibility",
+    "sentences": [
+      { "text": "Our team has a good ___ of winning tonight.", "answer": "chance" },
+      { "text": "There is always the ___ that the plane will be early.", "answer": "possibility" }
+    ]
+  },
+  {
+    "id": 10,
+    "pair": "channel / canal",
+    "note": "Canal refers to a waterway.",
+    "sentences": [
+      { "text": "You can take a boat trip around the ___s of Amsterdam.", "answer": "canal" },
+      { "text": "Can you switch the television to ___ 4 for the news?", "answer": "channel" },
+      { "text": "England and France are separated by the ___.", "answer": "channel" }
+    ]
+  },
+  {
+    "id": 11,
+    "pair": "conduct / direct",
+    "note": "Conduct carries the meaning of 'carry out'.",
+    "sentences": [
+      { "text": "Von Karajan will ___ the Berlin Symphonic Orchestra at the concert.", "answer": "conduct" },
+      { "text": "It took two policemen to ___ the traffic.", "answer": "direct" }
+    ]
+  },
+  {
+    "id": 12,
+    "pair": "continuous / continual",
+    "sentences": [
+      { "text": "She has been in ___ pain for three days.", "answer": "continuous" },
+      { "text": "I am getting fed up with her ___ complaints.", "answer": "continual" }
+    ]
+  },
+  {
+    "id": 13,
+    "pair": "driver / chauffeur",
+    "sentences": [
+      { "text": "The ___ brought the Rolls Royce to the hotel's main entrance.", "answer": "chauffeur" },
+      { "text": "He's got a job as a bus ___.", "answer": "driver" }
+    ]
+  },
+  {
+    "id": 14,
+    "pair": "formidable / wonderful",
+    "note": "Formidable can mean 'impressive'.",
+    "sentences": [
+      { "text": "They had a ___ holiday by a lake in Sweden.", "answer": "wonderful" },
+      { "text": "The castle is surrounded by ___ walls and gates.", "answer": "formidable" }
+    ]
+  },
+  {
+    "id": 15,
+    "pair": "fun / funny",
+    "sentences": [
+      { "text": "I didn't have much ___ on my birthday.", "answer": "fun" },
+      { "text": "He made ___ faces and made the children laugh.", "answer": "funny" }
+    ]
+  },
+  {
+    "id": 16,
+    "pair": "go / play",
+    "sentences": [
+      { "text": "Shall we ___ jogging or swimming?", "answer": "go" },
+      { "text": "Neither. Let's ___ tennis.", "answer": "play" }
+    ]
+  },
+  {
+    "id": 17,
+    "pair": "come along with / follow",
+    "sentences": [
+      { "text": "Would you like to ___ me to the cinema tonight?", "answer": "come along with" },
+      { "text": "Make sure the dog doesn't ___ me to the shops.", "answer": "follow" }
+    ]
+  },
+  {
+    "id": 18,
+    "pair": "harm / damage",
+    "note": "Harm is often emotional or personal, while damage is usually physical.",
+    "sentences": [
+      { "text": "Don't ___ my sunglasses if you borrow them.", "answer": "damage" },
+      { "text": "He didn't mean to ___ your little girl.", "answer": "harm" }
+    ]
+  },
+  {
+    "id": 19,
+    "pair": "invent / discover",
+    "note": "Invent relates to creating something 'new'.",
+    "sentences": [
+      { "text": "Did Alexander Fleming ___ penicillin?", "answer": "discover" },
+      { "text": "When did she ___ the new computer terminal?", "answer": "invent" }
+    ]
+  },
+  {
+    "id": 20,
+    "pair": "job / work",
+    "sentences": [
+      { "text": "He goes to ___ every day on his bicycle.", "answer": "work" },
+      { "text": "She's got a ___ in the supermarket.", "answer": "job" }
+    ]
+  },
+  {
+    "id": 21,
+    "pair": "kind / sympathetic",
+    "note": "Sympathetic means to show compassion (Arabic: يتعاطف).",
+    "sentences": [
+      { "text": "You should always be ___ to little children.", "answer": "kind" },
+      { "text": "I'm very ___ to her problems.", "answer": "sympathetic" }
+    ]
+  },
+  {
+    "id": 22,
+    "pair": "lay / lie",
+    "sentences": [
+      { "text": "I'm very tired; I'll just go and ___ down for a few minutes.", "answer": "lie" },
+      { "text": "My father is going to ___ a new carpet in the dining room.", "answer": "lay" }
+    ]
+  },
+  {
+    "id": 23,
+    "pair": "lend / borrow",
+    "sentences": [
+      { "text": "Can I ___ your car to go to the shops?", "answer": "borrow" },
+      { "text": "He asked me if I would ___ him £5 till Monday.", "answer": "lend" }
+    ]
+  },
+  {
+    "id": 24,
+    "pair": "nature / countryside",
+    "sentences": [
+      { "text": "We must try to protect ___ and the environment.", "answer": "nature" },
+      { "text": "The English ___ is beautiful in spring.", "answer": "countryside" }
+    ]
+  },
+  {
+    "id": 25,
+    "pair": "pass / take",
+    "sentences": [
+      { "text": "She had to ___ her driving test three times before she was able to ___.", "answer": "take / pass" }
+    ]
+  },
+  {
+    "id": 26,
+    "pair": "practice / practise",
+    "note": "In British English spelling, '-ice' denotes the noun form, and '-ise' denotes the verb form.",
+    "sentences": [
+      { "text": "You need more ___ before you're ready to take the exam.", "answer": "practice" },
+      { "text": "Don't forget to ___ your phrasal verbs.", "answer": "practise" }
+    ]
+  },
+  {
+    "id": 27,
+    "pair": "priceless / valueless",
+    "sentences": [
+      { "text": "Be very careful with that painting; it's ___.", "answer": "priceless" },
+      { "text": "Her jewels were all imitations; they were quite ___.", "answer": "valueless" }
+    ]
+  },
+  {
+    "id": 28,
+    "pair": "principal / principle",
+    "sentences": [
+      { "text": "She refuses to eat meat on ___.", "answer": "principle" },
+      { "text": "The ___ wants to see you in her office.", "answer": "principal" },
+      { "text": "The country's ___ products are paper and wood.", "answer": "principal" },
+      { "text": "We talked about the ___s of nuclear physics.", "answer": "principle" }
+    ]
+  },
+  {
+    "id": 29,
+    "pair": "raise / rise",
+    "sentences": [
+      { "text": "Does the sun ___ in the east or the west?", "answer": "rise" },
+      { "text": "The airline are going to ___ their fares again next year.", "answer": "raise" }
+    ]
+  },
+  {
+    "id": 30,
+    "pair": "recipe / receipt",
+    "sentences": [
+      { "text": "Goods cannot be exchanged unless a sales ___ is shown.", "answer": "receipt" },
+      { "text": "I gave her an Indian ___ book for her birthday.", "answer": "recipe" }
+    ]
+  },
+  {
+    "id": 31,
+    "pair": "remember / remind",
+    "sentences": [
+      { "text": "Would you ___ me to finish early tonight?", "answer": "remind" },
+      { "text": "Did you ___ to switch off the kitchen light?", "answer": "remember" }
+    ]
+  },
+  {
+    "id": 32,
+    "pair": "scenery / view",
+    "sentences": [
+      { "text": "I adore the beautiful ___ in the Lake District.", "answer": "scenery" },
+      { "text": "You can get a good ___ of the sea from the church tower.", "answer": "view" }
+    ]
+  },
+  {
+    "id": 33,
+    "pair": "sensible / sensitive",
+    "sentences": [
+      { "text": "She's very ___ and is easily upset.", "answer": "sensitive" },
+      { "text": "Staying indoors was a ___ thing to do in this terrible weather.", "answer": "sensible" }
+    ]
+  },
+  {
+    "id": 34,
+    "pair": "take / bring",
+    "sentences": [
+      { "text": "Can you ___ this cheque to the bank for me please?", "answer": "take" },
+      { "text": "Can I ___ my girlfriend here for tea?", "answer": "bring" }
+    ]
+  }
+]

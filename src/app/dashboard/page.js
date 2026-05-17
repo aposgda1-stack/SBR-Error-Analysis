@@ -9,6 +9,7 @@ const TRAINING_MODULES = [
   { id: 'grammar', label: 'Grammar Blitz', sub: 'Rules & Drills', icon: 'bolt', color: '#22d3ee', href: '/arena/grammar' },
   { id: 'phrasal', label: 'Phrasal Verbs', sub: 'Cut · Come · Give', icon: 'sync_alt', color: '#f472b6', href: '/arena/phrasal' },
   { id: 'work', label: 'Work Vocab', sub: 'Business English', icon: 'work_outline', color: '#fbbf24', href: '/arena/work' },
+  { id: 'confusing', label: 'Confusing Pairs', sub: 'False Friends', icon: 'compare_arrows', color: '#10b981', href: '/arena/confusing' },
 ];
 
 export default function Dashboard() {
@@ -255,7 +256,7 @@ export default function Dashboard() {
               textTransform: 'uppercase', letterSpacing: 2.5,
               fontWeight: 800, fontFamily: 'Plus Jakarta Sans'
             }}>Training Modules</h4>
-            <span className="neon-tag">4 Active</span>
+            <span className="neon-tag">5 Active</span>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
