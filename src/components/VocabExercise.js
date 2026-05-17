@@ -21,7 +21,7 @@ function XPToast({ bonuses, totalXp, onDone }) {
   );
 }
 
-export default function VocabExercise({ task, onFinish, completedSectionKey }) {
+export default function VocabExercise({ task, onFinish, completedSectionKey, onNext }) {
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [activeGap, setActiveGap] = useState(null);
@@ -300,6 +300,16 @@ export default function VocabExercise({ task, onFinish, completedSectionKey }) {
         </button>
       ) : (
         <div style={{ textAlign: 'center' }} className="animate-slide-up">
+          {/* Top Exit button */}
+          <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: 16 }}>
+            <button
+              style={{ background: 'none', border: 'none', color: 'var(--text-dim)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4, cursor: 'pointer' }}
+              onClick={() => onFinish ? onFinish() : window.location.reload()}
+            >
+              <span className="mi">arrow_back</span> Back to Sets
+            </button>
+          </div>
+
           <div style={{ display: 'flex', flexDirection: 'column', gap: 10, padding: '20px 28px', borderRadius: 24, background: 'rgba(255,255,255,0.03)', border: '1px solid var(--border-glass)', marginBottom: 20 }}>
             {(() => {
               const correct = gaps.filter(k => answers[k]?.word?.toLowerCase().trim() === correctAnswers[k].toLowerCase().trim()).length;
@@ -316,13 +326,27 @@ export default function VocabExercise({ task, onFinish, completedSectionKey }) {
               );
             })()}
           </div>
-          <br />
-          <button
-            style={{ marginTop: 24, background: 'transparent', border: 'none', color: 'var(--text-dim)', fontWeight: 600, cursor: 'pointer' }}
-            onClick={() => onFinish ? onFinish() : window.location.reload()}
-          >
-            Exit Module <span className="mi">logout</span>
-          </button>
+          
+          {onNext ? (
+            <button 
+              className="premium-btn" 
+              style={{ width: '100%', padding: '20px', marginTop: 12 }} 
+              onClick={() => {
+                audioManager.play('CLICK');
+                onNext();
+              }}
+            >
+              Next Set (الانتقال للزوج التالي) <span className="mi">arrow_forward</span>
+            </button>
+          ) : (
+            <button 
+              className="premium-btn" 
+              style={{ width: '100%', padding: '20px', marginTop: 12 }} 
+              onClick={onFinish}
+            >
+              Finish & Exit <span className="mi">done_all</span>
+            </button>
+          )}
         </div>
       )}
     </div>

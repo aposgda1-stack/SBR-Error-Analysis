@@ -121,11 +121,18 @@ export default function ConfusingArena() {
             
             <div className="glass-panel" style={{ padding: '2px', background: 'linear-gradient(135deg, rgba(16,185,129,0.2), transparent)' }}>
               <div style={{ background: 'var(--bg-card)', borderRadius: 22, padding: '24px' }}>
-                <VocabExercise 
-                  task={activeModule.task} 
-                  completedSectionKey={'c_mod_' + activeModule.id} 
-                  onFinish={() => setActiveModule(null)} 
-                />
+                {(() => {
+                  const currentIdx = gapModules.findIndex(m => m.id === activeModule.id);
+                  const nextModule = (currentIdx !== -1 && currentIdx < gapModules.length - 1) ? gapModules[currentIdx + 1] : null;
+                  return (
+                    <VocabExercise 
+                      task={activeModule.task} 
+                      completedSectionKey={'c_mod_' + activeModule.id} 
+                      onFinish={() => setActiveModule(null)} 
+                      onNext={nextModule ? () => setActiveModule(nextModule) : null}
+                    />
+                  );
+                })()}
               </div>
             </div>
           </div>
