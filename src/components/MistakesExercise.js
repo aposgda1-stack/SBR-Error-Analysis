@@ -89,7 +89,7 @@ function StreakBadge({ streak }) {
 }
 
 /* ══════════════════════════════════════════════ */
-export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
+export default function MistakesExercise({ data, startIndex = 0, onComplete, isComprehensive = false }) {
   const [currentIndex, setCurrentIndex] = useState(startIndex);
   const [step, setStep] = useState(1);
   const [selectedWordIndex, setSelectedWordIndex] = useState(null);
@@ -101,6 +101,7 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
   const [firstTryCorrect, setFirstTryCorrect] = useState(true);
   const [completed, setCompleted] = useState(false);
   const [toast, setToast] = useState(null); // { xp, bonuses }
+  const [activeToasts, setActiveToasts] = useState([]); // array of { id, text, isError }
   const questionStartRef = useRef(Date.now());
 
   useEffect(() => {
@@ -176,9 +177,19 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
       setCorrectCount(newCorrect);
       setToast({ xp, bonuses });
       syncXP({ incXp: xp });
+
+      const id = Date.now() + Math.random();
+      const toastText = `+${xp} XP ${bonuses.length > 0 ? `(${bonuses.join(' ')})` : ''}`;
+      setActiveToasts(prev => [...prev, { id, text: toastText, key: id }]);
+      setTimeout(() => setActiveToasts(prev => prev.filter(t => t.id !== id)), 1200);
+
     } else {
       audioManager.play('ERROR');
       setStreak(0);
+      
+      const id = Date.now() + Math.random();
+      setActiveToasts(prev => [...prev, { id, text: '❌ Wrong', isError: true, key: id }]);
+      setTimeout(() => setActiveToasts(prev => prev.filter(t => t.id !== id)), 1200);
     }
   };
 
@@ -200,10 +211,11 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
       audioManager.play('VICTORY');
       const { xp: bonusXp, isPerfect } = calcEndBonus(correctCount, mistakes.length);
       const finalXp = totalXp + bonusXp;
+      const historyType = isComprehensive ? 'Comprehensive Error Hunter' : 'Error Hunter';
       syncXP({
         incXp: bonusXp,
         incDone: 1,
-        historyEntry: { date: new Date(), xp: finalXp, type: 'Error Hunter', accuracy: Math.round((correctCount / mistakes.length) * 100) }
+        historyEntry: { date: new Date(), xp: finalXp, type: historyType, accuracy: Math.round((correctCount / mistakes.length) * 100) }
       });
       setCompleted(true);
     }
@@ -256,8 +268,29 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
   const words = currentItem.wrong.trim().split(/\s+/);
 
   return (
-    <div className="animate-fade-in">
-      {toast && <XPToast xp={toast.xp} bonuses={toast.bonuses} totalXp={toast.xp} onDone={() => setToast(null)} />}
+    <div className="animate-fade-in" style={{ position: 'relative' }}>
+      <style>{`
+        @keyframes arcadeFloat {
+          0% { transform: translateY(20px) scale(0.8); opacity: 0; }
+          20% { transform: translateY(0) scale(1.1); opacity: 1; }
+          80% { transform: translateY(-20px) scale(1); opacity: 1; }
+          100% { transform: translateY(-45px) scale(0.9); opacity: 0; }
+        }
+        .arcade-toast {
+          animation: arcadeFloat 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+        }
+      `}</style>
+      
+      {/* Floating Arcade Toasts */}
+      <div style={{ position: 'absolute', top: '30%', left: '50%', transform: 'translateX(-50%)', zIndex: 1000, pointerEvents: 'none', display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'center' }}>
+        {activeToasts.map(t => (
+          <div key={t.key} className="arcade-toast" style={{ background: t.isError ? 'rgba(255, 82, 82, 0.95)' : 'rgba(0, 229, 255, 0.95)', color: 'white', padding: '8px 16px', borderRadius: 12, fontWeight: 900, fontSize: 18, boxShadow: '0 8px 24px rgba(0,0,0,0.3)', textShadow: '0 2px 4px rgba(0,0,0,0.5)', whiteSpace: 'nowrap' }}>
+            {t.text}
+          </div>
+        ))}
+      </div>
+
+      {toast && !isComprehensive && <XPToast xp={toast.xp} bonuses={toast.bonuses} totalXp={toast.xp} onDone={() => setToast(null)} />}
 
       {/* Header row */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>

@@ -31,6 +31,36 @@ function ErrorsContent() {
             </div>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {/* The Ultimate Challenge Card */}
+              <button
+                onClick={() => {
+                  audioManager.play('CLICK');
+                  setActiveModuleIndex('all');
+                }}
+                className="glass-card animate-pulse"
+                style={{
+                  width: '100%', padding: '24px', textAlign: 'left', display: 'flex', justifyContent: 'space-between',
+                  alignItems: 'center', cursor: 'pointer', transition: '0.2s', 
+                  border: '2px solid rgba(124, 77, 255, 0.4)',
+                  background: 'linear-gradient(135deg, rgba(124, 77, 255, 0.15) 0%, rgba(12, 8, 25, 0.98) 100%)',
+                  boxShadow: '0 8px 32px rgba(124, 77, 255, 0.15)',
+                  position: 'relative'
+                }}
+              >
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
+                    <div style={{ fontSize: 12, color: 'var(--primary)', fontWeight: 900, letterSpacing: 1.5, textTransform: 'uppercase' }}>
+                      🔥 THE ULTIMATE CHALLENGE
+                    </div>
+                  </div>
+                  <div style={{ fontSize: 18, fontWeight: 900, color: 'white', marginBottom: 2 }}>Comprehensive 130 Sentences</div>
+                  <div style={{ fontSize: 12, color: 'var(--text-dim)' }}>Correct all 130 errors in a single run. XP awarded ONCE.</div>
+                </div>
+                <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'var(--grad-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', boxShadow: '0 0 15px var(--primary)' }}>
+                  <span className="mi" style={{ fontSize: 24 }}>bolt</span>
+                </div>
+              </button>
+
               {Array.from({ length: totalModules }).map((_, i) => {
                 const start = i * MODULE_SIZE + 1;
                 const end = Math.min((i + 1) * MODULE_SIZE, mistakes.length);
@@ -77,7 +107,8 @@ function ErrorsContent() {
               <span className="mi" style={{ fontSize: 18 }}>arrow_back</span> Back to Modules
             </button>
             <MistakesExercise 
-              data={mistakes.slice(activeModuleIndex * MODULE_SIZE, (activeModuleIndex + 1) * MODULE_SIZE)} 
+              data={activeModuleIndex === 'all' ? mistakes : mistakes.slice(activeModuleIndex * MODULE_SIZE, (activeModuleIndex + 1) * MODULE_SIZE)} 
+              isComprehensive={activeModuleIndex === 'all'}
               onComplete={() => setActiveModuleIndex(null)} 
             />
           </div>
