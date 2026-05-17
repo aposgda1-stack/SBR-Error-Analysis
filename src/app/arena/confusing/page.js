@@ -8,8 +8,8 @@ import VocabExercise from '../../../components/VocabExercise';
 export default function ConfusingArena() {
   const [activeTask, setActiveTask] = useState(null);
 
-  // Group into modules of 5-6 pairs each
-  const GROUP_SIZE = 5;
+  // Group into modules of 1 pair each (matches curriculum exactly)
+  const GROUP_SIZE = 1;
   const gapModules = [];
   
   for (let i = 0; i < confusingData.length; i += GROUP_SIZE) {
@@ -36,11 +36,11 @@ export default function ConfusingArena() {
     combinedBoxWords = [...new Set(combinedBoxWords)];
 
     gapModules.push({
-      id: `confusing_mod_${Math.floor(i / GROUP_SIZE) + 1}`,
-      title: `Set ${Math.floor(i / GROUP_SIZE) + 1} (${chunk[0].pair.split('/')[0].trim()} ... ${chunk[chunk.length-1].pair.split('/')[0].trim()})`,
-      desc: 'Master confusing pairs and false friends.',
+      id: `confusing_mod_${i + 1}`,
+      title: `${chunk[0].pair.split('/')[0].trim()} vs ${chunk[0].pair.split('/')[1]?.trim() || ''}`,
+      desc: 'Complete the sentences correctly.',
       task: {
-        title: `Confusing Pairs - Set ${Math.floor(i / GROUP_SIZE) + 1}`,
+        title: `Pair ${i + 1}: ${chunk[0].pair}`,
         instruction: 'Complete the sentences with the correct word from the bank:',
         text: combinedText.join('\n\n'),
         box_words: combinedBoxWords,
