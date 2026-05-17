@@ -32,41 +32,20 @@ function StreakBadge({ streak }) {
 
 const GRAMMAR = sectionsData.grammar_guide;
 
-const CATEGORIES = {
-  attention: {
-    title: 'Attention Section',
-    icon: 'warning',
-    desc: 'Critical syllabus synthesis: Comprehensive review of Modals, Adverbs of Time, Opinions, and Hope vs. Wish.',
-    keys: [
-      'comprehensive_study_guide'
-    ]
-  },
-  cambridge: {
-    title: 'Common Mistakes',
-    icon: 'school',
-    desc: 'Targeted practice for frequently confused terms and common grammatical errors.',
-    keys: [
-      'and_but_or',
-      'during_for_since',
-      'to_infinitive_vs_ing',
-      'do_vs_make',
-      'look_see_watch',
-      'have_pass_spend_take',
-      'countable_uncountable',
-      'near_nearby_next_to'
-    ]
-  },
-  advanced: {
-    title: 'Advanced Discourse',
-    icon: 'psychology',
-    desc: 'Master professional discourse transitions, speculative modals, and style.',
-    keys: [
-      'big_great_large',
-      'give_provide_offer',
-      'opportunity_possibility_chance'
-    ]
-  }
-};
+const UNIFIED_KEYS = [
+  'comprehensive_study_guide',
+  'and_but_or',
+  'during_for_since',
+  'to_infinitive_vs_ing',
+  'do_vs_make',
+  'look_see_watch',
+  'have_pass_spend_take',
+  'countable_uncountable',
+  'near_nearby_next_to',
+  'big_great_large',
+  'give_provide_offer',
+  'opportunity_possibility_chance'
+];
 
 const OPTION_LABELS = ['A', 'B', 'C', 'D'];
 
@@ -233,7 +212,6 @@ export default function GrammarArena() {
   const [totalXp, setTotalXp] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
   const [streak, setStreak] = useState(0);
-  const [activeCategory, setActiveCategory] = useState('attention');
   const [completed, setCompleted] = useState(false);
   const [toast, setToast] = useState(null);
   const questionStartRef = useRef(Date.now());
@@ -307,48 +285,8 @@ export default function GrammarArena() {
               <p style={{ color: 'var(--text-dim)', fontSize: 15 }}>Master key grammar mechanics with topic-specific diagnostics.</p>
             </div>
 
-            {/* Premium Tab Switcher */}
-            <div style={{ display: 'flex', background: 'rgba(255, 255, 255, 0.02)', padding: 6, borderRadius: 16, border: '1px solid var(--border-glass)', marginBottom: 24, gap: 4 }}>
-              {Object.entries(CATEGORIES).map(([key, cat]) => {
-                const isActive = activeCategory === key;
-                return (
-                  <button
-                    key={key}
-                    onClick={() => {
-                      audioManager.play('CLICK');
-                      setActiveCategory(key);
-                    }}
-                    style={{
-                      flex: 1,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      gap: 8,
-                      padding: '12px 16px',
-                      borderRadius: 12,
-                      border: 'none',
-                      background: isActive ? 'var(--grad-primary)' : 'transparent',
-                      color: isActive ? 'white' : 'var(--text-dim)',
-                      fontWeight: 700,
-                      fontSize: 14,
-                      cursor: 'pointer',
-                      transition: '0.3s cubic-bezier(0.16, 1, 0.3, 1)',
-                      boxShadow: isActive ? '0 4px 15px rgba(124, 77, 255, 0.3)' : 'none'
-                    }}
-                  >
-                    <span className="mi" style={{ fontSize: 18 }}>{cat.icon}</span>
-                    {cat.title}
-                  </button>
-                );
-              })}
-            </div>
-
-            <p style={{ color: 'var(--text-muted)', fontSize: 13, marginBottom: 20, fontStyle: 'italic' }}>
-              {CATEGORIES[activeCategory].desc}
-            </p>
-
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              {CATEGORIES[activeCategory].keys
+              {UNIFIED_KEYS
                 .filter(k => GRAMMAR[k] && GRAMMAR[k].practice)
                 .map((topicKey, i) => {
                   const qCount = buildMCQ(topicKey).length;
