@@ -33,6 +33,14 @@ function StreakBadge({ streak }) {
 const GRAMMAR = sectionsData.grammar_guide;
 
 const CATEGORIES = {
+  attention: {
+    title: 'Attention Section',
+    icon: 'warning',
+    desc: 'Critical syllabus synthesis: Comprehensive review of Modals, Adverbs of Time, Opinions, and Hope vs. Wish.',
+    keys: [
+      'comprehensive_study_guide'
+    ]
+  },
   cambridge: {
     title: 'Common Mistakes',
     icon: 'school',
@@ -53,12 +61,8 @@ const CATEGORIES = {
     icon: 'psychology',
     desc: 'Master professional discourse transitions, speculative modals, and style.',
     keys: [
-      'modal_verbs',
       'big_great_large',
-      'hope_vs_wish',
-      'opinions',
       'give_provide_offer',
-      'still_already_yet',
       'opportunity_possibility_chance'
     ]
   }
@@ -76,6 +80,7 @@ const shuffleArray = (arr) => {
 };
 
 const LOGICAL_DISTRACTORS = {
+  comprehensive_study_guide: ['can', 'could', 'must', 'should', 'would', 'might', 'may', "can't", "couldn't", "shouldn't", "must not", "don't have to", "ought to", "would like", "had to", 'hope', 'wish', 'want', 'expect', 'would like', 'hopes', 'wishes', 'wanted', 'On the contrary', 'According to', 'Firstly', 'At first', 'However', 'Therefore', 'Furthermore', 'In addition', 'On the other hand', 'still', 'already', 'yet', 'anymore', 'any longer', 'no longer'],
   modal_verbs: ['can', 'could', 'must', 'should', 'would', 'might', 'may', "can't", "couldn't", "shouldn't", "must not", "don't have to", "ought to", "would like", "had to"],
   hope_vs_wish: ['hope', 'wish', 'want', 'expect', 'would like', 'hopes', 'wishes', 'wanted'],
   and_but_or: ['and', 'but', 'or', 'so', 'because', 'although', 'yet', 'while'],
@@ -228,7 +233,7 @@ export default function GrammarArena() {
   const [totalXp, setTotalXp] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
   const [streak, setStreak] = useState(0);
-  const [activeCategory, setActiveCategory] = useState('cambridge');
+  const [activeCategory, setActiveCategory] = useState('attention');
   const [completed, setCompleted] = useState(false);
   const [toast, setToast] = useState(null);
   const questionStartRef = useRef(Date.now());
