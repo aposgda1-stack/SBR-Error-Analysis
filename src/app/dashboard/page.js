@@ -20,6 +20,7 @@ export default function Dashboard() {
   const [fairPlayNotice, setFairPlayNotice] = useState(null); // stores deductedXp if present
   const [cheatingNotice, setCheatingNotice] = useState(null); // stores deductedXp for cheating if present
   const [adminReport, setAdminReport] = useState(null); // stores admin custom message if present
+  const [platformUpdate, setPlatformUpdate] = useState(null); // stores platform update message if present
 
   useEffect(() => {
     const localUser = JSON.parse(localStorage.getItem('sbr_user') || '{}');
@@ -53,6 +54,11 @@ export default function Dashboard() {
             } else if (data.user.notification.type === 'admin_report') {
               setAdminReport({
                 title: data.user.notification.title || 'Security Update',
+                message: data.user.notification.message || ''
+              });
+            } else if (data.user.notification.type === 'platform_update') {
+              setPlatformUpdate({
+                title: data.user.notification.title || 'Platform Update',
                 message: data.user.notification.message || ''
               });
             }
@@ -592,6 +598,74 @@ export default function Dashboard() {
               style={{ width: '100%', padding: '16px 24px', fontSize: 14, borderRadius: 16, background: 'var(--grad-primary)' }}
             >
               إغلاق التقرير المباشر
+            </button>
+          </div>
+        </div>
+      )}
+
+      {platformUpdate !== null && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          background: 'rgba(5, 2, 12, 0.85)',
+          backdropFilter: 'blur(16px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 9999,
+          padding: 24
+        }} className="animate-fade-in">
+          <div style={{
+            background: 'linear-gradient(135deg, rgba(14, 165, 233, 0.08) 0%, rgba(12, 8, 25, 0.98) 100%)',
+            border: '1px solid rgba(14, 165, 233, 0.25)',
+            boxShadow: '0 25px 70px rgba(14, 165, 233, 0.15)',
+            borderRadius: 32,
+            padding: '36px 28px',
+            maxWidth: 520,
+            width: '100%',
+            position: 'relative'
+          }} className="animate-scale-up">
+            <div style={{
+              width: 72,
+              height: 72,
+              borderRadius: '50%',
+              background: 'rgba(14, 165, 233, 0.15)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 20px',
+              border: '1px solid rgba(14, 165, 233, 0.3)'
+            }}>
+              <span className="mi" style={{ color: '#38bdf8', fontSize: 36 }}>auto_awesome</span>
+            </div>
+            
+            <h3 style={{ fontSize: 24, fontWeight: 900, color: 'white', marginBottom: 16, textAlign: 'center', letterSpacing: -0.5 }}>
+              {platformUpdate.title}
+            </h3>
+            
+            <div style={{ 
+              fontSize: 14, 
+              color: 'var(--text-dim)', 
+              lineHeight: 1.7, 
+              marginBottom: 28, 
+              textAlign: 'center',
+              maxHeight: '260px',
+              overflowY: 'auto',
+              padding: '0 8px'
+            }}>
+              {platformUpdate.message.split('\n').map((line, idx) => (
+                <div key={idx} style={{ marginBottom: line.trim() === '' ? 12 : 6, color: line.includes('XP') ? '#38bdf8' : 'var(--text-dim)', fontWeight: line.includes('XP') ? 600 : 400 }}>
+                  {line}
+                </div>
+              ))}
+            </div>
+
+            <button 
+              onClick={() => setPlatformUpdate(null)} 
+              className="premium-btn" 
+              style={{ width: '100%', padding: '16px 24px', fontSize: 15, borderRadius: 16, background: 'linear-gradient(135deg, #0284c7 0%, #38bdf8 100%)' }}
+            >
+              Awesome! Let's Go 🚀
             </button>
           </div>
         </div>
