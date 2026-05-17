@@ -76,6 +76,23 @@ const shuffleArray = (arr) => {
   return a;
 };
 
+const LOGICAL_DISTRACTORS = {
+  modal_verbs: ['can', 'could', 'must', 'should', 'would', 'might', 'may', "can't", "couldn't", "shouldn't", "must not", "don't have to", "ought to", "would like", "had to"],
+  hope_vs_wish: ['hope', 'wish', 'want', 'expect', 'would like', 'hopes', 'wishes', 'wanted'],
+  and_but_or: ['and', 'but', 'or', 'so', 'because', 'although', 'yet', 'while'],
+  during_for_since: ['during', 'for', 'since', 'while', 'when', 'in', 'at', 'on'],
+  to_infinitive_vs_ing: ['to buy', 'buying', 'to ask', 'asking', 'to meet', 'meeting', 'to go', 'going', 'to do', 'doing', 'to watch', 'watching'],
+  have_pass_spend_take: ['have', 'pass', 'spend', 'take', 'had', 'passed', 'spent', 'took', 'has', 'passes', 'spends', 'takes'],
+  big_great_large: ['great', 'large', 'big', 'high', 'wide', 'short', 'low', 'small', 'strong', 'light', 'false'],
+  near_nearby_next_to: ['near', 'nearby', 'next to', 'nearly', 'close to', 'next', 'almost'],
+  plural_nouns: ['people', 'person', 'persons', 'peoples', 'children', 'child', 'childrens', 'stories', 'storys', 'wives', 'wifes'],
+  transitions: ['On the contrary', 'According to', 'Firstly', 'At first', 'However', 'Therefore', 'Furthermore', 'In addition', 'On the other hand'],
+  opinions: ['On the contrary', 'According to', 'Firstly', 'At first', 'However', 'Therefore', 'Furthermore', 'In addition', 'On the other hand'],
+  give_provide_offer: ['give', 'provide', 'offer', 'gave', 'provided', 'offered', 'giving', 'providing', 'offering', 'gives', 'provides', 'offers'],
+  still_already_yet: ['still', 'already', 'yet', 'anymore', 'any longer', 'no longer'],
+  do_vs_make: ['do', 'make', 'did', 'made', 'does', 'makes', 'doing', 'making', 'done', 'doing']
+};
+
 const buildMCQ = (topicKey) => {
   const data = GRAMMAR[topicKey];
   if (!data || !data.practice) return [];
@@ -94,7 +111,7 @@ const buildMCQ = (topicKey) => {
       // Standard fill-in-the-blank MCQ
       const correctAns = item.answer.split(' / ')[0]; // take first if multiple
       
-      // Build distractors from same topic first, then cross-topic
+      // Build distractors from same topic first
       const sameTopicAnswers = data.practice
         .filter((_, idx) => idx !== i)
         .map(p => p.answer)
@@ -102,14 +119,20 @@ const buildMCQ = (topicKey) => {
         .flatMap(a => a.split(' / '))
         .filter(a => a.toLowerCase() !== correctAns.toLowerCase());
 
-      const crossTopicAnswers = allAnswers.filter(
+      // Get logical distractors specifically for this category
+      const categorySpecific = LOGICAL_DISTRACTORS[topicKey] || [];
+      const categoryFiltered = categorySpecific.filter(a => a.toLowerCase() !== correctAns.toLowerCase());
+
+      // Fallback cross-topic distractors (properly shuffled so we don't always get the same first few)
+      const crossTopicAnswers = shuffleArray(allAnswers).filter(
         a => a.toLowerCase() !== correctAns.toLowerCase()
       );
 
-      const distractor_pool = shuffleArray([
+      const distractor_pool = [
         ...sameTopicAnswers,
-        ...crossTopicAnswers.slice(0, 10)
-      ]);
+        ...categoryFiltered,
+        ...crossTopicAnswers
+      ];
 
       const distractors = [...new Set(distractor_pool)].slice(0, 3);
       const options = shuffleArray([correctAns, ...distractors]);
@@ -143,10 +166,22 @@ const buildMCQ = (topicKey) => {
         const wrongWord = wrongWords[diffIdx].replace(/[.,!?]/g, '');
         const correctWord = correctWords[diffIdx].replace(/[.,!?]/g, '');
 
-        const distractors = shuffleArray(
-          allAnswers.filter(a => a.toLowerCase() !== correctWord.toLowerCase() && a.toLowerCase() !== wrongWord.toLowerCase())
-        ).slice(0, 2);
+        // Generate logical distractors for this topic first
+        const categorySpecific = LOGICAL_DISTRACTORS[topicKey] || [];
+        const categoryFiltered = categorySpecific.filter(
+          a => a.toLowerCase() !== correctWord.toLowerCase() && a.toLowerCase() !== wrongWord.toLowerCase()
+        );
 
+        const crossTopicAnswers = shuffleArray(allAnswers).filter(
+          a => a.toLowerCase() !== correctWord.toLowerCase() && a.toLowerCase() !== wrongWord.toLowerCase()
+        );
+
+        const distractor_pool = [
+          ...categoryFiltered,
+          ...crossTopicAnswers
+        ];
+
+        const distractors = [...new Set(distractor_pool)].slice(0, 2);
         const options = shuffleArray([correctWord, wrongWord, ...distractors]);
 
         const highlighted = item.wrong.replace(wrongWords[diffIdx], `[${wrongWords[diffIdx]}]`);
