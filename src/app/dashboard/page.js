@@ -19,6 +19,7 @@ export default function Dashboard() {
   const [loaded, setLoaded] = useState(false);
   const [fairPlayNotice, setFairPlayNotice] = useState(null); // stores deductedXp if present
   const [cheatingNotice, setCheatingNotice] = useState(null); // stores deductedXp for cheating if present
+  const [adminReport, setAdminReport] = useState(null); // stores admin custom message if present
 
   useEffect(() => {
     const localUser = JSON.parse(localStorage.getItem('sbr_user') || '{}');
@@ -49,6 +50,11 @@ export default function Dashboard() {
               setFairPlayNotice(data.user.notification.deductedXp || 0);
             } else if (data.user.notification.type === 'cheating_deduction') {
               setCheatingNotice(data.user.notification.deductedXp || 0);
+            } else if (data.user.notification.type === 'admin_report') {
+              setAdminReport({
+                title: data.user.notification.title || 'Security Update',
+                message: data.user.notification.message || ''
+              });
             }
 
             // Dismiss notice on the server instantly
@@ -516,6 +522,75 @@ export default function Dashboard() {
               style={{ width: '100%', padding: '16px 24px', fontSize: 14, borderRadius: 16, background: 'var(--grad-primary)' }}
             >
               I Acknowledge & Promise to Play Fairly
+            </button>
+        </div>
+      )}
+
+      {adminReport !== null && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          background: 'rgba(5, 2, 12, 0.85)',
+          backdropFilter: 'blur(16px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 9999,
+          padding: 24
+        }} className="animate-fade-in">
+          <div style={{
+            background: 'linear-gradient(135deg, rgba(167, 139, 250, 0.08) 0%, rgba(12, 8, 25, 0.98) 100%)',
+            border: '1px solid rgba(167, 139, 250, 0.25)',
+            boxShadow: '0 25px 70px rgba(167, 139, 250, 0.15)',
+            borderRadius: 32,
+            padding: '36px 28px',
+            maxWidth: 520,
+            width: '100%',
+            position: 'relative'
+          }} className="animate-scale-up">
+            <div style={{
+              width: 72,
+              height: 72,
+              borderRadius: '50%',
+              background: 'rgba(167, 139, 250, 0.15)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 20px',
+              border: '1px solid rgba(167, 139, 250, 0.3)'
+            }}>
+              <span className="mi" style={{ color: 'var(--primary)', fontSize: 36 }}>security</span>
+            </div>
+            
+            <h3 style={{ fontSize: 22, fontWeight: 900, color: 'white', marginBottom: 16, textAlign: 'center', fontFamily: 'Plus Jakarta Sans' }}>
+              {adminReport.title || 'Security System Report'}
+            </h3>
+            
+            <div style={{ 
+              fontSize: 13, 
+              color: 'var(--text-dim)', 
+              lineHeight: 1.7, 
+              marginBottom: 28, 
+              textAlign: 'right', 
+              direction: 'rtl',
+              maxHeight: '260px',
+              overflowY: 'auto',
+              paddingRight: 8,
+              fontFamily: 'system-ui'
+            }}>
+              {adminReport.message.split('\n').map((line, idx) => (
+                <div key={idx} style={{ marginBottom: line.trim() === '' ? 12 : 4 }}>
+                  {line}
+                </div>
+              ))}
+            </div>
+
+            <button 
+              onClick={() => setAdminReport(null)} 
+              className="premium-btn" 
+              style={{ width: '100%', padding: '16px 24px', fontSize: 14, borderRadius: 16, background: 'var(--grad-primary)' }}
+            >
+              إغلاق التقرير المباشر
             </button>
           </div>
         </div>
