@@ -40,12 +40,12 @@ const CATEGORIES = {
     keys: [
       'and_but_or',
       'during_for_since',
+      'to_infinitive_vs_ing',
       'do_vs_make',
       'look_see_watch',
       'have_pass_spend_take',
       'countable_uncountable',
-      'near_nearby_next_to',
-      'plural_nouns'
+      'near_nearby_next_to'
     ]
   },
   advanced: {
@@ -56,7 +56,6 @@ const CATEGORIES = {
       'transitions',
       'modal_verbs',
       'big_great_large',
-      'opportunity_possibility_chance',
       'hope_vs_wish',
       'opinions',
       'give_provide_offer',
@@ -81,9 +80,9 @@ const LOGICAL_DISTRACTORS = {
   hope_vs_wish: ['hope', 'wish', 'want', 'expect', 'would like', 'hopes', 'wishes', 'wanted'],
   and_but_or: ['and', 'but', 'or', 'so', 'because', 'although', 'yet', 'while'],
   during_for_since: ['during', 'for', 'since', 'while', 'when', 'in', 'at', 'on'],
+  to_infinitive_vs_ing: ['to buy', 'buying', 'to ask', 'asking', 'to meet', 'meeting', 'to go', 'going', 'to do', 'doing', 'to watch', 'watching'],
   have_pass_spend_take: ['have', 'pass', 'spend', 'take', 'had', 'passed', 'spent', 'took', 'has', 'passes', 'spends', 'takes'],
   big_great_large: ['great', 'large', 'big', 'high', 'wide', 'short', 'low', 'small', 'strong', 'light', 'false'],
-  opportunity_possibility_chance: ['opportunity', 'possibility', 'chance', 'option', 'alternative', 'choice'],
   near_nearby_next_to: ['near', 'nearby', 'next to', 'nearly', 'close to', 'next', 'almost'],
   plural_nouns: ['people', 'person', 'persons', 'peoples', 'children', 'child', 'childrens', 'stories', 'storys', 'wives', 'wifes'],
   transitions: ['On the contrary', 'According to', 'Firstly', 'At first', 'However', 'Therefore', 'Furthermore', 'In addition', 'On the other hand'],

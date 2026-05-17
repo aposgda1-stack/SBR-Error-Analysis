@@ -224,79 +224,6 @@
     }
   },
   "employment_data": {
-    "task_2_applying_for_a_job_verbs": {
-      "sentences": [
-        { "text": "I left university six months ago and I still haven't ___ a job.", "answer": "found" },
-        { "text": "I've ___ a part-time job. I hope I get it — it's four afternoons a week.", "answer": "applied for" },
-        { "text": "I'm not really sure what I want to do when I leave school. I might ___ banking like my Dad.", "answer": "go into" },
-        { "text": "I've ___ the application form and ___, so now I've just got to wait until I hear from them.", "answer": "filled in / sent it off" },
-        { "text": "I can't believe it. They've ___ me that job in New York. They want me to start next month.", "answer": "offered" }
-      ]
-    },
-    "task_3_job_advertisements": {
-      "cleaner": { "text": "Local hotel ___ cleaner Monday — Friday, 9am — lpm. Good ___ of pay.", "answers": ["requires", "rates"] },
-      "accounts": { "text": "Full-time ___ in busy car company. To start immediately. Computer skills essential. ___ according to age and experience.", "answers": ["position", "Salary"] },
-      "sales_assistant": { "text": "The successful ___ must be hard-working, responsible and honest. Previous ___ an advantage but full ___ will be given. ___ to: The Manager.", "answers": ["applicant", "experience", "training", "Apply"] },
-      "nurse": { "text": "___ position for three months to replace nurse on maternity ___.", "answers": ["Temporary", "leave"] }
-    },
-    "task_4_personal_qualities": [
-      { "text": "She's very ambitious. I'm sure she'll be very successful one day.", "quality": "ambitious", "type": "positive" },
-      { "text": "He isn't very reliable. He takes a day off sick every two weeks.", "quality": "reliable", "type": "negative" },
-      { "text": "She's a bit lazy. She doesn't do anything if she doesn't have to.", "quality": "lazy", "type": "negative" },
-      { "text": "He's extremely conscientious. He's often here long after everyone else has gone home.", "quality": "conscientious", "type": "positive" },
-      { "text": "She's very flexible. She can adapt to most situations.", "quality": "flexible", "type": "positive" },
-      { "text": "He hasn't got much self-confidence. He worries about what people think of him.", "quality": "self-confidence", "type": "negative" },
-      { "text": "He's very punctual. He's never late for meetings.", "quality": "punctual", "type": "positive" },
-      { "text": "She's always on top of her work. Her desk is always tidy.", "quality": "on top of her work", "type": "positive" }
-    ],
-    "task_5_verbal_expressions": [
-      { "start": "I wish he was more independent. He tends to rely on", "end": "other people too much." },
-      { "start": "I have to keep telling him what to do. He doesn't really ever think", "end": "for himself." },
-      { "start": "Whatever you ask him to do, he does it wrong. He doesn't seem to have", "end": "much common sense." },
-      { "start": "He's just so flexible. He'll adapt", "end": "to any situation." },
-      { "start": "You have to tell him what to do and when to do it. He never seems to use", "end": "his initiative." },
-      { "start": "You can always depend on him for an honest opinion. He's not afraid to speak", "end": "his mind." }
-    ],
-    "task_6_unemployment": {
-      "story_1": "An office worker lost his job yesterday. He (1) ___ when he was discovered using the internet... (sack/fire)",
-      "story_2": "Around 250 workers at the BMW car plant... face unemployment... 100 men will (2) ___ at the end of January and a further 150 in June. (be made redundant/lose their jobs)",
-      "story_3": "The closure will have a devastating effect in an area where 15% of the adult population is already (3) ___. (unemployed/out of work)"
-    }
-  },
-  "working_life_data": {
-    "task_1_working_conditions": {
-      "money": ["well-paid", "salary", "pay rise", "bonus"],
-      "hours": ["long hours", "overtime", "flexi-time", "part-time"],
-      "benefits": ["company car", "pension scheme", "private health insurance"],
-      "holiday": ["paid holiday", "take a few days off"],
-      "promotion": ["get promoted", "work your way up", "move up the career ladder"]
-    },
-    "task_2_talking_about_your_job": [
-      { "start": "I hate having to attend", "end": "so many meetings." },
-      { "start": "I love meeting", "end": "new people." },
-      { "start": "I wish I didn't have to do", "end": "so much boring paperwork." },
-      { "start": "I run my own business. I really enjoy being", "end": "my own boss." },
-      { "start": "I hate having to deal with", "end": "difficult customers." },
-      { "start": "I get on really well with", "end": "all of my colleagues except one." }
-    ],
-    "task_3_describing_your_job": [
-      { "text": "My job's so boring. It's the same thing day after day.", "type": "negative" },
-      { "text": "It's so repetitive. I just sit there all day filling in forms.", "type": "negative" },
-      { "text": "It's very satisfying to know that you've helped somebody through their exams.", "type": "positive" },
-      { "text": "Knowing that I might have saved somebody's life is very rewarding.", "type": "positive" },
-      { "text": "I find it very challenging. It requires a lot of concentration and determination.", "type": "positive" },
-      { "text": "This job's so stressful. It's making me ill.", "type": "negative" },
-      { "text": "I wish I could do something glamorous like acting or modelling.", "type": "positive_concept" },
-      { "text": "It's a very friendly place to work. All the staff were really helpful.", "type": "positive" }
-    ],
-    "task_4_job_satisfaction": [
-      { "start": "I need to be doing", "end": "something useful." },
-      { "start": "I like to know that I'm helping", "end": "people." },
-      { "start": "It's important to feel that I'm", "end": "part of a team." },
-      { "start": "I need to be given", "end": "responsibility." },
-      { "start": "I don't want to be stuck", "end": "behind a desk all day." },
-      { "start": "I don't want to find myself doing", "end": "the same thing day in day out." }
-    ],
     "task_6_job_or_work": [
       { "sentence": "I'm starting a new ___ next week.", "answer": "job" },
       { "sentence": "I hear you're a lorry driver. I bet that's hard ___, isn't it?", "answer": "work" },
@@ -316,96 +243,6 @@
       { "sentence": "She'd go back to teaching if she could find someone to ___-share with.", "answer": "job" },
       { "sentence": "I'd go back to teaching if I could find someone to ___-share with.", "answer": "job" }
     ]
-  },
-  "office_and_business_data": {
-    "office_tasks": {
-      "task_1_around_the_office": ["wastepaper basket", "fax machine", "filing cabinet", "desk drawers", "scales", "photocopier", "briefcase", "computer files"],
-      "task_2_on_your_desk": ["rubber", "calculator", "Sellotape", "paper clip", "drawing pins", "pencil sharpener", "stapler", "in-tray", "scissors", "hole punch", "envelope"],
-      "task_3_jobs_around_the_office": [
-        { "verb": "deal with", "nouns": ["a problem", "an enquiry", "a customer"] },
-        { "verb": "send", "nouns": ["a letter", "a fax", "an e-mail", "a copy"] },
-        { "verb": "arrange", "nouns": ["a meeting", "a date", "accommodation"] },
-        { "verb": "do", "nouns": ["paperwork", "the accounts", "the filing"] },
-        { "verb": "make", "nouns": ["a phone call", "some photocopies", "the arrangements", "a complaint"] }
-      ],
-      "task_4_more_jobs": [
-        { "verb": "meet", "noun": "client" },
-        { "verb": "place", "noun": "an order" },
-        { "verb": "cancel", "noun": "a meeting" },
-        { "verb": "solve", "noun": "a problem" }
-      ],
-      "task_5_requests": [
-        { "start": "Can / could you", "end": "phone the client? / fax this through?" },
-        { "start": "Do you mind", "end": "ringing back after four? / if we rearrange?" },
-        { "start": "Don't forget", "end": "to send those disks. / we've got a meeting." },
-        { "start": "Make sure", "end": "you put the date on. / the map is enclosed." }
-      ],
-      "task_6_busy_day": [
-        { "type": "Terrible", "reason": "It's been one thing after another." },
-        { "type": "Boring", "reason": "I spent the whole day putting addresses into the computer." },
-        { "type": "Busy", "reason": "I had to work right through my lunch break." },
-        { "type": "Hectic", "reason": "I haven't had a break all day." },
-        { "type": "Terrible", "reason": "The phone hasn't stopped ringing all day." }
-      ],
-      "task_7_revision": [
-        { "question": "What do you put on the wall to remind you of the date?", "answer": "calendar" },
-        { "question": "Where do you write the date of an important meeting?", "answer": "diary" },
-        { "question": "What would you use to cut paper?", "answer": "scissors" },
-        { "question": "What do you use to add up figures?", "answer": "calculator" },
-        { "question": "Where do you keep all the office files?", "answer": "filing cabinet" },
-        { "question": "Where do you throw away pieces of paper that you don't need?", "answer": "wastepaper basket" },
-        { "question": "What do you use to make holes in a piece of paper?", "answer": "hole punch" },
-        { "question": "What do you use to hold two pieces of paper together?", "answer": "paper clip / stapler" }
-      ]
-    },
-    "business_tasks": {
-      "task_2_verbs": [
-        { "verb": "produce", "ending": "luxury goods, which are sold all over the world." },
-        { "verb": "import", "ending": "all our parts from Germany." },
-        { "verb": "export", "ending": "most of our products to the States." },
-        { "verb": "opened", "ending": "a new branch in Singapore." },
-        { "verb": "launched", "ending": "a new range of skin-care products for men." },
-        { "verb": "negotiating", "ending": "the final details of the agreement tomorrow." },
-        { "verb": "do", "ending": "a lot of business in the Far East." }
-      ],
-      "task_3_kinds": {
-        "multinational": "A very large company with offices in many countries.",
-        "subsidiary": "A business owned by another larger company.",
-        "parent_company": "A company which controls a smaller company.",
-        "limited_company": "A company which sells its shares to the public.",
-        "franchise": "A business which has a licence to use the name of a larger company."
-      },
-      "task_4_departments": [
-        { "dept": "Accounts / Finance", "resp": "invoices, salaries, expenses and budgets" },
-        { "dept": "Personnel", "resp": "staff problems and recruitment" },
-        { "dept": "Sales and Marketing", "resp": "selling the company's products or services" },
-        { "dept": "Research and Development (R&D)", "resp": "developing new products" },
-        { "dept": "Customer Services", "resp": "dealing with customers' enquiries and complaints" },
-        { "dept": "Public Relations (PR)", "resp": "the company's image" }
-      ],
-      "task_5_hows_business": {
-        "well": ["Profits are up", "business has picked up", "Business is booming", "market leader", "expanding"],
-        "badly": ["going through a bad patch", "Business is pretty slack", "go to the wall", "gone bankrupt"]
-      },
-      "task_6_figures": [
-        { "sentence": "Companies shouldn't expect to make much ___ in their first year.", "answer": "profit" },
-        { "sentence": "They are probably doing quite well if they even ___.", "answer": "break even" },
-        { "sentence": "We made a huge ___ in the first year.", "answer": "loss" },
-        { "sentence": "The company's annual ___ is over £2,000,000.", "answer": "turnover" },
-        { "sentence": "The ___ for this project is £12,000.", "answer": "budget" },
-        { "sentence": "This month's sales ___ are a lot better.", "answer": "figures" },
-        { "sentence": "We have set ourselves more realistic sales ___.", "answer": "targets" },
-        { "sentence": "We've had a 7% ___ in sales.", "answer": "increase" },
-        { "sentence": "The ___ line is disappointing.", "answer": "bottom" }
-      ],
-      "task_7_trends": [
-        { "adj": "slight", "def": "small" },
-        { "adj": "steady", "def": "changing slowly" },
-        { "adj": "sharp", "def": "large and sudden" },
-        { "adj": "dramatic", "def": "very quick" },
-        { "adj": "marginal", "def": "extremely small" }
-      ]
-    }
   },
   "grammar_guide": {
     "big_great_large": {
@@ -428,20 +265,7 @@
         { "sentence": "It's a crime to give ___ information to the police.", "answer": "false" }
       ]
     },
-    "opportunity_possibility_chance": {
-      "rules": {
-        "opportunity": "A situation that makes it possible to do something you want to do (e.g. golden opportunity).",
-        "possibility": "A chance that something may happen or be true (followed by 'of -ing', NOT 'to verb').",
-        "chance": "Informal for opportunity or probability (e.g. by chance)."
-      },
-      "practice": [
-        { "sentence": "This new job is a great ___ for me to advance my career.", "answer": "opportunity" },
-        { "sentence": "There is a strong ___ of rain tomorrow.", "answer": "possibility" },
-        { "sentence": "I met him by ___ at the supermarket.", "answer": "chance" },
-        { "sentence": "I didn't have the ___ to say goodbye.", "answer": "chance" },
-        { "sentence": "Is there any ___ of finding a solution?", "answer": "possibility" }
-      ]
-    },
+
     "hope_vs_wish": {
       "rules": {
         "hope": "Something possible (I hope we can see you soon).",
@@ -735,6 +559,17 @@
       { "verb": "make up one's mind", "def": "decide" },
       { "verb": "make over", "def": "transfer property" },
       { "verb": "make of", "def": "have an opinion about" }
+    ],
+    "look": [
+      { "verb": "look forward to", "def": "anticipate with pleasure" },
+      { "verb": "look up", "def": "improve / search for info" },
+      { "verb": "look out over", "def": "have a view of" },
+      { "verb": "look down on", "def": "feel superior to" },
+      { "verb": "look out", "def": "be careful" },
+      { "verb": "look up to", "def": "admire and respect" },
+      { "verb": "look over", "def": "examine quickly" },
+      { "verb": "look into", "def": "investigate" },
+      { "verb": "look after", "def": "take care of" }
     ]
   }
 }
