@@ -204,7 +204,8 @@
     "id": 25,
     "pair": "pass / take",
     "sentences": [
-      { "text": "She had to ___ her driving test three times before she was able to ___.", "answer": "take / pass" }
+      { "text": "She had to ___ her driving test three times.", "answer": "take" },
+      { "text": "She took the test three times before she was able to ___.", "answer": "pass" }
     ]
   },
   {

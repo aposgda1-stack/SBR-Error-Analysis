@@ -108,39 +108,57 @@ const buildMCQ = (topicKey) => {
   data.practice.forEach((item, i) => {
     if (item.sentence && item.answer) {
       // Standard fill-in-the-blank MCQ
-      const correctAns = item.answer.split(' / ')[0]; // take first if multiple
+      const isDouble = item.answer.includes(' / ');
+      const correctAns = item.answer;
       
-      // Build distractors from same topic first
-      const sameTopicAnswers = data.practice
-        .filter((_, idx) => idx !== i)
-        .map(p => p.answer)
-        .filter(Boolean)
-        .flatMap(a => a.split(' / '))
-        .filter(a => a.toLowerCase() !== correctAns.toLowerCase());
+      let distractors = [];
+      if (isDouble) {
+        // Generate double-blank distractors by combining items from logical distractors
+        const words = LOGICAL_DISTRACTORS[topicKey] || ['do', 'make', 'did', 'made'];
+        const combos = [];
+        for (let x = 0; x < words.length; x++) {
+          for (let y = 0; y < words.length; y++) {
+            if (words[x] !== words[y] && combos.length < 20) {
+              combos.push(`${words[x]} / ${words[y]}`);
+            }
+          }
+        }
+        distractors = shuffleArray(combos)
+          .filter(c => c.toLowerCase() !== correctAns.toLowerCase())
+          .slice(0, 3);
+      } else {
+        // Build distractors from same topic first
+        const sameTopicAnswers = data.practice
+          .filter((_, idx) => idx !== i)
+          .map(p => p.answer)
+          .filter(Boolean)
+          .flatMap(a => a.split(' / '))
+          .filter(a => a.toLowerCase() !== correctAns.toLowerCase());
 
-      // Get logical distractors specifically for this category
-      const categorySpecific = LOGICAL_DISTRACTORS[topicKey] || [];
-      const categoryFiltered = categorySpecific.filter(a => a.toLowerCase() !== correctAns.toLowerCase());
+        // Get logical distractors specifically for this category
+        const categorySpecific = LOGICAL_DISTRACTORS[topicKey] || [];
+        const categoryFiltered = categorySpecific.filter(a => a.toLowerCase() !== correctAns.toLowerCase());
 
-      // Fallback cross-topic distractors (properly shuffled so we don't always get the same first few)
-      const crossTopicAnswers = shuffleArray(allAnswers).filter(
-        a => a.toLowerCase() !== correctAns.toLowerCase()
-      );
+        // Fallback cross-topic distractors
+        const crossTopicAnswers = shuffleArray(allAnswers).filter(
+          a => a.toLowerCase() !== correctAns.toLowerCase()
+        );
 
-      const distractor_pool = [
-        ...sameTopicAnswers,
-        ...categoryFiltered,
-        ...crossTopicAnswers
-      ];
+        const distractor_pool = [
+          ...sameTopicAnswers,
+          ...categoryFiltered,
+          ...crossTopicAnswers
+        ];
+        distractors = [...new Set(distractor_pool)].slice(0, 3);
+      }
 
-      const distractors = [...new Set(distractor_pool)].slice(0, 3);
       const options = shuffleArray([correctAns, ...distractors]);
 
       questions.push({
         id: `g_${topicKey}_${i}`,
         type: 'fill',
         sentence: item.sentence,
-        hint: `Fill in the blank with the correct form.`,
+        hint: isDouble ? `Fill in both blanks with the correct form pair.` : `Fill in the blank with the correct form.`,
         answer: correctAns,
         options,
         topic: topicKey.replace(/_/g, ' ')

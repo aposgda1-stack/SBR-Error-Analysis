@@ -227,7 +227,8 @@
     "task_6_job_or_work": [
       { "sentence": "I'm starting a new ___ next week.", "answer": "job" },
       { "sentence": "I hear you're a lorry driver. I bet that's hard ___, isn't it?", "answer": "work" },
-      { "sentence": "I'm looking for part-time ___. A full-time ___ would be too much for me.", "answer": "work / job" },
+      { "sentence": "I'm looking for part-time ___.", "answer": "work" },
+      { "sentence": "A full-time ___ would be too much for me at the moment.", "answer": "job" },
       { "sentence": "I didn't really want to go back to ___ after I had the baby.", "answer": "work" },
       { "sentence": "I'm sorry, I can't stop now. I've got a lot of ___ to do.", "answer": "work" },
       { "sentence": "Judging by the car he drives, I'd say he's got a pretty good ___.", "answer": "job" },
