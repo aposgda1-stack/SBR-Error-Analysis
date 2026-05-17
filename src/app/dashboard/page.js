@@ -28,11 +28,12 @@ export default function Dashboard() {
       .then(data => {
         if (data.user) {
           const local = JSON.parse(localStorage.getItem('sbr_user') || '{}');
-          if (data.user.image && !local.image) {
-            local.image = data.user.image;
-            localStorage.setItem('sbr_user', JSON.stringify(local));
-            setUser({ ...local });
-          }
+          // Always keep local storage in sync with fresh database values
+          local.name = data.user.name || local.name || 'Student';
+          local.image = data.user.image || local.image || null;
+          localStorage.setItem('sbr_user', JSON.stringify(local));
+          setUser({ ...local });
+          
           setStats({
             done: data.user.done || 0,
             xp: data.user.xp || 0,
@@ -66,43 +67,45 @@ export default function Dashboard() {
         {/* === WELCOME HERO === */}
         <div className="animate-slide-up" style={{ marginBottom: 36 }}>
           <div style={{
-            background: 'rgba(167,139,250,0.04)',
-            border: '1px solid rgba(167,139,250,0.12)',
-            borderRadius: 28, padding: '24px 20px',
-            position: 'relative', overflow: 'hidden'
+            background: 'linear-gradient(135deg, rgba(167,139,250,0.06) 0%, rgba(12,8,25,0.75) 100%)',
+            border: '1px solid rgba(167,139,250,0.18)',
+            borderRadius: 32, padding: '28px 24px',
+            position: 'relative', overflow: 'hidden',
+            boxShadow: '0 20px 50px rgba(124, 77, 255, 0.05), inset 0 1px 0 rgba(255,255,255,0.08)'
           }}>
             {/* Top aurora */}
             <div style={{
-              position: 'absolute', top: 0, left: 0, right: 0, height: 2,
+              position: 'absolute', top: 0, left: 0, right: 0, height: 3,
               background: 'linear-gradient(90deg, var(--primary), var(--secondary), var(--accent))',
-              opacity: 0.7
+              opacity: 0.8
             }} />
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 24 }} className="mobile-stack">
               {/* Avatar */}
               <div style={{ position: 'relative', flexShrink: 0 }}>
                 <div style={{
-                  position: 'absolute', inset: -3, borderRadius: '50%',
-                  background: 'var(--grad-primary)', opacity: 0.5, filter: 'blur(10px)'
+                  position: 'absolute', inset: -6, borderRadius: '50%',
+                  background: 'linear-gradient(135deg, var(--primary), var(--secondary))', opacity: 0.6, filter: 'blur(12px)'
                 }} />
                 {user?.image ? (
                   <img
                     src={user.image}
                     style={{
-                      width: 72, height: 72, borderRadius: '50%',
+                      width: 80, height: 80, borderRadius: '50%',
                       border: '3px solid var(--primary)',
                       objectFit: 'cover', position: 'relative',
-                      boxShadow: '0 0 30px var(--primary-glow)'
+                      boxShadow: '0 0 35px var(--primary-glow)'
                     }}
                   />
                 ) : (
                   <div style={{
-                    width: 72, height: 72, borderRadius: '50%',
+                    width: 80, height: 80, borderRadius: '50%',
                     background: 'var(--grad-primary)',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: 32, fontWeight: 900, color: 'white',
+                    fontSize: 36, fontWeight: 900, color: 'white',
                     position: 'relative',
-                    boxShadow: '0 0 30px var(--primary-glow)'
+                    boxShadow: '0 0 35px var(--primary-glow)',
+                    border: '2px solid rgba(255,255,255,0.1)'
                   }}>
                     {(user?.name || 'S').charAt(0).toUpperCase()}
                   </div>
@@ -110,32 +113,32 @@ export default function Dashboard() {
               </div>
 
               <div style={{ flex: 1, minWidth: 0 }}>
-                <p style={{ fontSize: 12, color: 'var(--primary)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 4 }}>
+                <p style={{ fontSize: 11, color: 'var(--primary)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: 2, marginBottom: 6 }}>
                   Welcome back
                 </p>
                 <h2 style={{
-                  fontSize: 26, fontWeight: 900, color: 'white',
-                  letterSpacing: -0.5, lineHeight: 1.1,
+                  fontSize: 28, fontWeight: 950, color: 'white',
+                  letterSpacing: -0.8, lineHeight: 1.1,
                   overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap'
                 }}>
                   {user?.name || 'Student'} 👋
                 </h2>
                 {/* Level + XP bar */}
-                <div style={{ marginTop: 12 }}>
+                <div style={{ marginTop: 14 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-                    <span style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1 }}>
+                    <span style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: 1.2 }}>
                       Level {level}
                     </span>
-                    <span className="mono" style={{ fontSize: 11, color: 'var(--primary)', fontWeight: 700 }}>
+                    <span className="mono" style={{ fontSize: 11, color: 'var(--primary)', fontWeight: 800 }}>
                       {xpProgress}/100 XP
                     </span>
                   </div>
-                  <div style={{ height: 6, borderRadius: 100, background: 'rgba(255,255,255,0.06)', overflow: 'hidden' }}>
+                  <div style={{ height: 8, borderRadius: 100, background: 'rgba(255,255,255,0.06)', overflow: 'hidden' }}>
                     <div style={{
                       height: '100%', width: `${xpProgress}%`,
                       background: 'var(--grad-primary)',
                       borderRadius: 100,
-                      boxShadow: '0 0 12px var(--primary-glow)',
+                      boxShadow: '0 0 15px var(--primary-glow)',
                       transition: 'width 1.5s cubic-bezier(0.16, 1, 0.3, 1)'
                     }} />
                   </div>
@@ -145,15 +148,16 @@ export default function Dashboard() {
                 <button 
                   onClick={() => router.push('/vault')}
                   style={{ 
-                    marginTop: 16, background: 'rgba(255, 255, 255, 0.04)', border: '1px solid var(--border-glass)',
-                    borderRadius: 12, padding: '8px 12px', display: 'flex', alignItems: 'center', gap: 8,
-                    cursor: 'pointer', transition: '0.3s'
+                    marginTop: 18, background: 'rgba(255, 255, 255, 0.03)', border: '1px solid rgba(255,255,255,0.05)',
+                    borderRadius: 14, padding: '10px 16px', display: 'flex', alignItems: 'center', gap: 10,
+                    cursor: 'pointer', transition: '0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                    boxShadow: '0 4px 25px rgba(0,0,0,0.3)'
                   }}
-                  className="hover-bright"
+                  className="hover-bright hover-scale"
                 >
-                  <span className="mi" style={{ color: 'var(--gold)', fontSize: 16 }}>auto_delete</span>
-                  <span style={{ fontSize: 11, fontWeight: 700, color: 'white', textTransform: 'uppercase', letterSpacing: 0.5 }}>Open Review Vault</span>
-                  <span className="mi" style={{ color: 'var(--text-muted)', fontSize: 14 }}>chevron_right</span>
+                  <span className="mi" style={{ color: 'var(--gold)', fontSize: 18, textShadow: '0 0 10px rgba(251,191,36,0.4)' }}>auto_delete</span>
+                  <span style={{ fontSize: 12, fontWeight: 800, color: 'white', textTransform: 'uppercase', letterSpacing: 0.8 }}>Open Review Vault</span>
+                  <span className="mi" style={{ color: 'var(--text-muted)', fontSize: 16 }}>chevron_right</span>
                 </button>
               </div>
             </div>
@@ -161,29 +165,30 @@ export default function Dashboard() {
             {/* Panic Mode Feature Card */}
             <div 
               onClick={() => router.push('/panic')}
-              className="glass-card animate-slide-up" 
+              className="glass-card animate-slide-up hover-scale" 
               style={{ 
-                marginTop: 20, padding: '16px 20px', display: 'flex', alignItems: 'center', gap: 16, 
-                cursor: 'pointer', background: 'linear-gradient(90deg, rgba(239, 68, 68, 0.1), transparent)',
-                border: '1px solid rgba(239, 68, 68, 0.2)', animationDelay: '0.2s'
+                marginTop: 20, padding: '18px 24px', display: 'flex', alignItems: 'center', gap: 16, 
+                cursor: 'pointer', background: 'linear-gradient(90deg, rgba(239, 68, 68, 0.12), rgba(12,8,25,0.65))',
+                border: '1px solid rgba(239, 68, 68, 0.3)', animationDelay: '0.2s',
+                boxShadow: '0 10px 30px rgba(239, 68, 68, 0.05)', borderRadius: 24
               }}
             >
               <div style={{ 
-                width: 44, height: 44, borderRadius: 12, background: 'var(--error)', 
+                width: 46, height: 46, borderRadius: 14, background: 'var(--error)', 
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                boxShadow: '0 0 20px rgba(239, 68, 68, 0.4)'
+                boxShadow: '0 0 25px rgba(239, 68, 68, 0.45)'
               }}>
-                <span className="mi" style={{ color: 'white', fontSize: 22 }}>bolt</span>
+                <span className="mi" style={{ color: 'white', fontSize: 24 }}>bolt</span>
               </div>
               <div style={{ flex: 1 }}>
-                <div style={{ fontSize: 14, fontWeight: 800, color: 'white' }}>Panic Mode</div>
-                <div style={{ fontSize: 11, color: 'var(--text-muted)' }}>60s high-speed challenge</div>
+                <div style={{ fontSize: 15, fontWeight: 900, color: 'white', letterSpacing: -0.2 }}>Panic Mode</div>
+                <div style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 600 }}>60s high-speed survival challenge</div>
               </div>
-              <span className="mi" style={{ color: 'var(--error)' }}>chevron_right</span>
+              <span className="mi" style={{ color: 'var(--error)', fontSize: 20 }}>chevron_right</span>
             </div>
 
             {/* Daily Goal Section */}
-            <div className="glass-card animate-slide-up" style={{ marginTop: 20, padding: 24, textAlign: 'center', animationDelay: '0.3s' }}>
+            <div className="glass-card animate-slide-up" style={{ marginTop: 20, padding: 24, textAlign: 'center', animationDelay: '0.3s', background: 'rgba(255,255,255,0.01)', border: '1px solid rgba(255,255,255,0.03)' }}>
                 <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: 2, marginBottom: 16 }}>Daily Focus</div>
                 {(() => {
                   const today = new Date().toDateString();
@@ -192,20 +197,20 @@ export default function Dashboard() {
                   const pct = Math.min(todaySessions / 3, 1);
                   return (
                     <>
-                      <div style={{ position: 'relative', width: 80, height: 80, margin: '0 auto 16px' }}>
-                        <svg width="80" height="80" viewBox="0 0 80 80">
-                          <circle cx="40" cy="40" r="35" fill="none" stroke="rgba(255,255,255,0.05)" strokeWidth="6" />
-                          <circle cx="40" cy="40" r="35" fill="none" stroke={goalMet ? 'var(--success)' : 'var(--primary)'} strokeWidth="6"
-                            strokeDasharray={`${pct * 220} 220`}
-                            strokeLinecap="round" transform="rotate(-90 40 40)"
-                            style={{ transition: 'stroke-dasharray 1s ease' }}
+                      <div style={{ position: 'relative', width: 90, height: 90, margin: '0 auto 18px' }}>
+                        <svg width="90" height="90" viewBox="0 0 90 90">
+                          <circle cx="45" cy="45" r="38" fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="7" />
+                          <circle cx="45" cy="45" r="38" fill="none" stroke={goalMet ? 'var(--success)' : 'var(--primary)'} strokeWidth="7"
+                            strokeDasharray={`${pct * 238} 238`}
+                            strokeLinecap="round" transform="rotate(-90 45 45)"
+                            style={{ transition: 'stroke-dasharray 1.2s cubic-bezier(0.16, 1, 0.3, 1)', filter: `drop-shadow(0 0 8px ${goalMet ? 'var(--success)' : 'var(--primary)'})` }}
                           />
                         </svg>
-                        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18, fontWeight: 900, color: goalMet ? 'var(--success)' : 'white' }}>
+                        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20, fontWeight: 900, color: goalMet ? 'var(--success)' : 'white', textShadow: goalMet ? '0 0 10px rgba(16,185,129,0.4)' : 'none' }}>
                           {todaySessions}/3
                         </div>
                       </div>
-                      <div style={{ fontSize: 13, fontWeight: 600, color: goalMet ? 'var(--success)' : 'white' }}>
+                      <div style={{ fontSize: 13, fontWeight: 700, color: goalMet ? 'var(--success)' : 'white' }}>
                         {goalMet ? 'Daily Goal Reached! 🔥' : `${3 - todaySessions} more sessions today`}
                       </div>
                     </>
