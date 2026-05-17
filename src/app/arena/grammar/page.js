@@ -45,6 +45,8 @@ const CATEGORIES = {
       'look_see_watch',
       'have_pass_spend_take',
       'countable_uncountable',
+      'plural_nouns',
+      'double_consonant',
       'near_nearby_next_to'
     ]
   },
@@ -53,7 +55,6 @@ const CATEGORIES = {
     icon: 'psychology',
     desc: 'Master professional discourse transitions, speculative modals, and style.',
     keys: [
-      'transitions',
       'modal_verbs',
       'big_great_large',
       'hope_vs_wish',
@@ -85,7 +86,9 @@ const LOGICAL_DISTRACTORS = {
   big_great_large: ['great', 'large', 'big', 'high', 'wide', 'short', 'low', 'small', 'strong', 'light', 'false'],
   near_nearby_next_to: ['near', 'nearby', 'next to', 'nearly', 'close to', 'next', 'almost'],
   plural_nouns: ['people', 'person', 'persons', 'peoples', 'children', 'child', 'childrens', 'stories', 'storys', 'wives', 'wifes'],
-  transitions: ['On the contrary', 'According to', 'Firstly', 'At first', 'However', 'Therefore', 'Furthermore', 'In addition', 'On the other hand'],
+  look_see_watch: ['look', 'see', 'watch', 'looked', 'saw', 'watched', 'looking', 'seeing', 'watching'],
+  countable_uncountable: ['work', 'works', 'jobs', 'job', 'advice', 'advices', 'information', 'informations', 'scenery', 'sceneries', 'furnitures', 'furniture'],
+  double_consonant: ['writing', 'writting', 'planning', 'planing', 'opened', 'openned', 'referring', 'refering', 'preferred', 'prefered', 'stopped', 'stoped'],
   opinions: ['On the contrary', 'According to', 'Firstly', 'At first', 'However', 'Therefore', 'Furthermore', 'In addition', 'On the other hand'],
   give_provide_offer: ['give', 'provide', 'offer', 'gave', 'provided', 'offered', 'giving', 'providing', 'offering', 'gives', 'provides', 'offers'],
   still_already_yet: ['still', 'already', 'yet', 'anymore', 'any longer', 'no longer'],
