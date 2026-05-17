@@ -45,8 +45,6 @@ const CATEGORIES = {
       'look_see_watch',
       'have_pass_spend_take',
       'countable_uncountable',
-      'plural_nouns',
-      'double_consonant',
       'near_nearby_next_to'
     ]
   },
