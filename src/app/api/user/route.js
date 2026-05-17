@@ -51,7 +51,10 @@ export async function POST(req) {
       if (progress) update.$set.progress = progress;
       if (xp !== undefined) update.$set.xp = xp;
       if (level !== undefined) update.$set.level = level;
-      if (clearNotification) update.$set['notification.show'] = false;
+      if (clearNotification) {
+        update.$set['notification.show'] = false;
+        await db.collection("users").updateOne({ userId }, { $set: { "notification.show": false } });
+      }
 
       const inc = {};
       let finalIncXp = incXp;
@@ -169,6 +172,7 @@ export async function GET(req) {
         ...userProgress,
         name: userBase?.name || 'Student',
         image: userBase?.image || null,
+        notification: userBase?.notification || userProgress?.notification || null,
         rank
       }
     });
