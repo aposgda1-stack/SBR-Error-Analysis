@@ -1,190 +1,145 @@
 'use client';
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 
 const QUESTIONS = [
   {
-    id: 'q1_1',
-    topic: 'Accused of',
-    wrong: 'The man was accused with the murder.',
-    correct: 'The man was accused of the murder.',
-    correctWord: 'of',
-    errorWordIdx: 4,
-    options: ['of', 'for', 'with', 'about']
-  },
-  {
-    id: 'q1_2',
-    topic: 'Agree',
-    wrong: 'Greta is agree with you.',
-    correct: 'Greta agrees with you.',
-    correctWord: 'agrees',
-    errorWordIdx: 1,
-    options: ['agrees', 'is', 'has', 'does']
-  },
-  {
-    id: 'q1_3',
-    topic: 'Alive & live',
-    wrong: 'Only three people were live after the accident.',
-    correct: 'Only three people were alive after the accident.',
-    correctWord: 'alive',
-    errorWordIdx: 4,
-    options: ['alive', 'live', 'living', 'life']
-  },
-  {
-    id: 'q1_4',
-    topic: 'Among & between',
-    wrong: 'The three boys divided the cake between themselves.',
-    correct: 'The three boys divided the cake among themselves.',
-    correctWord: 'among',
-    errorWordIdx: 6,
-    options: ['among', 'between', 'through', 'into']
-  },
-  {
-    id: 'q1_5',
-    topic: 'As & like',
-    wrong: 'He is an engineer but works like a driver.',
-    correct: 'He is an engineer but works as a driver.',
-    correctWord: 'as',
-    errorWordIdx: 6,
-    options: ['as', 'like', 'for', 'by']
-  },
-  {
-    id: 'q1_6',
-    topic: 'Be fifteen years old',
-    wrong: 'We have both fifteen years old.',
-    correct: 'We are both fifteen years old.',
-    correctWord: 'are',
-    errorWordIdx: 1,
-    options: ['are', 'have', 'were', 'had']
-  },
-  {
-    id: 'q1_7',
-    topic: 'Can',
-    wrong: 'I can to speak Swahili.',
-    correct: 'I can speak Swahili.',
-    correctWord: 'speak',
+    id: 'm5_1',
+    topic: 'confusing words',
+    wrong: 'He acts as a child.',
+    correct: 'He acts like a child.',
+    correctWord: 'like',
     errorWordIdx: 2,
-    options: ['speak', 'to', 'speaking', 'speaks']
+    options: ['like', 'as', 'about', 'for']
   },
   {
-    id: 'q1_8',
-    topic: 'Can\'t & mustn\'t',
-    wrong: 'It mustn\'t be Silvia. It\'s too early!',
-    correct: 'It can\'t be Silvia. It\'s too early!',
+    id: 'm5_2',
+    topic: 'job vs work',
+    wrong: 'He did all the jobs alone and was exhausted.',
+    correct: 'He did all the work alone and was exhausted.',
+    correctWord: 'work',
+    errorWordIdx: 4,
+    options: ['work', 'jobs', 'careers', 'tasks']
+  },
+  {
+    id: 'm5_3',
+    topic: 'flour vs flower',
+    wrong: 'Baking bread requires flower, water, and yeast.',
+    correct: 'Baking bread requires flour, water, and yeast.',
+    correctWord: 'flour,',
+    errorWordIdx: 3,
+    options: ['flour,', 'flower,', 'powder,', 'meal,']
+  },
+  {
+    id: 'm5_4',
+    topic: 'already vs still',
+    wrong: 'He still has arrived, but it\'s only 8 AM.',
+    correct: 'He has already arrived, but it\'s only 8 AM.',
+    correctWord: 'already',
+    errorWordIdx: 1,
+    options: ['already', 'still', 'yet', 'ever']
+  },
+  {
+    id: 'm5_5',
+    topic: 'mustn\'t vs can\'t',
+    wrong: 'You mustn\'t be serious — that\'s impossible!',
+    correct: 'You can\'t be serious — that\'s impossible!',
     correctWord: 'can\'t',
     errorWordIdx: 1,
     options: ['can\'t', 'mustn\'t', 'shouldn\'t', 'may not']
   },
   {
-    id: 'q1_9',
-    topic: 'Dairy & Diary',
-    wrong: 'She writes in her dairy every night.',
-    correct: 'She writes in her diary every night.',
-    correctWord: 'diary',
+    id: 'm5_6',
+    topic: 'so vs so that',
+    wrong: 'Keep your password safe so hackers can\'t steal it.',
+    correct: 'Keep your password safe so that hackers can\'t steal it.',
+    correctWord: 'so that',
     errorWordIdx: 4,
-    options: ['diary', 'dairy', 'daily', 'book']
+    options: ['so that', 'so', 'because', 'lest']
   },
   {
-    id: 'q1_10',
-    topic: 'Depend on',
-    wrong: 'My decision will depend of the information I have.',
-    correct: 'My decision will depend on the information I have.',
-    correctWord: 'on',
-    errorWordIdx: 4,
-    options: ['on', 'of', 'from', 'with']
+    id: 'm5_7',
+    topic: 'while vs during',
+    wrong: 'During I was cooking, the phone rang.',
+    correct: 'While I was cooking, the phone rang.',
+    correctWord: 'While',
+    errorWordIdx: 0,
+    options: ['While', 'During', 'For', 'Since']
   },
   {
-    id: 'q1_11',
-    topic: 'Dessert & desert',
-    wrong: 'Would you like apple pie for desert?',
-    correct: 'Would you like apple pie for dessert?',
-    correctWord: 'dessert',
-    errorWordIdx: 6,
-    options: ['dessert', 'desert', 'afters', 'sweet']
-  },
-  {
-    id: 'q1_12',
-    topic: 'For & since',
-    wrong: 'I\'ve waited since three hours already.',
-    correct: 'I\'ve waited for three hours already.',
-    correctWord: 'for',
-    errorWordIdx: 2,
-    options: ['for', 'since', 'during', 'in']
-  },
-  {
-    id: 'q1_13',
-    topic: 'Good & well',
-    wrong: 'This is a well book.',
-    correct: 'This is a good book.',
-    correctWord: 'good',
+    id: 'm5_8',
+    topic: 'who vs whose',
+    wrong: 'Do you know who backpack was left in the classroom?',
+    correct: 'Do you know whose backpack was left in the classroom?',
+    correctWord: 'whose',
     errorWordIdx: 3,
-    options: ['good', 'well', 'fine', 'nice']
+    options: ['whose', 'who', 'whom', 'who\'s']
   },
   {
-    id: 'q1_14',
-    topic: 'Listen',
-    wrong: 'I always listen my boss.',
-    correct: 'I always listen to my boss.',
-    correctWord: 'listen to',
-    errorWordIdx: 2,
-    options: ['listen to', 'listen', 'hearing', 'obey']
-  },
-  {
-    id: 'q1_15',
-    topic: 'Look forward to',
-    wrong: 'We look forward to meet you.',
-    correct: 'We look forward to meeting you.',
-    correctWord: 'meeting',
-    errorWordIdx: 4,
-    options: ['meeting', 'meet', 'to meet', 'met']
-  },
-  {
-    id: 'q1_16',
-    topic: 'Job or Work',
-    wrong: 'I have a lot of jobs to do today.',
-    correct: 'I have a lot of work to do today.',
-    correctWord: 'work',
-    errorWordIdx: 5,
-    options: ['work', 'jobs', 'careers', 'tasks']
-  },
-  {
-    id: 'q1_17',
-    topic: 'Job or Career',
-    wrong: 'He started his work as a clerk 20 years ago.',
-    correct: 'He started his career as a clerk 20 years ago.',
-    correctWord: 'career',
-    errorWordIdx: 3,
-    options: ['career', 'work', 'job', 'profession']
-  },
-  {
-    id: 'q1_18',
-    topic: 'Modal Verbs',
-    wrong: 'They can to come to the party.',
-    correct: 'They can come to the party.',
-    correctWord: 'come',
-    errorWordIdx: 2,
-    options: ['come', 'to', 'coming', 'comes']
-  },
-  {
-    id: 'q1_19',
-    topic: 'Modal Verbs',
-    wrong: 'He maybe outside.',
-    correct: 'He may be outside.',
-    correctWord: 'may be',
+    id: 'm5_9',
+    topic: 'can\'t vs mustn\'t',
+    wrong: 'You can\'t smoke here — it\'s strictly prohibited by law.',
+    correct: 'You mustn\'t smoke here — it\'s strictly prohibited by law.',
+    correctWord: 'mustn\'t',
     errorWordIdx: 1,
-    options: ['may be', 'maybe', 'is', 'might']
+    options: ['mustn\'t', 'can\'t', 'don\'t have to', 'needn\'t']
   },
   {
-    id: 'q1_20',
-    topic: 'Modal Verbs',
-    wrong: 'You ought wash your car.',
-    correct: 'You ought to wash your car.',
-    correctWord: 'to wash',
+    id: 'm5_10',
+    topic: 'diary vs dairy',
+    wrong: 'She bought fresh dairy from the farm to record her thoughts.',
+    correct: 'She bought fresh diary from the farm to record her thoughts.',
+    correctWord: 'diary',
+    errorWordIdx: 3,
+    options: ['diary', 'dairy', 'daily', 'paper']
+  },
+  {
+    id: 'm5_11',
+    topic: 'countryside vs country',
+    wrong: 'Let\'s go hiking and enjoy the countryside wildlife.',
+    correct: 'Let\'s go hiking and enjoy the country wildlife.',
+    correctWord: 'country',
+    errorWordIdx: 6,
+    options: ['country', 'countryside', 'nature', 'forest']
+  },
+  {
+    id: 'm5_12',
+    topic: 'driver vs chauffeur',
+    wrong: 'The famous actor hired a private driver to drive his limousine.',
+    correct: 'The famous actor hired a private chauffeur to drive his limousine.',
+    correctWord: 'chauffeur',
+    errorWordIdx: 6,
+    options: ['chauffeur', 'driver', 'captain', 'pilot']
+  },
+  {
+    id: 'm5_13',
+    topic: 'sensible vs sensitive',
+    wrong: 'This medicine is highly sensible to light.',
+    correct: 'This medicine is highly sensitive to light.',
+    correctWord: 'sensitive',
+    errorWordIdx: 4,
+    options: ['sensitive', 'sensible', 'sensational', 'sensory']
+  },
+  {
+    id: 'm5_14',
+    topic: 'official vs officer',
+    wrong: 'The police official gave a press conference.',
+    correct: 'The police officer gave a press conference.',
+    correctWord: 'officer',
     errorWordIdx: 2,
-    options: ['to wash', 'wash', 'washing', 'washed']
+    options: ['officer', 'official', 'agent', 'deputy']
+  },
+  {
+    id: 'm5_15',
+    topic: 'wage vs salary',
+    wrong: 'Her wage is $60,000 per year.',
+    correct: 'Her salary is $60,000 per year.',
+    correctWord: 'salary',
+    errorWordIdx: 1,
+    options: ['salary', 'wage', 'payment', 'income']
   }
 ];
 
-export default function Q1ErrorHunter({ onScore, reviewMode, sectionScore }) {
+export default function M5FormA({ onScore, reviewMode, sectionScore }) {
   const [answers, setAnswers] = useState({}); // { qId: { tappedWordIdx, selectedCorrectWord } }
   const [activeStep, setActiveStep] = useState({}); // { qId: 1 | 2 }
   const [submitted, setSubmitted] = useState(false);
@@ -201,7 +156,6 @@ export default function Q1ErrorHunter({ onScore, reviewMode, sectionScore }) {
       }));
       setActiveStep(prev => ({ ...prev, [qId]: 2 }));
     } else {
-      // Just flag tapped incorrect index for visual feedback
       setAnswers(prev => ({
         ...prev,
         [qId]: { ...prev[qId], wrongTapIdx: idx }
@@ -225,7 +179,8 @@ export default function Q1ErrorHunter({ onScore, reviewMode, sectionScore }) {
         correctCount++;
       }
     });
-    const s = correctCount * 10; // 20 questions * 10 = 200 pts
+    // BUG 6 FIX: Math.round prevents non-integer score (e.g. 37.5)
+    const s = Math.round(correctCount * 2.5); // 15 questions * 2.5 = max 37.5 → 38
     setScore(s);
     setSubmitted(true);
     onScore(s);
@@ -234,11 +189,12 @@ export default function Q1ErrorHunter({ onScore, reviewMode, sectionScore }) {
   return (
     <div className="animate-fade-in">
       <div className="glass-panel" style={{ padding: '24px', marginBottom: 32, borderLeft: '4px solid var(--primary)' }}>
-        <h3 style={{ fontSize: 20, fontWeight: 800, color: 'white', marginBottom: 8 }}>Part 1: Error Correction</h3>
-        <p style={{ color: 'var(--text-dim)', fontSize: 14 }}>Tap the incorrect word, then choose the correct replacement. (20 questions × 10 = 200 pts)</p>
+        <h3 style={{ fontSize: 20, fontWeight: 800, color: 'white', marginBottom: 8 }}>Part 5: Common Errors Form A</h3>
+        <p style={{ color: 'var(--text-dim)', fontSize: 14 }}>Tap the incorrect word in each sentence, then choose the correct replacement. (15 marks = 37.5 XP)</p>
         {isExamFinished && (
           <div style={{ marginTop: 16, display: 'inline-flex', alignItems: 'center', gap: 12, padding: '8px 16px', borderRadius: 12, background: 'var(--grad-primary)' }}>
-            <span style={{ fontSize: 20, fontWeight: 800, color: 'white' }}>{score !== null ? score : (sectionScore !== null && sectionScore !== undefined ? sectionScore : QUESTIONS.filter(q => answers[q.id]?.tappedWordIdx === q.errorWordIdx && answers[q.id]?.selectedCorrectWord === q.correctWord).length * 10)} / 200 pts</span>
+            {/* BUG 19 FIX: Use sectionScore from parent when in review mode */}
+            <span style={{ fontSize: 20, fontWeight: 800, color: 'white' }}>{score !== null ? score : (sectionScore !== null && sectionScore !== undefined ? sectionScore : Math.round(QUESTIONS.filter(q => answers[q.id]?.tappedWordIdx === q.errorWordIdx && answers[q.id]?.selectedCorrectWord === q.correctWord).length * 2.5))} / 38 XP</span>
           </div>
         )}
       </div>
@@ -257,14 +213,12 @@ export default function Q1ErrorHunter({ onScore, reviewMode, sectionScore }) {
                 <span style={{ fontSize: 11, color: 'var(--primary)', fontWeight: 700 }}>{q.topic}</span>
               </div>
 
-              {/* Step Title */}
               {!isExamFinished && (
                 <div style={{ fontSize: 12, color: step === 1 ? 'var(--error)' : 'var(--success)', fontWeight: 800, marginBottom: 12 }}>
                   {step === 1 ? '👉 STEP 1: TAP THE INCORRECT WORD' : '👉 STEP 2: CHOOSE THE CORRECT WORD'}
                 </div>
               )}
 
-              {/* Interactive Sentence */}
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', direction: 'ltr', marginBottom: 20 }}>
                 {words.map((word, wIdx) => {
                   const isTapped = ans.tappedWordIdx === wIdx;
@@ -308,7 +262,6 @@ export default function Q1ErrorHunter({ onScore, reviewMode, sectionScore }) {
                 })}
               </div>
 
-              {/* Step 2 Correct Options */}
               {(step === 2 || isExamFinished) && (
                 <div className="animate-slide-up" style={{ marginTop: 12 }}>
                   <div style={{ fontSize: 12, color: 'var(--text-dim)', marginBottom: 8, textTransform: 'uppercase' }}>Select Correct Replacement:</div>
@@ -359,7 +312,6 @@ export default function Q1ErrorHunter({ onScore, reviewMode, sectionScore }) {
                 </div>
               )}
 
-              {/* Feedback */}
               {isExamFinished && !isCorrect && (
                 <div style={{ marginTop: 16, padding: '12px 16px', borderRadius: 8, background: 'rgba(0, 230, 118, 0.05)', border: '1px dashed var(--success)', fontSize: 14 }}>
                   <div style={{ color: 'var(--success)', fontWeight: 800 }}>✓ Correct Correction:</div>
@@ -376,7 +328,7 @@ export default function Q1ErrorHunter({ onScore, reviewMode, sectionScore }) {
 
       {!isExamFinished && (
         <button className="premium-btn" style={{ width: '100%', marginTop: 40, padding: 20 }} onClick={handleSubmit}>
-          Save Section 1 <span className="mi">arrow_forward</span>
+          Save Section 5 <span className="mi">arrow_forward</span>
         </button>
       )}
     </div>

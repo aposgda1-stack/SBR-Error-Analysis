@@ -2,33 +2,26 @@
 import { useState, useMemo } from 'react';
 
 const QUESTIONS = [
-  { id: 'q2_1', base: 'come', sentence: 'I came ___ an old friend in the market.', answer: 'across' },
-  { id: 'q2_2', base: 'come', sentence: 'She came ___ a fortune when her uncle died.', answer: 'into' },
-  { id: 'q2_3', base: 'come', sentence: 'He came ___ flu last Monday.', answer: 'down with' },
-  { id: 'q2_4', base: 'cut', sentence: 'The phone was cut ___ in the middle of our conversation.', answer: 'off' },
-  { id: 'q2_5', base: 'cut', sentence: 'You should cut ___ on coffee.', answer: 'down on' },
-  { id: 'q2_6', base: 'do', sentence: 'Could you do ___ the old sofa? We need more space.', answer: 'away with' },
-  { id: 'q2_7', base: 'do', sentence: 'The house needs doing ___ completely.', answer: 'up' },
-  { id: 'q2_8', base: 'give', sentence: 'She gave ___ the secret by accident.', answer: 'away' },
-  { id: 'q2_9', base: 'give', sentence: 'He gave ___ smoking last year.', answer: 'up' },
-  { id: 'q2_10', base: 'make', sentence: 'She made ___ the whole story.', answer: 'up' }
+  { id: 'm3_1', sentence: 'The teacher asked us to look ___ the new words in the dictionary.', answer: 'up' },
+  { id: 'm3_2', sentence: 'I can\'t make ___ what he\'s saying—it\'s too noisy.', answer: 'out' },
+  { id: 'm3_3', sentence: 'Don\'t pick ___ your little brother like that! It\'s not fair.', answer: 'on' },
+  { id: 'm3_4', sentence: 'I\'m too tired to continue this puzzle. I think I\'ll give ___.', answer: 'up' },
+  { id: 'm3_5', sentence: 'Can you help me do the dress ___ before the party?', answer: 'up' },
+  { id: 'm3_6', sentence: 'Sorry to cut ___, but I have something important to say.', answer: 'in' },
+  { id: 'm3_7', sentence: 'The manager will look ___ your report before the meeting.', answer: 'over' }
 ];
 
-// Pre-defined particles in Word Box (with duplicate count exactly matching usage, e.g. "up" x3)
 const WORD_BOX = [
-  { word: 'across', key: 'wb_across_1' },
-  { word: 'into', key: 'wb_into_1' },
-  { word: 'down with', key: 'wb_downwith_1' },
-  { word: 'off', key: 'wb_off_1' },
-  { word: 'down on', key: 'wb_downon_1' },
-  { word: 'away with', key: 'wb_awaywith_1' },
-  { word: 'up', key: 'wb_up_1' },
-  { word: 'away', key: 'wb_away_1' },
-  { word: 'up', key: 'wb_up_2' },
-  { word: 'up', key: 'wb_up_3' }
+  { word: 'up', key: 'm3_up_1' },
+  { word: 'up', key: 'm3_up_2' },
+  { word: 'up', key: 'm3_up_3' },
+  { word: 'in', key: 'm3_in_1' },
+  { word: 'over', key: 'm3_over_1' },
+  { word: 'out', key: 'm3_out_1' },
+  { word: 'on', key: 'm3_on_1' }
 ];
 
-export default function Q2PhrasalVerbs({ onScore, reviewMode, sectionScore }) {
+export default function M3Prepositions({ onScore, reviewMode, sectionScore }) {
   const [answers, setAnswers] = useState({}); // { qId: { word, key } }
   const [activeGap, setActiveGap] = useState(null); // qId
   const [submitted, setSubmitted] = useState(false);
@@ -46,7 +39,8 @@ export default function Q2PhrasalVerbs({ onScore, reviewMode, sectionScore }) {
       ...prev,
       [activeGap]: { word, key }
     }));
-    // Auto advance active gap if needed
+    
+    // Auto advance
     const currentIdx = QUESTIONS.findIndex(q => q.id === activeGap);
     const nextQ = QUESTIONS[currentIdx + 1];
     if (nextQ) setActiveGap(nextQ.id);
@@ -71,7 +65,7 @@ export default function Q2PhrasalVerbs({ onScore, reviewMode, sectionScore }) {
         correct++;
       }
     });
-    const s = correct * 10; // 10 questions * 10 = 100 points
+    const s = correct * 5; // 7 questions * 5 = 35 XP
     setScore(s);
     setSubmitted(true);
     onScore(s);
@@ -79,19 +73,19 @@ export default function Q2PhrasalVerbs({ onScore, reviewMode, sectionScore }) {
 
   return (
     <div className="animate-fade-in">
-      <div className="glass-panel" style={{ padding: '24px', marginBottom: 32, borderLeft: '4px solid var(--accent)' }}>
-        <h3 style={{ fontSize: 20, fontWeight: 800, color: 'white', marginBottom: 8 }}>Part 2: Phrasal Verbs</h3>
-        <p style={{ color: 'var(--text-dim)', fontSize: 14 }}>Select a verb's blank, then click the correct particle from the Word Box. (10 questions × 10 = 100 pts)</p>
+      <div className="glass-panel" style={{ padding: '24px', marginBottom: 32, borderLeft: '4px solid #ffea00' }}>
+        <h3 style={{ fontSize: 20, fontWeight: 800, color: 'white', marginBottom: 8 }}>Part 3: Prepositions & Phrasal Verbs</h3>
+        <p style={{ color: 'var(--text-dim)', fontSize: 14 }}>Select a blank, then choose the appropriate preposition from the Word Box. (14 marks = 35 XP)</p>
         {isExamFinished && (
           <div style={{ marginTop: 16, display: 'inline-flex', alignItems: 'center', gap: 12, padding: '8px 16px', borderRadius: 12, background: 'var(--grad-primary)' }}>
-            <span style={{ fontSize: 20, fontWeight: 800, color: 'white' }}>{score !== null ? score : (sectionScore !== null && sectionScore !== undefined ? sectionScore : QUESTIONS.filter(q => answers[q.id]?.word === q.answer).length * 10)} / 100 pts</span>
+            <span style={{ fontSize: 20, fontWeight: 800, color: 'white' }}>{score !== null ? score : (sectionScore !== null && sectionScore !== undefined ? sectionScore : QUESTIONS.filter(q => answers[q.id]?.word === q.answer).length * 5)} / 35 XP</span>
           </div>
         )}
       </div>
 
       {/* Word Box */}
       <div className="glass-panel" style={{ padding: '20px', marginBottom: 32, background: 'rgba(255,255,255,0.02)' }}>
-        <div style={{ fontSize: 11, color: 'var(--accent)', fontWeight: 800, textTransform: 'uppercase', marginBottom: 12, letterSpacing: 1 }}>Word Box (Click a particle to fill the selected blank)</div>
+        <div style={{ fontSize: 11, color: '#ffea00', fontWeight: 800, textTransform: 'uppercase', marginBottom: 12, letterSpacing: 1 }}>Word Box (Click a word to fill the selected blank)</div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
           {WORD_BOX.map(w => {
             const isUsed = usedKeys.has(w.key);
@@ -103,8 +97,8 @@ export default function Q2PhrasalVerbs({ onScore, reviewMode, sectionScore }) {
                 className="glass-card"
                 style={{
                   padding: '8px 16px', fontSize: 13, color: isUsed ? 'var(--text-muted)' : 'white', borderRadius: 12,
-                  background: isUsed ? 'rgba(255,255,255,0.02)' : 'rgba(255, 64, 129, 0.12)',
-                  border: isUsed ? '1px solid transparent' : '1px solid rgba(255, 64, 129, 0.3)',
+                  background: isUsed ? 'rgba(255,255,255,0.02)' : 'rgba(255, 234, 0, 0.12)',
+                  border: isUsed ? '1px solid transparent' : '1px solid rgba(255, 234, 0, 0.3)',
                   textDecoration: isUsed ? 'line-through' : 'none', opacity: isUsed ? 0.4 : 1,
                   cursor: (isExamFinished || isUsed) ? 'default' : 'pointer', transition: '0.2s'
                 }}
@@ -129,12 +123,12 @@ export default function Q2PhrasalVerbs({ onScore, reviewMode, sectionScore }) {
               className="glass-card"
               style={{
                 padding: '20px 24px',
-                border: isExamFinished ? `1px solid ${isCorrect ? 'var(--success)' : 'var(--error)'}` : isSelected ? '1px solid var(--accent)' : '1px solid var(--border-glass)',
+                border: isExamFinished ? `1px solid ${isCorrect ? 'var(--success)' : 'var(--error)'}` : isSelected ? '1px solid #ffea00' : '1px solid var(--border-glass)',
                 transition: '0.2s'
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-                <span style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 800, textTransform: 'uppercase' }}>Sentence {idx + 1} ({q.base.toUpperCase()})</span>
+                <span style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 800, textTransform: 'uppercase' }}>Sentence {idx + 1}</span>
                 {ans && !isExamFinished && (
                   <button
                     onClick={() => handleClearGap(q.id)}
@@ -152,9 +146,9 @@ export default function Q2PhrasalVerbs({ onScore, reviewMode, sectionScore }) {
                   onClick={() => setActiveGap(q.id)}
                   style={{
                     display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-                    minWidth: 100, height: 32, margin: '0 8px', borderRadius: 8,
-                    background: isCorrect ? 'rgba(0, 230, 118, 0.1)' : isExamFinished && !isCorrect ? 'rgba(255, 82, 82, 0.1)' : isSelected ? 'rgba(255, 64, 129, 0.2)' : 'rgba(255,255,255,0.05)',
-                    border: `1px solid ${isCorrect ? 'var(--success)' : isExamFinished && !isCorrect ? 'var(--error)' : isSelected ? 'var(--accent)' : 'var(--border-glass)'}`,
+                    minWidth: 90, height: 32, margin: '0 8px', borderRadius: 8,
+                    background: isCorrect ? 'rgba(0, 230, 118, 0.1)' : isExamFinished && !isCorrect ? 'rgba(255, 82, 82, 0.1)' : isSelected ? 'rgba(255, 234, 0, 0.2)' : 'rgba(255,255,255,0.05)',
+                    border: `1px solid ${isCorrect ? 'var(--success)' : isExamFinished && !isCorrect ? 'var(--error)' : isSelected ? '#ffea00' : 'var(--border-glass)'}`,
                     color: isCorrect ? 'var(--success)' : isExamFinished && !isCorrect ? 'var(--error)' : ans ? 'white' : 'var(--text-muted)',
                     fontSize: 14, fontWeight: 800, cursor: isExamFinished ? 'default' : 'pointer',
                     verticalAlign: 'middle', transition: '0.2s', padding: '0 12px'
@@ -177,7 +171,7 @@ export default function Q2PhrasalVerbs({ onScore, reviewMode, sectionScore }) {
 
       {!isExamFinished && (
         <button className="premium-btn" style={{ width: '100%', marginTop: 40, padding: 20 }} onClick={handleSubmit}>
-          Save Section 2 <span className="mi">arrow_forward</span>
+          Save Section 3 <span className="mi">arrow_forward</span>
         </button>
       )}
     </div>

@@ -58,11 +58,17 @@ export function calcEndBonus(score, total) {
 /**
  * Sync XP to server (fire & forget).
  */
-export function syncXP({ incXp, incDone = 0, historyEntry = null }) {
+export function syncXP({ incXp = 0, incDone = 0, historyEntry = null, pushVault = null }) {
   const uId = JSON.parse(localStorage.getItem('sbr_user') || '{}').userId;
-  if (!uId || incXp <= 0) return;
-  const body = { action: 'sync', userId: uId, incXp, incDone };
+  if (!uId) return;
+  if (incXp <= 0 && incDone <= 0 && !historyEntry && !pushVault) return;
+  
+  const body = { action: 'sync', userId: uId };
+  if (incXp > 0) body.incXp = incXp;
+  if (incDone > 0) body.incDone = incDone;
   if (historyEntry) body.pushHistory = historyEntry;
+  if (pushVault) body.pushVault = pushVault;
+  
   fetch('/api/user', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

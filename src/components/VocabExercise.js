@@ -17,8 +17,9 @@ export default function VocabExercise({ task, onFinish }) {
   }, [task.box_words]);
 
   const usedWordIds = useMemo(() => {
+    if ((task.box_words || []).length < gaps.length) return new Set();
     return new Set(Object.values(answers).map(a => a.id).filter(Boolean));
-  }, [answers]);
+  }, [answers, task.box_words, gaps.length]);
 
   const handleWordSelect = (wordObj) => {
     if (submitted || !activeGap) return;

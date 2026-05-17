@@ -32,6 +32,39 @@ function StreakBadge({ streak }) {
 
 const GRAMMAR = sectionsData.grammar_guide;
 
+const CATEGORIES = {
+  cambridge: {
+    title: 'Common Mistakes',
+    icon: 'school',
+    desc: 'Targeted practice for frequently confused terms and common grammatical errors.',
+    keys: [
+      'and_but_or',
+      'during_for_since',
+      'to_infinitive_vs_ing',
+      'do_vs_make',
+      'look_see_watch',
+      'have_pass_spend_take',
+      'countable_uncountable',
+      'near_nearby_next_to',
+      'plural_nouns',
+      'double_consonant'
+    ]
+  },
+  advanced: {
+    title: 'Advanced Discourse',
+    icon: 'psychology',
+    desc: 'Master professional discourse transitions, speculative modals, and style.',
+    keys: [
+      'transitions',
+      'modal_verbs',
+      'hope_vs_wish',
+      'opinions',
+      'give_provide_offer',
+      'still_already_yet'
+    ]
+  }
+};
+
 const OPTION_LABELS = ['A', 'B', 'C', 'D'];
 
 const shuffleArray = (arr) => {
@@ -142,6 +175,7 @@ export default function GrammarArena() {
   const [totalXp, setTotalXp] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
   const [streak, setStreak] = useState(0);
+  const [activeCategory, setActiveCategory] = useState('cambridge');
   const [completed, setCompleted] = useState(false);
   const [toast, setToast] = useState(null);
   const questionStartRef = useRef(Date.now());
@@ -211,35 +245,77 @@ export default function GrammarArena() {
               <div style={{ padding: '8px 12px', display: 'inline-block', background: 'rgba(0, 229, 255, 0.1)', border: '1px solid var(--secondary)', borderRadius: 12, color: 'var(--secondary)', fontSize: 12, fontWeight: 700, letterSpacing: 1, marginBottom: 12 }}>
                 MODULE 01
               </div>
-              <h2 style={{ fontSize: 32, fontWeight: 800, color: 'white' }}>Grammar Blitz</h2>
-              <p style={{ color: 'var(--text-dim)', fontSize: 15 }}>MCQ questions testing each grammar rule topic by topic.</p>
+              <h2 style={{ fontSize: 32, fontWeight: 800, color: 'white' }}>Grammar Arena</h2>
+              <p style={{ color: 'var(--text-dim)', fontSize: 15 }}>Master key grammar mechanics with topic-specific diagnostics.</p>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              {topicKeys.map((topicKey, i) => {
-                const qCount = buildMCQ(topicKey).length;
-                const title = topicKey.replace(/_/g, ' ').toUpperCase();
+            {/* Premium Tab Switcher */}
+            <div style={{ display: 'flex', background: 'rgba(255, 255, 255, 0.02)', padding: 6, borderRadius: 16, border: '1px solid var(--border-glass)', marginBottom: 24, gap: 4 }}>
+              {Object.entries(CATEGORIES).map(([key, cat]) => {
+                const isActive = activeCategory === key;
                 return (
                   <button
-                    key={topicKey}
-                    onClick={() => startModule(topicKey)}
-                    className="glass-card"
+                    key={key}
+                    onClick={() => {
+                      audioManager.play('CLICK');
+                      setActiveCategory(key);
+                    }}
                     style={{
-                      width: '100%', padding: '20px', textAlign: 'left', display: 'flex', justifyContent: 'space-between',
-                      alignItems: 'center', cursor: 'pointer', transition: '0.2s', border: '1px solid var(--border-glass)'
+                      flex: 1,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      gap: 8,
+                      padding: '12px 16px',
+                      borderRadius: 12,
+                      border: 'none',
+                      background: isActive ? 'var(--grad-primary)' : 'transparent',
+                      color: isActive ? 'white' : 'var(--text-dim)',
+                      fontWeight: 700,
+                      fontSize: 14,
+                      cursor: 'pointer',
+                      transition: '0.3s cubic-bezier(0.16, 1, 0.3, 1)',
+                      boxShadow: isActive ? '0 4px 15px rgba(124, 77, 255, 0.3)' : 'none'
                     }}
                   >
-                    <div>
-                      <div style={{ fontSize: 13, color: 'var(--secondary)', fontWeight: 800, letterSpacing: 1, textTransform: 'uppercase', marginBottom: 4 }}>Module {i + 1}</div>
-                      <div style={{ fontSize: 15, fontWeight: 700, color: 'white' }}>{title}</div>
-                      <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4 }}>{qCount} questions</div>
-                    </div>
-                    <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(0, 229, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--secondary)' }}>
-                      <span className="mi">quiz</span>
-                    </div>
+                    <span className="mi" style={{ fontSize: 18 }}>{cat.icon}</span>
+                    {cat.title}
                   </button>
                 );
               })}
+            </div>
+
+            <p style={{ color: 'var(--text-muted)', fontSize: 13, marginBottom: 20, fontStyle: 'italic' }}>
+              {CATEGORIES[activeCategory].desc}
+            </p>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+              {CATEGORIES[activeCategory].keys
+                .filter(k => GRAMMAR[k] && GRAMMAR[k].practice)
+                .map((topicKey, i) => {
+                  const qCount = buildMCQ(topicKey).length;
+                  const title = topicKey.replace(/_/g, ' ').toUpperCase();
+                  return (
+                    <button
+                      key={topicKey}
+                      onClick={() => startModule(topicKey)}
+                      className="glass-card"
+                      style={{
+                        width: '100%', padding: '20px', textAlign: 'left', display: 'flex', justifyContent: 'space-between',
+                        alignItems: 'center', cursor: 'pointer', transition: '0.2s', border: '1px solid var(--border-glass)'
+                      }}
+                    >
+                      <div>
+                        <div style={{ fontSize: 11, color: 'var(--secondary)', fontWeight: 800, letterSpacing: 1, textTransform: 'uppercase', marginBottom: 4 }}>Sub-Section {String(i + 1).padStart(2, '0')}</div>
+                        <div style={{ fontSize: 15, fontWeight: 700, color: 'white' }}>{title}</div>
+                        <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4 }}>{qCount} questions available</div>
+                      </div>
+                      <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(0, 229, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--secondary)' }}>
+                        <span className="mi">arrow_forward</span>
+                      </div>
+                    </button>
+                  );
+                })}
             </div>
           </div>
         ) : (

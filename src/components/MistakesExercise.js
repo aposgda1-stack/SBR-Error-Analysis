@@ -183,10 +183,12 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
 
   const handleNext = () => {
     audioManager.play('CLICK');
-    if (wrongAttempts.includes('opt_wrong') || (selectedOpt && selectedOpt !== correctOption)) {
+    if (wrongAttempts.length > 0 || (selectedOpt && selectedOpt !== correctOption)) {
       const localVault = JSON.parse(localStorage.getItem('sbr_vault') || '[]');
       if (!localVault.some(v => v.id === currentItem.id)) {
-        localStorage.setItem('sbr_vault', JSON.stringify([...localVault, { ...currentItem, date: new Date() }]));
+        const newItem = { ...currentItem, date: new Date() };
+        localStorage.setItem('sbr_vault', JSON.stringify([...localVault, newItem]));
+        syncXP({ pushVault: newItem });
       }
     }
     if (currentIndex < mistakes.length - 1) {
@@ -195,7 +197,7 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
       setWrongAttempts([]); setFirstTryCorrect(true);
     } else {
       audioManager.play('VICTORY');
-      const { xp: bonusXp, isPerfect } = calcEndBonus(correctCount + (selectedOpt === correctOption ? 1 : 0), mistakes.length);
+      const { xp: bonusXp, isPerfect } = calcEndBonus(correctCount, mistakes.length);
       const finalXp = totalXp + bonusXp;
       syncXP({
         incXp: bonusXp,

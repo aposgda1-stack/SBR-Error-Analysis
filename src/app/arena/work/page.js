@@ -8,31 +8,75 @@ import VocabExercise from '../../../components/VocabExercise';
 export default function WorkArena() {
   const [activeTask, setActiveTask] = useState(null);
 
-  // Extract viable gap-fill exercises for modules
+  const verbsTask = sectionsData.work_vocabulary.task_1_verbs;
+  const nounsTask = sectionsData.work_vocabulary.task_2_nouns;
+  const idiomsTask = sectionsData.work_vocabulary.task_3_idioms;
+  const jobOrWork = sectionsData.working_life_data.task_6_job_or_work;
+  const jobOrCareer = sectionsData.working_life_data.task_7_job_or_career;
+
   const gapModules = [
     {
+      id: 'work_verbs',
+      title: verbsTask.title,
+      desc: 'Match words with their definitions.',
+      task: {
+        title: verbsTask.title,
+        instruction: verbsTask.instruction,
+        text: verbsTask.definitions.map(d => `${d.id}. ${d.text} (${d.id}) ___`).join('\n\n'),
+        box_words: verbsTask.definitions.map(d => d.answer),
+        answers: Object.fromEntries(verbsTask.definitions.map(d => [d.id, d.answer]))
+      }
+    },
+    {
       id: 'work_nouns',
-      title: 'Work Nouns',
-      desc: 'Practice general employment vocabulary',
-      task: sectionsData.work_vocabulary.task_2_nouns
+      title: nounsTask.title,
+      desc: 'Practice general employment vocabulary.',
+      task: {
+        title: nounsTask.title,
+        instruction: nounsTask.instruction,
+        text: nounsTask.text,
+        box_words: nounsTask.box_words,
+        answers: nounsTask.answers
+      }
     },
     {
-      id: 'looking_job',
-      title: 'Looking for a Job',
-      desc: 'Vocabulary for job hunting and applications',
-      task: sectionsData.employment_data.task_1_looking_for_a_job
+      id: 'work_idioms',
+      title: idiomsTask.title,
+      desc: 'Match sentences with idioms and colloquialisms.',
+      task: {
+        title: idiomsTask.title,
+        instruction: 'Fill in the appropriate idiom or colloquialism.',
+        text: idiomsTask.pairs.map((p, i) => {
+          const gapSentence = p.right.replace(new RegExp(p.idiom, 'i'), `(${i+1}) ___`);
+          return `${i + 1}. ${p.left}\n   ${gapSentence}`;
+        }).join('\n\n'),
+        box_words: idiomsTask.pairs.map(p => p.idiom),
+        answers: Object.fromEntries(idiomsTask.pairs.map((p, i) => [i + 1, p.idiom]))
+      }
     },
     {
-      id: 'problems_work',
-      title: 'Problems at Work',
-      desc: 'Terminology for unions, strikes, and resignations',
-      task: sectionsData.working_life_data.task_5_problems_at_work
+      id: 'job_or_work',
+      title: 'Job or Work?',
+      desc: 'Differentiate between job and work in context.',
+      task: {
+        title: 'Job or Work?',
+        instruction: 'Complete the sentences with work or job:',
+        text: jobOrWork.map((q, i) => `${i + 1}. ${q.sentence.replace('___', `(${i + 1})`)}`).join('\n\n'),
+        answers: Object.fromEntries(jobOrWork.map((q, i) => [i + 1, q.answer])),
+        box_words: ["job", "work"]
+      }
     },
     {
-      id: 'starting_business',
-      title: 'Starting a Business',
-      desc: 'Essential business and finance vocabulary',
-      task: sectionsData.office_and_business_data.business_tasks.task_1_starting
+      id: 'job_or_career',
+      title: 'Job or Career?',
+      desc: 'Differentiate between job and career in context.',
+      task: {
+        title: 'Job or Career?',
+        instruction: 'Complete the sentences with job or career:',
+        text: jobOrCareer.map((q, i) => `${i + 1}. ${q.sentence.replace('___', `(${i + 1})`)}`).join('\n\n'),
+        answers: Object.fromEntries(jobOrCareer.map((q, i) => [i + 1, q.answer])),
+        box_words: ["job", "career"]
+      }
     }
   ];
 

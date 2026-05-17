@@ -63,6 +63,15 @@ export async function POST(req) {
         const items = pushVault.$each ? pushVault.$each : [pushVault];
         // Deduplicate incoming items by ID
         const uniqueItems = Array.from(new Map(items.map(item => [item.id, item])).values());
+        
+        // Remove existing items with these IDs first to prevent duplicates
+        const itemIds = uniqueItems.map(i => i.id);
+        if (itemIds.length > 0) {
+          await db.collection("progress").updateOne(
+            { userId },
+            { $pull: { vault: { id: { $in: itemIds } } } }
+          );
+        }
         push.vault = { $each: uniqueItems };
       }
       // pushHistory is always a single history item object
