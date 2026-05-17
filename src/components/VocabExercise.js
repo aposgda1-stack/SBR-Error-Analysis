@@ -50,12 +50,31 @@ export default function VocabExercise({ task, onFinish }) {
     syncXP({ incXp: totalXp, incDone: 1 });
   };
 
+  const sentenceMap = useMemo(() => {
+    const map = {};
+    if (!task.text) return map;
+    const segments = task.text.split(/\n\n+/);
+    segments.forEach(segment => {
+      const gapMatches = [...segment.matchAll(/\((\d+)\)/g)];
+      gapMatches.forEach(m => {
+        const gapId = m[1];
+        let cleanText = segment.trim();
+        cleanText = cleanText.replace(/^\d+\.\s+/, '');
+        map[gapId] = cleanText;
+      });
+    });
+    return map;
+  }, [task.text]);
+
   const processedText = useMemo(() => {
-    let text = task.text;
+    let text = task.text || '';
     gaps.forEach(key => {
-      const escapedWord = correctAnswers[key].replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      const regex = new RegExp(`\\(${key}\\)\\s*${escapedWord}`, 'g');
-      text = text.replace(regex, `(${key}) ___`);
+      const correctAns = correctAnswers[key];
+      if (correctAns) {
+        const escapedWord = correctAns.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regex = new RegExp(`\\(${key}\\)\\s*${escapedWord}`, 'g');
+        text = text.replace(regex, `(${key}) ___`);
+      }
     });
     return text;
   }, [task.text, correctAnswers, gaps]);
@@ -135,14 +154,47 @@ export default function VocabExercise({ task, onFinish }) {
         </div>
         
         {submitted && (
-            <div style={{ marginTop: 24, padding: 16, background: 'rgba(0, 230, 118, 0.05)', borderRadius: 12, border: '1px dashed var(--success)' }}>
-                <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--success)', marginBottom: 8, textTransform: 'uppercase' }}>Correction Key</div>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px 16px' }}>
-                    {gaps.map(g => (
-                        <div key={g} style={{ fontSize: 13, color: 'white' }}>
-                            <span style={{ color: 'var(--text-muted)' }}>({g})</span> {correctAnswers[g]}
-                        </div>
-                    ))}
+            <div style={{ marginTop: 32, padding: 20, background: 'rgba(255, 255, 255, 0.02)', borderRadius: 16, border: '1px solid var(--border-glass)' }}>
+                <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--primary)', marginBottom: 16, textTransform: 'uppercase', letterSpacing: 1 }}>Correction & Explanation Key</div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                    {gaps.map(g => {
+                        const answer = answers[g];
+                        const isRight = answer?.word?.toLowerCase().trim() === correctAnswers[g].toLowerCase().trim();
+                        const sentence = sentenceMap[g] || `(${g}) ___`;
+                        
+                        const makeReconstructed = (word) => {
+                          const wText = word || '___';
+                          return sentence
+                            .replace(new RegExp(`\\(${g}\\)\\s*___`, 'g'), `[${wText}]`)
+                            .replace(new RegExp(`\\(${g}\\)`, 'g'), `[${wText}]`);
+                        };
+
+                        return (
+                          <div key={g} style={{ 
+                            padding: '12px 16px', borderRadius: 12, 
+                            background: isRight ? 'rgba(0, 230, 118, 0.03)' : 'rgba(255, 82, 82, 0.03)',
+                            borderLeft: `4px solid ${isRight ? 'var(--success)' : 'var(--error)'}`,
+                            fontSize: 14, color: 'var(--text-dim)'
+                          }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                              <span className="mi" style={{ fontSize: 18, color: isRight ? 'var(--success)' : 'var(--error)' }}>
+                                {isRight ? 'check_circle' : 'cancel'}
+                              </span>
+                              <strong style={{ color: 'white' }}>Sentence {g}:</strong>
+                            </div>
+                            <div style={{ paddingLeft: 26, direction: 'ltr' }}>
+                              {!isRight && (
+                                <div style={{ marginBottom: 4, textDecoration: 'line-through', opacity: 0.6 }}>
+                                  {makeReconstructed(answer?.word)}
+                                </div>
+                              )}
+                              <div style={{ color: isRight ? 'white' : 'var(--success)', fontWeight: isRight ? 400 : 700 }}>
+                                {makeReconstructed(correctAnswers[g])}
+                              </div>
+                            </div>
+                          </div>
+                        );
+                    })}
                 </div>
             </div>
         )}

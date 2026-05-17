@@ -329,11 +329,25 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
       {/* After answer */}
       {selectedOpt && (
         <div className="animate-slide-up">
-          <div className="glass-card" style={{ padding: '16px 20px', marginBottom: 24, display: 'flex', alignItems: 'center', gap: 12 }}>
-            <span className="mi" style={{ fontSize: 18, color: 'var(--text-dim)' }}>menu_book</span>
-            <div style={{ fontSize: 14, color: 'var(--text-dim)' }}>
-              <strong style={{ color: 'white' }}>Rule: </strong>{currentItem.topic}
+          <div style={{
+            padding: '16px 20px', borderRadius: 12, marginBottom: 24,
+            background: selectedOpt === correctOption ? 'rgba(0,230,118,0.05)' : 'rgba(255,82,82,0.05)',
+            border: `1px solid ${selectedOpt === correctOption ? 'var(--success)' : 'var(--error)'}`,
+            fontSize: 14, color: 'var(--text-dim)'
+          }}>
+            <h4 style={{ fontSize: 18, fontWeight: 800, color: selectedOpt === correctOption ? 'var(--primary)' : 'var(--error)', marginBottom: 12 }}>
+              {selectedOpt === correctOption ? 'Excellent! 🎉' : 'Incorrect ❌'}
+            </h4>
+            <div style={{ marginBottom: 12 }}>
+              <p style={{ fontWeight: 600, color: 'white', marginBottom: 4 }}>The completely correct sentence is:</p>
+              <p style={{ color: 'var(--primary)', fontStyle: 'italic', fontSize: 16 }}>&ldquo;{currentItem.correct}&rdquo;</p>
             </div>
+            {currentItem.topic && (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 12, paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+                <span className="mi" style={{ fontSize: 16, color: 'var(--secondary)' }}>menu_book</span>
+                <span>Rule Topic: <strong style={{ color: 'white' }}>{currentItem.topic}</strong></span>
+              </div>
+            )}
           </div>
           <button className="premium-btn" style={{ width: '100%', padding: '20px' }} onClick={handleNext}>
             {currentIndex < mistakes.length - 1 ? 'Next Question' : 'See Results'}

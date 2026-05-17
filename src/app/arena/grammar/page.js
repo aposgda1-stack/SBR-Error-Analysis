@@ -164,58 +164,56 @@ const buildMCQ = (topicKey) => {
         hint: isDouble ? `Fill in both blanks with the correct form pair.` : `Fill in the blank with the correct form.`,
         answer: correctAns,
         options,
-        topic: topicKey.replace(/_/g, ' ')
+        topic: topicKey.replace(/_/g, ' '),
+        explanation: data.rules || null
       });
 
     } else if (item.wrong && item.correct) {
-      // Error-identification MCQ: show wrong version, 4 options for correction
-      // The blank is the error word
-      const wrongWords = item.wrong.trim().split(/\s+/);
-      const correctWords = item.correct.trim().split(/\s+/);
+      // Error-identification MCQ: Show full sentences to avoid diffing issues for multi-word phrases
+      // We will present 4 sentences, only 1 is correct.
+      
+      // Generate logical distractors for this topic first
+      const categorySpecific = LOGICAL_DISTRACTORS[topicKey] || [];
+      const categoryFiltered = categorySpecific.filter(
+        a => !item.correct.toLowerCase().includes(a.toLowerCase()) && !item.wrong.toLowerCase().includes(a.toLowerCase())
+      );
 
-      // Find the differing word position
-      let diffIdx = -1;
-      for (let j = 0; j < Math.min(wrongWords.length, correctWords.length); j++) {
-        if (wrongWords[j].replace(/[.,!?]/g, '') !== correctWords[j].replace(/[.,!?]/g, '')) {
-          diffIdx = j;
-          break;
-        }
-      }
+      const crossTopicAnswers = shuffleArray(allAnswers).filter(
+        a => !item.correct.toLowerCase().includes(a.toLowerCase()) && !item.wrong.toLowerCase().includes(a.toLowerCase())
+      );
 
-      if (diffIdx >= 0) {
-        const wrongWord = wrongWords[diffIdx].replace(/[.,!?]/g, '');
-        const correctWord = correctWords[diffIdx].replace(/[.,!?]/g, '');
+      const distractor_pool = [
+        ...categoryFiltered,
+        ...crossTopicAnswers
+      ];
 
-        // Generate logical distractors for this topic first
-        const categorySpecific = LOGICAL_DISTRACTORS[topicKey] || [];
-        const categoryFiltered = categorySpecific.filter(
-          a => a.toLowerCase() !== correctWord.toLowerCase() && a.toLowerCase() !== wrongWord.toLowerCase()
-        );
+      const distractorWords = [...new Set(distractor_pool)].slice(0, 2);
+      
+      // Create distractor sentences by replacing the difference with distractor words
+      const w = item.wrong.replace(/[.,!?]$/, '').trim().split(/\s+/);
+      const c = item.correct.replace(/[.,!?]$/, '').trim().split(/\s+/);
+      let start = 0;
+      while (start < w.length && start < c.length && w[start] === c[start]) start++;
+      let endW = w.length - 1, endC = c.length - 1;
+      while (endW >= start && endC >= start && w[endW] === c[endC]) { endW--; endC--; }
+      if (endW < start) endW = start;
+      
+      const wrongPhrase = w.slice(start, endW + 1).join(' ');
+      
+      const distractorSentences = distractorWords.map(dw => item.wrong.replace(wrongPhrase, dw));
+      
+      const options = shuffleArray([item.correct, item.wrong, ...distractorSentences]);
 
-        const crossTopicAnswers = shuffleArray(allAnswers).filter(
-          a => a.toLowerCase() !== correctWord.toLowerCase() && a.toLowerCase() !== wrongWord.toLowerCase()
-        );
-
-        const distractor_pool = [
-          ...categoryFiltered,
-          ...crossTopicAnswers
-        ];
-
-        const distractors = [...new Set(distractor_pool)].slice(0, 2);
-        const options = shuffleArray([correctWord, wrongWord, ...distractors]);
-
-        const highlighted = item.wrong.replace(wrongWords[diffIdx], `[${wrongWords[diffIdx]}]`);
-
-        questions.push({
-          id: `g_${topicKey}_${i}_err`,
-          type: 'error',
-          sentence: highlighted,
-          hint: `The bracketed word is incorrect. Choose the correct replacement.`,
-          answer: correctWord,
-          options,
-          topic: topicKey.replace(/_/g, ' ')
-        });
-      }
+      questions.push({
+        id: `g_${topicKey}_${i}_err`,
+        type: 'sentence', // new type to differentiate
+        sentence: `Which of the following sentences is grammatically correct?`,
+        hint: `Choose the completely correct sentence.`,
+        answer: item.correct,
+        options,
+        topic: topicKey.replace(/_/g, ' '),
+        explanation: data.rules || null
+      });
     }
   });
 
@@ -466,17 +464,43 @@ export default function GrammarArena() {
                 {selectedOpt && (
                   <div className="animate-slide-up" style={{ marginBottom: 20 }}>
                     <div style={{
-                      padding: '12px 16px', borderRadius: 12,
+                      padding: '16px 20px', borderRadius: 12,
                       background: selectedOpt.toLowerCase() === current.answer.toLowerCase() ? 'rgba(0,230,118,0.05)' : 'rgba(255,82,82,0.05)',
                       border: `1px solid ${selectedOpt.toLowerCase() === current.answer.toLowerCase() ? 'var(--success)' : 'var(--error)'}`,
-                      fontSize: 13, color: 'var(--text-dim)'
+                      fontSize: 14, color: 'var(--text-dim)'
                     }}>
                       {selectedOpt.toLowerCase() !== current.answer.toLowerCase() && (
-                        <strong style={{ color: 'var(--success)', display: 'block', marginBottom: 4 }}>
-                          ✓ Correct: {current.answer}
+                        <strong style={{ color: 'var(--success)', display: 'block', marginBottom: 12, fontSize: 16 }}>
+                          ✓ Correct Answer: {current.answer}
                         </strong>
                       )}
-                      Topic: <strong style={{ color: 'white' }}>{current.topic}</strong>
+                      
+                      {current.explanation ? (
+                        <div style={{ marginTop: 8 }}>
+                          <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--primary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 1 }}>Grammar Rule</div>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                            {Array.isArray(current.explanation) ? (
+                              current.explanation.map((rule, idx) => (
+                                <div key={idx} style={{ lineHeight: 1.5, display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+                                  <span style={{ color: 'var(--primary)', fontWeight: 800 }}>•</span>
+                                  <span style={{ color: 'white' }}>{rule}</span>
+                                </div>
+                              ))
+                            ) : (
+                              Object.entries(current.explanation).map(([key, rule]) => (
+                                <div key={key} style={{ lineHeight: 1.5, marginBottom: 4 }}>
+                                  <strong style={{ color: 'white', display: 'block', marginBottom: 2 }}>{key.replace(/_/g, ' ')}:</strong>
+                                  <span style={{ whiteSpace: 'pre-line' }}>{rule}</span>
+                                </div>
+                              ))
+                            )}
+                          </div>
+                        </div>
+                      ) : (
+                        <div style={{ marginTop: 4 }}>
+                          Topic: <strong style={{ color: 'white' }}>{current.topic}</strong>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}

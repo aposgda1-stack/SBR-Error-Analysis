@@ -235,22 +235,24 @@ export default function PhrasalArena() {
                 {selectedOpt && (
                   <div className="animate-slide-up" style={{ marginBottom: 24 }}>
                     <div style={{ 
-                      padding: '14px 18px', borderRadius: 12,
+                      padding: '16px 20px', borderRadius: 12,
                       background: selectedOpt === current.correctParticle ? 'rgba(0,230,118,0.05)' : 'rgba(255,82,82,0.05)',
                       border: `1px solid ${selectedOpt === current.correctParticle ? 'var(--success)' : 'var(--error)'}`,
-                      display: 'flex', alignItems: 'center', gap: 12
+                      fontSize: 14, color: 'var(--text-dim)'
                     }}>
-                      <span className="mi" style={{ color: selectedOpt === current.correctParticle ? 'var(--success)' : 'var(--error)', fontSize: 20 }}>
-                        {selectedOpt === current.correctParticle ? 'verified' : 'info'}
-                      </span>
-                      <div>
-                        {selectedOpt !== current.correctParticle && (
-                          <div style={{ fontSize: 12, color: 'var(--success)', fontWeight: 800, marginBottom: 2 }}>
-                            Correct answer: {current.rootWord} {current.correctParticle}
-                          </div>
-                        )}
-                        <div style={{ fontSize: 12, color: 'var(--text-dim)' }}>
-                          {current.rootWord} {current.correctParticle} = {current.definition}
+                      <h4 style={{ fontSize: 18, fontWeight: 800, color: selectedOpt === current.correctParticle ? 'var(--primary)' : 'var(--error)', marginBottom: 12 }}>
+                        {selectedOpt === current.correctParticle ? 'Excellent! 🎉' : 'Incorrect ❌'}
+                      </h4>
+                      <div style={{ marginBottom: 12 }}>
+                        <p style={{ fontWeight: 600, color: 'white', marginBottom: 4 }}>Completed Phrasal Verb:</p>
+                        <p style={{ color: 'var(--primary)', fontStyle: 'italic', fontSize: 16 }}>
+                          &ldquo;{current.rootWord} {current.correctParticle}&rdquo;
+                        </p>
+                      </div>
+                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, marginTop: 12, paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+                        <span className="mi" style={{ fontSize: 16, color: 'var(--secondary)', marginTop: 2 }}>menu_book</span>
+                        <div>
+                          <strong style={{ color: 'white' }}>Meaning:</strong> {current.definition}
                         </div>
                       </div>
                     </div>
