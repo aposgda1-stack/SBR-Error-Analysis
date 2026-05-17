@@ -32,17 +32,17 @@ const QUESTIONS = [
   },
   {
     id: 'q4_5',
-    sentence: 'I suggest ___ (meet) at seven o\'clock.',
-    options: ['meeting', 'to meet', 'meet', 'met'],
-    correct: 'meeting',
-    topic: 'To Infinitive vs -ing'
+    sentence: 'I haven\'t seen my friends ___ two years.',
+    options: ['for', 'since', 'during', 'in'],
+    correct: 'for',
+    topic: 'During, For, Since'
   },
   {
     id: 'q4_6',
-    sentence: 'I forgot ___ (ask) you about your family.',
-    options: ['to ask', 'asking', 'ask', 'asked'],
-    correct: 'to ask',
-    topic: 'To Infinitive vs -ing'
+    sentence: 'You ___ turn on the printer before you use it.',
+    options: ['must', 'should', 'would', 'can'],
+    correct: 'must',
+    topic: 'Modal Verbs'
   },
   {
     id: 'q4_7',

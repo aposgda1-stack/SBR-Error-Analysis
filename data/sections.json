@@ -428,6 +428,20 @@
         { "sentence": "It's a crime to give ___ information to the police.", "answer": "false" }
       ]
     },
+    "opportunity_possibility_chance": {
+      "rules": {
+        "opportunity": "A situation that makes it possible to do something you want to do (e.g. golden opportunity).",
+        "possibility": "A chance that something may happen or be true (followed by 'of -ing', NOT 'to verb').",
+        "chance": "Informal for opportunity or probability (e.g. by chance)."
+      },
+      "practice": [
+        { "sentence": "This new job is a great ___ for me to advance my career.", "answer": "opportunity" },
+        { "sentence": "There is a strong ___ of rain tomorrow.", "answer": "possibility" },
+        { "sentence": "I met him by ___ at the supermarket.", "answer": "chance" },
+        { "sentence": "I didn't have the ___ to say goodbye.", "answer": "chance" },
+        { "sentence": "Is there any ___ of finding a solution?", "answer": "possibility" }
+      ]
+    },
     "hope_vs_wish": {
       "rules": {
         "hope": "Something possible (I hope we can see you soon).",
