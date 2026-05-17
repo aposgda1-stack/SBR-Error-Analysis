@@ -523,6 +523,7 @@ export default function Dashboard() {
             >
               I Acknowledge & Promise to Play Fairly
             </button>
+          </div>
         </div>
       )}
 
