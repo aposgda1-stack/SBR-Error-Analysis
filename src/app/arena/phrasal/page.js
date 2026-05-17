@@ -1,10 +1,41 @@
 'use client';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import TopBar from '../../../components/TopBar';
 import BottomNav from '../../../components/BottomNav';
 import sectionsData from '../../../../data/sections.json';
 import audioManager from '../../../utils/audio.js';
 import { getArabicExplanation } from '../../../utils/feedback.js';
+import { calcAnswerXP, calcEndBonus, syncXP, XP_BASE, STREAK_THRESHOLD } from '../../../utils/scoring.js';
+
+/* ── XP Toast ── */
+function XPToast({ bonuses, totalXp, onDone }) {
+  useEffect(() => { const t = setTimeout(onDone, 2200); return () => clearTimeout(t); }, [onDone]);
+  return (
+    <div style={{ position: 'fixed', top: 80, right: 20, zIndex: 9999, display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-end', pointerEvents: 'none' }}>
+      <div style={{ background: 'var(--grad-primary)', color: 'white', padding: '10px 20px', borderRadius: 16, fontWeight: 900, fontSize: 20, boxShadow: '0 8px 30px var(--primary-glow)', animation: 'slideUp 0.4s cubic-bezier(0.16,1,0.3,1) both' }}>
+        +{totalXp} XP
+      </div>
+      {bonuses.map((b, i) => (
+        <div key={i} style={{ background: 'rgba(12,8,25,0.9)', border: '1px solid var(--border-bright)', color: 'var(--primary)', padding: '6px 14px', borderRadius: 12, fontWeight: 700, fontSize: 13, animation: `slideUp 0.4s cubic-bezier(0.16,1,0.3,1) ${0.1 * (i + 1)}s both` }}>
+          {b}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ── Streak badge ── */
+function StreakBadge({ streak }) {
+  if (streak < 1) return null;
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+      {Array.from({ length: STREAK_THRESHOLD }).map((_, i) => (
+        <div key={i} style={{ width: 10, height: 10, borderRadius: '50%', background: i < streak % STREAK_THRESHOLD || (streak % STREAK_THRESHOLD === 0 && streak > 0) ? '#f87171' : 'rgba(255,255,255,0.1)', boxShadow: i < streak % STREAK_THRESHOLD ? '0 0 8px #f87171' : 'none', transition: '0.3s' }} />
+      ))}
+      <span style={{ fontSize: 12, fontWeight: 800, color: '#f87171' }}>🔥 {streak}</span>
+    </div>
+  );
+}
 
 const PHRASAL_DATA = sectionsData.phrasal_verbs || {};
 
@@ -60,8 +91,17 @@ export default function PhrasalArena() {
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOpt, setSelectedOpt] = useState(null);
-  const [score, setScore] = useState(0);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [totalXp, setTotalXp] = useState(0);
+  const [streak, setStreak] = useState(0);
   const [completed, setCompleted] = useState(false);
+  const [toast, setToast] = useState(null); // { xp, bonuses }
+  const questionStartRef = useRef(Date.now());
+
+  // Reset timer on question change
+  useEffect(() => {
+    questionStartRef.current = Date.now();
+  }, [currentIndex]);
 
   const startModule = (root) => {
     audioManager.play('CLICK');
@@ -70,8 +110,11 @@ export default function PhrasalArena() {
     setActiveRoot(root);
     setCurrentIndex(0);
     setSelectedOpt(null);
-    setScore(0);
+    setCorrectCount(0);
+    setTotalXp(0);
+    setStreak(0);
     setCompleted(false);
+    questionStartRef.current = Date.now();
   };
 
   const current = questions[currentIndex];
@@ -81,9 +124,19 @@ export default function PhrasalArena() {
     setSelectedOpt(opt);
     if (opt === current.correctParticle) {
       audioManager.play('SUCCESS');
-      setScore(s => s + 1);
+      const newStreak = streak + 1;
+      const newCorrect = correctCount + 1;
+      const elapsed = Date.now() - questionStartRef.current;
+
+      const { xp, bonuses } = calcAnswerXP({ elapsedMs: elapsed, streak: newStreak, firstTry: true });
+      setTotalXp(p => p + xp);
+      setStreak(newStreak);
+      setCorrectCount(newCorrect);
+      setToast({ xp, bonuses });
+      syncXP({ incXp: xp });
     } else {
       audioManager.play('ERROR');
+      setStreak(0);
     }
   };
 
@@ -94,18 +147,15 @@ export default function PhrasalArena() {
       setSelectedOpt(null);
     } else {
       audioManager.play('VICTORY');
+      const { xp: bonusXp, isPerfect } = calcEndBonus(correctCount, questions.length);
+      const finalXp = totalXp + bonusXp;
       setCompleted(true);
-      const uId = JSON.parse(localStorage.getItem('sbr_user') || '{}').userId;
-      if (uId) {
-        fetch('/api/user', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ 
-            action: 'sync', userId: uId, incXp: score, incDone: 1,
-            pushHistory: { date: new Date(), xp: score, type: 'Phrasal Verbs', accuracy: Math.round((score / questions.length) * 100) }
-          })
-        }).catch(console.error);
-      }
+      
+      syncXP({
+        incXp: bonusXp,
+        incDone: 1,
+        historyEntry: { date: new Date(), xp: finalXp, type: 'Phrasal Verbs', accuracy: Math.round((correctCount / questions.length) * 100) }
+      });
     }
   };
 
@@ -160,13 +210,15 @@ export default function PhrasalArena() {
 
             {!completed ? (
               <div className="animate-fade-in" key={currentIndex}>
+                {toast && <XPToast xp={toast.xp} bonuses={toast.bonuses} totalXp={toast.xp} onDone={() => setToast(null)} />}
                 {/* Progress header */}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
                   <div style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: 2 }}>
                     Question {currentIndex + 1} of {questions.length}
                   </div>
+                  <StreakBadge streak={streak} />
                   <div style={{ background: 'var(--grad-primary)', borderRadius: 20, padding: '4px 14px', fontSize: 13, fontWeight: 800, color: 'white' }}>
-                    {score} pts
+                    {totalXp} XP
                   </div>
                 </div>
 
@@ -280,20 +332,22 @@ export default function PhrasalArena() {
             ) : (
               <div className="animate-slide-up" style={{ textAlign: 'center', padding: '40px 20px' }}>
                 <div style={{ 
-                  width: 100, height: 100, borderRadius: '50%', background: 'var(--grad-primary)',
+                  width: 100, height: 100, borderRadius: '50%', background: calcEndBonus(correctCount, questions.length).isPerfect ? 'linear-gradient(135deg,#f59e0b,#fbbf24)' : 'var(--grad-primary)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 24px',
-                  boxShadow: '0 0 40px var(--primary-glow)'
+                  boxShadow: calcEndBonus(correctCount, questions.length).isPerfect ? '0 0 40px rgba(251,191,36,0.5)' : '0 0 40px var(--primary-glow)'
                 }}>
-                  <span className="mi" style={{ fontSize: 48, color: 'white' }}>military_tech</span>
+                  {calcEndBonus(correctCount, questions.length).isPerfect ? '🏆' : <span className="mi" style={{ fontSize: 48, color: 'white' }}>military_tech</span>}
                 </div>
-                <h2 style={{ fontSize: 28, fontWeight: 800, marginBottom: 8 }}>Module Complete!</h2>
+                <h2 style={{ fontSize: 28, fontWeight: 800, marginBottom: 8 }}>{calcEndBonus(correctCount, questions.length).isPerfect ? '🏆 Perfect Score!' : 'Module Complete!'}</h2>
                 <p style={{ color: 'var(--text-dim)', marginBottom: 32 }}>
-                  You scored <strong style={{ color: 'var(--primary)' }}>{score}/{questions.length}</strong> on {activeRoot} phrasal verbs.
+                  You scored <strong style={{ color: 'var(--primary)' }}>{correctCount}/{questions.length}</strong> on {activeRoot} phrasal verbs.
                 </p>
-                <div className="glass-card" style={{ padding: 24, marginBottom: 32 }}>
-                  <div style={{ fontSize: 48, fontWeight: 900, color: 'var(--accent)', fontFamily: 'monospace' }}>{score}</div>
-                  <div style={{ fontSize: 12, color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: 2 }}>of {questions.length} correct</div>
-                  <div style={{ marginTop: 12, fontSize: 24, fontWeight: 800, color: 'var(--primary)' }}>+{score} XP</div>
+                <div className="glass-card" style={{ padding: 24, marginBottom: 32, display: 'flex', flexDirection: 'column', gap: 12, maxWidth: 360, margin: '0 auto 32px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><span style={{ color: 'var(--text-dim)', fontSize: 13 }}>Base XP</span><span style={{ fontFamily: 'JetBrains Mono', fontWeight: 900 }}>{correctCount * XP_BASE}</span></div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><span style={{ color: 'var(--text-dim)', fontSize: 13 }}>Bonuses</span><span style={{ fontFamily: 'JetBrains Mono', fontWeight: 900, color: 'var(--primary)' }}>+{totalXp - correctCount * XP_BASE}</span></div>
+                  {calcEndBonus(correctCount, questions.length).isPerfect && <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><span style={{ color: 'var(--gold)', fontSize: 13 }}>💎 Perfect Bonus</span><span style={{ fontFamily: 'JetBrains Mono', fontWeight: 900, color: 'var(--gold)' }}>+30</span></div>}
+                  <div style={{ height: 1, background: 'var(--border-glass)' }} />
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}><span style={{ fontSize: 15, fontWeight: 800 }}>Total XP</span><span style={{ fontFamily: 'JetBrains Mono', fontSize: 24, fontWeight: 900, color: 'var(--primary)' }}>+{totalXp + calcEndBonus(correctCount, questions.length).xp}</span></div>
                 </div>
                 <button className="premium-btn" onClick={() => setActiveRoot(null)} style={{ margin: '0 auto' }}>
                   Back to Modules <span className="mi">list</span>
