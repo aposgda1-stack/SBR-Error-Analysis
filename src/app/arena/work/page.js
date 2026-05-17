@@ -1,12 +1,22 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import TopBar from '../../../components/TopBar';
 import BottomNav from '../../../components/BottomNav';
 import sectionsData from '../../../../data/sections.json';
 import VocabExercise from '../../../components/VocabExercise';
 
 export default function WorkArena() {
-  const [activeTask, setActiveTask] = useState(null);
+  const [activeModule, setActiveModule] = useState(null);
+  const [completedSections, setCompletedSections] = useState([]);
+
+  useEffect(() => {
+    try {
+      const local = JSON.parse(localStorage.getItem('sbr_completed_sections') || '[]');
+      setCompletedSections(local);
+    } catch (e) {
+      console.error(e);
+    }
+  }, [activeModule]);
 
   const verbsTask = sectionsData.work_vocabulary.task_1_verbs;
   const nounsTask = sectionsData.work_vocabulary.task_2_nouns;
@@ -104,7 +114,7 @@ export default function WorkArena() {
     <main style={{ minHeight: '100vh', paddingBottom: 100 }}>
       <TopBar />
       <div style={{ padding: '24px 20px', maxWidth: 600, margin: '0 auto' }}>
-        {activeTask === null ? (
+        {activeModule === null ? (
           <div className="animate-fade-in">
             <div style={{ marginBottom: 32 }}>
               <div style={{ padding: '8px 12px', display: 'inline-block', background: 'rgba(255, 234, 0, 0.1)', border: '1px solid #ffea00', borderRadius: 12, color: '#ffea00', fontSize: 12, fontWeight: 700, letterSpacing: 1, marginBottom: 12 }}>
@@ -115,32 +125,46 @@ export default function WorkArena() {
             </div>
             
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              {normalizedModules.map((mod, i) => (
-                <button
-                  key={mod.id}
-                  onClick={() => setActiveTask(mod.task)}
-                  className="glass-card"
-                  style={{
-                    width: '100%', padding: '20px', textAlign: 'left', display: 'flex', justifyContent: 'space-between',
-                    alignItems: 'center', cursor: 'pointer', transition: '0.2s', border: '1px solid var(--border-glass)'
-                  }}
-                >
-                  <div>
-                    <div style={{ fontSize: 13, color: '#ffea00', fontWeight: 800, letterSpacing: 1, textTransform: 'uppercase', marginBottom: 4 }}>Module {i + 1}</div>
-                    <div style={{ fontSize: 16, fontWeight: 600, color: 'white' }}>{mod.title}</div>
-                    <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4 }}>{mod.desc}</div>
-                  </div>
-                  <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(255, 234, 0, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ffea00' }}>
-                    <span className="mi">play_arrow</span>
-                  </div>
-                </button>
-              ))}
+              {normalizedModules.map((mod, i) => {
+                const isDone = completedSections.includes('w_mod_' + mod.id);
+                return (
+                  <button
+                    key={mod.id}
+                    onClick={() => setActiveModule(mod)}
+                    className="glass-card"
+                    style={{
+                      width: '100%', padding: '20px', textAlign: 'left', display: 'flex', justifyContent: 'space-between',
+                      alignItems: 'center', cursor: 'pointer', transition: '0.2s',
+                      border: isDone ? '1px solid rgba(16, 185, 129, 0.4)' : '1px solid var(--border-glass)',
+                      background: isDone ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.04) 0%, transparent 100%)' : 'none'
+                    }}
+                  >
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+                        <div style={{ fontSize: 13, color: isDone ? 'var(--success)' : '#ffea00', fontWeight: 800, letterSpacing: 1, textTransform: 'uppercase' }}>
+                          Module {i + 1}
+                        </div>
+                        {isDone && (
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 2, background: 'rgba(16, 185, 129, 0.1)', padding: '2px 6px', borderRadius: 6, fontSize: 9, fontWeight: 900, color: 'var(--success)' }}>
+                            <span className="mi" style={{ fontSize: 10 }}>check</span> COMPLETED
+                          </div>
+                        )}
+                      </div>
+                      <div style={{ fontSize: 16, fontWeight: 600, color: isDone ? 'rgba(255,255,255,0.9)' : 'white' }}>{mod.title}</div>
+                      <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4 }}>{mod.desc}</div>
+                    </div>
+                    <div style={{ width: 40, height: 40, borderRadius: '50%', background: isDone ? 'rgba(16, 185, 129, 0.1)' : 'rgba(255, 234, 0, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: isDone ? 'var(--success)' : '#ffea00' }}>
+                      <span className="mi">{isDone ? 'check' : 'play_arrow'}</span>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
         ) : (
           <div className="animate-slide-up">
             <button 
-              onClick={() => setActiveTask(null)}
+              onClick={() => setActiveModule(null)}
               style={{ background: 'none', border: 'none', color: 'var(--text-dim)', fontSize: 14, fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4, cursor: 'pointer', marginBottom: 24 }}
             >
               <span className="mi" style={{ fontSize: 18 }}>arrow_back</span> Back to Modules
@@ -148,7 +172,11 @@ export default function WorkArena() {
             
             <div className="glass-panel" style={{ padding: '2px', background: 'linear-gradient(135deg, rgba(255,234,0,0.2), transparent)' }}>
               <div style={{ background: 'var(--bg-card)', borderRadius: 22, padding: '24px' }}>
-                <VocabExercise task={activeTask} onFinish={() => setActiveTask(null)} />
+                <VocabExercise 
+                  task={activeModule.task} 
+                  completedSectionKey={'w_mod_' + activeModule.id} 
+                  onFinish={() => setActiveModule(null)} 
+                />
               </div>
             </div>
           </div>

@@ -21,7 +21,7 @@ function XPToast({ bonuses, totalXp, onDone }) {
   );
 }
 
-export default function VocabExercise({ task, onFinish }) {
+export default function VocabExercise({ task, onFinish, completedSectionKey }) {
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [activeGap, setActiveGap] = useState(null);
@@ -125,7 +125,7 @@ export default function VocabExercise({ task, onFinish }) {
     else if (correctCount > 0) audioManager.play('SUCCESS');
     else audioManager.play('ERROR');
 
-    syncXP({ incXp: totalXp, incDone: 1 });
+    syncXP({ incXp: totalXp, incDone: 1, completedSection: completedSectionKey });
   };
 
 
