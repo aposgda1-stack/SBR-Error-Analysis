@@ -40,6 +40,15 @@ const CURRICULUM = [
       { name: 'Cut, Come, Give', href: '/arena/phrasal', info: 'Common Verbs' },
       { name: 'Do & Make', href: '/arena/phrasal', info: 'Action Verbs' }
     ]
+  },
+  {
+    title: 'Confusing Pairs',
+    icon: 'compare_arrows',
+    color: '#10b981',
+    branches: [
+      { name: 'False Friends', href: '/arena/confusing', info: 'Tricky Words' },
+      { name: 'Pairs Practice', href: '/arena/confusing', info: '34 Word Sets' }
+    ]
   }
 ];
 

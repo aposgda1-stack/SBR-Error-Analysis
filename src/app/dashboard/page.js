@@ -8,11 +8,8 @@ const TRAINING_MODULES = [
   { id: 'errors', label: '130 Sentences', sub: 'Error Analysis', icon: 'gps_fixed', color: '#a78bfa', href: '/arena/errors' },
   { id: 'grammar', label: 'Grammar Blitz', sub: 'Rules & Drills', icon: 'bolt', color: '#22d3ee', href: '/arena/grammar' },
   { id: 'phrasal', label: 'Phrasal Verbs', sub: 'Cut · Come · Give', icon: 'sync_alt', color: '#f472b6', href: '/arena/phrasal' },
-  { id: 'work', label: 'Work Vocab', sub: 'Business English', icon: 'work_outline', color: '#fbbf24', href: '/arena/work' }
-];
-
-const PRACTICE_MODULES = [
-  { id: 'confusing', label: 'Confusing Pairs', sub: 'False Friends', icon: 'compare_arrows', color: '#10b981', href: '/arena/confusing' }
+  { id: 'work', label: 'Work Vocab', sub: 'Business English', icon: 'work_outline', color: '#fbbf24', href: '/arena/work' },
+  { id: 'confusing', label: 'Confusing Pairs', sub: 'False Friends', icon: 'compare_arrows', color: '#10b981', href: '/arena/confusing' },
 ];
 
 export default function Dashboard() {
@@ -257,14 +254,14 @@ export default function Dashboard() {
         </div>
 
         {/* === MODULES GRID === */}
-        <div style={{ marginBottom: 24 }}>
+        <div style={{ marginBottom: 16 }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
             <h4 style={{
               fontSize: 11, color: 'var(--text-muted)',
               textTransform: 'uppercase', letterSpacing: 2.5,
               fontWeight: 800, fontFamily: 'Plus Jakarta Sans'
             }}>Training Modules</h4>
-            <span className="neon-tag">4 Active</span>
+            <span className="neon-tag">5 Active</span>
           </div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
@@ -272,7 +269,7 @@ export default function Dashboard() {
               <div
                 key={module.id}
                 onClick={() => router.push(module.href)}
-                className="glass-card animate-slide-up hover-scale"
+                className="glass-card animate-slide-up"
                 style={{
                   padding: '26px 20px', cursor: 'pointer',
                   animationDelay: `${i * 0.08}s`,
@@ -306,54 +303,6 @@ export default function Dashboard() {
                     }} />
                   </div>
                   <span className="mi" style={{ color: module.color, fontSize: 16 }}>chevron_right</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* === PRACTICE SECTION === */}
-        <div style={{ marginBottom: 16 }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
-            <h4 style={{
-              fontSize: 11, color: 'var(--text-muted)',
-              textTransform: 'uppercase', letterSpacing: 2.5,
-              fontWeight: 800, fontFamily: 'Plus Jakarta Sans'
-            }}>Practice Section</h4>
-            <span className="neon-tag" style={{ borderColor: 'rgba(16,185,129,0.3)', color: '#10b981' }}>1 Active</span>
-          </div>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 14 }}>
-            {PRACTICE_MODULES.map((module, i) => (
-              <div
-                key={module.id}
-                onClick={() => router.push(module.href)}
-                className="glass-card animate-slide-up hover-scale"
-                style={{
-                  padding: '24px', cursor: 'pointer',
-                  animationDelay: `0.3s`,
-                  background: `linear-gradient(90deg, ${module.color}15 0%, rgba(12,8,25,0.8) 100%)`,
-                  borderColor: `${module.color}30`,
-                  display: 'flex', alignItems: 'center', gap: 20
-                }}
-              >
-                <div style={{
-                  width: 56, height: 56, borderRadius: 18,
-                  background: `${module.color}20`,
-                  border: `1px solid ${module.color}40`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  boxShadow: `0 0 25px ${module.color}25`
-                }}>
-                  <span className="mi" style={{ color: module.color, fontSize: 28 }}>{module.icon}</span>
-                </div>
-
-                <div style={{ flex: 1 }}>
-                  <h5 style={{ fontSize: 18, fontWeight: 900, marginBottom: 4, color: 'white', fontFamily: 'Plus Jakarta Sans' }}>{module.label}</h5>
-                  <p style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: 0.8 }}>{module.sub}</p>
-                </div>
-
-                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                  <span className="mi" style={{ color: module.color, fontSize: 24 }}>arrow_forward</span>
                 </div>
               </div>
             ))}
