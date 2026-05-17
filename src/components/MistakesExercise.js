@@ -89,7 +89,7 @@ function StreakBadge({ streak }) {
 }
 
 /* ══════════════════════════════════════════════ */
-export default function MistakesExercise({ data, startIndex = 0, onComplete, isComprehensive = false }) {
+export default function MistakesExercise({ data, startIndex = 0, onComplete, isComprehensive = false, completedSectionKey }) {
   const [currentIndex, setCurrentIndex] = useState(startIndex);
   const [step, setStep] = useState(1);
   const [selectedWordIndex, setSelectedWordIndex] = useState(null);
@@ -215,7 +215,8 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete, isC
       syncXP({
         incXp: bonusXp,
         incDone: 1,
-        historyEntry: { date: new Date(), xp: finalXp, type: historyType, accuracy: Math.round((correctCount / mistakes.length) * 100) }
+        historyEntry: { date: new Date(), xp: finalXp, type: historyType, accuracy: Math.round((correctCount / mistakes.length) * 100) },
+        completedSection: completedSectionKey
       });
       setCompleted(true);
     }

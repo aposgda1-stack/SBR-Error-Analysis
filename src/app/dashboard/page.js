@@ -37,6 +37,10 @@ export default function Dashboard() {
           local.image = data.user.image || local.image || null;
           localStorage.setItem('sbr_user', JSON.stringify(local));
           setUser({ ...local });
+
+          if (data.user.completedSections) {
+            localStorage.setItem('sbr_completed_sections', JSON.stringify(data.user.completedSections));
+          }
           
           setStats({
             done: data.user.done || 0,

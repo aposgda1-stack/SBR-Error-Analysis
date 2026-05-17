@@ -40,7 +40,7 @@ export async function POST(req) {
     }
 
     if (data.action === 'sync') {
-      const { userId, progress, xp, level, incXp, incDone, pushVault, pushHistory, clearNotification } = data;
+      const { userId, progress, xp, level, incXp, incDone, pushVault, pushHistory, clearNotification, pushCompletedSection } = data;
       if (!userId) return NextResponse.json({ error: 'Missing userId' }, { status: 400 });
  
       // Security: verify user exists
@@ -94,9 +94,15 @@ export async function POST(req) {
         push.history = { $each: [{ ...pushHistory, date: new Date() }] };
       }
 
+      const addToSet = {};
+      if (pushCompletedSection) {
+        addToSet.completedSections = pushCompletedSection;
+      }
+
       const updateOp = { ...update };
       if (Object.keys(inc).length > 0) updateOp.$inc = inc;
       if (Object.keys(push).length > 0) updateOp.$push = push;
+      if (Object.keys(addToSet).length > 0) updateOp.$addToSet = addToSet;
 
       await db.collection("progress").updateOne(
         { userId },

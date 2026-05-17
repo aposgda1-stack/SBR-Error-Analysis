@@ -11,11 +11,23 @@ import audioManager from '../../../utils/audio.js';
 
 function ErrorsContent() {
   const [activeModuleIndex, setActiveModuleIndex] = useState(null);
+  const [completedSections, setCompletedSections] = useState([]);
+
+  useEffect(() => {
+    try {
+      const local = JSON.parse(localStorage.getItem('sbr_completed_sections') || '[]');
+      setCompletedSections(local);
+    } catch (e) {
+      console.error(e);
+    }
+  }, [activeModuleIndex]);
 
   const data = sectionsData.identify_error_data;
   const mistakes = data.the_130_mistakes || [];
   const MODULE_SIZE = 10;
   const totalModules = Math.ceil(mistakes.length / MODULE_SIZE);
+
+  const isChallengeDone = completedSections.includes('e_comprehensive');
 
   return (
     <>
@@ -37,33 +49,36 @@ function ErrorsContent() {
                   audioManager.play('CLICK');
                   setActiveModuleIndex('all');
                 }}
-                className="glass-card animate-pulse"
+                className={isChallengeDone ? 'glass-card' : 'glass-card animate-pulse'}
                 style={{
                   width: '100%', padding: '24px', textAlign: 'left', display: 'flex', justifyContent: 'space-between',
                   alignItems: 'center', cursor: 'pointer', transition: '0.2s', 
-                  border: '2px solid rgba(124, 77, 255, 0.4)',
-                  background: 'linear-gradient(135deg, rgba(124, 77, 255, 0.15) 0%, rgba(12, 8, 25, 0.98) 100%)',
-                  boxShadow: '0 8px 32px rgba(124, 77, 255, 0.15)',
+                  border: isChallengeDone ? '2px solid rgba(16, 185, 129, 0.4)' : '2px solid rgba(124, 77, 255, 0.4)',
+                  background: isChallengeDone 
+                    ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(12, 8, 25, 0.98) 100%)' 
+                    : 'linear-gradient(135deg, rgba(124, 77, 255, 0.15) 0%, rgba(12, 8, 25, 0.98) 100%)',
+                  boxShadow: isChallengeDone ? '0 8px 32px rgba(16, 185, 129, 0.1)' : '0 8px 32px rgba(124, 77, 255, 0.15)',
                   position: 'relative'
                 }}
               >
                 <div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                    <div style={{ fontSize: 12, color: 'var(--primary)', fontWeight: 900, letterSpacing: 1.5, textTransform: 'uppercase' }}>
-                      🔥 THE ULTIMATE CHALLENGE
+                    <div style={{ fontSize: 12, color: isChallengeDone ? 'var(--success)' : 'var(--primary)', fontWeight: 900, letterSpacing: 1.5, textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: 6 }}>
+                      {isChallengeDone ? '🏆 CHALLENGE COMPLETED' : '🔥 THE ULTIMATE CHALLENGE'}
                     </div>
                   </div>
                   <div style={{ fontSize: 18, fontWeight: 900, color: 'white', marginBottom: 2 }}>Comprehensive 130 Sentences</div>
                   <div style={{ fontSize: 12, color: 'var(--text-dim)' }}>Correct all 130 errors in a single run. XP awarded ONCE.</div>
                 </div>
-                <div style={{ width: 44, height: 44, borderRadius: '50%', background: 'var(--grad-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'white', boxShadow: '0 0 15px var(--primary)' }}>
-                  <span className="mi" style={{ fontSize: 24 }}>bolt</span>
+                <div style={{ width: 44, height: 44, borderRadius: '50%', background: isChallengeDone ? 'rgba(16, 185, 129, 0.2)' : 'var(--grad-primary)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: isChallengeDone ? 'var(--success)' : 'white', boxShadow: isChallengeDone ? 'none' : '0 0 15px var(--primary)' }}>
+                  <span className="mi" style={{ fontSize: 24 }}>{isChallengeDone ? 'check' : 'bolt'}</span>
                 </div>
               </button>
 
               {Array.from({ length: totalModules }).map((_, i) => {
                 const start = i * MODULE_SIZE + 1;
                 const end = Math.min((i + 1) * MODULE_SIZE, mistakes.length);
+                const isDone = completedSections.includes('e_module_' + i);
                 return (
                   <button
                     key={i}
@@ -75,20 +90,26 @@ function ErrorsContent() {
                     style={{
                       width: '100%', padding: '20px', textAlign: 'left', display: 'flex', justifyContent: 'space-between',
                       alignItems: 'center', cursor: 'pointer', transition: '0.2s', 
-                      border: '1px solid var(--border-glass)',
+                      border: isDone ? '1px solid rgba(16, 185, 129, 0.4)' : '1px solid var(--border-glass)',
+                      background: isDone ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.04) 0%, transparent 100%)' : 'none',
                       position: 'relative'
                     }}
                   >
                     <div>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                        <div style={{ fontSize: 13, color: 'var(--primary)', fontWeight: 800, letterSpacing: 1, textTransform: 'uppercase' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+                        <div style={{ fontSize: 13, color: isDone ? 'var(--success)' : 'var(--primary)', fontWeight: 800, letterSpacing: 1, textTransform: 'uppercase' }}>
                           Module {i + 1}
                         </div>
+                        {isDone && (
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 2, background: 'rgba(16, 185, 129, 0.1)', padding: '2px 6px', borderRadius: 6, fontSize: 9, fontWeight: 900, color: 'var(--success)' }}>
+                            <span className="mi" style={{ fontSize: 10 }}>check</span> COMPLETED
+                          </div>
+                        )}
                       </div>
-                      <div style={{ fontSize: 16, fontWeight: 600, color: 'white' }}>Sentences {start} - {end}</div>
+                      <div style={{ fontSize: 16, fontWeight: 600, color: isDone ? 'rgba(255,255,255,0.9)' : 'white' }}>Sentences {start} - {end}</div>
                     </div>
-                    <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(124, 77, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--primary)' }}>
-                      <span className="mi">play_arrow</span>
+                    <div style={{ width: 40, height: 40, borderRadius: '50%', background: isDone ? 'rgba(16, 185, 129, 0.1)' : 'rgba(124, 77, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: isDone ? 'var(--success)' : 'var(--primary)' }}>
+                      <span className="mi">{isDone ? 'check' : 'play_arrow'}</span>
                     </div>
                   </button>
                 );
@@ -109,6 +130,7 @@ function ErrorsContent() {
             <MistakesExercise 
               data={activeModuleIndex === 'all' ? mistakes : mistakes.slice(activeModuleIndex * MODULE_SIZE, (activeModuleIndex + 1) * MODULE_SIZE)} 
               isComprehensive={activeModuleIndex === 'all'}
+              completedSectionKey={activeModuleIndex === 'all' ? 'e_comprehensive' : 'e_module_' + activeModuleIndex}
               onComplete={() => setActiveModuleIndex(null)} 
             />
           </div>

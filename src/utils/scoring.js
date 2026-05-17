@@ -58,16 +58,30 @@ export function calcEndBonus(score, total) {
 /**
  * Sync XP to server (fire & forget).
  */
-export function syncXP({ incXp = 0, incDone = 0, historyEntry = null, pushVault = null }) {
+export function syncXP({ incXp = 0, incDone = 0, historyEntry = null, pushVault = null, completedSection = null }) {
   const uId = JSON.parse(localStorage.getItem('sbr_user') || '{}').userId;
   if (!uId) return;
-  if (incXp <= 0 && incDone <= 0 && !historyEntry && !pushVault) return;
+  
+  if (completedSection) {
+    try {
+      const localCompleted = JSON.parse(localStorage.getItem('sbr_completed_sections') || '[]');
+      if (!localCompleted.includes(completedSection)) {
+        localCompleted.push(completedSection);
+        localStorage.setItem('sbr_completed_sections', JSON.stringify(localCompleted));
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  if (incXp <= 0 && incDone <= 0 && !historyEntry && !pushVault && !completedSection) return;
   
   const body = { action: 'sync', userId: uId };
   if (incXp > 0) body.incXp = incXp;
   if (incDone > 0) body.incDone = incDone;
   if (historyEntry) body.pushHistory = historyEntry;
   if (pushVault) body.pushVault = pushVault;
+  if (completedSection) body.pushCompletedSection = completedSection;
   
   fetch('/api/user', {
     method: 'POST',

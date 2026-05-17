@@ -307,6 +307,7 @@ const buildMCQ = (topicKey) => {
 
 export default function GrammarArena() {
   const [activeModule, setActiveModule] = useState(null);
+  const [completedSections, setCompletedSections] = useState([]);
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOpt, setSelectedOpt] = useState(null);
@@ -316,6 +317,15 @@ export default function GrammarArena() {
   const [completed, setCompleted] = useState(false);
   const [toast, setToast] = useState(null);
   const questionStartRef = useRef(Date.now());
+
+  useEffect(() => {
+    try {
+      const local = JSON.parse(localStorage.getItem('sbr_completed_sections') || '[]');
+      setCompletedSections(local);
+    } catch (e) {
+      console.error(e);
+    }
+  }, [activeModule]);
 
   const startModule = (topicKey) => {
     audioManager.play('CLICK');
@@ -365,7 +375,8 @@ export default function GrammarArena() {
       const historyType = activeModule === 'comprehensive_study_guide' ? 'Comprehensive Study Guide' : 'Grammar Blitz';
       syncXP({
         incXp: 0, incDone: 1,
-        historyEntry: { date: new Date(), xp: totalXp + bonusXp, type: historyType, accuracy: Math.round((correctCount / questions.length) * 100) }
+        historyEntry: { date: new Date(), xp: totalXp + bonusXp, type: historyType, accuracy: Math.round((correctCount / questions.length) * 100) },
+        completedSection: 'g_' + activeModule
       });
       setCompleted(true);
     }
@@ -393,6 +404,7 @@ export default function GrammarArena() {
                 .map((topicKey, i) => {
                   const qCount = buildMCQ(topicKey).length;
                   const title = topicKey.replace(/_/g, ' ').toUpperCase();
+                  const isDone = completedSections.includes('g_' + topicKey);
                   return (
                     <button
                       key={topicKey}
@@ -400,16 +412,27 @@ export default function GrammarArena() {
                       className="glass-card"
                       style={{
                         width: '100%', padding: '20px', textAlign: 'left', display: 'flex', justifyContent: 'space-between',
-                        alignItems: 'center', cursor: 'pointer', transition: '0.2s', border: '1px solid var(--border-glass)'
+                        alignItems: 'center', cursor: 'pointer', transition: '0.2s', 
+                        border: isDone ? '1px solid rgba(16, 185, 129, 0.4)' : '1px solid var(--border-glass)',
+                        background: isDone ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.04) 0%, transparent 100%)' : 'none'
                       }}
                     >
                       <div>
-                        <div style={{ fontSize: 11, color: 'var(--secondary)', fontWeight: 800, letterSpacing: 1, textTransform: 'uppercase', marginBottom: 4 }}>Sub-Section {String(i + 1).padStart(2, '0')}</div>
-                        <div style={{ fontSize: 15, fontWeight: 700, color: 'white' }}>{title}</div>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+                          <div style={{ fontSize: 11, color: isDone ? 'var(--success)' : 'var(--secondary)', fontWeight: 800, letterSpacing: 1, textTransform: 'uppercase' }}>
+                            Sub-Section {String(i + 1).padStart(2, '0')}
+                          </div>
+                          {isDone && (
+                            <div style={{ display: 'flex', alignItems: 'center', gap: 2, background: 'rgba(16, 185, 129, 0.1)', padding: '2px 6px', borderRadius: 6, fontSize: 9, fontWeight: 900, color: 'var(--success)' }}>
+                              <span className="mi" style={{ fontSize: 10 }}>check</span> COMPLETED
+                            </div>
+                          )}
+                        </div>
+                        <div style={{ fontSize: 15, fontWeight: 700, color: isDone ? 'rgba(255,255,255,0.9)' : 'white' }}>{title}</div>
                         <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4 }}>{qCount} questions available</div>
                       </div>
-                      <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(0, 229, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--secondary)' }}>
-                        <span className="mi">arrow_forward</span>
+                      <div style={{ width: 40, height: 40, borderRadius: '50%', background: isDone ? 'rgba(16, 185, 129, 0.1)' : 'rgba(0, 229, 255, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: isDone ? 'var(--success)' : 'var(--secondary)' }}>
+                        <span className="mi">{isDone ? 'check' : 'arrow_forward'}</span>
                       </div>
                     </button>
                   );

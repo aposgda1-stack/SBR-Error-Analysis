@@ -88,6 +88,7 @@ const buildQuestions = (rootKey) => {
 
 export default function PhrasalArena() {
   const [activeRoot, setActiveRoot] = useState(null);
+  const [completedSections, setCompletedSections] = useState([]);
   const [questions, setQuestions] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedOpt, setSelectedOpt] = useState(null);
@@ -97,6 +98,15 @@ export default function PhrasalArena() {
   const [completed, setCompleted] = useState(false);
   const [toast, setToast] = useState(null); // { xp, bonuses }
   const questionStartRef = useRef(Date.now());
+
+  useEffect(() => {
+    try {
+      const local = JSON.parse(localStorage.getItem('sbr_completed_sections') || '[]');
+      setCompletedSections(local);
+    } catch (e) {
+      console.error(e);
+    }
+  }, [activeRoot]);
 
   // Reset timer on question change
   useEffect(() => {
@@ -154,7 +164,8 @@ export default function PhrasalArena() {
       syncXP({
         incXp: bonusXp,
         incDone: 1,
-        historyEntry: { date: new Date(), xp: finalXp, type: 'Phrasal Verbs', accuracy: Math.round((correctCount / questions.length) * 100) }
+        historyEntry: { date: new Date(), xp: finalXp, type: 'Phrasal Verbs', accuracy: Math.round((correctCount / questions.length) * 100) },
+        completedSection: 'p_' + activeRoot
       });
     }
   };
@@ -176,6 +187,7 @@ export default function PhrasalArena() {
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {Object.keys(PHRASAL_DATA).map((rootKey, i) => {
                 const count = PHRASAL_DATA[rootKey].length;
+                const isDone = completedSections.includes('p_' + rootKey);
                 return (
                   <button
                     key={rootKey}
@@ -183,16 +195,27 @@ export default function PhrasalArena() {
                     className="glass-card"
                     style={{
                       width: '100%', padding: '20px', textAlign: 'left', display: 'flex', justifyContent: 'space-between',
-                      alignItems: 'center', cursor: 'pointer', transition: '0.2s', border: '1px solid var(--border-glass)'
+                      alignItems: 'center', cursor: 'pointer', transition: '0.2s',
+                      border: isDone ? '1px solid rgba(16, 185, 129, 0.4)' : '1px solid var(--border-glass)',
+                      background: isDone ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.04) 0%, transparent 100%)' : 'none'
                     }}
                   >
                     <div>
-                      <div style={{ fontSize: 13, color: 'var(--accent)', fontWeight: 800, letterSpacing: 1, textTransform: 'uppercase', marginBottom: 4 }}>Module {i + 1}</div>
-                      <div style={{ fontSize: 16, fontWeight: 600, color: 'white', textTransform: 'capitalize' }}>{rootKey} Verbs</div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+                        <div style={{ fontSize: 13, color: isDone ? 'var(--success)' : 'var(--accent)', fontWeight: 800, letterSpacing: 1, textTransform: 'uppercase' }}>
+                          Module {i + 1}
+                        </div>
+                        {isDone && (
+                          <div style={{ display: 'flex', alignItems: 'center', gap: 2, background: 'rgba(16, 185, 129, 0.1)', padding: '2px 6px', borderRadius: 6, fontSize: 9, fontWeight: 900, color: 'var(--success)' }}>
+                            <span className="mi" style={{ fontSize: 10 }}>check</span> COMPLETED
+                          </div>
+                        )}
+                      </div>
+                      <div style={{ fontSize: 16, fontWeight: 600, color: isDone ? 'rgba(255,255,255,0.9)' : 'white', textTransform: 'capitalize' }}>{rootKey} Verbs</div>
                       <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 4 }}>{count} MCQ questions</div>
                     </div>
-                    <div style={{ width: 40, height: 40, borderRadius: '50%', background: 'rgba(255, 64, 129, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--accent)' }}>
-                      <span className="mi">quiz</span>
+                    <div style={{ width: 40, height: 40, borderRadius: '50%', background: isDone ? 'rgba(16, 185, 129, 0.1)' : 'rgba(255, 64, 129, 0.1)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: isDone ? 'var(--success)' : 'var(--accent)' }}>
+                      <span className="mi">{isDone ? 'check' : 'quiz'}</span>
                     </div>
                   </button>
                 );
