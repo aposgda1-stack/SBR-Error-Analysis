@@ -126,6 +126,7 @@ export default function ConfusingArena() {
                   const nextModule = (currentIdx !== -1 && currentIdx < gapModules.length - 1) ? gapModules[currentIdx + 1] : null;
                   return (
                     <VocabExercise 
+                      key={activeModule.id}
                       task={activeModule.task} 
                       completedSectionKey={'c_mod_' + activeModule.id} 
                       onFinish={() => setActiveModule(null)} 

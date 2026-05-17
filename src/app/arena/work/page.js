@@ -173,6 +173,7 @@ export default function WorkArena() {
             <div className="glass-panel" style={{ padding: '2px', background: 'linear-gradient(135deg, rgba(255,234,0,0.2), transparent)' }}>
               <div style={{ background: 'var(--bg-card)', borderRadius: 22, padding: '24px' }}>
                 <VocabExercise 
+                  key={activeModule.id}
                   task={activeModule.task} 
                   completedSectionKey={'w_mod_' + activeModule.id} 
                   onFinish={() => setActiveModule(null)} 
