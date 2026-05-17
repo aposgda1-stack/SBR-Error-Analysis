@@ -4,6 +4,10 @@
  */
 
 export const getArabicExplanation = (question, topicKey) => {
+  if (question.arabicExplanation) {
+    return question.arabicExplanation;
+  }
+
   const ans = (question.answer || question.correct || '').toLowerCase().trim();
   const sentence = (question.sentence || '').toLowerCase();
   const wrong = (question.wrong || '').toLowerCase();

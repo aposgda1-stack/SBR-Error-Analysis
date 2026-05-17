@@ -1519,121 +1519,428 @@
       ]
     },
     "do_vs_make": {
-      "do_nouns": [
-        "a course",
-        "a job",
-        "a test",
-        "aerobics",
-        "an activity",
-        "an exam",
-        "an exercise",
-        "homework",
-        "housework",
-        "the shopping",
-        "a sightseeing tour",
-        "work"
-      ],
-      "make_nouns": [
-        "a cake",
-        "a change",
-        "a choice",
-        "a decision",
-        "friends",
-        "a mistake",
-        "a plan",
-        "a reservation",
-        "a sandwich",
-        "sport"
-      ],
+      "rules": {
+        "Do": "Used with nouns related to tasks, work, activities, or general exercises (e.g., a course, a job, a test, aerobics, an activity, an exam, an exercise, homework, housework, the shopping, work, sport).",
+        "Make": "Used with nouns related to creating, constructing, planning, or deciding something new (e.g., a cake, a change, a choice, a decision, a mistake, a plan, a reservation, a sandwich, a sightseeing tour, friends)."
+      },
       "practice": [
         {
           "sentence": "When you've ___ your homework, you can help me ___ the tea.",
-          "answer": "done / make"
+          "answer": "done / make",
+          "options": ["done / make", "made / do", "done / do", "made / make"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "الواجب المدرسي (homework) يقترن لغوياً بالفعل do، بينما إعداد وتجهيز المشروبات كالشاي (tea) يقترن بالفعل make.",
+            "التعليل الأكاديمي (Academic Analysis)": "الجملة تجمع بين متلازمتين لفظيتين متباينتين؛ حيث يعبر الشق الأول عن أداء مهمة روتينية (done)، ويعبر الشق الثاني عن تحضير مادي (make)."
+          }
         },
         {
           "sentence": "I want to ___ a lot of changes to the house.",
-          "answer": "make"
+          "answer": "make",
+          "options": ["make", "do", "apply", "execute"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "إحداث تعديلات أو تغييرات (changes) يتلازم اصطلاحياً مع الفعل (make) ليعني إجراء التغيير (make changes).",
+            "التعليل الأكاديمي (Academic Analysis)": "صياغة التغيير أو التطوير في المكان تعتبر عملية ابتكار وإنشاء لوضع جديد، مما يتطلب قواعدياً الفعل (make) بدلاً من do."
+          }
         },
         {
           "sentence": "The student had to ___ a choice.",
-          "answer": "make"
+          "answer": "make",
+          "options": ["make", "do", "take", "have"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "اتخاذ خيار أو المفاضلة بين بدائل (a choice) يُصاحب دائماً بـ (make) (make a choice).",
+            "التعليل الأكاديمي (Academic Analysis)": "الاصطلاح اللغوي السليم للمفاضلة هو الفعل (make)، واستعمال do هنا يعتبر خطأ تركيبياً فادحاً."
+          }
         },
         {
           "sentence": "I liked ___ the course because we ___ a lot of fun activities.",
-          "answer": "doing / made"
+          "answer": "doing / did",
+          "options": ["doing / did", "making / made", "doing / made", "making / did"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "دراسة الدورات (a course) وممارسة الأنشطة (activities) يتلازمان قواعدياً مع الفعل (do).",
+            "التعليل الأكاديمي (Academic Analysis)": "كلا الشقين يعبران عن تنفيذ مهام وأنشطة وليس صياغة أو ابتكار مادي، لذا فإن صيغ الفعل (do) هي الصيغ الصحيحة في الحالتين."
+          }
+        },
+        {
+          "sentence": "To advance in his career, he decided to ___ a professional management course.",
+          "answer": "do",
+          "options": ["do", "make", "take", "give"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "المتلازمة اللفظية المعتمدة لدراسة الدورات التعليمية هي (do a course).",
+            "التعليل الأكاديمي (Academic Analysis)": "رغم شيوع استخدام take كخيار عام في الحديث، إلا أن منهاج SBR الأكاديمي يؤكد على متلازمة (do a course) كأفضل تعبير عن الخضوع لدورة تدريبية."
+          }
+        },
+        {
+          "sentence": "The board must ___ a critical decision regarding the company's future.",
+          "answer": "make",
+          "options": ["make", "do", "take", "have"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "اتخاذ القرارات الرسمية (a decision) يفرض قواعدياً الفعل (make) (make a decision).",
+            "التعليل الأكاديمي (Academic Analysis)": "اتخاذ القرارات الهامة يُعد عملية بناء وتشكيل للموقف، وهو ما يتم التعبير عنه بالمتلازمة اللفظية المعيارية (make a decision)."
+          }
+        },
+        {
+          "sentence": "Many employees stay after hours to ___ aerobics in the company gym.",
+          "answer": "do",
+          "options": ["do", "make", "play", "go"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "ممارسة الأنشطة الرياضية الفردية الروتينية التي لا تتطلب كرة أو فريقاً (مثل aerobics) تقترن دائماً بـ (do).",
+            "التعليل الأكاديمي (Academic Analysis)": "التمارين الرياضية البدنية يُعبر عنها بالفعل (do aerobics)، ويُمنع استخدام make أو play مع هذا الاسم لغوياً."
+          }
+        },
+        {
+          "sentence": "The secretary will ___ a reservation at the hotel for the visiting delegates.",
+          "answer": "make",
+          "options": ["make", "do", "book", "take"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "القيام بحجز فندقي أو مكتبي (a reservation) يتطلب تركيبياً استخدام الفعل (make) (make a reservation).",
+            "التعليل الأكاديمي (Academic Analysis)": "إجراء الترتيبات الرسمية المسبقة يُصاغ باستخدام الفعل (make) ليدل على صياغة الترتيب وإتمامه."
+          }
+        },
+        {
+          "sentence": "It is extremely satisfying to ___ a job well and receive positive reviews.",
+          "answer": "do",
+          "options": ["do", "make", "perform", "create"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "أداء وظيفة أو عمل مهني محدد (a job) يتلازم تركيبياً مع الفعل (do) (do a job).",
+            "التعليل الأكاديمي (Academic Analysis)": "أداء المهام والوظائف اليومية يندرج تحت مظلة التنفيذ الفعلي الروتيني، والاصطلاح المعياري الصحيح له هو (do a job)."
+          }
+        },
+        {
+          "sentence": "The graphic designer had to ___ several changes to the initial logo concept.",
+          "answer": "make",
+          "options": ["make", "do", "apply", "execute"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "إدخال تعديلات وتحسينات على عمل قائم يُعبر عنه بالمتلازمة اللفظية (make changes).",
+            "التعليل الأكاديمي (Academic Analysis)": "القيام بتعديلات مادية أو تصميمية يعتبر عملاً إبداعياً إنشائياً يستوجب استخدام الفعل (make) وصيغه المتنوعة."
+          }
+        },
+        {
+          "sentence": "We had to ___ a rigorous English test before entering the academy.",
+          "answer": "do",
+          "options": ["do", "make", "write", "pass"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "الخضوع لاختبار أو امتحان (a test / an exam) وحل أسئلته يقترن لغوياً بالفعل (do) (do a test).",
+            "التعليل الأكاديمي (Academic Analysis)": "الفعل (do a test) يعني تقديم وحل الامتحان كطالب. أما (make a test) فيعني إعداد وكتابة أسئلة الامتحان من قبل المعلم."
+          }
+        },
+        {
+          "sentence": "It is often easy for young children to ___ friends at school.",
+          "answer": "make",
+          "options": ["make", "do", "have", "create"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "تكوين صداقات جديدة أو الانخراط في علاقات اجتماعية (friends) يقترن قواعدياً بالفعل (make) (make friends).",
+            "التعليل الأكاديمي (Academic Analysis)": "بناء أواصر اجتماعية جديدة يُعتبر عملاً إنشائياً معنوياً، والمتلازمة اللفظية المعتمدة له هي (make friends)، واستعمال do هنا خطأ لغوي."
+          }
         }
       ]
     },
     "look_see_watch": {
       "rules": {
-        "see": "To use your eyes, often without trying.",
-        "look": "To turn your eyes in a particular direction.",
-        "watch": "To look at something for a period of time, especially something that is moving."
+        "See": "To notice people and things with your eyes without necessarily trying or exerting effort.",
+        "Look": "Used when you are actively trying to see something or someone (often accompanied by the preposition 'at').",
+        "Watch": "To look at something for a period of time, usually something which moves, changes, or evolves.",
+        "Cinema Note": "While sitting in the cinema you 'watch' a film, but before you go, you say you are going to 'see' a film, and afterwards you say you have 'seen' the film."
       },
       "practice": [
         {
           "wrong": "I went to watch a film at the cinema.",
-          "correct": "I went to see a film at the cinema."
+          "correct": "I went to see a film at the cinema.",
+          "options": [
+            "I went to see a film at the cinema.",
+            "I went to watch a film at the cinema.",
+            "I went to look a film at the cinema.",
+            "I went to look at a film at the cinema."
+          ],
+          "arabicExplanation": {
+            "تحليل الخطأ الشائع (Common Mistake)": "الخطأ النحوي هو استخدام الفعل watch للتعبير عن نية الذهاب لمشاهدة فيلم في السينما.",
+            "التعليل والتصحيح": "وفقًا للاصطلاح الأكاديمي، قبل الذهاب للسينما أو بعدها نستخدم الفعل (see a film) وليس watch. استخدام watch يقتصر فقط على وصف عملية المشاهدة الفعلية أثناء الجلوس في الصالة المظلمة."
+          }
         },
         {
           "wrong": "We sat on the sofa and saw a video.",
-          "correct": "We sat on the sofa and watched a video."
+          "correct": "We sat on the sofa and watched a video.",
+          "options": [
+            "We sat on the sofa and watched a video.",
+            "We sat on the sofa and saw a video.",
+            "We sat on the sofa and looked a video.",
+            "We sat on the sofa and looked at a video."
+          ],
+          "arabicExplanation": {
+            "تحليل الخطأ الشائع (Common Mistake)": "الخطأ هو استخدام saw لمشاهدة شريط فيديو أو تلفزيون ممتد زمنياً بالمنزل.",
+            "التعليل والتصحيح": "متابعة الأحداث المتحركة المتتابعة على الشاشة لفترة ممتدة من الزمن (مثل الفيديو أو التلفاز) تتطلب الفعل (watch) كدلالة على التركيز والمتابعة للمتغيرات البصرية."
+          }
         },
         {
           "wrong": "I watched my watch to check the time.",
-          "correct": "I looked at my watch to check the time."
+          "correct": "I looked at my watch to check the time.",
+          "options": [
+            "I looked at my watch to check the time.",
+            "I watched my watch to check the time.",
+            "I saw my watch to check the time.",
+            "I looked my watch to check the time."
+          ],
+          "arabicExplanation": {
+            "تحليل الخطأ الشائع (Common Mistake)": "الخطأ هو استخدام watched للتعبير عن تفحص الساعة للحصول على معلومة الوقت السريعة.",
+            "التعليل والتصحيح": "النظر المتعمد والسريع لشيء ثابت لاستخلاص معلومة محددة (مثل الساعة أو الخريطة) يتطلب استخدام (look at). لا نستخدم watch لأننا لا نراقب حركة الساعة المستمرة."
+          }
+        },
+        {
+          "sentence": "As she walked through the garden, she suddenly ___ a massive spider on the fence.",
+          "answer": "saw",
+          "options": ["saw", "looked at", "watched", "looked"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "نستخدم (see/saw) للإدراك البصري التلقائي والمفاجئ دون محاولة مقصودة أو تخطيط مسبق.",
+            "التعليل الأكاديمي (Academic Analysis)": "ملاحظة العنكبوت فجأة أثناء السير هي تجربة إدراك بصري مفاجئة وغير مقصودة، وهو ما يطابق تماماً تعريف الفعل (saw)."
+          }
+        },
+        {
+          "sentence": "Please ___ at the board while I explain the mathematical sequence.",
+          "answer": "look",
+          "options": ["look", "see", "watch", "notice"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "توجيه النظر بصورة مقصودة وبذل جهد للتركيز على شيء محدد يتطلب الفعل (look)، وعادة ما يتبعه حرف الجر (at).",
+            "التعليل الأكاديمي (Academic Analysis)": "المتحدث يطلب تركيز الانتباه البصري على السبورة، وبوجود حرف الجر (at) مباشرة بعد الفراغ، يكون الخيار الصحيح قواعدياً هو (look)."
+          }
+        },
+        {
+          "sentence": "We sat by the window and ___ the football match with our neighbors.",
+          "answer": "watched",
+          "options": ["watched", "saw", "looked at", "looked"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "متابعة الأحداث والأنشطة المتحركة والديناميكية التي تتغير بمرور الوقت تتطلب الفعل (watch).",
+            "التعليل الأكاديمي (Academic Analysis)": "مباراة كرة القدم هي حدث مستمر ممتد زمنياً ويتميز بالحركة الدائمة، لذا فإن المتابعة البصرية الفعالة لها يُعبر عنها بـ (watched)."
+          }
+        },
+        {
+          "sentence": "While we were sitting in the dark cinema, we ___ the film in absolute silence.",
+          "answer": "watched",
+          "options": ["watched", "saw", "looked", "looked at"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "الجلوس داخل صالة السينما (sitting in the cinema) والتركيز في الشاشة لمتابعة أحداث الفيلم يتلازم قواعدياً مع الفعل (watch/watched).",
+            "التعليل الأكاديمي (Academic Analysis)": "يتناول هذا السؤال الفارق الدقيق في الاصطلاح السينمائي؛ فالتواجد الفعلي داخل الصالة والمتابعة البصرية المستمرة تُصاغ بـ (watched)."
+          }
+        },
+        {
+          "sentence": "The safety inspectors ___ the machine operate for ten minutes to verify its stability.",
+          "answer": "watched",
+          "options": ["watched", "saw", "looked at", "looked"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "المراقبة الفنية أو الملاحظة المنهجية لشيء يعمل أو يتحرك على مدى فترة زمنية تتطلب الفعل (watch).",
+            "التعليل الأكاديمي (Academic Analysis)": "مراقبة عمل الآلة لمدة عشر دقائق تعني مراقبة دقيقة ومستمرة لحركة الآلة، وهو المعنى الدقيق للفعل (watched)."
+          }
         }
       ]
     },
     "near_nearby_next_to": {
       "rules": {
-        "nearby_adj": "Use before a noun (a nearby restaurant).",
-        "nearby_adv": "Use alone (he was working nearby).",
-        "near_prep": "Not far away (near the station).",
-        "next_to": "Very close (sat next to me)."
+        "nearby_adj": "Use 'nearby' as an adjective directly before a noun (meaning not far away).",
+        "nearby_adv": "Use 'nearby' as an adverb alone without a subsequent noun phrase.",
+        "near_prep": "Use 'near' as a preposition directly preceding a noun phrase.",
+        "nearer_nearest": "Say 'nearer' and 'nearest' for comparative and superlative forms; do not use more/most nearby.",
+        "next_to": "Use 'next to' when describing two people or things that are adjacent or extremely close to each other (side-by-side)."
       },
       "practice": [
         {
           "sentence": "Is there a bank ___?",
-          "answer": "nearby"
+          "answer": "nearby",
+          "options": ["nearby", "near", "next to", "nearly"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "نستخدم (nearby) كظرف مكان مستقل (Adverb) يأتي بمفرده في نهاية الجملة ولا يتبعه أي اسم مجرور.",
+            "التعليل الأكاديمي (Academic Analysis)": "بما أن الفراغ يقع في نهاية السؤال الاستفهامي المطلق دون وجود اسم تالٍ مجرور به، فإن الظرف المعتمد هو (nearby)."
+          }
         },
         {
           "sentence": "We live ___ some very noisy neighbours.",
-          "answer": "next to"
+          "answer": "next to",
+          "options": ["next to", "near", "nearby", "nearly"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "نستخدم (next to) عندما نصف شخصين أو شيئين متجاورين تماماً أو متلاصقين مسكنياً جنبًا إلى جنب (Adjacent).",
+            "التعليل الأكاديمي (Academic Analysis)": "الحديث هنا عن ملاصقة المنازل وتلاصق الجدران مع الجيران، والاصطلاح الصحيح للتجاور المباشر هو (next to)."
+          }
         },
         {
           "sentence": "We live ___ the sea.",
-          "answer": "near"
+          "answer": "near",
+          "options": ["near", "nearby", "next to", "nearly"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "نستخدم (near) كحرف جر (Preposition) يسبق مباشرة الاسم المجرور ليدل على القرب العام.",
+            "التعليل الأكاديمي (Academic Analysis)": "الاسم المجرور المباشر (the sea) لا يسبقه to، لذا نستخدم حرف الجر الأصيل (near)؛ لأن nearby لا تعمل كحرف جر يجر الأسماء."
+          }
+        },
+        {
+          "sentence": "We stopped for lunch at a ___ restaurant after completing the audit.",
+          "answer": "nearby",
+          "options": ["nearby", "near", "next to", "nearly"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "تُستخدم (nearby) كصفة (Adjective) تسبق الاسم الموصوف مباشرة لتصفه بالقرب الجغرافي (a nearby restaurant).",
+            "التعليل الأكاديمي (Academic Analysis)": "الفراغ يقع بين أداة النكرة والاسم (a ... restaurant)، مما يستدعي وضع الصفة (nearby). يُمنع لغوياً استخدام near كصفة تسبق الاسم بهذا النمط."
+          }
+        },
+        {
+          "sentence": "A security guard was standing ___ to monitor the main vault.",
+          "answer": "nearby",
+          "options": ["nearby", "near", "next to", "next"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "يُستخدم الظرف (nearby) بمفرده لبيان أن مكاناً ما يقع على مقربة أو على مسافة قصيرة دون ذكر المجرور.",
+            "التعليل الأكاديمي (Academic Analysis)": "وقوف الحارس على مقربة من الخزنة يصف حالة الوقوف الظرفية بصورة مستقلة، لذا فإن اللفظ الصحيح هو ظرف المكان (nearby)."
+          }
+        },
+        {
+          "sentence": "Excuse me, could you tell me where the ___ post office is located?",
+          "answer": "nearest",
+          "options": ["nearest", "most nearby", "nearer", "next to"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "في صيغة التفضيل العليا (Superlative)، نستخدم الصفة القياسية (nearest) ولا يصح مطلقاً قول most nearby.",
+            "التعليل الأكاديمي (Academic Analysis)": "المنهاج الأكاديمي لـ SBR ينص على صياغة التفضيل المباشر للصفة near لتصبح (the nearest) كخيار معياري رسمي للاستعلام عن الأقرب مسافة."
+          }
+        },
+        {
+          "sentence": "To hear the speech more clearly, the attendees moved ___ to the podium.",
+          "answer": "nearer",
+          "options": ["nearer", "more nearby", "nearest", "next to"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "في صيغة المقارنة (Comparative)، نستخدم الكلمة (nearer) لتعني 'أكثر قرباً'، ويُحظر تماماً استخدام التركيب (more nearby).",
+            "التعليل الأكاديمي (Academic Analysis)": "لبيان الحركة نحو نقطة أكثر قرباً، نستخدم المقارنة النحوية السليمة للصفة near وهي (nearer) لتأكيد الانسجام القواعدي."
+          }
+        },
+        {
+          "sentence": "The printer is situated ___ the water cooler in the main hallway.",
+          "answer": "next to",
+          "options": ["next to", "near", "nearby", "next"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "نستخدم (next to) للدلالة على التجاور الجغرافي والفيزيائي المباشر لقطعتين من الأثاث أو الأجهزة جنبًا إلى جنب.",
+            "التعليل الأكاديمي (Academic Analysis)": "موقع الطابعة بجوار مبرد المياه في الممر هو تجاور مكاني فيزيائي متلاصق، والاصطلاح الصحيح لبيان هذا التلاصق هو (next to)."
+          }
         }
       ]
     },
     "countable_uncountable": {
-      "uncountable_list": [
-        "advice",
-        "countryside",
-        "entertainment",
-        "food",
-        "fruit",
-        "furniture",
-        "hair",
-        "homework",
-        "information",
-        "music",
-        "popcorn",
-        "scenery",
-        "stuff",
-        "trouble",
-        "work"
-      ],
-      "rules": "Do not use 'a' or plural forms with uncountable nouns.",
+      "rules": {
+        "1. Singular & Plural Forms": "Most nouns have a singular and a plural form (e.g., house – houses, man – men, child – children).",
+        "2. Uncountable Nouns": "Some nouns only have a singular form and are 'uncountable'. Examples: advice, countryside, entertainment, food, fruit, furniture, hair, homework, information, music, popcorn, scenery, stuff, trouble, work, exercise, experience.",
+        "3. Countable Singular 'a'": "Use 'a/an' with countable nouns when they are singular (e.g., a chair, an exam).",
+        "4. Countable Plural Quantifiers": "Use many, few, a lot of, some, and any with plural countable nouns (e.g., many years, some trees, a few folders).",
+        "5. Uncountable No 'a'": "Do not use 'a/an' with uncountable nouns (e.g., He has brown hair, NOT a brown hair).",
+        "6. Uncountable Quantifiers": "Use much, little, a lot of, some, and any with uncountable nouns (e.g., little furniture, some advice, much information)."
+      },
       "practice": [
         {
           "wrong": "He has done several works.",
-          "correct": "He has done several jobs."
+          "correct": "He has done several jobs.",
+          "options": [
+            "He has done several jobs.",
+            "He has done several works.",
+            "He has done several homeworks.",
+            "He has done several work."
+          ],
+          "arabicExplanation": {
+            "تحليل الخطأ الشائع (Common Mistake)": "الخطأ هو محاولة جمع كلمة (work) لتدل على عدد من الأعمال (several works).",
+            "التعليل والتصحيح": "كلمة (work) اسم غير معدود بالكامل للتعبير عن الجهد أو العمل العام. وللتعبير عن التعدد العددي، نستخدم الاسم المعدود المقابل وهو (jobs) الذي يقبل الجمع بـ s."
+          }
         },
         {
           "wrong": "I want to give you some advices.",
-          "correct": "I want to give you some advice."
+          "correct": "I want to give you some advice.",
+          "options": [
+            "I want to give you some advice.",
+            "I want to give you some advices.",
+            "I want to give you an advice.",
+            "I want to give you a lot of advices."
+          ],
+          "arabicExplanation": {
+            "تحليل الخطأ الشائع (Common Mistake)": "الخطأ هو جمع الكلمة غير المعدودة (advice) لتصبح advices أو سبقها بـ an.",
+            "التعليل والتصحيح": "كلمة (advice) اسم غير معدود مطلقاً في اللغة الإنجليزية ويعامل دائماً معاملة المفرد، فلا يصح جمعه بالـ s أو سبقه بأداة نكرة مفردة مثل an. نكتفي بالقول (some advice)."
+          }
+        },
+        {
+          "sentence": "The senior consultant gave me ___ advice that helped me pass the final audit.",
+          "answer": "some",
+          "options": ["some", "an", "a lot", "many"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "الاسم (advice) غير معدود (Uncountable)، ويُمنع تماماً أن يسبق بأداة النكرة (a/an) أو يُجمع.",
+            "التعليل الأكاديمي (Academic Analysis)": "بما أن الموصوف غير معدود، لا يمكننا استخدام (an). ونختار (some) لأنها تنسجم لغوياً مع غير المعدود للتعبير عن كمية معنوية غير محددة."
+          }
+        },
+        {
+          "sentence": "The storage room had ___ furniture in it, leaving plenty of empty space.",
+          "answer": "little",
+          "options": ["little", "few", "a", "many"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "الاسم (furniture) اسم غير معدود، ويُعبر عن القلة المرافقة له لغوياً باستخدام المحدد (little).",
+            "التعليل الأكاديمي (Academic Analysis)": "الأثاث (furniture) لا يُجمع ولا يأخذ أداة نكرة، وللدلالة على الكمية القليلة من الأسماء غير المعدودة يتعين استخدام (little) ويُمنع استخدام (few) المخصصة للمعدود."
+          }
+        },
+        {
+          "sentence": "We only have a ___ folders left in the cabinet; we must buy more.",
+          "answer": "few",
+          "options": ["few", "little", "some", "a"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "الاسم (folders) هو جمع معدود ينتهي بـ s، وللتعبير عن القلة نستخدم (few) مسبوقة بـ a (a few).",
+            "التعليل الأكاديمي (Academic Analysis)": "بما أن الموصوف هو اسم جمع معدود، فإن استخدام المحدد (little) خاطئ تماماً قواعدياً، واللفظ الصحيح للتعبير عن القلة هو (few)."
+          }
+        },
+        {
+          "sentence": "The teacher assigned a lot of ___ to keep the students occupied.",
+          "answer": "homework",
+          "options": ["homework", "homeworks", "a homework", "many homeworks"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "الاسم (homework) اسم غير معدود، ويعامل دائماً معاملة المفرد ولا يصح جمعه بإضافة s أو سبقه بـ a.",
+            "التعليل الأكاديمي (Academic Analysis)": "الواجبات المنزلية (homework) مفهوم غير معدود؛ لذا فإن صيغاً مثل homeworks أو a homework هي أخطاء نحوية شائعة يجب تجنبها في الكتابة الأكاديمية."
+          }
+        },
+        {
+          "sentence": "The applicant did not provide ___ information about his previous work history.",
+          "answer": "much",
+          "options": ["much", "many", "a", "few"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "الاسم (information) اسم غير معدود، وللتعبير عن الكثرة في الجمل المنفية نستخدم المحدد (much).",
+            "التعليل الأكاديمي (Academic Analysis)": "الجملة تحتوي على نفي (did not provide)، والاسم غير معدود، لذا نستخدم (much). استعمال (many) خاطئ لكونه مخصصاً للجمع المعدود."
+          }
+        },
+        {
+          "sentence": "The team lead provided ___ chair for the new employee to sit next to him.",
+          "answer": "a",
+          "options": ["a", "an", "some", "any"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "الاسم (chair) اسم معدود مفرد ويبدأ بصوت ساكن، لذا يجب أن يسبق بأداة النكرة (a).",
+            "التعليل الأكاديمي (Academic Analysis)": "الأسماء المعدودة المفردة لا يمكن أن تأتي مجردة في الجملة دون أداة أو محدد، والصوت الساكن لـ ch يستلزم الأداة (a) وليس an."
+          }
+        },
+        {
+          "sentence": "The mountainous ___ in the countryside was absolutely breathtaking.",
+          "answer": "scenery",
+          "options": ["scenery", "sceneries", "a scenery", "scenery's"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "الاسم (scenery) اسم غير معدود ويعبر عن المناظر الطبيعية بشكل عام، ولا يصح جمعه إلى sceneries أو سبقه بـ a.",
+            "التعليل الأكاديمي (Academic Analysis)": "من الأخطاء الكبرى محاولة جمع كلمة scenery. نستخدم المفرد غير المعدود (scenery) كفاعل مفرد يتبعه الفعل (was)."
+          }
+        },
+        {
+          "sentence": "The job requires a lot of prior ___ in digital marketing.",
+          "answer": "experience",
+          "options": ["experience", "experiences", "an experience", "experienced"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "الاسم (experience) عندما يعبر عن المعرفة والخبرة التراكمية في مجال العمل يكون غير معدود (Uncountable) ويعامل كمفرد.",
+            "التعليل الأكاديمي (Academic Analysis)": "الخبرة المهنية هي مفهوم تراكمي غير معدود، لذا نستخدم الصيغة المفردة (experience). أما صيغة الجمع experiences فتُستخدم للتعبير عن تجارب حياتية أو أحداث فردية محددة."
+          }
+        },
+        {
+          "sentence": "The actor had thick brown ___ styled perfectly for the photoshoot.",
+          "answer": "hair",
+          "options": ["hair", "hairs", "a hair", "hairs'"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "الاسم (hair) عند الإشارة لشعر الرأس بالكامل هو اسم غير معدود، ويُمنع جمعه بالـ s أو استخدام أداة النكرة a معه.",
+            "التعليل الأكاديمي (Academic Analysis)": "نقول (brown hair) للدلالة على لون وتصفيفة الشعر ككل. جمعها hairs أو قول a hair يُستخدم فقط للإشارة لشعرة واحدة أو شعيرات معدودة ومنفصلة."
+          }
+        },
+        {
+          "sentence": "If you encounter any ___ with the installation, call the IT helpdesk.",
+          "answer": "trouble",
+          "options": ["trouble", "troubles", "a trouble", "troublesome"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "الاسم (trouble) اسم غير معدود يعبر عن المشكلات أو الصعاب، ولا يُستخدم في صيغة الجمع أو مسبوقاً بأداة نكرة.",
+            "التعليل الأكاديمي (Academic Analysis)": "الاصطلاح النحوي الصحيح هو (encounter any trouble) حيث تتبع any بالاسم غير المعدود بصيغته القياسية المفردة."
+          }
         }
       ]
     },
@@ -1891,124 +2198,504 @@
       ]
     },
     "and_but_or": {
-      "rules": [
-        "Use 'and' to join two similar adjectives or items in a list.",
-        "Use 'but' to join different ideas or opposite adjectives.",
-        "Use 'or' to connect possibilities or after a negative verb."
-      ],
+      "rules": {
+        "And": "Used to join the final thing on a list to the rest of the list, or to join two similar adjectives together when they don't come before a noun.",
+        "But": "Used to join two ideas, opinions, or facts which are different in a sentence, or to join two adjectives which seem to have different or opposite meanings.",
+        "Or": "Used to connect different possibilities (or the last thing in a list of possibilities), or after a negative verb to mean not one thing and also not another."
+      },
       "practice": [
         {
           "sentence": "My hotel room was clean ___ uncomfortable.",
-          "answer": "but"
+          "answer": "but",
+          "options": ["but", "and", "or", "so"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "تُستخدم (but) للربط بين صفتين تحملان معاني تبدو متناقضة أو متعاكسة (clean ولكنه uncomfortable).",
+            "التعليل الأكاديمي (Academic Analysis)": "الغرفة كانت نظيفة (إيجابي) ولكنها غير مريحة (سلبي)، هذا التباين يستدعي استخدام رابط الاستدراك (but)."
+          }
         },
         {
           "sentence": "I haven't been to China ___ Japan.",
-          "answer": "or"
+          "answer": "or",
+          "options": ["or", "and", "but", "so"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "بعد الفعل المنفي (haven't been)، يُسْتعمل حرف العطف (or) لنفي كلا الأمرين.",
+            "التعليل الأكاديمي (Academic Analysis)": "في الجمل المنفية، نستخدم (or) للربط بين العناصر المنفية لتعني 'لم أذهب للصين وأيضاً لم أذهب لليابان'، واستخدام and هنا يعتبر خطأ قواعدياً شائعاً."
+          }
         },
         {
           "sentence": "When I visited India, I went to Mumbai, Delhi ___ Bangalore.",
-          "answer": "and"
+          "answer": "and",
+          "options": ["and", "but", "or", "yet"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "تُستخدم (and) لربط العنصر الأخير في قائمة العناصر ببقية عناصر القائمة.",
+            "التعليل الأكاديمي (Academic Analysis)": "بما أن الجملة تسرد مدناً تمت زيارتها، فإن العنصر الأخير في هذه القائمة يُربط باستخدام (and)."
+          }
+        },
+        {
+          "sentence": "We purchased folders, folders' clips ___ a new laminating machine.",
+          "answer": "and",
+          "options": ["and", "but", "or", "so"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "تُستخدم (and) لربط العنصر الأخير في قائمة العناصر (List) ببقية عناصر القائمة.",
+            "التعليل الأكاديمي (Academic Analysis)": "السياق سرد لثلاثة عناصر مكتبية تم شراؤها، وحرف العطف الملائم لربط العنصر الأخير هو (and)."
+          }
+        },
+        {
+          "sentence": "The project proposal was innovative ___ comprehensive.",
+          "answer": "and",
+          "options": ["and", "but", "or", "although"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "تُستخدم (and) للربط بين صفتين متماثلتين في الإيجابية أو التوجه عندما لا تأتيان قبل الاسم مباشرة (بعد فعل الربط was).",
+            "التعليل الأكاديمي (Academic Analysis)": "الصفتان (innovative) و(comprehensive) متوافقتان إيجابياً وتصفان المقترح بعد فعل الكينونة، لذا نستخدم (and) للملاءمة التامة."
+          }
+        },
+        {
+          "sentence": "The department achieved its quarterly targets, ___ the overall profit margin declined.",
+          "answer": "but",
+          "options": ["but", "and", "or", "because"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "نستخدم (but) لربط فكرتين أو حقيقتين متعارضتين أو مختلفتين في الجملة ذاتها.",
+            "التعليل الأكاديمي (Academic Analysis)": "هناك تناقض بين تحقيق أهداف الربع السنوي وهبوط هامش الربح الإجمالي، مما يتطلب رابط الاستدراك (but)."
+          }
+        },
+        {
+          "sentence": "The new operating system is powerful ___ extremely simple to navigate.",
+          "answer": "but",
+          "options": ["but", "and", "or", "so"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "تُستخدم (but) لربط صفتين تحملان معاني تبدو متناقضة أو متعاكسة (قوي ولكنه بسيط).",
+            "التعليل الأكاديمي (Academic Analysis)": "رغم أن النظام قوي (معقد وقوي عادة)، إلا أنه سهل التصفح؛ هذا التناقض البناء يستلزم استخدام (but)."
+          }
+        },
+        {
+          "sentence": "You can submit the fiscal report in PDF format ___ upload it directly to the server.",
+          "answer": "or",
+          "options": ["or", "and", "but", "while"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "تُستخدم (or) للربط بين الإمكانيات والخيارات المختلفة المتاحة للمخاطب.",
+            "التعليل الأكاديمي (Academic Analysis)": "السياق يطرح خيارين للمستخدم (إرسال التقرير PDF أو رفعه للخادم)، وحرف العطف المناسب للتخيير هو (or)."
+          }
+        },
+        {
+          "sentence": "We can schedule the executive audit for Monday, Wednesday ___ Friday.",
+          "answer": "or",
+          "options": ["or", "and", "but", "so"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "نستخدم (or) للربط بين الخيار الأخير في قائمة من الاحتمالات المتعددة.",
+            "التعليل الأكاديمي (Academic Analysis)": "الجملة تقدم ثلاثة أيام محتملة لجدولة التدقيق، وتطرحها كخيارات بديلة، لذا يُربط اليوم الأخير بـ (or)."
+          }
+        },
+        {
+          "sentence": "The manager hasn't reviewed the new proposal ___ the budget estimations.",
+          "answer": "or",
+          "options": ["or", "and", "but", "nor"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "بعد الفعل المنفي (hasn't)، نستخدم (or) لتعني 'ليس هذا الشيء وأيضاً ليس الشيء الآخر' (نفي الخيارين معاً).",
+            "التعليل الأكاديمي (Academic Analysis)": "الترجمة الشائعة الخاطئة تميل لاستخدام and في النفي، لكن القاعدة تفرض استخدام (or) بعد النفي للربط بين العناصر المنفية."
+          }
+        },
+        {
+          "sentence": "They did not purchase any office stationary ___ office equipment this term.",
+          "answer": "or",
+          "options": ["or", "and", "but", "so"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "بعد الفعل المنفي بصيغة الماضي (did not)، يُسْتعمل حرف العطف (or) لنفي كلا الأمرين.",
+            "التعليل الأكاديمي (Academic Analysis)": "استخدام (or) يعزز النفي المزدوج للمشتريات (لا قرطاسية ولا معدات)، وهو الأسلوب النحوي السليم بعد الفعل المنفي."
+          }
         }
       ]
     },
     "during_for_since": {
       "rules": {
-        "since": "From a time in the past until now.",
-        "for": "How long something happens.",
-        "during": "A period of time when something happens."
+        "Since": "Use to say 'from a time in the past until now' (usually with perfect tenses).",
+        "For": "Use to say how long something happens or continues (duration).",
+        "During": "Use to talk about a period of time when something happens (within a time span)."
       },
       "practice": [
         {
           "sentence": "He has been playing tennis ___ two hours.",
-          "answer": "for"
+          "answer": "for",
+          "options": ["for", "since", "during", "while"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "نستخدم (for) للتعبير عن المدى أو الطول الزمني الكلي لاستمرار الحدث (Duration).",
+            "التعليل الأكاديمي (Academic Analysis)": "العبارة (two hours) تعبر عن مقدار زمني تام (مدة)، لذا نستخدم (for)."
+          }
         },
         {
           "sentence": "I haven't seen my friends ___ two years.",
-          "answer": "for"
+          "answer": "for",
+          "options": ["for", "since", "during", "in"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "نستخدم (for) للتعبير عن مدة انقطاع الحدث المستمرة (two years).",
+            "التعليل الأكاديمي (Academic Analysis)": "السياق يشير إلى مدة زمنية محددة (سنتين)، وحرف الجر المعبر عن المدد الزمنية هو (for)."
+          }
         },
         {
           "sentence": "I've been studying here ___ last January.",
-          "answer": "since"
+          "answer": "since",
+          "options": ["since", "for", "during", "from"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "نستخدم (since) لتحديد نقطة البداية الزمنية لحدث مستمر من الماضي وحتى الآن.",
+            "التعليل الأكاديمي (Academic Analysis)": "يناير الماضي (last January) هو لحظة بداية الدراسة في الماضي، ما يتطلب حرف الجر (since) مع زمن المضارع التام المستمر."
+          }
+        },
+        {
+          "sentence": "The research laboratory has been conducting trials ___ 2024.",
+          "answer": "since",
+          "options": ["since", "for", "during", "in"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "نستخدم (since) لتحديد نقطة البداية الزمنية لحدث مستمر من الماضي وحتى اللحظة الحالية (مصحوباً بالمضارع التام).",
+            "التعليل الأكاديمي (Academic Analysis)": "تاريخ 2024 يمثل نقطة انطلاق الحدث في الماضي، ومع وجود زمن المضارع التام المستمر (has been conducting)، يتعين استخدام (since)."
+          }
+        },
+        {
+          "sentence": "The board members debated the acquisition strategy ___ three consecutive hours.",
+          "answer": "for",
+          "options": ["for", "since", "during", "while"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "نستخدم (for) للتعبير عن المدى أو الطول الزمني الكلي لاستمرار الحدث (Duration).",
+            "التعليل الأكاديمي (Academic Analysis)": "العبارة (three consecutive hours) تعبر عن مقدار زمني تام (مدة)، وبالتالي فإن حرف الجر المطابق للتعبير عن مدة الحدث هو (for)."
+          }
+        },
+        {
+          "sentence": "Several infrastructure adjustments were implemented ___ the summer holiday.",
+          "answer": "during",
+          "options": ["during", "for", "since", "while"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "نستخدم (during) للتحدث عن حدث وقع في غضون أو خلال فترة زمنية محددة أو حدث آخر ممتد (مثل العطلة الصيفية).",
+            "التعليل الأكاديمي (Academic Analysis)": "الفترة الزمنية (the summer holiday) تمثل ظرفاً زمنياً وقعت التغييرات في أثنائه، لذا نستخدم حرف الجر (during) متبوعاً بالاسم."
+          }
+        },
+        {
+          "sentence": "I have not received any feedback ___ the initial audit was completed.",
+          "answer": "since",
+          "options": ["since", "for", "during", "after"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "تُستخدم (since) كربط زمني يتبعه جملة في الماضي البسيط لتدل على بداية الفترة من الماضي حتى الحاضر.",
+            "التعليل الأكاديمي (Academic Analysis)": "إتمام التدقيق الأولي (initial audit was completed) هو الحدث الماضي الذي بدأ منه انقطاع التقييم حتى الآن، لذا نستخدم (since)."
+          }
+        },
+        {
+          "sentence": "The consultants suggested keeping the budget frozen ___ at least six months.",
+          "answer": "for",
+          "options": ["for", "since", "during", "in"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "تُستخدم (for) مع الفترات الزمنية بغض النظر عن زمن الجملة لتدل على مدة الحدث.",
+            "التعليل الأكاديمي (Academic Analysis)": "المدة المقترحة هي (six months)، ولبيان استمرار حالة تجميد الميزانية طوال هذه المدة نستخدم (for)."
+          }
+        },
+        {
+          "sentence": "The alarm sounded twice ___ the night shift, causing widespread disruption.",
+          "answer": "during",
+          "options": ["during", "for", "since", "while"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "تُستخدم (during) متبوعة باسم يعبر عن فترة عمل أو نشاط ممتد (مثل الوردية الليلية) ليدل على وقوع أحداث بداخلها.",
+            "التعليل الأكاديمي (Academic Analysis)": "النوبة الليلية (the night shift) هي الاسم المعبر عن الفترة الزمنية التي تخللها صوت الإنذار، واللفظ الصحيح هو (during) وليس while لأن while تتطلب جملة فعلية."
+          }
+        },
+        {
+          "sentence": "We had to wait outside the office ___ the entire seminar.",
+          "answer": "during",
+          "options": ["during", "for", "since", "while"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "نستخدم (during) للحديث عن وقوع حدث بالتزامن مع فترة حدث ممتد آخر يتم التعبير عنه باسم (the entire seminar).",
+            "التعليل الأكاديمي (Academic Analysis)": "بما أن المجرور هو اسم حدث (الندوة بأكملها) وليس مدة رقمية، فإن (during) هي الاختيار النحوي الصحيح."
+          }
+        },
+        {
+          "sentence": "Our organization has grown significantly ___ the establishment of our new headquarters.",
+          "answer": "since",
+          "options": ["since", "during", "for", "until"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "تُستعمل (since) متبوعة بحدث أو لحظة تأسيس تاريخية للدلالة على نقطة زمنية انطلق منها النمو المستمر للمؤسسة.",
+            "التعليل الأكاديمي (Academic Analysis)": "لحظة التأسيس هي النقطة الزمنية في الماضي، والنمو مستمر حتى الآن، فالرابط الملائم هو (since)."
+          }
         }
       ]
     },
     "to_infinitive_vs_ing": {
       "rules": {
-        "to_inf": [
-          "ask",
-          "decide",
-          "forget",
-          "help",
-          "hope",
-          "invite",
-          "learn",
-          "need",
-          "plan",
-          "wait",
-          "want",
-          "would like"
-        ],
-        "ing": [
-          "enjoy",
-          "fancy",
-          "finish",
-          "look forward to",
-          "recommend",
-          "spend",
-          "suggest",
-          "think of"
-        ]
+        "to + verb (Infinitive)": "Used after verbs like: ask, decide, forget, help, hope, invite, learn, need, plan, wait, want, would like.",
+        "verb + -ing (Gerund)": "Used after verbs like: enjoy, fancy, finish, look forward to, recommend, spend, suggest, think about/of.",
+        "Preposition Rule": "Verbs with prepositions (to, of, about, etc.) are always followed by verb + -ing."
       },
       "practice": [
         {
           "sentence": "I suggest ___ (meet) at seven o'clock.",
-          "answer": "meeting"
+          "answer": "meeting",
+          "options": ["meeting", "to meet", "meet", "met"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "الفعل (suggest) يتبعه مباشرة اسم الفعل (verb + -ing) عند صياغة اقتراح للفعل.",
+            "التعليل الأكاديمي (Academic Analysis)": "التركيب النحوي المباشر للفعل هو (suggest doing something)، لذا نختار (meeting)."
+          }
         },
         {
           "sentence": "I've already decided ___ (buy) something new.",
-          "answer": "to buy"
+          "answer": "to buy",
+          "options": ["to buy", "buying", "buy", "bought"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "الفعل (decide) يندرج ضمن الأفعال التي تطلب صيغة المصدر (to + verb) للتعبير عن القرار.",
+            "التعليل الأكاديمي (Academic Analysis)": "اتخاذ القرار يُصاغ بـ (decide to do something)، لذا نختار المصدر (to buy)."
+          }
         },
         {
           "sentence": "I forgot ___ (ask) you about your family.",
-          "answer": "to ask"
+          "answer": "to ask",
+          "options": ["to ask", "asking", "ask", "asked"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "الفعل (forget) عندما يُفيد عدم تذكر القيام بمهمة مطلوبة يُتبع بالمصدر (to + verb).",
+            "التعليل الأكاديمي (Academic Analysis)": "نسيان القيام بالطلب يستوجب التركيب (forget to do something)، لذا نختار (to ask)."
+          }
+        },
+        {
+          "sentence": "The executive director would like ___ (discuss) the quarterly budget immediately.",
+          "answer": "to discuss",
+          "options": ["to discuss", "discussing", "discuss", "discussed"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "التركيب (would like) يتبعه دائماً مصدر الفعل مسبوقاً بـ to (to + verb).",
+            "التعليل الأكاديمي (Academic Analysis)": "رغم أن فعل enjoy أو like قد يأخذ أحياناً -ing، إلا أن الصيغة المهذبة (would like) تستوجب بشكل صارم صيغة المصدر بـ to."
+          }
+        },
+        {
+          "sentence": "We are look forward to ___ (receive) your formal application for the manager vacancy.",
+          "answer": "receiving",
+          "options": ["receiving", "to receive", "receive", "received"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "التركيب (look forward to) يحتوي على حرف الجر (to) الذي يجب أن يتبعه اسم فعل (verb + -ing) وليس مصدراً.",
+            "التعليل الأكاديمي (Academic Analysis)": "هذا من الأخطاء الأكاديمية الشائعة جداً؛ حيث يظن المتعلم أن to يتبعها المصدر، لكن to هنا حرف جر أصيل يستوجب صيغة الـ -ing."
+          }
+        },
+        {
+          "sentence": "The management committee decided ___ (postpone) the implementation of the new policy.",
+          "answer": "to postpone",
+          "options": ["to postpone", "postponing", "postpone", "postpones"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "الفعل (decide) يندرج ضمن الأفعال التي تطلب صيغة المصدر (to + verb) للتعبير عن القرار.",
+            "التعليل الأكاديمي (Academic Analysis)": "صيغة المفعول به للفعل decide تأتي كمصدر كامل (to postpone)، ولا يمكن نحوياً استخدام صيغة اسم الفاعل (gerund) هنا."
+          }
+        },
+        {
+          "sentence": "The marketing consultant suggested ___ (conduct) an extensive online campaign.",
+          "answer": "conducting",
+          "options": ["conducting", "to conduct", "conduct", "conducted"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "الفعل (suggest) يتبعه مباشرة اسم الفعل (verb + -ing) عند صياغة اقتراح للفعل.",
+            "التعليل الأكاديمي (Academic Analysis)": "نحوياً، يُحظر اتباع الفعل suggest بالمصدر المسبوق بـ to مباشرة (لا نقوم بصياغة suggest to conduct بل suggest conducting)."
+          }
+        },
+        {
+          "sentence": "The administrative staff are thinking of ___ (organize) a welcoming ceremony.",
+          "answer": "organizing",
+          "options": ["organizing", "to organize", "organize", "organized"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "الأفعال المصحوبة بحروف جر (مثل think of / think about) تُتبع دائماً باسم الفعل (verb + -ing).",
+            "التعليل الأكاديمي (Academic Analysis)": "القاعدة العامة الثابتة في اللغة الإنجليزية أن أي حرف جر يجب أن يتبعه اسم أو اسم فعل (gerund)، ولذا نختار (organizing)."
+          }
+        },
+        {
+          "sentence": "They plan ___ (launch) the updated client database by next Friday.",
+          "answer": "to launch",
+          "options": ["to launch", "launching", "launch", "launched"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "الفعل (plan) يعبر عن نية مستقبلية ويتطلب دائماً مفعولاً به بصيغة المصدر (to + verb).",
+            "التعليل الأكاديمي (Academic Analysis)": "التركيب الصحيح هو (plan to do something)، لذا فإن الخيار (to launch) هو الخيار الأكاديمي المطابق."
+          }
+        },
+        {
+          "sentence": "Our employees enjoy ___ (participate) in these collaborative aerobics sessions.",
+          "answer": "participating",
+          "options": ["participating", "to participate", "participate", "participated"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "الفعل (enjoy) يُتبع دائماً باسم الفعل (verb + -ing) للتعبير عن المتعة بممارسة النشاط.",
+            "التعليل الأكاديمي (Academic Analysis)": "نقول (enjoy doing something) ولا يصح مطلقاً استخدام المصدر بـ to بعد الفعل enjoy."
+          }
+        },
+        {
+          "sentence": "The senior auditor asked the employee ___ (provide) the receipt of the transaction.",
+          "answer": "to provide",
+          "options": ["to provide", "providing", "provide", "provided"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "الفعل (ask) عندما يأتي متعدياً لمفعول به (ask somebody) يستلزم صياغة الطلب باستخدام (to + verb).",
+            "التعليل الأكاديمي (Academic Analysis)": "النمط الفعلي هنا هو (ask someone to do something)، وبالتالي نختار المصدر (to provide)."
+          }
+        },
+        {
+          "sentence": "The IT department highly recommends ___ (update) your system firewall immediately.",
+          "answer": "updating",
+          "options": ["updating", "to update", "update", "updated"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "الفعل (recommend) يُتبع مباشرة بصيغة (verb + -ing) عند توجيه نصيحة عامة أو توصية بفعل معين.",
+            "التعليل الأكاديمي (Academic Analysis)": "التركيب النحوي المباشر للفعل هو (recommend doing something)، مما يجعل (updating) هو الاختيار الأنسب منطقياً وأكاديمياً."
+          }
+        },
+        {
+          "sentence": "We had to wait ___ (see) if the board would approve our budget reservation.",
+          "answer": "to see",
+          "options": ["to see", "seeing", "see", "saw"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "الفعل (wait) يُتبع دائماً بالمصدر المصحوب بـ to (to + verb) لبيان الغرض من الانتظار أو الإجراء المتوقع.",
+            "التعليل الأكاديمي (Academic Analysis)": "تأتي الصيغة النحوية (wait to do something) لربط الانتظار بغايته، مما يستوجب الخيار (to see)."
+          }
         }
       ]
     },
     "have_pass_spend_take": {
       "rules": {
-        "have": "Used with nouns (e.g. a wonderful time) - to experience something.",
-        "pass": "Do something to stop yourself being bored during a period.",
-        "spend": "To use time doing something or being somewhere.",
-        "take": "The period of time needed in order to complete something."
+        "Have": "Used with nouns (e.g., have a wonderful time / have a bad time) to experience an event or state.",
+        "Pass": "Used when doing something to stop yourself from being bored during a period of time (e.g., pass the time playing games).",
+        "Spend": "Used to use time doing something or being somewhere (e.g., spend time working, spend holidays in France).",
+        "Take": "Used when a period of time is needed in order to complete a task (e.g., It takes twenty minutes to drive there)."
       },
       "practice": [
         {
           "sentence": "I ___ a wonderful time swimming and surfing on my last holiday.",
-          "answer": "had"
+          "answer": "had",
+          "options": ["had", "spent", "took", "passed"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "نستخدم الفعل (have/had) مع التعبيرات الدالة على التجربة الحياتية ليعني المرور بتجربة معينة.",
+            "التعليل الأكاديمي (Academic Analysis)": "المرور بتجربة رائعة يُصاغ اصطلاحياً بـ (had a wonderful time) في الماضي البسيط."
+          }
         },
         {
           "sentence": "I ___ last weekend studying and going out with my friends.",
-          "answer": "spent"
+          "answer": "spent",
+          "options": ["spent", "took", "had", "passed"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "نستخدم الفعل (spend/spent) للدلالة على قضاء واستغلال الوقت في فعل نشاط معين متبوعاً بالـ -ing.",
+            "التعليل الأكاديمي (Academic Analysis)": "وجود صيغة الـ -ing للأنشطة اللاحقة (studying) وقضاء عطلة نهاية الأسبوع يستوجب الفعل الماضي (spent)."
+          }
         },
         {
           "sentence": "It ___ me 25 minutes to get to school this morning.",
-          "answer": "took"
+          "answer": "took",
+          "options": ["took", "spent", "had", "passed"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "نستخدم الفعل (take/took) للدلالة على الوقت اللازم أو المطلوب لإتمام مهمة (It takes someone time to do).",
+            "التعليل الأكاديمي (Academic Analysis)": "الجملة تتبع النمط القياسي (It took me + time + to-infinitive)، وهي البنية الخاصة بالفعل take."
+          }
         },
         {
           "sentence": "When I'm waiting for a bus, I usually ___ the time reading magazines.",
-          "answer": "pass"
+          "answer": "pass",
+          "options": ["pass", "spend", "take", "have"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "نستخدم (pass the time) للتعبير عن ممارسة أنشطة هامشية لقتل الملل وإزجاء الوقت في انتظار شيء ما.",
+            "التعليل الأكاديمي (Academic Analysis)": "القراءة أثناء انتظار الحافلة هي عملية لإزجاء الوقت، ولذا نستخدم الفعل (pass)."
+          }
         },
         {
           "wrong": "I passed a relaxing evening with Paulo.",
-          "correct": "I spent a relaxing evening with Paulo."
+          "correct": "I spent a relaxing evening with Paulo.",
+          "options": [
+            "I spent a relaxing evening with Paulo.",
+            "I passed a relaxing evening with Paulo.",
+            "I took a relaxing evening with Paulo.",
+            "I had to pass a relaxing evening with Paulo."
+          ],
+          "arabicExplanation": {
+            "تحليل الخطأ الشائع (Common Mistake)": "الخطأ هو استخدام passed لقضاء فترة المساء بشكل هادئ.",
+            "التعليل والتصحيح": "لقضاء الوقت أو الأمسيات في مكان أو مع أشخاص، نستخدم الفعل (spend) (spend an evening)، بينما pass تُستخدم فقط لقتل الملل وإزجاء الوقت الفائض."
+          }
         },
         {
           "wrong": "I spent ten minutes to find my mother.",
-          "correct": "It took me ten minutes to find my mother."
+          "correct": "It took me ten minutes to find my mother.",
+          "options": [
+            "It took me ten minutes to find my mother.",
+            "I spent ten minutes to find my mother.",
+            "It spent me ten minutes to find my mother.",
+            "I passed ten minutes to find my mother."
+          ],
+          "arabicExplanation": {
+            "تحليل الخطأ الشائع (Common Mistake)": "الخطأ هو استخدام spent متبوعاً بـ to-infinitive (spent time to do).",
+            "التعليل والتصحيح": "النمط النحوي للمدة المطلوبة لإتمام حدث هو (It took me + time + to do). أما الفعل spend فيجب أن يتبعه اسم فاعل (spending time doing)."
+          }
         },
         {
           "wrong": "You should come to Brazil and pass your holidays here.",
-          "correct": "You should come to Brazil and spend your holidays here."
+          "correct": "You should come to Brazil and spend your holidays here.",
+          "options": [
+            "You should come to Brazil and spend your holidays here.",
+            "You should come to Brazil and pass your holidays here.",
+            "You should come to Brazil and make your holidays here.",
+            "You should come to Brazil and do your holidays here."
+          ],
+          "arabicExplanation": {
+            "تحليل الخطأ الشائع (Common Mistake)": "الخطأ هو استخدام pass للتعبير عن قضاء الإجازات الرسمية والعطلات.",
+            "التعليل والتصحيح": "قضاء العطلات والإجازات يُصاغ قواعدياً باستخدام الفعل (spend) (spend holidays)، واستخدام pass في هذا السياق غير سليم نحواً."
+          }
+        },
+        {
+          "sentence": "We hope you will ___ a wonderful time at the international conference.",
+          "answer": "have",
+          "options": ["have", "pass", "spend", "take"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "نستخدم الفعل (have) مع التعبيرات الدالة على التجربة الحياتية (مثل have a wonderful time) ليعني المرور بتجربة معينة.",
+            "التعليل الأكاديمي (Academic Analysis)": "المتمنيات بالاستمتاع بالوقت أو قضاء تجربة رائعة تصاغ اصطلاحياً بـ (have a wonderful time)، ولا يصح قول (pass a wonderful time)."
+          }
+        },
+        {
+          "sentence": "While waiting for the late train, I played mobile puzzles to ___ the time.",
+          "answer": "pass",
+          "options": ["pass", "spend", "have", "take"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "نستخدم (pass the time) عندما نقوم بنشاط ما لقتل الملل وإزجاء الوقت أثناء فترة انتظار أو فراغ.",
+            "التعليل الأكاديمي (Academic Analysis)": "اللعب بالهاتف للتخلص من الملل أثناء انتظار القطار هو عملية إزجاء وتمرير للوقت، وهو التعريف اللغوي الدقيق لـ (pass the time)."
+          }
+        },
+        {
+          "sentence": "The analysts ___ three days writing the research paper.",
+          "answer": "spent",
+          "options": ["spent", "took", "passed", "had"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "نستخدم الفعل (spend) للدلالة على قضاء واستغلال الوقت في فعل نشاط معين، ويتبعه دائماً اسم الفاعل (verb + -ing).",
+            "التعليل الأكاديمي (Academic Analysis)": "وجود صياغة الـ -ing للفعل اللاحق (writing) يستوجب استخدام الفعل (spent) ليكون التركيب النحوي (spend time doing something) صحيحاً."
+          }
+        },
+        {
+          "sentence": "It usually ___ the technicians about forty minutes to reset the network server.",
+          "answer": "takes",
+          "options": ["takes", "spends", "passes", "has"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "نستخدم الفعل (take) للدلالة على الوقت اللازم أو المطلوب لإتمام وإنجاز مهمة معينة.",
+            "التعليل الأكاديمي (Academic Analysis)": "الجملة تتبع النمط القياسي (It takes + person + time + to-infinitive)، حيث يعبر عن الوقت المستغرق لإتمام إعادة تعيين الخادم، ولذا نختار (takes)."
+          }
+        },
+        {
+          "sentence": "She decided to ___ her summer holidays at a nearby seaside resort.",
+          "answer": "spend",
+          "options": ["spend", "pass", "have", "take"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "نستخدم (spend) للتعبير عن التواجد وقضاء العطلات أو فترات زمنية في مكان محدد (spend time somewhere).",
+            "التعليل الأكاديمي (Academic Analysis)": "قضاء العطلة في المنتجع البحري يمثل قضاء وقت في مكان ما، وهو ما يعبر عنه اصطلاحياً بـ (spend holidays)، بينما (pass holidays) هو خطأ شائع للغاية."
+          }
+        },
+        {
+          "sentence": "It ___ me three hours to clean all the office folders yesterday.",
+          "answer": "took",
+          "options": ["took", "spent", "had", "passed"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "في صيغة الماضي، نستخدم (took) للدلالة على المدة المستغرقة فعلياً لإكمال عمل ما في الماضي.",
+            "التعليل الأكاديمي (Academic Analysis)": "صيغة الجملة تبدأ بضمير الفاعل غير الحقيقي (It) وتتلوها مدة زمنية ومصدر مسبوق بـ to (to clean)، وهو النمط النحوي الحصري للفعل (take/took)."
+          }
+        },
+        {
+          "sentence": "We had to reschedule the meeting because the client was ___ a bad time.",
+          "answer": "having",
+          "options": ["having", "spending", "passing", "taking"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "نستخدم (have a bad time) للتعبير عن المرور بظروف صعبة أو تجربة سيئة (experience a bad time).",
+            "التعليل الأكاديمي (Academic Analysis)": "السياق يشير إلى معاناة العميل أو مروره بظروف معقدة، والصيغة الاصطلاحية المعبرة عن خوض التجربة هي الاستمرار للفعل have أي (having a bad time)."
+          }
+        },
+        {
+          "sentence": "Reading gossip magazines is just a way to ___ the time on long flights.",
+          "answer": "pass",
+          "options": ["pass", "spend", "take", "have"],
+          "arabicExplanation": {
+            "الشرح النحوي (Grammar Rule)": "تُستخدم (pass the time) للتعبير عن الأنشطة الهامشية التي نقوم بها بغرض ملء الفراغ والتخلص من رتابة الانتظار.",
+            "التعليل الأكاديمي (Academic Analysis)": "قراءة المجلات أثناء الرحلة الجوية الطويلة هي وسيلة اعتيادية لقطع الملل وإشغال الذات حتى ينقضي الوقت، ما يجعل (pass) هي الكلمة الصحيحة."
+          }
         }
       ]
     },

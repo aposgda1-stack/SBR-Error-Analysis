@@ -187,48 +187,53 @@ const buildMCQ = (topicKey) => {
       const isDouble = item.answer.includes(' / ');
       const correctAns = item.answer;
       
-      let distractors = [];
-      if (isDouble) {
-        // Generate double-blank distractors by combining items from logical distractors
-        const words = LOGICAL_DISTRACTORS[topicKey] || ['do', 'make', 'did', 'made'];
-        const combos = [];
-        for (let x = 0; x < words.length; x++) {
-          for (let y = 0; y < words.length; y++) {
-            if (words[x] !== words[y] && combos.length < 20) {
-              combos.push(`${words[x]} / ${words[y]}`);
+      let options = [];
+      if (item.options) {
+        options = shuffleArray(item.options);
+      } else {
+        let distractors = [];
+        if (isDouble) {
+          // Generate double-blank distractors by combining items from logical distractors
+          const words = LOGICAL_DISTRACTORS[topicKey] || ['do', 'make', 'did', 'made'];
+          const combos = [];
+          for (let x = 0; x < words.length; x++) {
+            for (let y = 0; y < words.length; y++) {
+              if (words[x] !== words[y] && combos.length < 20) {
+                combos.push(`${words[x]} / ${words[y]}`);
+              }
             }
           }
+          distractors = shuffleArray(combos)
+            .filter(c => c.toLowerCase() !== correctAns.toLowerCase())
+            .slice(0, 3);
+        } else {
+          // Build distractors from same topic first
+          const sameTopicAnswers = data.practice
+            .filter((_, idx) => idx !== i)
+            .map(p => p.answer)
+            .filter(Boolean)
+            .flatMap(a => a.split(' / '))
+            .filter(a => a.toLowerCase() !== correctAns.toLowerCase());
+
+          // Get logical distractors specifically for this category
+          const categorySpecific = LOGICAL_DISTRACTORS[topicKey] || [];
+          const categoryFiltered = categorySpecific.filter(a => a.toLowerCase() !== correctAns.toLowerCase());
+
+          // Fallback cross-topic distractors
+          const crossTopicAnswers = shuffleArray(allAnswers).filter(
+            a => a.toLowerCase() !== correctAns.toLowerCase()
+          );
+
+          const distractor_pool = [
+            ...sameTopicAnswers,
+            ...categoryFiltered,
+            ...crossTopicAnswers
+          ];
+          distractors = [...new Set(distractor_pool)].slice(0, 3);
         }
-        distractors = shuffleArray(combos)
-          .filter(c => c.toLowerCase() !== correctAns.toLowerCase())
-          .slice(0, 3);
-      } else {
-        // Build distractors from same topic first
-        const sameTopicAnswers = data.practice
-          .filter((_, idx) => idx !== i)
-          .map(p => p.answer)
-          .filter(Boolean)
-          .flatMap(a => a.split(' / '))
-          .filter(a => a.toLowerCase() !== correctAns.toLowerCase());
 
-        // Get logical distractors specifically for this category
-        const categorySpecific = LOGICAL_DISTRACTORS[topicKey] || [];
-        const categoryFiltered = categorySpecific.filter(a => a.toLowerCase() !== correctAns.toLowerCase());
-
-        // Fallback cross-topic distractors
-        const crossTopicAnswers = shuffleArray(allAnswers).filter(
-          a => a.toLowerCase() !== correctAns.toLowerCase()
-        );
-
-        const distractor_pool = [
-          ...sameTopicAnswers,
-          ...categoryFiltered,
-          ...crossTopicAnswers
-        ];
-        distractors = [...new Set(distractor_pool)].slice(0, 3);
+        options = shuffleArray([correctAns, ...distractors]);
       }
-
-      const options = shuffleArray([correctAns, ...distractors]);
 
       questions.push({
         id: `g_${topicKey}_${i}`,
@@ -238,44 +243,50 @@ const buildMCQ = (topicKey) => {
         answer: correctAns,
         options,
         topic: topicKey.replace(/_/g, ' '),
-        explanation: getSpecificExplanation(item, data.rules, topicKey)
+        explanation: getSpecificExplanation(item, data.rules, topicKey),
+        arabicExplanation: item.arabicExplanation
       });
 
     } else if (item.wrong && item.correct) {
       // Error-identification MCQ: Show full sentences to avoid diffing issues for multi-word phrases
       // We will present 4 sentences, only 1 is correct.
       
-      // Generate logical distractors for this topic first
-      const categorySpecific = LOGICAL_DISTRACTORS[topicKey] || [];
-      const categoryFiltered = categorySpecific.filter(
-        a => !item.correct.toLowerCase().includes(a.toLowerCase()) && !item.wrong.toLowerCase().includes(a.toLowerCase())
-      );
+      let options = [];
+      if (item.options) {
+        options = shuffleArray(item.options);
+      } else {
+        // Generate logical distractors for this topic first
+        const categorySpecific = LOGICAL_DISTRACTORS[topicKey] || [];
+        const categoryFiltered = categorySpecific.filter(
+          a => !item.correct.toLowerCase().includes(a.toLowerCase()) && !item.wrong.toLowerCase().includes(a.toLowerCase())
+        );
 
-      const crossTopicAnswers = shuffleArray(allAnswers).filter(
-        a => !item.correct.toLowerCase().includes(a.toLowerCase()) && !item.wrong.toLowerCase().includes(a.toLowerCase())
-      );
+        const crossTopicAnswers = shuffleArray(allAnswers).filter(
+          a => !item.correct.toLowerCase().includes(a.toLowerCase()) && !item.wrong.toLowerCase().includes(a.toLowerCase())
+        );
 
-      const distractor_pool = [
-        ...categoryFiltered,
-        ...crossTopicAnswers
-      ];
+        const distractor_pool = [
+          ...categoryFiltered,
+          ...crossTopicAnswers
+        ];
 
-      const distractorWords = [...new Set(distractor_pool)].slice(0, 2);
-      
-      // Create distractor sentences by replacing the difference with distractor words
-      const w = item.wrong.replace(/[.,!?]$/, '').trim().split(/\s+/);
-      const c = item.correct.replace(/[.,!?]$/, '').trim().split(/\s+/);
-      let start = 0;
-      while (start < w.length && start < c.length && w[start] === c[start]) start++;
-      let endW = w.length - 1, endC = c.length - 1;
-      while (endW >= start && endC >= start && w[endW] === c[endC]) { endW--; endC--; }
-      if (endW < start) endW = start;
-      
-      const wrongPhrase = w.slice(start, endW + 1).join(' ');
-      
-      const distractorSentences = distractorWords.map(dw => item.wrong.replace(wrongPhrase, dw));
-      
-      const options = shuffleArray([item.correct, item.wrong, ...distractorSentences]);
+        const distractorWords = [...new Set(distractor_pool)].slice(0, 2);
+        
+        // Create distractor sentences by replacing the difference with distractor words
+        const w = item.wrong.replace(/[.,!?]$/, '').trim().split(/\s+/);
+        const c = item.correct.replace(/[.,!?]$/, '').trim().split(/\s+/);
+        let start = 0;
+        while (start < w.length && start < c.length && w[start] === c[start]) start++;
+        let endW = w.length - 1, endC = c.length - 1;
+        while (endW >= start && endC >= start && w[endW] === c[endC]) { endW--; endC--; }
+        if (endW < start) endW = start;
+        
+        const wrongPhrase = w.slice(start, endW + 1).join(' ');
+        
+        const distractorSentences = distractorWords.map(dw => item.wrong.replace(wrongPhrase, dw));
+        
+        options = shuffleArray([item.correct, item.wrong, ...distractorSentences]);
+      }
 
       questions.push({
         id: `g_${topicKey}_${i}_err`,
@@ -285,7 +296,8 @@ const buildMCQ = (topicKey) => {
         answer: item.correct,
         options,
         topic: topicKey.replace(/_/g, ' '),
-        explanation: getSpecificExplanation(item, data.rules, topicKey)
+        explanation: getSpecificExplanation(item, data.rules, topicKey),
+        arabicExplanation: item.arabicExplanation
       });
     }
   });
