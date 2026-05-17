@@ -559,17 +559,6 @@
       { "verb": "make up one's mind", "def": "decide" },
       { "verb": "make over", "def": "transfer property" },
       { "verb": "make of", "def": "have an opinion about" }
-    ],
-    "look": [
-      { "verb": "look forward to", "def": "anticipate with pleasure" },
-      { "verb": "look up", "def": "improve / search for info" },
-      { "verb": "look out over", "def": "have a view of" },
-      { "verb": "look down on", "def": "feel superior to" },
-      { "verb": "look out", "def": "be careful" },
-      { "verb": "look up to", "def": "admire and respect" },
-      { "verb": "look over", "def": "examine quickly" },
-      { "verb": "look into", "def": "investigate" },
-      { "verb": "look after", "def": "take care of" }
     ]
   }
 }
