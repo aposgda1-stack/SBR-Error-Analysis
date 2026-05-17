@@ -61,7 +61,7 @@ export default function WorkArena() {
       task: {
         title: 'Job or Work?',
         instruction: 'Complete the sentences with work or job:',
-        text: jobOrWork.map((q, i) => `${i + 1}. ${q.sentence.replace('___', `(${i + 1})`)}`).join('\n\n'),
+        text: jobOrWork.map((q, i) => `${i + 1}. ${q.sentence.replace('___', `(${i + 1}) ___`)}`).join('\n\n'),
         answers: Object.fromEntries(jobOrWork.map((q, i) => [i + 1, q.answer])),
         box_words: ["job", "work"]
       }
@@ -73,7 +73,7 @@ export default function WorkArena() {
       task: {
         title: 'Job or Career?',
         instruction: 'Complete the sentences with job or career:',
-        text: jobOrCareer.map((q, i) => `${i + 1}. ${q.sentence.replace('___', `(${i + 1})`)}`).join('\n\n'),
+        text: jobOrCareer.map((q, i) => `${i + 1}. ${q.sentence.replace('___', `(${i + 1}) ___`)}`).join('\n\n'),
         answers: Object.fromEntries(jobOrCareer.map((q, i) => [i + 1, q.answer])),
         box_words: ["job", "career"]
       }

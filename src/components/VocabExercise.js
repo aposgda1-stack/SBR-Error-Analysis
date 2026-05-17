@@ -1,14 +1,40 @@
 'use client';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import audioManager from '../utils/audio.js';
 import { calcEndBonus, syncXP, XP_BASE } from '../utils/scoring.js';
 import { getArabicExplanation } from '../utils/feedback.js';
+
+/* ── XP Toast ── */
+function XPToast({ bonuses, totalXp, onDone }) {
+  useEffect(() => { const t = setTimeout(onDone, 2200); return () => clearTimeout(t); }, [onDone]);
+  return (
+    <div style={{ position: 'fixed', top: 80, right: 20, zIndex: 9999, display: 'flex', flexDirection: 'column', gap: 8, alignItems: 'flex-end', pointerEvents: 'none' }}>
+      <div style={{ background: 'var(--grad-primary)', color: 'white', padding: '10px 20px', borderRadius: 16, fontWeight: 900, fontSize: 20, boxShadow: '0 8px 30px var(--primary-glow)', animation: 'slideUp 0.4s cubic-bezier(0.16,1,0.3,1) both' }}>
+        +{totalXp} XP
+      </div>
+      {bonuses.map((b, i) => (
+        <div key={i} style={{ background: 'rgba(12,8,25,0.9)', border: '1px solid var(--border-bright)', color: 'var(--primary)', padding: '6px 14px', borderRadius: 12, fontWeight: 700, fontSize: 13, animation: `slideUp 0.4s cubic-bezier(0.16,1,0.3,1) ${0.1 * (i + 1)}s both` }}>
+          {b}
+        </div>
+      ))}
+    </div>
+  );
+}
 
 export default function VocabExercise({ task, onFinish }) {
   const [answers, setAnswers] = useState({});
   const [submitted, setSubmitted] = useState(false);
   const [activeGap, setActiveGap] = useState(null);
   const [score, setScore] = useState(0);
+
+  const [bonuses, setBonuses] = useState([]);
+  const [speedBonus, setSpeedBonus] = useState(0);
+  const [streakBonus, setStreakBonus] = useState(0);
+  const [firstTryBonus, setFirstTryBonus] = useState(0);
+  const [toast, setToast] = useState(null);
+
+  const startTimeRef = useRef(Date.now());
+  const modifiedGapsRef = useRef(new Set());
 
   const correctAnswers = task.answers || {};
   const gaps = Object.keys(correctAnswers);
@@ -25,6 +51,12 @@ export default function VocabExercise({ task, onFinish }) {
   const handleWordSelect = (wordObj) => {
     if (submitted || !activeGap) return;
     audioManager.play('CLICK');
+
+    // If this gap was already filled, mark it as modified (no longer eligible for First Try bonus)
+    if (answers[activeGap]) {
+      modifiedGapsRef.current.add(activeGap);
+    }
+
     setAnswers(prev => ({ ...prev, [activeGap]: wordObj }));
     // Move to next gap automatically if available
     const nextGap = gaps[gaps.indexOf(activeGap) + 1];
@@ -33,16 +65,61 @@ export default function VocabExercise({ task, onFinish }) {
 
   const handleSubmit = () => {
     let correctCount = 0;
+    let currentStreak = 0;
+    let maxStreak = 0;
+    let firstTryCount = 0;
+
     gaps.forEach(key => {
-      if (answers[key]?.word?.toLowerCase().trim() === correctAnswers[key].toLowerCase().trim()) {
+      const isCorrect = answers[key]?.word?.toLowerCase().trim() === correctAnswers[key]?.toLowerCase().trim();
+      if (isCorrect) {
         correctCount++;
+        currentStreak++;
+        maxStreak = Math.max(maxStreak, currentStreak);
+
+        // If they never changed this gap's word, it counts as a First Try!
+        if (!modifiedGapsRef.current.has(key)) {
+          firstTryCount++;
+        }
+      } else {
+        currentStreak = 0;
       }
     });
+
     const baseXp = correctCount * XP_BASE;
-    const { xp: bonusXp, isPerfect } = calcEndBonus(correctCount, gaps.length);
-    const totalXp = baseXp + bonusXp;
+    const { xp: perfectXp, isPerfect } = calcEndBonus(correctCount, gaps.length);
+
+    // Speed Bonus (elapsed time is less than 8 seconds per gap)
+    const elapsedSeconds = (Date.now() - startTimeRef.current) / 1000;
+    const isSpeedy = elapsedSeconds < gaps.length * 8;
+    const speedXp = isSpeedy && correctCount > 0 ? 15 : 0;
+
+    // Streak Bonus
+    let streakXp = 0;
+    if (maxStreak >= 5) {
+      streakXp = 30;
+    } else if (maxStreak >= 3) {
+      streakXp = 15;
+    }
+
+    // First Try Bonus (+5 XP per correct first-try answer)
+    const firstTryXp = firstTryCount * 5;
+
+    const totalXp = baseXp + perfectXp + speedXp + streakXp + firstTryXp;
+
+    setSpeedBonus(speedXp);
+    setStreakBonus(streakXp);
+    setFirstTryBonus(firstTryXp);
     setScore(totalXp);
     setSubmitted(true);
+
+    const calculatedBonuses = [];
+    if (isPerfect) calculatedBonuses.push(`💎 Perfect Ending +${perfectXp}`);
+    if (speedXp > 0) calculatedBonuses.push(`⚡ Speed Bonus +${speedXp}`);
+    if (streakXp > 0) calculatedBonuses.push(`🔥 Streak x${maxStreak} +${streakXp}`);
+    if (firstTryXp > 0) calculatedBonuses.push(`🎯 First Try x${firstTryCount} +${firstTryXp}`);
+    
+    setBonuses(calculatedBonuses);
+    setToast({ xp: totalXp, bonuses: calculatedBonuses });
 
     if (isPerfect) audioManager.play('VICTORY');
     else if (correctCount > 0) audioManager.play('SUCCESS');
@@ -50,6 +127,7 @@ export default function VocabExercise({ task, onFinish }) {
 
     syncXP({ incXp: totalXp, incDone: 1 });
   };
+
 
   const sentenceMap = useMemo(() => {
     const map = {};
