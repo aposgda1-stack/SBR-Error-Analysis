@@ -6,173 +6,998 @@
   },
   "identify_error_data": {
     "the_130_mistakes": [
-      { "id": 1, "topic": "Accused of", "wrong": "The man was accused with the murder.", "correct": "The man was accused of the murder." },
-      { "id": 2, "topic": "Administrative", "wrong": "I work as an administrative at a co-operative.", "correct": "This is just an administrative problem." },
-      { "id": 3, "topic": "Agree", "wrong": "Greta is agree with you.", "correct": "Greta agrees with you." },
-      { "id": 4, "topic": "Alive & live", "wrong": "Only three people were live after the accident.", "correct": "Only three people were alive after the accident." },
-      { "id": 5, "topic": "Alternate & alternative", "wrong": "We’ll meet on alternative Mondays. Today, on the 11th and on the 25th.", "correct": "We’ll meet on alternate Mondays. Today, on the 11th and on the 25th." },
-      { "id": 6, "topic": "Alternative & alternate", "wrong": "Is this the only solution? Isn’t there an alternate option?", "correct": "Is this the only solution? Isn’t there an alternative option?" },
-      { "id": 7, "topic": "Among & between", "wrong": "The three boys divided the cake between themselves.", "correct": "The three boys divided the cake among themselves." },
-      { "id": 8, "topic": "Angry & hungry", "wrong": "He’s hungry because he had an accident.", "correct": "He’s angry because he had an accident." },
-      { "id": 9, "topic": "Anything & nothing", "wrong": "She can’t see nothing.", "correct": "She can’t see anything." },
-      { "id": 10, "topic": "As & like", "wrong": "He’s an engineer but works like a driver.", "correct": "He’s an engineer but works as a driver." },
-      { "id": 11, "topic": "Attempt & intend", "wrong": "She tried to climb Mount Kilimanjaro last year but failed. This year she’ll intend it again.", "correct": "She tried to climb Mount Kilimanjaro last year but failed. This year she’ll attempt it again." },
-      { "id": 12, "topic": "Axis & axle", "wrong": "Shall I write the figure on axle X or axle Y?", "correct": "Shall I write the figure on axis X or axis Y?" },
-      { "id": 13, "topic": "Axle & axis", "wrong": "My car wheels are held together by the axis.", "correct": "My car wheels are held together by the axle." },
-      { "id": 14, "topic": "Bad & badly", "wrong": "He reacts in a badly way.", "correct": "He reacts in a bad way." },
-      { "id": 15, "topic": "Badly & bad", "wrong": "He reacts bad.", "correct": "He reacts badly." },
-      { "id": 16, "topic": "Be fifteen years old", "wrong": "We have both fifteen years.", "correct": "We are both fifteen years old." },
-      { "id": 17, "topic": "Believe", "wrong": "I’m not believing anything she ever says.", "correct": "I don’t believe anything she ever says." },
-      { "id": 18, "topic": "Between & among", "wrong": "France lies among Spain and Germany.", "correct": "France lies between Spain and Germany." },
-      { "id": 19, "topic": "Billion", "wrong": "A billion is a million million in the USA.", "correct": "A billion is a thousand million in the USA." },
-      { "id": 20, "topic": "Boring", "wrong": "I’m boring at the economics class.", "correct": "I find the economics class boring." },
-      { "id": 21, "topic": "Can", "wrong": "I can to speak Swahili.", "correct": "I can speak Swahili." },
-      { "id": 22, "topic": "Can’t & mustn’t", "wrong": "It mustn’t be Silvia. It’s too early!", "correct": "It can’t be Silvia. It’s too early!" },
-      { "id": 23, "topic": "Casual", "wrong": "It was a casual meeting. We met by chance.", "correct": "We were expected to wear casual clothes so I didn’t bring a tie." },
-      { "id": 24, "topic": "Certainly & surely", "wrong": "Unemployment is surely rising. Look at these figures!", "correct": "Unemployment is certainly rising. Look at these figures!" },
-      { "id": 25, "topic": "Charge", "wrong": "They charge the elephant onto the lorry.", "correct": "They charge the laptop on the mains." },
-      { "id": 26, "topic": "Comprehensible & comprehensive", "wrong": "The book is written in a comprehensive style. It is easy to understand.", "correct": "The book is written in a comprehensible style. It is easy to understand." },
-      { "id": 27, "topic": "Comprehensive & comprehensible", "wrong": "That was a comprehensible research paper. It covered the history of mankind.", "correct": "That was a comprehensive research paper. It covered the history of mankind." },
-      { "id": 28, "topic": "Constipated", "wrong": "I’m constipated. I think I have a cold.", "correct": "I’m constipated. I should take a laxative." },
-      { "id": 29, "topic": "Continually & continuously", "wrong": "She’s continuously taking days off. She missed Monday, Wednesday and Friday last week.", "correct": "She’s continually taking days off. She missed Monday, Wednesday and Friday last week." },
-      { "id": 30, "topic": "Continuously & continually", "wrong": "The bell rang continually and didn’t stop for even a second.", "correct": "The bell rang continuously and didn’t stop for even a second." },
-      { "id": 31, "topic": "Crash into", "wrong": "He crashed a wall.", "correct": "He crashed into a wall." },
-      { "id": 32, "topic": "Current & actual", "wrong": "I always check news online because I like to be informed about actual affairs.", "correct": "I always check news online because I like to be informed about current affairs." },
-      { "id": 33, "topic": "Dairy", "wrong": "She writes on her dairy every night.", "correct": "He works on a dairy farm." },
-      { "id": 34, "topic": "Deduce & deduct", "wrong": "She deducted he was the murderer.", "correct": "She deduced he was the murderer." },
-      { "id": 35, "topic": "Deduct & deduce", "wrong": "We can either deduce taxes from your salary now or next year.", "correct": "We can either deduct taxes from your salary now or next year." },
-      { "id": 36, "topic": "Depend from", "wrong": "In a hierarchical organization employees depend from one boss.", "correct": "In a hierarchical organization employees depend on one boss." },
-      { "id": 37, "topic": "Depend on", "wrong": "My decision will depend of the information I have.", "correct": "My decision will depend on the information I have." },
-      { "id": 38, "topic": "Desert & dessert", "wrong": "The Gobi dessert is cold at night and warm during the day.", "correct": "The Gobi desert is cold at night and warm during the day." },
-      { "id": 39, "topic": "Dessert & desert", "wrong": "Would you like apple pie for desert?", "correct": "Would you like apple pie for dessert?" },
-      { "id": 40, "topic": "Diary", "wrong": "These are diary cows. They produce milk.", "correct": "He keeps a private diary." },
-      { "id": 41, "topic": "Dislike", "wrong": "Mark is disliking modern architecture.", "correct": "Mark dislikes modern architecture." },
-      { "id": 42, "topic": "Doctor", "wrong": "My brother is doctor.", "correct": "My brother is a doctor." },
-      { "id": 43, "topic": "Download & upload", "wrong": "We must upload the page from the server to our laptop.", "correct": "We must download the page from the server to our laptop." },
-      { "id": 44, "topic": "Enjoy", "wrong": "I am enjoy the cinema.", "correct": "I enjoy the cinema." },
-      { "id": 45, "topic": "Enjoy", "wrong": "I enjoy with my children.", "correct": "I enjoy my children." },
-      { "id": 46, "topic": "Everywhere", "wrong": "He looked for the keys every place.", "correct": "He looked for the keys everywhere." },
-      { "id": 47, "topic": "Except", "wrong": "We’ll finance all the new projects except for Joe’s, which will be discontinued.", "correct": "We’ll finance all the new projects except Joe’s, which will be discontinued." },
-      { "id": 48, "topic": "Explain", "wrong": "Please explain me your theory.", "correct": "Please explain your theory to me." },
-      { "id": 49, "topic": "Familiar", "wrong": "We have a large family so I invited several familiars to the wedding.", "correct": "I can’t remember her face but her name does sound familiar." },
-      { "id": 50, "topic": "Few & little", "wrong": "We need a little dollars to meet our savings goal.", "correct": "We need a few dollars to meet our savings goal." },
-      { "id": 51, "topic": "Flour & flower", "wrong": "You need flower to bake a pizza.", "correct": "You need flour to bake a pizza." },
-      { "id": 52, "topic": "Flower & flour", "wrong": "Most flours bloom in spring.", "correct": "Most flowers bloom in spring." },
-      { "id": 53, "topic": "Folder & carpet", "wrong": "I use a carpet to keep papers.", "correct": "I use a folder to keep papers." },
-      { "id": 54, "topic": "For & since", "wrong": "I’ve waited since three hours already.", "correct": "I’ve waited for three hours already." },
-      { "id": 55, "topic": "Good & well", "wrong": "This is a well book.", "correct": "This is a good book." },
-      { "id": 56, "topic": "Had better", "wrong": "You had better to visit the client tomorrow.", "correct": "You had better visit the client tomorrow." },
-      { "id": 57, "topic": "Hate", "wrong": "I’m hating her because she is mean.", "correct": "I hate her because she is mean." },
-      { "id": 58, "topic": "Intend & attempt", "wrong": "I attempt to attend university when I finish school.", "correct": "I intend to attend university when I finish school" },
-      { "id": 59, "topic": "It’s & its", "wrong": "Its going to snow.", "correct": "It’s going to snow." },
-      { "id": 60, "topic": "Its & it’s", "wrong": "The company pays it’s employees once a month.", "correct": "The company pays its employees once a month." },
-      { "id": 61, "topic": "Job & work", "wrong": "I’m the company manager. It is my work to solve problems.", "correct": "I’m the company manager. It is my job to solve problems." },
-      { "id": 62, "topic": "Ladder & stairs", "wrong": "Shall I move the stairs under the chandelier so you can change the bulb?", "correct": "Shall I move the ladder under the chandelier so you can change the bulb?" },
-      { "id": 63, "topic": "Large enough", "wrong": "This boat isn’t enough large for all our family.", "correct": "This boat isn’t large enough for all our family." },
-      { "id": 64, "topic": "Lay & lie", "wrong": "You must lie the table before they arrive.", "correct": "You must lay the table before they arrive." },
-      { "id": 65, "topic": "Lie & lay", "wrong": "He always lays down for a nap.", "correct": "He always lies down for a nap." },
-      { "id": 66, "topic": "Like", "wrong": "I’m liking Picasso because he’s a Cubist painter.", "correct": "I like Picasso because he’s a Cubist painter." },
-      { "id": 67, "topic": "Like & as", "wrong": "That product is very much as the one we developed.", "correct": "That product is very much like the one we developed." },
-      { "id": 68, "topic": "Listen", "wrong": "I always listen my boss.", "correct": "I always listen to my boss." },
-      { "id": 69, "topic": "Live & alive", "wrong": "NBC will broadcast the match alive.", "correct": "NBC will broadcast the match live." },
-      { "id": 70, "topic": "Load", "wrong": "They’ll load the computer on the mains.", "correct": "They’ll load the elephant onto the lorry." },
-      { "id": 71, "topic": "Look forward to", "wrong": "We look forward to meet you.", "correct": "We look forward to meeting you." },
-      { "id": 72, "topic": "Love", "wrong": "I’m loving her more every day.", "correct": "I love her more every day." },
-      { "id": 73, "topic": "Make a mistake", "wrong": "Andrew wrote this list so he would do fewer mistakes.", "correct": "Andrew wrote this list so he would make fewer mistakes." },
-      { "id": 74, "topic": "Many & much", "wrong": "Much people came today.", "correct": "Many people came today." },
-      { "id": 75, "topic": "Media & medium", "wrong": "Most of the medium live from advertising revenue.", "correct": "Most of the media live from advertising revenue." },
-      { "id": 76, "topic": "Medium & media", "wrong": "I think you should try another media.", "correct": "I think you should try another medium." },
-      { "id": 77, "topic": "Most", "wrong": "Most of managers have arrived.", "correct": "Most managers have arrived." },
-      { "id": 78, "topic": "Motorway", "wrong": "We drove through the autoway.", "correct": "We drove through the motorway." },
-      { "id": 79, "topic": "Much & many", "wrong": "Having many money is always better than having little money.", "correct": "Having much money is always better than having little money." },
-      { "id": 80, "topic": "Must", "wrong": "We must to increase prices.", "correct": "We must increase prices." },
-      { "id": 81, "topic": "Nothing", "wrong": "She didn’t understand nothing.", "correct": "She understood nothing." },
-      { "id": 82, "topic": "Now & actually", "wrong": "He used to be a secretary. He’s a manager actually.", "correct": "He used to be a secretary. He’s a manager now." },
-      { "id": 83, "topic": "Officer & official", "wrong": "Could you please call a police official?", "correct": "Could you please call a police officer?" },
-      { "id": 84, "topic": "Official & officer", "wrong": "This is an officer statement.", "correct": "This is an official statement." },
-      { "id": 85, "topic": "Parents-in-law", "wrong": "She loves her fathers-in-law.", "correct": "She loves her parents-in-law." },
-      { "id": 86, "topic": "Parking", "wrong": "I rarely leave my car at a parking because it’s too expensive.", "correct": "I rarely leave my car at a parking lot because it’s too expensive." },
-      { "id": 87, "topic": "People", "wrong": "Most people is interested in their health.", "correct": "Most people are interested in their health." },
-      { "id": 88, "topic": "Personal & personnel", "wrong": "I have a personnel trainer.", "correct": "I have a personal trainer." },
-      { "id": 89, "topic": "Personnel & personal", "wrong": "Where’s the personal department?", "correct": "Where’s the personnel department." },
-      { "id": 90, "topic": "Price & prize", "wrong": "The prize of this shirt is twelve dollars.", "correct": "The price of this shirt is twelve dollars." },
-      { "id": 91, "topic": "Prize & price", "wrong": "She’s an excellent student and won the first price.", "correct": "She’s an excellent student and won the first prize." },
-      { "id": 92, "topic": "Professor", "wrong": "Richard is a kindergarten professor. He teaches children.", "correct": "Anthony is a university professor. He teaches Physics." },
-      { "id": 93, "topic": "Raise & rise", "wrong": "Farmers rise cattle.", "correct": "Farmers raise cattle." },
-      { "id": 94, "topic": "Recipe", "wrong": "The doctor gave me a recipe for more antibiotics.", "correct": "Do you have the recipe for Yorkshire pudding?" },
-      { "id": 95, "topic": "Rise & raise", "wrong": "Prices raise because of inflation.", "correct": "Prices rise because of inflation." },
-      { "id": 96, "topic": "Rob & steal", "wrong": "He stole me.", "correct": "He robbed me." },
-      { "id": 97, "topic": "Safe & secure", "wrong": "Is your neighbourhood secure? There are many robberies here.", "correct": "Is your neighbourhood safe? There are many robberies here." },
-      { "id": 98, "topic": "Salary & wage", "wrong": "The manager collects her wage monthly.", "correct": "The manager collects her salary monthly." },
-      { "id": 99, "topic": "Say & tell", "wrong": "He tells that India is big.", "correct": "He says that India is big." },
-      { "id": 100, "topic": "Secure & safe", "wrong": "Is the rope safe? If it loosens the cargo might move.", "correct": "Is the rope secure? If it loosens the cargo might move." },
-      { "id": 101, "topic": "Sensible & sensitive", "wrong": "She’s a sensitive woman so I trust she’ll make the right decision.", "correct": "She’s a sensible woman so I trust she’ll make the right decision." },
-      { "id": 102, "topic": "Sensitive & sensible", "wrong": "She’s a very sensible child and will cry if you shout at her.", "correct": "She’s a very sensitive child and will cry if you shout at her." },
-      { "id": 103, "topic": "Series", "wrong": "2, 4, 6 and 8 make a serie of even numbers.", "correct": "2, 4, 6 and 8 make a series of even numbers." },
-      { "id": 104, "topic": "Sew & sow", "wrong": "They need to sow at least ten shirts a day.", "correct": "They need to sew at least ten shirts a day." },
-      { "id": 105, "topic": "Since & from", "wrong": "I’ve been waiting here for eleven this morning.", "correct": "I’ve been waiting here since eleven this morning." },
-      { "id": 106, "topic": "Sow & sew", "wrong": "We will sew corn in our farm.", "correct": "We will sow corn in our farm." },
-      { "id": 107, "topic": "Stairs & ladder", "wrong": "Walk up the marble ladder to reach the hotel lobby.", "correct": "Walk up the marble stairs to reach the hotel lobby." },
-      { "id": 108, "topic": "Stake & steak", "wrong": "Our company owns a steak in Citibank.", "correct": "Our company owns a stake in Citibank." },
-      { "id": 109, "topic": "Stationary & stationery", "wrong": "Stationery satellites remain at the same relative position.", "correct": "Stationary satellites remain at the same relative position." },
-      { "id": 110, "topic": "Stationery & stationary", "wrong": "We need to purchase more stationary.", "correct": "We need to purchase more stationery." },
-      { "id": 111, "topic": "Steak & stake", "wrong": "I always order my stakes well done.", "correct": "I always order my steaks well done." },
-      { "id": 112, "topic": "Steal & rob", "wrong": "He robbed the wallet from my bag and I never realized!", "correct": "He stole the wallet from my bag and I never realized!" },
-      { "id": 113, "topic": "Story & history", "wrong": "Can you tell me the Cinderella history tonight?", "correct": "Can you tell me the Cinderella story tonight?" },
-      { "id": 114, "topic": "Straight & strait", "wrong": "Look strait ahead to see her.", "correct": "Look straight ahead to see her." },
-      { "id": 115, "topic": "Strait & straight", "wrong": "The ship crossed the Straight of Gibraltar.", "correct": "The ship crossed the Strait of Gibraltar." },
-      { "id": 116, "topic": "Suit & suite", "wrong": "All lawyers must wear suites at this office.", "correct": "All lawyers must wear suits at this office." },
-      { "id": 117, "topic": "Suite & suit", "wrong": "She stayed at her suit all day.", "correct": "She stayed at her suite all day." },
-      { "id": 118, "topic": "Tell & say", "wrong": "She never says me the truth.", "correct": "She never tells me the truth." },
-      { "id": 119, "topic": "The reason why", "wrong": "She couldn’t explain the reason because she was here.", "correct": "She couldn’t explain the reason why she was here." },
-      { "id": 120, "topic": "Think of", "wrong": "I’m thinking to move to Australia.", "correct": "I’m thinking of moving to Australia." },
-      { "id": 121, "topic": "Times & per", "wrong": "Two per three equals six.", "correct": "Two times three equals six." },
-      { "id": 122, "topic": "Two pounds’ worth", "wrong": "I’d like two pounds worth of sweets.", "correct": "I’d like two pounds’ worth of sweets." },
-      { "id": 123, "topic": "Upload & download", "wrong": "We must download the page from our laptop to the server.", "correct": "We must upload the page from our laptop to the server." },
-      { "id": 124, "topic": "Used to", "wrong": "We used run a small company. Now it’s grown rather large!", "correct": "We used to run a small company. Now it’s grown rather large!" },
-      { "id": 125, "topic": "Wage & salary", "wrong": "Their salaries are between five and six dollars an hour.", "correct": "Their wages are between five and six dollars an hour." },
-      { "id": 126, "topic": "Want to", "wrong": "I want that you contact the production supervisor.", "correct": "I want you to contact the production supervisor." },
-      { "id": 127, "topic": "Well & good", "wrong": "She dances and sings quite good.", "correct": "She dances and sings quite well." },
-      { "id": 128, "topic": "Who & whom", "wrong": "Whom is responsible for collections at this office?", "correct": "Who is responsible for collections at this office?" },
-      { "id": 129, "topic": "Whose & who’s", "wrong": "Who’s that car?", "correct": "Whose is that car?" },
-      { "id": 130, "topic": "Work & job", "wrong": "Writing the budget is hard job. I wish I didn’t have to do it!", "correct": "Writing the budget is hard work. I wish I didn’t have to do it!" }
+      {
+        "id": 1,
+        "topic": "Accused of",
+        "wrong": "The man was accused with the murder.",
+        "correct": "The man was accused of the murder."
+      },
+      {
+        "id": 2,
+        "topic": "Administrative",
+        "wrong": "I work as an administrative at a co-operative.",
+        "correct": "This is just an administrative problem."
+      },
+      {
+        "id": 3,
+        "topic": "Agree",
+        "wrong": "Greta is agree with you.",
+        "correct": "Greta agrees with you."
+      },
+      {
+        "id": 4,
+        "topic": "Alive & live",
+        "wrong": "Only three people were live after the accident.",
+        "correct": "Only three people were alive after the accident."
+      },
+      {
+        "id": 5,
+        "topic": "Alternate & alternative",
+        "wrong": "We'll meet on alternative Mondays. Today, on the 11th and on the 25th.",
+        "correct": "We'll meet on alternate Mondays. Today, on the 11th and on the 25th."
+      },
+      {
+        "id": 6,
+        "topic": "Alternative & alternate",
+        "wrong": "Is this the only solution? Isn't there an alternate option?",
+        "correct": "Is this the only solution? Isn't there an alternative option?"
+      },
+      {
+        "id": 7,
+        "topic": "Among & between",
+        "wrong": "The three boys divided the cake between themselves.",
+        "correct": "The three boys divided the cake among themselves."
+      },
+      {
+        "id": 8,
+        "topic": "Angry & hungry",
+        "wrong": "He's hungry because he had an accident.",
+        "correct": "He's angry because he had an accident."
+      },
+      {
+        "id": 9,
+        "topic": "Anything & nothing",
+        "wrong": "She can't see nothing.",
+        "correct": "She can't see anything."
+      },
+      {
+        "id": 10,
+        "topic": "As & like",
+        "wrong": "He's an engineer but works like a driver.",
+        "correct": "He's an engineer but works as a driver."
+      },
+      {
+        "id": 11,
+        "topic": "Attempt & intend",
+        "wrong": "She tried to climb Mount Kilimanjaro last year but failed. This year she'll intend it again.",
+        "correct": "She tried to climb Mount Kilimanjaro last year but failed. This year she'll attempt it again."
+      },
+      {
+        "id": 12,
+        "topic": "Axis & axle",
+        "wrong": "Shall I write the figure on axle X or axle Y?",
+        "correct": "Shall I write the figure on axis X or axis Y?"
+      },
+      {
+        "id": 13,
+        "topic": "Axle & axis",
+        "wrong": "My car wheels are held together by the axis.",
+        "correct": "My car wheels are held together by the axle."
+      },
+      {
+        "id": 14,
+        "topic": "Bad & badly",
+        "wrong": "He reacts in a badly way.",
+        "correct": "He reacts in a bad way."
+      },
+      {
+        "id": 15,
+        "topic": "Badly & bad",
+        "wrong": "He reacts bad.",
+        "correct": "He reacts badly."
+      },
+      {
+        "id": 16,
+        "topic": "Be fifteen years old",
+        "wrong": "We have both fifteen years.",
+        "correct": "We are both fifteen years old."
+      },
+      {
+        "id": 17,
+        "topic": "Believe",
+        "wrong": "I'm not believing anything she ever says.",
+        "correct": "I don't believe anything she ever says."
+      },
+      {
+        "id": 18,
+        "topic": "Between & among",
+        "wrong": "France lies among Spain and Germany.",
+        "correct": "France lies between Spain and Germany."
+      },
+      {
+        "id": 19,
+        "topic": "Billion",
+        "wrong": "A billion is a million million in the USA.",
+        "correct": "A billion is a thousand million in the USA."
+      },
+      {
+        "id": 20,
+        "topic": "Boring",
+        "wrong": "I'm boring at the economics class.",
+        "correct": "I find the economics class boring."
+      },
+      {
+        "id": 21,
+        "topic": "Can",
+        "wrong": "I can to speak Swahili.",
+        "correct": "I can speak Swahili."
+      },
+      {
+        "id": 22,
+        "topic": "Can't & mustn't",
+        "wrong": "It mustn't be Silvia. It's too early!",
+        "correct": "It can't be Silvia. It's too early!"
+      },
+      {
+        "id": 23,
+        "topic": "Casual",
+        "wrong": "It was a casual meeting. We met by chance.",
+        "correct": "We were expected to wear casual clothes so I didn't bring a tie."
+      },
+      {
+        "id": 24,
+        "topic": "Certainly & surely",
+        "wrong": "Unemployment is surely rising. Look at these figures!",
+        "correct": "Unemployment is certainly rising. Look at these figures!"
+      },
+      {
+        "id": 25,
+        "topic": "Charge",
+        "wrong": "They charge the elephant onto the lorry.",
+        "correct": "They charge the laptop on the mains."
+      },
+      {
+        "id": 26,
+        "topic": "Comprehensible & comprehensive",
+        "wrong": "The book is written in a comprehensive style. It is easy to understand.",
+        "correct": "The book is written in a comprehensible style. It is easy to understand."
+      },
+      {
+        "id": 27,
+        "topic": "Comprehensive & comprehensible",
+        "wrong": "That was a comprehensible research paper. It covered the history of mankind.",
+        "correct": "That was a comprehensive research paper. It covered the history of mankind."
+      },
+      {
+        "id": 28,
+        "topic": "Constipated",
+        "wrong": "I'm constipated. I think I have a cold.",
+        "correct": "I'm constipated. I should take a laxative."
+      },
+      {
+        "id": 29,
+        "topic": "Continually & continuously",
+        "wrong": "She's continuously taking days off. She missed Monday, Wednesday and Friday last week.",
+        "correct": "She's continually taking days off. She missed Monday, Wednesday and Friday last week."
+      },
+      {
+        "id": 30,
+        "topic": "Continuously & continually",
+        "wrong": "The bell rang continually and didn't stop for even a second.",
+        "correct": "The bell rang continuously and didn't stop for even a second."
+      },
+      {
+        "id": 31,
+        "topic": "Crash into",
+        "wrong": "He crashed a wall.",
+        "correct": "He crashed into a wall."
+      },
+      {
+        "id": 32,
+        "topic": "Current & actual",
+        "wrong": "I always check news online because I like to be informed about actual affairs.",
+        "correct": "I always check news online because I like to be informed about current affairs."
+      },
+      {
+        "id": 33,
+        "topic": "Dairy",
+        "wrong": "She writes on her dairy every night.",
+        "correct": "He works on a dairy farm."
+      },
+      {
+        "id": 34,
+        "topic": "Deduce & deduct",
+        "wrong": "She deducted he was the murderer.",
+        "correct": "She deduced he was the murderer."
+      },
+      {
+        "id": 35,
+        "topic": "Deduct & deduce",
+        "wrong": "We can either deduce taxes from your salary now or next year.",
+        "correct": "We can either deduct taxes from your salary now or next year."
+      },
+      {
+        "id": 36,
+        "topic": "Depend from",
+        "wrong": "In a hierarchical organization employees depend from one boss.",
+        "correct": "In a hierarchical organization employees depend on one boss."
+      },
+      {
+        "id": 37,
+        "topic": "Depend on",
+        "wrong": "My decision will depend of the information I have.",
+        "correct": "My decision will depend on the information I have."
+      },
+      {
+        "id": 38,
+        "topic": "Desert & dessert",
+        "wrong": "The Gobi dessert is cold at night and warm during the day.",
+        "correct": "The Gobi desert is cold at night and warm during the day."
+      },
+      {
+        "id": 39,
+        "topic": "Dessert & desert",
+        "wrong": "Would you like apple pie for desert?",
+        "correct": "Would you like apple pie for dessert?"
+      },
+      {
+        "id": 40,
+        "topic": "Diary",
+        "wrong": "These are diary cows. They produce milk.",
+        "correct": "He keeps a private diary."
+      },
+      {
+        "id": 41,
+        "topic": "Dislike",
+        "wrong": "Mark is disliking modern architecture.",
+        "correct": "Mark dislikes modern architecture."
+      },
+      {
+        "id": 42,
+        "topic": "Doctor",
+        "wrong": "My brother is doctor.",
+        "correct": "My brother is a doctor."
+      },
+      {
+        "id": 43,
+        "topic": "Download & upload",
+        "wrong": "We must upload the page from the server to our laptop.",
+        "correct": "We must download the page from the server to our laptop."
+      },
+      {
+        "id": 44,
+        "topic": "Enjoy",
+        "wrong": "I am enjoy the cinema.",
+        "correct": "I enjoy the cinema."
+      },
+      {
+        "id": 45,
+        "topic": "Enjoy",
+        "wrong": "I enjoy with my children.",
+        "correct": "I enjoy my children."
+      },
+      {
+        "id": 46,
+        "topic": "Everywhere",
+        "wrong": "He looked for the keys every place.",
+        "correct": "He looked for the keys everywhere."
+      },
+      {
+        "id": 47,
+        "topic": "Except",
+        "wrong": "We'll finance all the new projects except for Joe's, which will be discontinued.",
+        "correct": "We'll finance all the new projects except Joe's, which will be discontinued."
+      },
+      {
+        "id": 48,
+        "topic": "Explain",
+        "wrong": "Please explain me your theory.",
+        "correct": "Please explain your theory to me."
+      },
+      {
+        "id": 49,
+        "topic": "Familiar",
+        "wrong": "We have a large family so I invited several familiars to the wedding.",
+        "correct": "I can't remember her face but her name does sound familiar."
+      },
+      {
+        "id": 50,
+        "topic": "Few & little",
+        "wrong": "We need a little dollars to meet our savings goal.",
+        "correct": "We need a few dollars to meet our savings goal."
+      },
+      {
+        "id": 51,
+        "topic": "Flour & flower",
+        "wrong": "You need flower to bake a pizza.",
+        "correct": "You need flour to bake a pizza."
+      },
+      {
+        "id": 52,
+        "topic": "Flower & flour",
+        "wrong": "Most flours bloom in spring.",
+        "correct": "Most flowers bloom in spring."
+      },
+      {
+        "id": 53,
+        "topic": "Folder & carpet",
+        "wrong": "I use a carpet to keep papers.",
+        "correct": "I use a folder to keep papers."
+      },
+      {
+        "id": 54,
+        "topic": "For & since",
+        "wrong": "I've waited since three hours already.",
+        "correct": "I've waited for three hours already."
+      },
+      {
+        "id": 55,
+        "topic": "Good & well",
+        "wrong": "This is a well book.",
+        "correct": "This is a good book."
+      },
+      {
+        "id": 56,
+        "topic": "Had better",
+        "wrong": "You had better to visit the client tomorrow.",
+        "correct": "You had better visit the client tomorrow."
+      },
+      {
+        "id": 57,
+        "topic": "Hate",
+        "wrong": "I'm hating her because she is mean.",
+        "correct": "I hate her because she is mean."
+      },
+      {
+        "id": 58,
+        "topic": "Intend & attempt",
+        "wrong": "I attempt to attend university when I finish school.",
+        "correct": "I intend to attend university when I finish school."
+      },
+      {
+        "id": 59,
+        "topic": "It's & its",
+        "wrong": "Its going to snow.",
+        "correct": "It's going to snow."
+      },
+      {
+        "id": 60,
+        "topic": "Its & it's",
+        "wrong": "The company pays it's employees once a month.",
+        "correct": "The company pays its employees once a month."
+      },
+      {
+        "id": 61,
+        "topic": "Job & work",
+        "wrong": "I'm the company manager. It is my work to solve problems.",
+        "correct": "I'm the company manager. It is my job to solve problems."
+      },
+      {
+        "id": 62,
+        "topic": "Ladder & stairs",
+        "wrong": "Shall I move the stairs under the chandelier so you can change the bulb?",
+        "correct": "Shall I move the ladder under the chandelier so you can change the bulb?"
+      },
+      {
+        "id": 63,
+        "topic": "Large enough",
+        "wrong": "This boat isn't enough large for all our family.",
+        "correct": "This boat isn't large enough for all our family."
+      },
+      {
+        "id": 64,
+        "topic": "Lay & lie",
+        "wrong": "You must lie the table before they arrive.",
+        "correct": "You must lay the table before they arrive."
+      },
+      {
+        "id": 65,
+        "topic": "Lie & lay",
+        "wrong": "He always lays down for a nap.",
+        "correct": "He always lies down for a nap."
+      },
+      {
+        "id": 66,
+        "topic": "Like",
+        "wrong": "I'm liking Picasso because he's a Cubist painter.",
+        "correct": "I like Picasso because he's a Cubist painter."
+      },
+      {
+        "id": 67,
+        "topic": "Like & as",
+        "wrong": "That product is very much as the one we developed.",
+        "correct": "That product is very much like the one we developed."
+      },
+      {
+        "id": 68,
+        "topic": "Listen",
+        "wrong": "I always listen my boss.",
+        "correct": "I always listen to my boss."
+      },
+      {
+        "id": 69,
+        "topic": "Live & alive",
+        "wrong": "NBC will broadcast the match alive.",
+        "correct": "NBC will broadcast the match live."
+      },
+      {
+        "id": 70,
+        "topic": "Load",
+        "wrong": "They'll load the computer on the mains.",
+        "correct": "They'll load the elephant onto the lorry."
+      },
+      {
+        "id": 71,
+        "topic": "Look forward to",
+        "wrong": "We look forward to meet you.",
+        "correct": "We look forward to meeting you."
+      },
+      {
+        "id": 72,
+        "topic": "Love",
+        "wrong": "I'm loving her more every day.",
+        "correct": "I love her more every day."
+      },
+      {
+        "id": 73,
+        "topic": "Make a mistake",
+        "wrong": "Andrew wrote this list so he would do fewer mistakes.",
+        "correct": "Andrew wrote this list so he would make fewer mistakes."
+      },
+      {
+        "id": 74,
+        "topic": "Many & much",
+        "wrong": "Much people came today.",
+        "correct": "Many people came today."
+      },
+      {
+        "id": 75,
+        "topic": "Media & medium",
+        "wrong": "Most of the medium live from advertising revenue.",
+        "correct": "Most of the media live from advertising revenue."
+      },
+      {
+        "id": 76,
+        "topic": "Medium & media",
+        "wrong": "I think you should try another media.",
+        "correct": "I think you should try another medium."
+      },
+      {
+        "id": 77,
+        "topic": "Most",
+        "wrong": "Most of managers have arrived.",
+        "correct": "Most managers have arrived."
+      },
+      {
+        "id": 78,
+        "topic": "Motorway",
+        "wrong": "We drove through the autoway.",
+        "correct": "We drove through the motorway."
+      },
+      {
+        "id": 79,
+        "topic": "Much & many",
+        "wrong": "Having many money is always better than having little money.",
+        "correct": "Having much money is always better than having little money."
+      },
+      {
+        "id": 80,
+        "topic": "Must",
+        "wrong": "We must to increase prices.",
+        "correct": "We must increase prices."
+      },
+      {
+        "id": 81,
+        "topic": "Nothing",
+        "wrong": "She didn't understand nothing.",
+        "correct": "She understood nothing."
+      },
+      {
+        "id": 82,
+        "topic": "Now & actually",
+        "wrong": "He used to be a secretary. He's a manager actually.",
+        "correct": "He used to be a secretary. He's a manager now."
+      },
+      {
+        "id": 83,
+        "topic": "Officer & official",
+        "wrong": "Could you please call a police official?",
+        "correct": "Could you please call a police officer?"
+      },
+      {
+        "id": 84,
+        "topic": "Official & officer",
+        "wrong": "This is an officer statement.",
+        "correct": "This is an official statement."
+      },
+      {
+        "id": 85,
+        "topic": "Parents-in-law",
+        "wrong": "She loves her fathers-in-law.",
+        "correct": "She loves her parents-in-law."
+      },
+      {
+        "id": 86,
+        "topic": "Parking",
+        "wrong": "I rarely leave my car at a parking because it's too expensive.",
+        "correct": "I rarely leave my car at a parking lot because it's too expensive."
+      },
+      {
+        "id": 87,
+        "topic": "People",
+        "wrong": "Most people is interested in their health.",
+        "correct": "Most people are interested in their health."
+      },
+      {
+        "id": 88,
+        "topic": "Personal & personnel",
+        "wrong": "I have a personnel trainer.",
+        "correct": "I have a personal trainer."
+      },
+      {
+        "id": 89,
+        "topic": "Personnel & personal",
+        "wrong": "Where's the personal department?",
+        "correct": "Where's the personnel department?"
+      },
+      {
+        "id": 90,
+        "topic": "Price & prize",
+        "wrong": "The prize of this shirt is twelve dollars.",
+        "correct": "The price of this shirt is twelve dollars."
+      },
+      {
+        "id": 91,
+        "topic": "Prize & price",
+        "wrong": "She's an excellent student and won the first price.",
+        "correct": "She's an excellent student and won the first prize."
+      },
+      {
+        "id": 92,
+        "topic": "Professor",
+        "wrong": "Richard is a kindergarten professor. He teaches children.",
+        "correct": "Anthony is a university professor. He teaches Physics."
+      },
+      {
+        "id": 93,
+        "topic": "Raise & rise",
+        "wrong": "Farmers rise cattle.",
+        "correct": "Farmers raise cattle."
+      },
+      {
+        "id": 94,
+        "topic": "Recipe",
+        "wrong": "The doctor gave me a recipe for more antibiotics.",
+        "correct": "Do you have the recipe for Yorkshire pudding?"
+      },
+      {
+        "id": 95,
+        "topic": "Rise & raise",
+        "wrong": "Prices raise because of inflation.",
+        "correct": "Prices rise because of inflation."
+      },
+      {
+        "id": 96,
+        "topic": "Rob & steal",
+        "wrong": "He stole me.",
+        "correct": "He robbed me."
+      },
+      {
+        "id": 97,
+        "topic": "Safe & secure",
+        "wrong": "Is your neighbourhood secure? There are many robberies here.",
+        "correct": "Is your neighbourhood safe? There are many robberies here."
+      },
+      {
+        "id": 98,
+        "topic": "Salary & wage",
+        "wrong": "The manager collects her wage monthly.",
+        "correct": "The manager collects her salary monthly."
+      },
+      {
+        "id": 99,
+        "topic": "Say & tell",
+        "wrong": "He tells that India is big.",
+        "correct": "He says that India is big."
+      },
+      {
+        "id": 100,
+        "topic": "Secure & safe",
+        "wrong": "Is the rope safe? If it loosens the cargo might move.",
+        "correct": "Is the rope secure? If it loosens the cargo might move."
+      },
+      {
+        "id": 101,
+        "topic": "Sensible & sensitive",
+        "wrong": "She's a sensitive woman so I trust she'll make the right decision.",
+        "correct": "She's a sensible woman so I trust she'll make the right decision."
+      },
+      {
+        "id": 102,
+        "topic": "Sensitive & sensible",
+        "wrong": "She's a very sensible child and will cry if you shout at her.",
+        "correct": "She's a very sensitive child and will cry if you shout at her."
+      },
+      {
+        "id": 103,
+        "topic": "Series",
+        "wrong": "2, 4, 6 and 8 make a serie of even numbers.",
+        "correct": "2, 4, 6 and 8 make a series of even numbers."
+      },
+      {
+        "id": 104,
+        "topic": "Sew & sow",
+        "wrong": "They need to sow at least ten shirts a day.",
+        "correct": "They need to sew at least ten shirts a day."
+      },
+      {
+        "id": 105,
+        "topic": "Since & from",
+        "wrong": "I've been waiting here for eleven this morning.",
+        "correct": "I've been waiting here since eleven this morning."
+      },
+      {
+        "id": 106,
+        "topic": "Sow & sew",
+        "wrong": "We will sew corn in our farm.",
+        "correct": "We will sow corn in our farm."
+      },
+      {
+        "id": 107,
+        "topic": "Stairs & ladder",
+        "wrong": "Walk up the marble ladder to reach the hotel lobby.",
+        "correct": "Walk up the marble stairs to reach the hotel lobby."
+      },
+      {
+        "id": 108,
+        "topic": "Stake & steak",
+        "wrong": "Our company owns a steak in Citibank.",
+        "correct": "Our company owns a stake in Citibank."
+      },
+      {
+        "id": 109,
+        "topic": "Stationary & stationery",
+        "wrong": "Stationery satellites remain at the same relative position.",
+        "correct": "Stationary satellites remain at the same relative position."
+      },
+      {
+        "id": 110,
+        "topic": "Stationery & stationary",
+        "wrong": "We need to purchase more stationary.",
+        "correct": "We need to purchase more stationery."
+      },
+      {
+        "id": 111,
+        "topic": "Steak & stake",
+        "wrong": "I always order my stakes well-done.",
+        "correct": "I always order my steaks well-done."
+      },
+      {
+        "id": 112,
+        "topic": "Steal & rob",
+        "wrong": "He robbed the wallet from my bag and I never realized!",
+        "correct": "He stole the wallet from my bag and I never realized!"
+      },
+      {
+        "id": 113,
+        "topic": "Story & history",
+        "wrong": "Can you tell me the Cinderella history tonight?",
+        "correct": "Can you tell me the Cinderella story tonight?"
+      },
+      {
+        "id": 114,
+        "topic": "Straight & strait",
+        "wrong": "Look strait ahead to see her.",
+        "correct": "Look straight ahead to see her."
+      },
+      {
+        "id": 115,
+        "topic": "Strait & straight",
+        "wrong": "The ship crossed the Straight of Gibraltar.",
+        "correct": "The ship crossed the Strait of Gibraltar."
+      },
+      {
+        "id": 116,
+        "topic": "Suit & suite",
+        "wrong": "All lawyers must wear suites at this office.",
+        "correct": "All lawyers must wear suits at this office."
+      },
+      {
+        "id": 117,
+        "topic": "Suite & suit",
+        "wrong": "She stayed at her suit all day.",
+        "correct": "She stayed at her suite all day."
+      },
+      {
+        "id": 118,
+        "topic": "Tell & say",
+        "wrong": "She never says me the truth.",
+        "correct": "She never tells me the truth."
+      },
+      {
+        "id": 119,
+        "topic": "The reason why",
+        "wrong": "She couldn't explain the reason because she was here.",
+        "correct": "She couldn't explain the reason why she was here."
+      },
+      {
+        "id": 120,
+        "topic": "Think of",
+        "wrong": "I'm thinking to move to Australia.",
+        "correct": "I'm thinking of moving to Australia."
+      },
+      {
+        "id": 121,
+        "topic": "Times & per",
+        "wrong": "Two per three equals six.",
+        "correct": "Two times three equals six."
+      },
+      {
+        "id": 122,
+        "topic": "Two pounds' worth",
+        "wrong": "I'd like two pounds worth of sweets.",
+        "correct": "I'd like two pounds' worth of sweets."
+      },
+      {
+        "id": 123,
+        "topic": "Upload & download",
+        "wrong": "We must download the page from our laptop to the server.",
+        "correct": "We must upload the page from our laptop to the server."
+      },
+      {
+        "id": 124,
+        "topic": "Used to",
+        "wrong": "We used run a small company. Now it's grown rather large!",
+        "correct": "We used to run a small company. Now it's grown rather large!"
+      },
+      {
+        "id": 125,
+        "topic": "Wage & salary",
+        "wrong": "Their salaries are between five and six dollars an hour.",
+        "correct": "Their wages are between five and six dollar an hour."
+      },
+      {
+        "id": 126,
+        "topic": "Want to",
+        "wrong": "I want that you contact the production supervisor.",
+        "correct": "I want you to contact the production supervisor."
+      },
+      {
+        "id": 127,
+        "topic": "Well & good",
+        "wrong": "She dances and sings quite good.",
+        "correct": "She dances and sings quite well."
+      },
+      {
+        "id": 128,
+        "topic": "Who & whom",
+        "wrong": "Whom is responsible for collections at this office?",
+        "correct": "Who is responsible for collections at this office?"
+      },
+      {
+        "id": 129,
+        "topic": "Whose & who's",
+        "wrong": "Who's that car?",
+        "correct": "Whose is that car?"
+      },
+      {
+        "id": 130,
+        "topic": "Work & job",
+        "wrong": "Writing the budget is hard job. I wish I didn't have to do it!",
+        "correct": "Writing the budget is hard work. I wish I didn't have to do it!"
+      }
     ],
     "identify_and_correct_practice": [
-      { "id": 1, "topic": "Accused of", "wrong": "The man was accused with the murder.", "correct": "The man was accused of the murder." },
-      { "id": 2, "topic": "Agree", "wrong": "Greta is agree with you.", "correct": "Greta agrees with you." },
-      { "id": 3, "topic": "Alive & live", "wrong": "Only three people were live after the accident.", "correct": "Only three people were alive after the accident." },
-      { "id": 4, "topic": "Among & between", "wrong": "The three boys divided the cake between themselves.", "correct": "The three boys divided the cake among themselves." },
-      { "id": 5, "topic": "As & like", "wrong": "He's an engineer but works like a driver.", "correct": "He's an engineer but works as a driver." },
-      { "id": 6, "topic": "Be fifteen years old", "wrong": "We have both fifteen years.", "correct": "We are both fifteen years old." },
-      { "id": 7, "topic": "Can", "wrong": "I can to speak Swahili.", "correct": "I can speak Swahili." },
-      { "id": 8, "topic": "Can't & mustn't", "wrong": "It mustn't be Silvia. It's too early!", "correct": "It can't be Silvia. It's too early!" },
-      { "id": 9, "topic": "Diary", "wrong": "She writes on her dairy every night.", "correct": "She writes in her diary every night." },
-      { "id": 10, "topic": "Depend on", "wrong": "My decision will depend of the information I have.", "correct": "My decision will depend on the information I have." },
-      { "id": 11, "topic": "Dessert & desert", "wrong": "Would you like apple pie for desert?", "correct": "Would you like apple pie for dessert?" },
-      { "id": 12, "topic": "Dislike", "wrong": "Mark is disliking modern architecture.", "correct": "Mark dislikes modern architecture." },
-      { "id": 13, "topic": "Enjoy", "wrong": "I am enjoy the cinema.", "correct": "I enjoy the cinema." },
-      { "id": 14, "topic": "Explain", "wrong": "Please explain me your theory.", "correct": "Please explain your theory to me." },
-      { "id": 15, "topic": "Few & little", "wrong": "We need a little dollars to meet our savings goal.", "correct": "We need a few dollars to meet our savings goal." },
-      { "id": 16, "topic": "For & since", "wrong": "I've waited since three hours already.", "correct": "I've waited for three hours already." },
-      { "id": 17, "topic": "Good & well", "wrong": "This is a well book.", "correct": "This is a good book." },
-      { "id": 18, "topic": "Had better", "wrong": "You had better to visit the client tomorrow.", "correct": "You had better visit the client tomorrow." },
-      { "id": 19, "topic": "Its & it's", "wrong": "The company pays it's employees once a month.", "correct": "The company pays its employees once a month." },
-      { "id": 20, "topic": "Lay & lie", "wrong": "You must lie the table before they arrive.", "correct": "You must lay the table before they arrive." },
-      { "id": 21, "topic": "Listen", "wrong": "I always listen my boss.", "correct": "I always listen to my boss." },
-      { "id": 22, "topic": "Look forward to", "wrong": "We look forward to meet you.", "correct": "We look forward to meeting you." },
-      { "id": 23, "topic": "Make a mistake", "wrong": "Andrew wrote this list so he would do fewer mistakes.", "correct": "Andrew wrote this list so he would make fewer mistakes." },
-      { "id": 24, "topic": "Many & much", "wrong": "Much people came today.", "correct": "Many people came today." },
-      { "id": 25, "topic": "Most", "wrong": "Most of managers have arrived.", "correct": "Most managers have arrived." },
-      { "id": 26, "topic": "Motorway", "wrong": "We drove through the autoway.", "correct": "We drove through the motorway." },
-      { "id": 27, "topic": "Nothing", "wrong": "She didn't understand nothing.", "correct": "She understood nothing." },
-      { "id": 28, "topic": "Now & actually", "wrong": "He used to be a secretary. He's a manager actually.", "correct": "He used to be a secretary. He's a manager now." },
-      { "id": 29, "topic": "Parking", "wrong": "I rarely leave my car at a parking because it's too expensive.", "correct": "I rarely leave my car at a parking lot because it's too expensive." },
-      { "id": 30, "topic": "People", "wrong": "Most people is interested in their health.", "correct": "Most people are interested in their health." },
-      { "id": 31, "topic": "Recipe", "wrong": "The doctor gave me a recipe for more antibiotics.", "correct": "The doctor gave me a prescription for more antibiotics." },
-      { "id": 32, "topic": "Rob & steal", "wrong": "He stole me.", "correct": "He robbed me." },
-      { "id": 33, "topic": "Tell & say", "wrong": "She never says me the truth.", "correct": "She never tells me the truth." },
-      { "id": 34, "topic": "Want to", "wrong": "I want that you contact the production supervisor.", "correct": "I want you to contact the production supervisor." },
-      { "id": 35, "topic": "Work & job", "wrong": "Writing the budget is hard job.", "correct": "Writing the budget is hard work." }
+      {
+        "id": 1,
+        "topic": "Accused of",
+        "wrong": "The man was accused with the murder.",
+        "correct": "The man was accused of the murder."
+      },
+      {
+        "id": 2,
+        "topic": "Agree",
+        "wrong": "Greta is agree with you.",
+        "correct": "Greta agrees with you."
+      },
+      {
+        "id": 3,
+        "topic": "Alive & live",
+        "wrong": "Only three people were live after the accident.",
+        "correct": "Only three people were alive after the accident."
+      },
+      {
+        "id": 4,
+        "topic": "Among & between",
+        "wrong": "The three boys divided the cake between themselves.",
+        "correct": "The three boys divided the cake among themselves."
+      },
+      {
+        "id": 5,
+        "topic": "As & like",
+        "wrong": "He's an engineer but works like a driver.",
+        "correct": "He's an engineer but works as a driver."
+      },
+      {
+        "id": 6,
+        "topic": "Be fifteen years old",
+        "wrong": "We have both fifteen years.",
+        "correct": "We are both fifteen years old."
+      },
+      {
+        "id": 7,
+        "topic": "Can",
+        "wrong": "I can to speak Swahili.",
+        "correct": "I can speak Swahili."
+      },
+      {
+        "id": 8,
+        "topic": "Can't & mustn't",
+        "wrong": "It mustn't be Silvia. It's too early!",
+        "correct": "It can't be Silvia. It's too early!"
+      },
+      {
+        "id": 9,
+        "topic": "Diary",
+        "wrong": "She writes on her dairy every night.",
+        "correct": "She writes in her diary every night."
+      },
+      {
+        "id": 10,
+        "topic": "Depend on",
+        "wrong": "My decision will depend of the information I have.",
+        "correct": "My decision will depend on the information I have."
+      },
+      {
+        "id": 11,
+        "topic": "Dessert & desert",
+        "wrong": "Would you like apple pie for desert?",
+        "correct": "Would you like apple pie for dessert?"
+      },
+      {
+        "id": 12,
+        "topic": "Dislike",
+        "wrong": "Mark is disliking modern architecture.",
+        "correct": "Mark dislikes modern architecture."
+      },
+      {
+        "id": 13,
+        "topic": "Enjoy",
+        "wrong": "I am enjoy the cinema.",
+        "correct": "I enjoy the cinema."
+      },
+      {
+        "id": 14,
+        "topic": "Explain",
+        "wrong": "Please explain me your theory.",
+        "correct": "Please explain your theory to me."
+      },
+      {
+        "id": 15,
+        "topic": "Few & little",
+        "wrong": "We need a little dollars to meet our savings goal.",
+        "correct": "We need a few dollars to meet our savings goal."
+      },
+      {
+        "id": 16,
+        "topic": "For & since",
+        "wrong": "I've waited since three hours already.",
+        "correct": "I've waited for three hours already."
+      },
+      {
+        "id": 17,
+        "topic": "Good & well",
+        "wrong": "This is a well book.",
+        "correct": "This is a good book."
+      },
+      {
+        "id": 18,
+        "topic": "Had better",
+        "wrong": "You had better to visit the client tomorrow.",
+        "correct": "You had better visit the client tomorrow."
+      },
+      {
+        "id": 19,
+        "topic": "Its & it's",
+        "wrong": "The company pays it's employees once a month.",
+        "correct": "The company pays its employees once a month."
+      },
+      {
+        "id": 20,
+        "topic": "Lay & lie",
+        "wrong": "You must lie the table before they arrive.",
+        "correct": "You must lay the table before they arrive."
+      },
+      {
+        "id": 21,
+        "topic": "Listen",
+        "wrong": "I always listen my boss.",
+        "correct": "I always listen to my boss."
+      },
+      {
+        "id": 22,
+        "topic": "Look forward to",
+        "wrong": "We look forward to meet you.",
+        "correct": "We look forward to meeting you."
+      },
+      {
+        "id": 23,
+        "topic": "Make a mistake",
+        "wrong": "Andrew wrote this list so he would do fewer mistakes.",
+        "correct": "Andrew wrote this list so he would make fewer mistakes."
+      },
+      {
+        "id": 24,
+        "topic": "Many & much",
+        "wrong": "Much people came today.",
+        "correct": "Many people came today."
+      },
+      {
+        "id": 25,
+        "topic": "Most",
+        "wrong": "Most of managers have arrived.",
+        "correct": "Most managers have arrived."
+      },
+      {
+        "id": 26,
+        "topic": "Motorway",
+        "wrong": "We drove through the autoway.",
+        "correct": "We drove through the motorway."
+      },
+      {
+        "id": 27,
+        "topic": "Nothing",
+        "wrong": "She didn't understand nothing.",
+        "correct": "She understood nothing."
+      },
+      {
+        "id": 28,
+        "topic": "Now & actually",
+        "wrong": "He used to be a secretary. He's a manager actually.",
+        "correct": "He used to be a secretary. He's a manager now."
+      },
+      {
+        "id": 29,
+        "topic": "Parking",
+        "wrong": "I rarely leave my car at a parking because it's too expensive.",
+        "correct": "I rarely leave my car at a parking lot because it's too expensive."
+      },
+      {
+        "id": 30,
+        "topic": "People",
+        "wrong": "Most people is interested in their health.",
+        "correct": "Most people are interested in their health."
+      },
+      {
+        "id": 31,
+        "topic": "Recipe",
+        "wrong": "The doctor gave me a recipe for more antibiotics.",
+        "correct": "The doctor gave me a prescription for more antibiotics."
+      },
+      {
+        "id": 32,
+        "topic": "Rob & steal",
+        "wrong": "He stole me.",
+        "correct": "He robbed me."
+      },
+      {
+        "id": 33,
+        "topic": "Tell & say",
+        "wrong": "She never says me the truth.",
+        "correct": "She never tells me the truth."
+      },
+      {
+        "id": 34,
+        "topic": "Want to",
+        "wrong": "I want that you contact the production supervisor.",
+        "correct": "I want you to contact the production supervisor."
+      },
+      {
+        "id": 35,
+        "topic": "Work & job",
+        "wrong": "Writing the budget is hard job.",
+        "correct": "Writing the budget is hard work."
+      }
     ]
   },
   "work_vocabulary": {
@@ -180,93 +1005,329 @@
       "title": "Task 1. VERBS",
       "instruction": "Match the words in bold with their definitions.",
       "definitions": [
-        { "id": 1, "text": "to give up a job.", "answer": "resign" },
-        { "id": 2, "text": "to ask for a job, usually by writing a letter.", "answer": "apply" },
-        { "id": 3, "text": "to be removed from a job, usually because you have done something bad.", "answer": "be dismissed / be sacked / be fired" },
-        { "id": 4, "text": "same as 1.", "answer": "quit" },
-        { "id": 5, "text": "to stop work and take a pension, usually when you are in late middle age.", "answer": "retire" },
-        { "id": 6, "text": "to write in the empty spaces on a form.", "answer": "fill in" },
-        { "id": 7, "text": "to be given a better job in the organization you work for.", "answer": "be promoted" },
-        { "id": 8, "text": "to be questioned by one or more people when you are applying for a job.", "answer": "attend an interview" },
-        { "id": 9, "text": "to travel to work from home each day, usually from one town to another.", "answer": "commute" },
-        { "id": 10, "text": "to be dismissed from your job for a time until more work is available.", "answer": "be laid off" }
+        {
+          "id": 1,
+          "text": "to give up a job.",
+          "answer": "resign"
+        },
+        {
+          "id": 2,
+          "text": "to ask for a job, usually by writing a letter.",
+          "answer": "apply"
+        },
+        {
+          "id": 3,
+          "text": "to be removed from a job, usually because you have done something bad.",
+          "answer": "be dismissed / be sacked / be fired"
+        },
+        {
+          "id": 4,
+          "text": "same as 1.",
+          "answer": "quit"
+        },
+        {
+          "id": 5,
+          "text": "to stop work and take a pension, usually when you are in late middle age.",
+          "answer": "retire"
+        },
+        {
+          "id": 6,
+          "text": "to write in the empty spaces on a form.",
+          "answer": "fill in"
+        },
+        {
+          "id": 7,
+          "text": "to be given a better job in the organization you work for.",
+          "answer": "be promoted"
+        },
+        {
+          "id": 8,
+          "text": "to be questioned by one or more people when you are applying for a job.",
+          "answer": "attend an interview"
+        },
+        {
+          "id": 9,
+          "text": "to travel to work from home each day, usually from one town to another.",
+          "answer": "commute"
+        },
+        {
+          "id": 10,
+          "text": "to be dismissed from your job for a time until more work is available.",
+          "answer": "be laid off"
+        }
       ]
     },
     "task_2_nouns": {
       "title": "Task 2. NOUNS",
       "instruction": "Fill in the gaps with an appropriate word from the box.",
-      "box_words": ["vacancy", "salesman", "employee", "applicants", "qualifications", "experience", "shortlist", "candidates", "salary", "pay rise", "commission", "perks", "pension", "promotion", "manager", "prospects"],
+      "box_words": [
+        "vacancy",
+        "salesman",
+        "employee",
+        "applicants",
+        "qualifications",
+        "experience",
+        "shortlist",
+        "candidates",
+        "salary",
+        "pay rise",
+        "commission",
+        "perks",
+        "pension",
+        "promotion",
+        "manager",
+        "prospects"
+      ],
       "text": "A computer company had a (1) vacancy for position of (2) salesman, and decided to advertise for a new (3) employee. A lot of (4) applicants with good (5) qualifications and (6) experience applied for the job, and after all the interviews had finished, the directors made a (7) shortlist of the best (8) candidates then invited them to come back for another interview.\nThe person who eventually got the job was very happy. After all, he would receive an annual (9) salary of £25,000, with a 5% (10) pay rise twice a year, a 15% (11) commission for each computer he managed to sell, excellent (12) perks such as private health insurance and a company car, a company (13) pension to make sure he would be well-off when he retired, and the chance of (14) promotion from salesman to sales (15) manager if he was successful. All in all, his future (16) prospects looked very good.",
       "answers": {
-        "1": "vacancy", "2": "salesman", "3": "employee", "4": "applicants", "5": "qualifications", "6": "experience", "7": "shortlist", "8": "candidates", "9": "salary", "10": "pay rise", "11": "commission", "12": "perks", "13": "pension", "14": "promotion", "15": "manager", "16": "prospects"
+        "1": "vacancy",
+        "2": "salesman",
+        "3": "employee",
+        "4": "applicants",
+        "5": "qualifications",
+        "6": "experience",
+        "7": "shortlist",
+        "8": "candidates",
+        "9": "salary",
+        "10": "pay rise",
+        "11": "commission",
+        "12": "perks",
+        "13": "pension",
+        "14": "promotion",
+        "15": "manager",
+        "16": "prospects"
       }
     },
     "task_3_idioms": {
       "title": "Task 3. IDIOMS, COLLOQUIALISMS AND OTHER EXPRESSIONS",
       "pairs": [
-        { "left": "My brother is a manual worker in a factory.", "right": "Like me, he's a blue collar worker.", "idiom": "blue collar worker" },
-        { "left": "My cousin is a secretary in an office.", "right": "Like me, he's a white collar worker.", "idiom": "white collar worker" },
-        { "left": "I need to do some more hours at work so that...", "right": "I think I'll ask if I can work overtime.", "idiom": "overtime" },
-        { "left": "The train drivers are refusing to work.", "right": "They've decided to come out on strike.", "idiom": "come out on strike" },
-        { "left": "I work from 10.00pm to 6.00am.", "right": "Of course, I get paid more for working the night shift.", "idiom": "night shift" },
-        { "left": "I work for a very small amount of money.", "right": "I really hate working for peanuts.", "idiom": "working for peanuts" },
-        { "left": "Someone is unemployed and receiving unemployment benefit.", "right": "There's nothing worse than being on the dole.", "idiom": "on the dole" },
-        { "left": "The employee applied to his boss for more money.", "right": "He put in for a rise.", "idiom": "put in for a rise" },
-        { "left": "Our boss makes his staff work too hard.", "right": "He's such a slave driver!", "idiom": "slave driver" },
-        { "left": "A worker works too hard. Yesterday, he started at 7.30 in the morning and didn't finish until almost midnight!", "right": "If he continues like that, he'll burn himself out.", "idiom": "burn himself out" },
-        { "left": "Our company director was given a large sum of money when he retired before the end of his contract.", "right": "I wish I could get a golden handshake like that.", "idiom": "golden handshake" },
-        { "left": "A colleague has great potential and ambition.", "right": "She's always been a high-flyer.", "idiom": "high-flyer" },
-        { "left": "My boss made a mistake and I had to take the responsibility for it.", "right": "I hate it when I have to carry the can for someone else.", "idiom": "carry the can" },
-        { "left": "Our company is still working in the usual way in spite of difficulties.", "right": "I'm glad to say it's business as usual.", "idiom": "business as usual" },
-        { "left": "A recruiter has an unusual job; he looks for top managers and offers them jobs in other companies.", "right": "He's a headhunter.", "idiom": "headhunter" },
-        { "left": "Have you heard? A colleague has been dismissed for coming late all the time.", "right": "I always knew he'd get fired one day.", "idiom": "get fired" }
+        {
+          "left": "My brother is a manual worker in a factory.",
+          "right": "Like me, he's a blue collar worker.",
+          "idiom": "blue collar worker"
+        },
+        {
+          "left": "My cousin is a secretary in an office.",
+          "right": "Like me, he's a white collar worker.",
+          "idiom": "white collar worker"
+        },
+        {
+          "left": "I need to do some more hours at work so that...",
+          "right": "I think I'll ask if I can work overtime.",
+          "idiom": "overtime"
+        },
+        {
+          "left": "The train drivers are refusing to work.",
+          "right": "They've decided to come out on strike.",
+          "idiom": "come out on strike"
+        },
+        {
+          "left": "I work from 10.00pm to 6.00am.",
+          "right": "Of course, I get paid more for working the night shift.",
+          "idiom": "night shift"
+        },
+        {
+          "left": "I work for a very small amount of money.",
+          "right": "I really hate working for peanuts.",
+          "idiom": "working for peanuts"
+        },
+        {
+          "left": "Someone is unemployed and receiving unemployment benefit.",
+          "right": "There's nothing worse than being on the dole.",
+          "idiom": "on the dole"
+        },
+        {
+          "left": "The employee applied to his boss for more money.",
+          "right": "He put in for a rise.",
+          "idiom": "put in for a rise"
+        },
+        {
+          "left": "Our boss makes his staff work too hard.",
+          "right": "He's such a slave driver!",
+          "idiom": "slave driver"
+        },
+        {
+          "left": "A worker works too hard. Yesterday, he started at 7.30 in the morning and didn't finish until almost midnight!",
+          "right": "If he continues like that, he'll burn himself out.",
+          "idiom": "burn himself out"
+        },
+        {
+          "left": "Our company director was given a large sum of money when he retired before the end of his contract.",
+          "right": "I wish I could get a golden handshake like that.",
+          "idiom": "golden handshake"
+        },
+        {
+          "left": "A colleague has great potential and ambition.",
+          "right": "She's always been a high-flyer.",
+          "idiom": "high-flyer"
+        },
+        {
+          "left": "My boss made a mistake and I had to take the responsibility for it.",
+          "right": "I hate it when I have to carry the can for someone else.",
+          "idiom": "carry the can"
+        },
+        {
+          "left": "Our company is still working in the usual way in spite of difficulties.",
+          "right": "I'm glad to say it's business as usual.",
+          "idiom": "business as usual"
+        },
+        {
+          "left": "A recruiter has an unusual job; he looks for top managers and offers them jobs in other companies.",
+          "right": "He's a headhunter.",
+          "idiom": "headhunter"
+        },
+        {
+          "left": "Have you heard? A colleague has been dismissed for coming late all the time.",
+          "right": "I always knew he'd get fired one day.",
+          "idiom": "get fired"
+        }
       ]
     }
   },
   "employment_data": {
     "task_6_job_or_work": [
-      { "sentence": "I'm starting a new ___ next week.", "answer": "job" },
-      { "sentence": "I hear you're a lorry driver. I bet that's hard ___, isn't it?", "answer": "work" },
-      { "sentence": "I'm looking for part-time ___.", "answer": "work" },
-      { "sentence": "A full-time ___ would be too much for me at the moment.", "answer": "job" },
-      { "sentence": "I didn't really want to go back to ___ after I had the baby.", "answer": "work" },
-      { "sentence": "I'm sorry, I can't stop now. I've got a lot of ___ to do.", "answer": "work" },
-      { "sentence": "Judging by the car he drives, I'd say he's got a pretty good ___.", "answer": "job" },
-      { "sentence": "I'm hoping to find some casual ___ while I'm at college.", "answer": "work" },
-      { "sentence": "I want to do something a bit different. I wouldn't like a regular nine-to-five ___.", "answer": "job" }
+      {
+        "sentence": "I'm starting a new ___ next week.",
+        "answer": "job"
+      },
+      {
+        "sentence": "I hear you're a lorry driver. I bet that's hard ___, isn't it?",
+        "answer": "work"
+      },
+      {
+        "sentence": "I'm looking for part-time ___.",
+        "answer": "work"
+      },
+      {
+        "sentence": "A full-time ___ would be too much for me at the moment.",
+        "answer": "job"
+      },
+      {
+        "sentence": "I didn't really want to go back to ___ after I had the baby.",
+        "answer": "work"
+      },
+      {
+        "sentence": "I'm sorry, I can't stop now. I've got a lot of ___ to do.",
+        "answer": "work"
+      },
+      {
+        "sentence": "Judging by the car he drives, I'd say he's got a pretty good ___.",
+        "answer": "job"
+      },
+      {
+        "sentence": "I'm hoping to find some casual ___ while I'm at college.",
+        "answer": "work"
+      },
+      {
+        "sentence": "I want to do something a bit different. I wouldn't like a regular nine-to-five ___.",
+        "answer": "job"
+      }
     ],
     "task_7_job_or_career": [
-      { "sentence": "He started as the office junior. Now he's MD. He's had a very successful ___.", "answer": "career" },
-      { "sentence": "I work in advertising. The pay's pretty good but there isn't much ___ security.", "answer": "job" },
-      { "sentence": "I'd go mad if I had to do a dead-end ___ like working on a supermarket checkout.", "answer": "job" },
-      { "sentence": "A player was the best footballer in the world until a bad knee injury ended his ___.", "answer": "career" },
-      { "sentence": "Don't you think you should stop travelling and get yourself a steady ___?", "answer": "job" },
-      { "sentence": "She'd go back to teaching if she could find someone to ___-share with.", "answer": "job" },
-      { "sentence": "I'd go back to teaching if I could find someone to ___-share with.", "answer": "job" }
+      {
+        "sentence": "He started as the office junior. Now he's MD. He's had a very successful ___.",
+        "answer": "career"
+      },
+      {
+        "sentence": "I work in advertising. The pay's pretty good but there isn't much ___ security.",
+        "answer": "job"
+      },
+      {
+        "sentence": "I'd go mad if I had to do a dead-end ___ like working on a supermarket checkout.",
+        "answer": "job"
+      },
+      {
+        "sentence": "A player was the best footballer in the world until a bad knee injury ended his ___.",
+        "answer": "career"
+      },
+      {
+        "sentence": "Don't you think you should stop travelling and get yourself a steady ___?",
+        "answer": "job"
+      },
+      {
+        "sentence": "She'd go back to teaching if she could find someone to ___-share with.",
+        "answer": "job"
+      },
+      {
+        "sentence": "I'd go back to teaching if I could find someone to ___-share with.",
+        "answer": "job"
+      }
     ]
   },
   "grammar_guide": {
     "big_great_large": {
       "expressions": {
-        "great": ["fun", "importance", "pleasure", "success", "variety"],
-        "high": ["level", "prices", "standard", "wages"],
-        "large": ["amount", "number", "quantity"],
-        "wide": ["choice", "range", "variety"],
-        "limited": ["choice", "range"],
-        "short": ["break", "holiday", "time"],
-        "low": ["level", "pay", "prices", "standard", "wages"]
+        "great": [
+          "fun",
+          "importance",
+          "pleasure",
+          "success",
+          "variety"
+        ],
+        "high": [
+          "level",
+          "prices",
+          "standard",
+          "wages"
+        ],
+        "large": [
+          "amount",
+          "number",
+          "quantity"
+        ],
+        "wide": [
+          "choice",
+          "range",
+          "variety"
+        ],
+        "limited": [
+          "choice",
+          "range"
+        ],
+        "short": [
+          "break",
+          "holiday",
+          "time"
+        ],
+        "low": [
+          "level",
+          "pay",
+          "prices",
+          "standard",
+          "wages"
+        ]
       },
       "practice": [
-        { "sentence": "We think our work here is of ___ importance.", "answer": "great" },
-        { "sentence": "The choice of hot meals is too ___.", "answer": "limited" },
-        { "sentence": "We were paid a ___ amount of money as a bonus.", "answer": "large" },
-        { "sentence": "There is a ___ range of foods available.", "answer": "wide" },
-        { "sentence": "Thanks to a strong economy, we have a ___ standard of living.", "answer": "high" },
-        { "sentence": "The forecast is for ___ rain.", "answer": "light" },
-        { "sentence": "It's a crime to give ___ information to the police.", "answer": "false" }
+        {
+          "sentence": "We think our work here is of ___ importance.",
+          "answer": "great"
+        },
+        {
+          "sentence": "The choice of hot meals is too ___.",
+          "answer": "limited"
+        },
+        {
+          "sentence": "We were paid a ___ amount of money as a bonus.",
+          "answer": "large"
+        },
+        {
+          "sentence": "There is a ___ range of foods available.",
+          "answer": "wide"
+        },
+        {
+          "sentence": "Thanks to a strong economy, we have a ___ standard of living.",
+          "answer": "high"
+        },
+        {
+          "sentence": "The forecast is for ___ rain.",
+          "answer": "light"
+        },
+        {
+          "sentence": "It's a crime to give ___ information to the police.",
+          "answer": "false"
+        }
       ]
     },
-
     "hope_vs_wish": {
       "rules": {
         "hope": "Something possible (I hope we can see you soon).",
@@ -275,22 +1336,62 @@
         "wish_would": "Dissatisfaction with current behavior (I wish you would stop whistling)."
       },
       "practice": [
-        { "sentence": "He's going to take an exam. I ___ he passes.", "answer": "hope" },
-        { "sentence": "I ___ I had worked harder for the exam. I'm sure I've failed.", "answer": "wish" },
-        { "sentence": "I ___ I could come with you, but I'll be working.", "answer": "wish" },
-        { "sentence": "Good luck! We ___ you win first prize.", "answer": "hope" },
-        { "sentence": "I ___ she enjoys it.", "answer": "hope" },
-        { "sentence": "Be quiet! I ___ you would stop whistling!", "answer": "wish" }
+        {
+          "sentence": "He's going to take an exam. I ___ he passes.",
+          "answer": "hope"
+        },
+        {
+          "sentence": "I ___ I had worked harder for the exam. I'm sure I've failed.",
+          "answer": "wish"
+        },
+        {
+          "sentence": "I ___ I could come with you, but I'll be working.",
+          "answer": "wish"
+        },
+        {
+          "sentence": "Good luck! We ___ you win first prize.",
+          "answer": "hope"
+        },
+        {
+          "sentence": "I ___ she enjoys it.",
+          "answer": "hope"
+        },
+        {
+          "sentence": "Be quiet! I ___ you would stop whistling!",
+          "answer": "wish"
+        }
       ]
     },
     "opinions": {
-      "expressions": ["On the one hand... on the other hand", "On the contrary", "In my opinion", "According to", "Firstly / First of all", "At first"],
+      "expressions": [
+        "On the one hand... on the other hand",
+        "On the contrary",
+        "In my opinion",
+        "According to",
+        "Firstly / First of all",
+        "At first"
+      ],
       "practice": [
-        { "sentence": "He's not mean. ___, he's very generous.", "answer": "On the contrary" },
-        { "sentence": "If we move we can buy a bigger house. ___, we'll lose touch with friends.", "answer": "On the other hand" },
-        { "sentence": "___, we should get more public holidays.", "answer": "In my opinion" },
-        { "sentence": "___ check the prices, then book the cheapest.", "answer": "Firstly" },
-        { "sentence": "___, at first he was very shy, but he soon settled in.", "answer": "At first" }
+        {
+          "sentence": "He's not mean. ___, he's very generous.",
+          "answer": "On the contrary"
+        },
+        {
+          "sentence": "If we move we can buy a bigger house. ___, we'll lose touch with friends.",
+          "answer": "On the other hand"
+        },
+        {
+          "sentence": "___, we should get more public holidays.",
+          "answer": "In my opinion"
+        },
+        {
+          "sentence": "___ check the prices, then book the cheapest.",
+          "answer": "Firstly"
+        },
+        {
+          "sentence": "___, at first he was very shy, but he soon settled in.",
+          "answer": "At first"
+        }
       ]
     },
     "give_provide_offer": {
@@ -300,11 +1401,26 @@
         "give": "Informal or general."
       },
       "practice": [
-        { "sentence": "We can ___ the food if you can supply the entertainment.", "answer": "provide" },
-        { "sentence": "If you sign the contract today, we can ___ you a 10% discount.", "answer": "offer" },
-        { "sentence": "Morning and evening meals are ___ as part of the service.", "answer": "provided" },
-        { "sentence": "We're ___ you a better deal than you'll find anywhere else.", "answer": "offering" },
-        { "sentence": "It's our policy to ___ clients with the best service possible.", "answer": "provide" }
+        {
+          "sentence": "We can ___ the food if you can supply the entertainment.",
+          "answer": "provide"
+        },
+        {
+          "sentence": "If you sign the contract today, we can ___ you a 10% discount.",
+          "answer": "offer"
+        },
+        {
+          "sentence": "Morning and evening meals are ___ as part of the service.",
+          "answer": "provided"
+        },
+        {
+          "sentence": "We're ___ you a better deal than you'll find anywhere else.",
+          "answer": "offering"
+        },
+        {
+          "sentence": "It's our policy to ___ clients with the best service possible.",
+          "answer": "provide"
+        }
       ]
     },
     "still_already_yet": {
@@ -314,22 +1430,76 @@
         "yet": "Expected to happen (questions/negatives)."
       },
       "practice": [
-        { "sentence": "He's only just bought his car and he's ___ bored with it.", "answer": "already" },
-        { "sentence": "It's very late. Hasn't the film finished ___?", "answer": "yet" },
-        { "sentence": "I've ___ done the washing up.", "answer": "already" },
-        { "sentence": "He's been unemployed for a year. He is ___ looking for a job.", "answer": "still" },
-        { "sentence": "She's only three but she can ___ read.", "answer": "already" },
-        { "sentence": "No one's fixed it ___.", "answer": "yet" }
+        {
+          "sentence": "He's only just bought his car and he's ___ bored with it.",
+          "answer": "already"
+        },
+        {
+          "sentence": "It's very late. Hasn't the film finished ___?",
+          "answer": "yet"
+        },
+        {
+          "sentence": "I've ___ done the washing up.",
+          "answer": "already"
+        },
+        {
+          "sentence": "He's been unemployed for a year. He is ___ looking for a job.",
+          "answer": "still"
+        },
+        {
+          "sentence": "She's only three but she can ___ read.",
+          "answer": "already"
+        },
+        {
+          "sentence": "No one's fixed it ___.",
+          "answer": "yet"
+        }
       ]
     },
     "do_vs_make": {
-      "do_nouns": ["a course", "a job", "a test", "aerobics", "an activity", "an exam", "an exercise", "homework", "housework", "the shopping", "a sightseeing tour", "work"],
-      "make_nouns": ["a cake", "a change", "a choice", "a decision", "friends", "a mistake", "a plan", "a reservation", "a sandwich", "sport"],
+      "do_nouns": [
+        "a course",
+        "a job",
+        "a test",
+        "aerobics",
+        "an activity",
+        "an exam",
+        "an exercise",
+        "homework",
+        "housework",
+        "the shopping",
+        "a sightseeing tour",
+        "work"
+      ],
+      "make_nouns": [
+        "a cake",
+        "a change",
+        "a choice",
+        "a decision",
+        "friends",
+        "a mistake",
+        "a plan",
+        "a reservation",
+        "a sandwich",
+        "sport"
+      ],
       "practice": [
-        { "sentence": "When you've ___ your homework, you can help me ___ the tea.", "answer": "done / make" },
-        { "sentence": "I want to ___ a lot of changes to the house.", "answer": "make" },
-        { "sentence": "The student had to ___ a choice.", "answer": "make" },
-        { "sentence": "I liked ___ the course because we ___ a lot of fun activities.", "answer": "doing / made" }
+        {
+          "sentence": "When you've ___ your homework, you can help me ___ the tea.",
+          "answer": "done / make"
+        },
+        {
+          "sentence": "I want to ___ a lot of changes to the house.",
+          "answer": "make"
+        },
+        {
+          "sentence": "The student had to ___ a choice.",
+          "answer": "make"
+        },
+        {
+          "sentence": "I liked ___ the course because we ___ a lot of fun activities.",
+          "answer": "doing / made"
+        }
       ]
     },
     "look_see_watch": {
@@ -339,9 +1509,18 @@
         "watch": "To look at something for a period of time, especially something that is moving."
       },
       "practice": [
-        { "wrong": "I went to watch a film at the cinema.", "correct": "I went to see a film at the cinema." },
-        { "wrong": "We sat on the sofa and saw a video.", "correct": "We sat on the sofa and watched a video." },
-        { "wrong": "I watched my watch to check the time.", "correct": "I looked at my watch to check the time." }
+        {
+          "wrong": "I went to watch a film at the cinema.",
+          "correct": "I went to see a film at the cinema."
+        },
+        {
+          "wrong": "We sat on the sofa and saw a video.",
+          "correct": "We sat on the sofa and watched a video."
+        },
+        {
+          "wrong": "I watched my watch to check the time.",
+          "correct": "I looked at my watch to check the time."
+        }
       ]
     },
     "near_nearby_next_to": {
@@ -352,25 +1531,65 @@
         "next_to": "Very close (sat next to me)."
       },
       "practice": [
-        { "sentence": "Is there a bank ___?", "answer": "nearby" },
-        { "sentence": "We live ___ some very noisy neighbours.", "answer": "next to" },
-        { "sentence": "We live ___ the sea.", "answer": "near" }
+        {
+          "sentence": "Is there a bank ___?",
+          "answer": "nearby"
+        },
+        {
+          "sentence": "We live ___ some very noisy neighbours.",
+          "answer": "next to"
+        },
+        {
+          "sentence": "We live ___ the sea.",
+          "answer": "near"
+        }
       ]
     },
     "countable_uncountable": {
-      "uncountable_list": ["advice", "countryside", "entertainment", "food", "fruit", "furniture", "hair", "homework", "information", "music", "popcorn", "scenery", "stuff", "trouble", "work"],
+      "uncountable_list": [
+        "advice",
+        "countryside",
+        "entertainment",
+        "food",
+        "fruit",
+        "furniture",
+        "hair",
+        "homework",
+        "information",
+        "music",
+        "popcorn",
+        "scenery",
+        "stuff",
+        "trouble",
+        "work"
+      ],
       "rules": "Do not use 'a' or plural forms with uncountable nouns.",
       "practice": [
-        { "wrong": "He has done several works.", "correct": "He has done several jobs." },
-        { "wrong": "I want to give you some advices.", "correct": "I want to give you some advice." }
+        {
+          "wrong": "He has done several works.",
+          "correct": "He has done several jobs."
+        },
+        {
+          "wrong": "I want to give you some advices.",
+          "correct": "I want to give you some advice."
+        }
       ]
     },
     "double_consonant": {
       "rules": "Double the final consonant for one-syllable CVC words (shopping) or stressed final syllables (preferring).",
       "practice": [
-        { "wrong": "writting", "correct": "writing" },
-        { "wrong": "planing", "correct": "planning" },
-        { "wrong": "openned", "correct": "opened" }
+        {
+          "wrong": "writting",
+          "correct": "writing"
+        },
+        {
+          "wrong": "planing",
+          "correct": "planning"
+        },
+        {
+          "wrong": "openned",
+          "correct": "opened"
+        }
       ]
     },
     "modal_verbs": {
@@ -386,62 +1605,230 @@
         "May and might express permission or possibility."
       ],
       "practice": [
-        { "sentence": "John ___ drive. He doesn't have a driver's license.", "answer": "can't" },
-        { "sentence": "Frank lived in Beijing for ten years, so he ___ speak Chinese very well.", "answer": "could" },
-        { "sentence": "My youngest son is only eleven months old, and he ___ already walk.", "answer": "can" },
-        { "sentence": "Before I moved to Spain, I couldn't speak Spanish at all, but now I ___ speak it very well.", "answer": "can" },
-        { "sentence": "John was sick today, so he ___ go to work.", "answer": "couldn't" },
-        { "sentence": "I am sorry, but you ___ smoke in this restaurant. Please put out your cigarette.", "answer": "can't" },
-        { "sentence": "I had to work, so I ___ go to Mavis's party last night.", "answer": "couldn't" },
-        { "sentence": "Good news! The mechanic says that he ___ fix your car in an hour.", "answer": "can" },
-        { "sentence": "I have a terrible toothache. I hope I ___ see the dentist today.", "answer": "can" },
-        { "sentence": "Yesterday, we ___ go for a hike. The weather was terrible.", "answer": "couldn't" },
-        { "sentence": "You ___ turn on the printer before you use it.", "answer": "must" },
-        { "sentence": "Today is a holiday, so I ___ go to work.", "answer": "don't have to" },
-        { "sentence": "Yesterday I ___ go to the dentist.", "answer": "had to" },
-        { "sentence": "Ben and Luke hiked for miles today. They ___ be very tired.", "answer": "must" },
-        { "sentence": "Employees ___ use the guest parking lot. They can use employee parking lots A and B.", "answer": "must not" },
-        { "sentence": "She just won the lottery. She ___ be very happy.", "answer": "must" },
-        { "sentence": "We ___ finish cleaning the kitchen before we watch TV.", "answer": "should" },
-        { "sentence": "___ you like cream or sugar with your coffee?", "answer": "Would" },
-        { "sentence": "Tim said that he ___ arrive at 8:30.", "answer": "would" },
-        { "sentence": "You ___ lock your bike, or someone will steal it.", "answer": "should" },
-        { "sentence": "When I lived in New York, I ___ take the subway to work every day.", "answer": "would" },
-        { "sentence": "He ___ drink so much coffee! I think he drinks more than ten cups a day.", "answer": "shouldn't" },
-        { "sentence": "Tim has high blood pressure. He ___ see a doctor.", "answer": "should" },
-        { "sentence": "I had trouble sleeping last night. Maybe I ___ take a nap.", "answer": "should" },
-        { "sentence": "It looks like a blizzard outside. You ___ drive anywhere right now.", "answer": "shouldn't" },
-        { "sentence": "If I were you, I ___ go to bed earlier.", "answer": "would" },
-        { "sentence": "I think we ___ go to the beach tomorrow.", "answer": "can" },
-        { "sentence": "When we were young, we ___ play baseball after school every day.", "answer": "would" },
-        { "sentence": "I ___ a slice of apple pie, please.", "answer": "would like" },
-        { "sentence": "You ___ wear a seat belt in a car.", "answer": "must" },
-        { "sentence": "To stay healthy, you ___ eat a diet low in sugar and fat.", "answer": "should" },
-        { "sentence": "___ you pass me the salt, please?", "answer": "Could" },
-        { "sentence": "Mary Jane's doctor says that she ___ stop smoking right away.", "answer": "must" },
-        { "sentence": "John stayed up all night studying for the test. He ___ be sleepy.", "answer": "must" },
-        { "sentence": "This computer isn't working? You ___ try the computer in the hall.", "answer": "might" },
-        { "sentence": "It ___ rain tomorrow.", "answer": "might" },
-        { "sentence": "It looks like rain. You ___ take an umbrella with you.", "answer": "should" },
-        { "sentence": "Peggy ___ go on vacation in Spain this year.", "answer": "couldn't" },
-        { "sentence": "Young children ___ stay up past 11:00 at night.", "answer": "shouldn't" },
-        { "sentence": "___ I use your mobile phone for a moment?", "answer": "Can" },
-        { "sentence": "It's raining, so we ___ go on a picnic.", "answer": "can't" },
-        { "sentence": "I ___ go out with my friends last night. I had to work.", "answer": "couldn't" },
-        { "sentence": "You ___ arrive at the airport at least an hour before your plane departs.", "answer": "should" },
-        { "sentence": "We ___ go to England next year on vacation.", "answer": "may" },
-        { "sentence": "John ___ work late yesterday. He had a doctor's appointment after work.", "answer": "could not" },
-        { "sentence": "You ___ to get more sleep.", "answer": "ought" },
-        { "wrong": "He cans drive a motorcycle.", "correct": "He can drive a motorcycle." },
-        { "wrong": "They can to come to the party.", "correct": "They can come to the party." },
-        { "wrong": "You ought wash your car.", "correct": "You ought to wash your car." },
-        { "wrong": "You can not park in front of a fire hydrant.", "correct": "You cannot park in front of a fire hydrant." },
-        { "wrong": "After using this book, you can speak English accurately.", "correct": "After using this book, you will be able to speak English accurately." },
-        { "wrong": "I hope to can go to the movies tonight.", "correct": "I hope to be able to go to the movies tonight." },
-        { "wrong": "You oughtn't to drive so fast.", "correct": "You shouldn't drive so fast." },
-        { "wrong": "He said he had help us.", "correct": "He said he would help us." },
-        { "wrong": "He maybe outside.", "correct": "He may be outside." },
-        { "wrong": "Maria doesn't can drive.", "correct": "Maria can't drive." }
+        {
+          "sentence": "John ___ drive. He doesn't have a driver's license.",
+          "answer": "can't"
+        },
+        {
+          "sentence": "Frank lived in Beijing for ten years, so he ___ speak Chinese very well.",
+          "answer": "could"
+        },
+        {
+          "sentence": "My youngest son is only eleven months old, and he ___ already walk.",
+          "answer": "can"
+        },
+        {
+          "sentence": "Before I moved to Spain, I couldn't speak Spanish at all, but now I ___ speak it very well.",
+          "answer": "can"
+        },
+        {
+          "sentence": "John was sick today, so he ___ go to work.",
+          "answer": "couldn't"
+        },
+        {
+          "sentence": "I am sorry, but you ___ smoke in this restaurant. Please put out your cigarette.",
+          "answer": "can't"
+        },
+        {
+          "sentence": "I had to work, so I ___ go to Mavis's party last night.",
+          "answer": "couldn't"
+        },
+        {
+          "sentence": "Good news! The mechanic says that he ___ fix your car in an hour.",
+          "answer": "can"
+        },
+        {
+          "sentence": "I have a terrible toothache. I hope I ___ see the dentist today.",
+          "answer": "can"
+        },
+        {
+          "sentence": "Yesterday, we ___ go for a hike. The weather was terrible.",
+          "answer": "couldn't"
+        },
+        {
+          "sentence": "You ___ turn on the printer before you use it.",
+          "answer": "must"
+        },
+        {
+          "sentence": "Today is a holiday, so I ___ go to work.",
+          "answer": "don't have to"
+        },
+        {
+          "sentence": "Yesterday I ___ go to the dentist.",
+          "answer": "had to"
+        },
+        {
+          "sentence": "Ben and Luke hiked for miles today. They ___ be very tired.",
+          "answer": "must"
+        },
+        {
+          "sentence": "Employees ___ use the guest parking lot. They can use employee parking lots A and B.",
+          "answer": "must not"
+        },
+        {
+          "sentence": "She just won the lottery. She ___ be very happy.",
+          "answer": "must"
+        },
+        {
+          "sentence": "We ___ finish cleaning the kitchen before we watch TV.",
+          "answer": "should"
+        },
+        {
+          "sentence": "___ you like cream or sugar with your coffee?",
+          "answer": "Would"
+        },
+        {
+          "sentence": "Tim said that he ___ arrive at 8:30.",
+          "answer": "would"
+        },
+        {
+          "sentence": "You ___ lock your bike, or someone will steal it.",
+          "answer": "should"
+        },
+        {
+          "sentence": "When I lived in New York, I ___ take the subway to work every day.",
+          "answer": "would"
+        },
+        {
+          "sentence": "He ___ drink so much coffee! I think he drinks more than ten cups a day.",
+          "answer": "shouldn't"
+        },
+        {
+          "sentence": "Tim has high blood pressure. He ___ see a doctor.",
+          "answer": "should"
+        },
+        {
+          "sentence": "I had trouble sleeping last night. Maybe I ___ take a nap.",
+          "answer": "should"
+        },
+        {
+          "sentence": "It looks like a blizzard outside. You ___ drive anywhere right now.",
+          "answer": "shouldn't"
+        },
+        {
+          "sentence": "If I were you, I ___ go to bed earlier.",
+          "answer": "would"
+        },
+        {
+          "sentence": "I think we ___ go to the beach tomorrow.",
+          "answer": "can"
+        },
+        {
+          "sentence": "When we were young, we ___ play baseball after school every day.",
+          "answer": "would"
+        },
+        {
+          "sentence": "I ___ a slice of apple pie, please.",
+          "answer": "would like"
+        },
+        {
+          "sentence": "You ___ wear a seat belt in a car.",
+          "answer": "must"
+        },
+        {
+          "sentence": "To stay healthy, you ___ eat a diet low in sugar and fat.",
+          "answer": "should"
+        },
+        {
+          "sentence": "___ you pass me the salt, please?",
+          "answer": "Could"
+        },
+        {
+          "sentence": "Mary Jane's doctor says that she ___ stop smoking right away.",
+          "answer": "must"
+        },
+        {
+          "sentence": "John stayed up all night studying for the test. He ___ be sleepy.",
+          "answer": "must"
+        },
+        {
+          "sentence": "This computer isn't working? You ___ try the computer in the hall.",
+          "answer": "might"
+        },
+        {
+          "sentence": "It ___ rain tomorrow.",
+          "answer": "might"
+        },
+        {
+          "sentence": "It looks like rain. You ___ take an umbrella with you.",
+          "answer": "should"
+        },
+        {
+          "sentence": "Peggy ___ go on vacation in Spain this year.",
+          "answer": "couldn't"
+        },
+        {
+          "sentence": "Young children ___ stay up past 11:00 at night.",
+          "answer": "shouldn't"
+        },
+        {
+          "sentence": "___ I use your mobile phone for a moment?",
+          "answer": "Can"
+        },
+        {
+          "sentence": "It's raining, so we ___ go on a picnic.",
+          "answer": "can't"
+        },
+        {
+          "sentence": "I ___ go out with my friends last night. I had to work.",
+          "answer": "couldn't"
+        },
+        {
+          "sentence": "You ___ arrive at the airport at least an hour before your plane departs.",
+          "answer": "should"
+        },
+        {
+          "sentence": "We ___ go to England next year on vacation.",
+          "answer": "may"
+        },
+        {
+          "sentence": "John ___ work late yesterday. He had a doctor's appointment after work.",
+          "answer": "could not"
+        },
+        {
+          "sentence": "You ___ to get more sleep.",
+          "answer": "ought"
+        },
+        {
+          "wrong": "He cans drive a motorcycle.",
+          "correct": "He can drive a motorcycle."
+        },
+        {
+          "wrong": "They can to come to the party.",
+          "correct": "They can come to the party."
+        },
+        {
+          "wrong": "You ought wash your car.",
+          "correct": "You ought to wash your car."
+        },
+        {
+          "wrong": "You can not park in front of a fire hydrant.",
+          "correct": "You cannot park in front of a fire hydrant."
+        },
+        {
+          "wrong": "After using this book, you can speak English accurately.",
+          "correct": "After using this book, you will be able to speak English accurately."
+        },
+        {
+          "wrong": "I hope to can go to the movies tonight.",
+          "correct": "I hope to be able to go to the movies tonight."
+        },
+        {
+          "wrong": "You oughtn't to drive so fast.",
+          "correct": "You shouldn't drive so fast."
+        },
+        {
+          "wrong": "He said he had help us.",
+          "correct": "He said he would help us."
+        },
+        {
+          "wrong": "He maybe outside.",
+          "correct": "He may be outside."
+        },
+        {
+          "wrong": "Maria doesn't can drive.",
+          "correct": "Maria can't drive."
+        }
       ]
     },
     "and_but_or": {
@@ -451,9 +1838,18 @@
         "Use 'or' to connect possibilities or after a negative verb."
       ],
       "practice": [
-        { "sentence": "My hotel room was clean ___ uncomfortable.", "answer": "but" },
-        { "sentence": "I haven't been to China ___ Japan.", "answer": "or" },
-        { "sentence": "When I visited India, I went to Mumbai, Delhi ___ Bangalore.", "answer": "and" }
+        {
+          "sentence": "My hotel room was clean ___ uncomfortable.",
+          "answer": "but"
+        },
+        {
+          "sentence": "I haven't been to China ___ Japan.",
+          "answer": "or"
+        },
+        {
+          "sentence": "When I visited India, I went to Mumbai, Delhi ___ Bangalore.",
+          "answer": "and"
+        }
       ]
     },
     "during_for_since": {
@@ -463,20 +1859,60 @@
         "during": "A period of time when something happens."
       },
       "practice": [
-        { "sentence": "He has been playing tennis ___ two hours.", "answer": "for" },
-        { "sentence": "I haven't seen my friends ___ two years.", "answer": "for" },
-        { "sentence": "I've been studying here ___ last January.", "answer": "since" }
+        {
+          "sentence": "He has been playing tennis ___ two hours.",
+          "answer": "for"
+        },
+        {
+          "sentence": "I haven't seen my friends ___ two years.",
+          "answer": "for"
+        },
+        {
+          "sentence": "I've been studying here ___ last January.",
+          "answer": "since"
+        }
       ]
     },
     "to_infinitive_vs_ing": {
       "rules": {
-        "to_inf": ["ask", "decide", "forget", "help", "hope", "invite", "learn", "need", "plan", "wait", "want", "would like"],
-        "ing": ["enjoy", "fancy", "finish", "look forward to", "recommend", "spend", "suggest", "think of"]
+        "to_inf": [
+          "ask",
+          "decide",
+          "forget",
+          "help",
+          "hope",
+          "invite",
+          "learn",
+          "need",
+          "plan",
+          "wait",
+          "want",
+          "would like"
+        ],
+        "ing": [
+          "enjoy",
+          "fancy",
+          "finish",
+          "look forward to",
+          "recommend",
+          "spend",
+          "suggest",
+          "think of"
+        ]
       },
       "practice": [
-        { "sentence": "I suggest ___ (meet) at seven o'clock.", "answer": "meeting" },
-        { "sentence": "I've already decided ___ (buy) something new.", "answer": "to buy" },
-        { "sentence": "I forgot ___ (ask) you about your family.", "answer": "to ask" }
+        {
+          "sentence": "I suggest ___ (meet) at seven o'clock.",
+          "answer": "meeting"
+        },
+        {
+          "sentence": "I've already decided ___ (buy) something new.",
+          "answer": "to buy"
+        },
+        {
+          "sentence": "I forgot ___ (ask) you about your family.",
+          "answer": "to ask"
+        }
       ]
     },
     "have_pass_spend_take": {
@@ -487,13 +1923,34 @@
         "take": "The period of time needed in order to complete something."
       },
       "practice": [
-        { "sentence": "I ___ a wonderful time swimming and surfing on my last holiday.", "answer": "had" },
-        { "sentence": "I ___ last weekend studying and going out with my friends.", "answer": "spent" },
-        { "sentence": "It ___ me 25 minutes to get to school this morning.", "answer": "took" },
-        { "sentence": "When I'm waiting for a bus, I usually ___ the time reading magazines.", "answer": "pass" },
-        { "wrong": "I passed a relaxing evening with Paulo.", "correct": "I spent a relaxing evening with Paulo." },
-        { "wrong": "I spent ten minutes to find my mother.", "correct": "It took me ten minutes to find my mother." },
-        { "wrong": "You should come to Brazil and pass your holidays here.", "correct": "You should come to Brazil and spend your holidays here." }
+        {
+          "sentence": "I ___ a wonderful time swimming and surfing on my last holiday.",
+          "answer": "had"
+        },
+        {
+          "sentence": "I ___ last weekend studying and going out with my friends.",
+          "answer": "spent"
+        },
+        {
+          "sentence": "It ___ me 25 minutes to get to school this morning.",
+          "answer": "took"
+        },
+        {
+          "sentence": "When I'm waiting for a bus, I usually ___ the time reading magazines.",
+          "answer": "pass"
+        },
+        {
+          "wrong": "I passed a relaxing evening with Paulo.",
+          "correct": "I spent a relaxing evening with Paulo."
+        },
+        {
+          "wrong": "I spent ten minutes to find my mother.",
+          "correct": "It took me ten minutes to find my mother."
+        },
+        {
+          "wrong": "You should come to Brazil and pass your holidays here.",
+          "correct": "You should come to Brazil and spend your holidays here."
+        }
       ]
     },
     "plural_nouns": {
@@ -507,62 +1964,179 @@
         "always_plural": "A few words are always plural (clothes, trousers)."
       },
       "practice": [
-        { "wrong": "He told us lots of storys about Australia.", "correct": "He told us lots of stories about Australia." },
-        { "wrong": "I have to look after little childrens.", "correct": "I have to look after little children." },
-        { "wrong": "I know you love beachs.", "correct": "I know you love beaches." },
-        { "wrong": "I met a lot of friendly peoples.", "correct": "I met a lot of friendly people." },
-        { "wrong": "I'll take some photoes of your town.", "correct": "I'll take some photos of your town." },
-        { "wrong": "My uncle and aunt have four childrens.", "correct": "My uncle and aunt have four children." },
-        { "wrong": "I bought some meat, two fishs.", "correct": "I bought some meat, two fish." },
-        { "wrong": "The guests arrived with their wifes.", "correct": "The guests arrived with their wives." }
+        {
+          "wrong": "He told us lots of storys about Australia.",
+          "correct": "He told us lots of stories about Australia."
+        },
+        {
+          "wrong": "I have to look after little childrens.",
+          "correct": "I have to look after little children."
+        },
+        {
+          "wrong": "I know you love beachs.",
+          "correct": "I know you love beaches."
+        },
+        {
+          "wrong": "I met a lot of friendly peoples.",
+          "correct": "I met a lot of friendly people."
+        },
+        {
+          "wrong": "I'll take some photoes of your town.",
+          "correct": "I'll take some photos of your town."
+        },
+        {
+          "wrong": "My uncle and aunt have four childrens.",
+          "correct": "My uncle and aunt have four children."
+        },
+        {
+          "wrong": "I bought some meat, two fishs.",
+          "correct": "I bought some meat, two fish."
+        },
+        {
+          "wrong": "The guests arrived with their wifes.",
+          "correct": "The guests arrived with their wives."
+        }
       ]
     }
   },
   "phrasal_verbs": {
     "cut": [
-      { "verb": "cut off", "def": "disconnected" },
-      { "verb": "cut in", "def": "interrupt / drive in front of" },
-      { "verb": "cut down on", "def": "reduce amount" },
-      { "verb": "cut out", "def": "stop doing/eating something" },
-      { "verb": "cut back", "def": "spend less" }
+      {
+        "verb": "cut off",
+        "def": "disconnected"
+      },
+      {
+        "verb": "cut in",
+        "def": "interrupt / drive in front of"
+      },
+      {
+        "verb": "cut down on",
+        "def": "reduce amount"
+      },
+      {
+        "verb": "cut out",
+        "def": "stop doing/eating something"
+      },
+      {
+        "verb": "cut back",
+        "def": "spend less"
+      }
     ],
     "come": [
-      { "verb": "come across", "def": "find by accident" },
-      { "verb": "come down with", "def": "become ill" },
-      { "verb": "come up to", "def": "approach" },
-      { "verb": "come into", "def": "inherit" },
-      { "verb": "come out in", "def": "develop a rash" },
-      { "verb": "come up against", "def": "deal with a problem" },
-      { "verb": "come through", "def": "message arrives" },
-      { "verb": "come along", "def": "accompany / arrive" },
-      { "verb": "come off", "def": "end up in a certain state" },
-      { "verb": "come to", "def": "regain consciousness" },
-      { "verb": "come up with", "def": "create something new" }
+      {
+        "verb": "come across",
+        "def": "find by accident"
+      },
+      {
+        "verb": "come down with",
+        "def": "become ill"
+      },
+      {
+        "verb": "come up to",
+        "def": "approach"
+      },
+      {
+        "verb": "come into",
+        "def": "inherit"
+      },
+      {
+        "verb": "come out in",
+        "def": "develop a rash"
+      },
+      {
+        "verb": "come up against",
+        "def": "deal with a problem"
+      },
+      {
+        "verb": "come through",
+        "def": "message arrives"
+      },
+      {
+        "verb": "come along",
+        "def": "accompany / arrive"
+      },
+      {
+        "verb": "come off",
+        "def": "end up in a certain state"
+      },
+      {
+        "verb": "come to",
+        "def": "regain consciousness"
+      },
+      {
+        "verb": "come up with",
+        "def": "create something new"
+      }
     ],
     "give": [
-      { "verb": "give away", "def": "reveal a secret" },
-      { "verb": "give out", "def": "distribute" },
-      { "verb": "give up", "def": "stop doing / stop trying" },
-      { "verb": "give himself up", "def": "surrender to police" },
-      { "verb": "give in", "def": "agree after refusing" },
-      { "verb": "give off", "def": "produce (smoke/smell)" }
+      {
+        "verb": "give away",
+        "def": "reveal a secret"
+      },
+      {
+        "verb": "give out",
+        "def": "distribute"
+      },
+      {
+        "verb": "give up",
+        "def": "stop doing / stop trying"
+      },
+      {
+        "verb": "give himself up",
+        "def": "surrender to police"
+      },
+      {
+        "verb": "give in",
+        "def": "agree after refusing"
+      },
+      {
+        "verb": "give off",
+        "def": "produce (smoke/smell)"
+      }
     ],
     "do": [
-      { "verb": "do with", "def": "need / want" },
-      { "verb": "do away with", "def": "get rid of / abolish" },
-      { "verb": "do up", "def": "fasten / repair and redecorate" },
-      { "verb": "do in", "def": "kill / exhaust" },
-      { "verb": "do without", "def": "manage without" }
+      {
+        "verb": "do with",
+        "def": "need / want"
+      },
+      {
+        "verb": "do away with",
+        "def": "get rid of / abolish"
+      },
+      {
+        "verb": "do up",
+        "def": "fasten / repair and redecorate"
+      },
+      {
+        "verb": "do in",
+        "def": "kill / exhaust"
+      },
+      {
+        "verb": "do without",
+        "def": "manage without"
+      }
     ],
     "make": [
-      { "verb": "make out", "def": "see with difficulty / understand" },
-      { "verb": "make up", "def": "invent a story" },
-      { "verb": "make up one's mind", "def": "decide" },
-      { "verb": "make over", "def": "transfer property" },
-      { "verb": "make of", "def": "have an opinion about" }
+      {
+        "verb": "make out",
+        "def": "see with difficulty / understand"
+      },
+      {
+        "verb": "make up",
+        "def": "invent a story"
+      },
+      {
+        "verb": "make up one's mind",
+        "def": "decide"
+      },
+      {
+        "verb": "make over",
+        "def": "transfer property"
+      },
+      {
+        "verb": "make of",
+        "def": "have an opinion about"
+      }
     ]
   }
 }
-
-
-
