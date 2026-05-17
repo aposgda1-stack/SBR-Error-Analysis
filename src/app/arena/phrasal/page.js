@@ -7,29 +7,32 @@ import audioManager from '../../../utils/audio.js';
 
 const PHRASAL_DATA = sectionsData.phrasal_verbs || {};
 
+const SINGLE_WORD_PARTICLES = ['up', 'down', 'in', 'out', 'off', 'on', 'across', 'away', 'into', 'through', 'to', 'with', 'over', 'by', 'for', 'about'];
+const MULTI_WORD_PARTICLES = ['down with', 'up against', 'away with', 'up to', 'out in', 'out of', 'up with', 'in for', 'along with', 'on with'];
+
 // Build MCQ questions from phrasal verb data
 const buildQuestions = (rootKey) => {
   const verbs = PHRASAL_DATA[rootKey] || [];
   
-  // Get all particles across ALL roots for distractors
-  const allParticles = Object.values(PHRASAL_DATA)
-    .flat()
-    .map(v => {
-      // Extract particle from verb: "come across" -> "across"
-      const parts = v.verb.split(' ');
-      return parts.slice(1).join(' ');
-    })
-    .filter(Boolean);
-
   return verbs.map((item, i) => {
     const verbParts = item.verb.split(' ');
     const rootWord = verbParts[0];
     const correctParticle = verbParts.slice(1).join(' ');
 
-    // Build distractors from other particles
-    const distractors = [...new Set(
-      allParticles.filter(p => p.toLowerCase() !== correctParticle.toLowerCase())
-    )];
+    let distractors = [];
+
+    if (correctParticle === "himself up") {
+      distractors = ['himself in', 'himself out', 'himself over', 'himself down'];
+    } else if (correctParticle === "up one's mind") {
+      distractors = ["up one's papers", "up one's room", "up one's books"];
+    } else {
+      const isMultiWord = correctParticle.includes(' ');
+      if (isMultiWord) {
+        distractors = MULTI_WORD_PARTICLES.filter(p => p.toLowerCase() !== correctParticle.toLowerCase());
+      } else {
+        distractors = SINGLE_WORD_PARTICLES.filter(p => p.toLowerCase() !== correctParticle.toLowerCase());
+      }
+    }
 
     const shuffledDistractors = distractors
       .sort(() => Math.random() - 0.5)
