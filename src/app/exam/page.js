@@ -66,6 +66,24 @@ export default function ExamPage() {
   
   const [timeLeft, setTimeLeft] = useState(2400); // 40 minutes (2400s) for Final, 30 minutes (1800s) for Midterm
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [completedExams, setCompletedExams] = useState([]); // ['final', 'midterm']
+
+  // Load completed exams from user history to prevent duplicate XP
+  useEffect(() => {
+    const uId = JSON.parse(localStorage.getItem('sbr_user') || '{}').userId;
+    if (uId) {
+      fetch(`/api/user?userId=${uId}`)
+        .then(res => res.json())
+        .then(data => {
+          const history = data?.user?.history || [];
+          const completed = [];
+          if (history.some(h => h.type === 'Final Exam')) completed.push('final');
+          if (history.some(h => h.type === 'Midterm Exam')) completed.push('midterm');
+          setCompletedExams(completed);
+        })
+        .catch(console.error);
+    }
+  }, []);
 
   // Dynamic values based on selected exam
   const currentQuestions = selectedExam === 'final' ? FINAL_QUESTIONS : MIDTERM_QUESTIONS;
@@ -126,13 +144,19 @@ export default function ExamPage() {
             accuracy: Math.round((roundedScore / examTotalXP) * 100) 
           } 
         };
-        if (roundedScore > 0) payload.incXp = roundedScore;
+        // Only request XP increment if the user has not completed this exam previously
+        if (roundedScore > 0 && !completedExams.includes(selectedExam)) {
+          payload.incXp = roundedScore;
+        }
         
         await fetch('/api/user', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
+        
+        // Add to local completed list to show retake notice instantly
+        setCompletedExams(prev => [...prev, selectedExam]);
       } catch (err) { console.error('Failed to sync score', err); }
     }
   };
@@ -208,6 +232,26 @@ export default function ExamPage() {
         {/* Dynamic landing view depending on selected exam */}
         {/* BUG 17 FIX: key prop forces re-animation when exam type switches */}
         <div key={selectedExam} className="animate-fade-in">
+          {completedExams.includes(selectedExam) && (
+            <div style={{ 
+              background: 'rgba(239, 68, 68, 0.1)', 
+              border: '1px solid rgba(239, 68, 68, 0.25)', 
+              color: 'var(--error)', 
+              padding: '14px 18px', 
+              borderRadius: 16, 
+              fontSize: 13, 
+              fontWeight: 700, 
+              textAlign: 'right', 
+              direction: 'rtl',
+              marginBottom: 24,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 10
+            }}>
+              <span className="mi" style={{ fontSize: 20, color: 'var(--error)' }}>warning</span>
+              <span>لقد أتممت هذا الاختبار سابقاً. يمكنك إعادته للمراجعة، ولكن لن تمنح نقاط XP إضافية تفادياً للتكرار.</span>
+            </div>
+          )}
           <div style={{ marginBottom: 24, textAlign: 'left', padding: '0 8px' }}>
             <h3 style={{ fontSize: 18, fontWeight: 800, color: 'white', marginBottom: 4 }}>
               {selectedExam === 'final' ? 'Comprehensive Final Exam' : 'Midterm & Previous Exam'}
@@ -253,9 +297,23 @@ export default function ExamPage() {
                 <span style={{ fontSize:46, fontWeight:900, color:'white', fontFamily:'monospace' }}>{displayScore}</span>
                 <span style={{ fontSize:12, color:'var(--text-muted)', fontWeight: 800 }}>OF {examTotalXP}</span>
             </div>
-            <h2 style={{ fontSize:24, fontWeight:800, color:'white', marginBottom:32 }}>
+            <h2 style={{ fontSize:24, fontWeight:800, color:'white', marginBottom:20 }}>
                 {displayScore >= (examTotalXP * 0.85) ? "🎉 Excellence! You're ready." : displayScore >= (examTotalXP * 0.5) ? "👍 Good effort, keep refining." : "💪 Focus more on the core modules."}
             </h2>
+            {completedExams.includes(selectedExam) && (
+              <div style={{ 
+                background: 'rgba(255,255,255,0.02)', 
+                border: '1px solid var(--border-glass)', 
+                padding: '12px 16px', 
+                borderRadius: 12, 
+                fontSize: 13, 
+                color: 'var(--text-muted)',
+                marginBottom: 24,
+                textAlign: 'center'
+              }}>
+                ℹ️ تم احتساب 0 XP (لقد حصلت على نقاط هذا الاختبار مسبقاً)
+              </div>
+            )}
           </div>
 
           <div style={{ display:'flex', flexDirection:'column', gap:12, marginBottom:40 }}>

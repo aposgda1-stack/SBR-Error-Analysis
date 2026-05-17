@@ -53,8 +53,19 @@ export async function POST(req) {
       if (level !== undefined) update.$set.level = level;
 
       const inc = {};
+      let finalIncXp = incXp;
+
+      // Anti-cheat/tampering guard: Verify that exam points are only awarded once
+      if (pushHistory && (pushHistory.type === 'Final Exam' || pushHistory.type === 'Midterm Exam')) {
+        const currentProgress = await db.collection("progress").findOne({ userId });
+        const alreadyTaken = currentProgress?.history?.some(h => h.type === pushHistory.type);
+        if (alreadyTaken) {
+          finalIncXp = 0;
+        }
+      }
+
       // Guard: only add positive XP
-      if (incXp !== undefined && incXp > 0) inc.xp = incXp;
+      if (finalIncXp !== undefined && finalIncXp > 0) inc.xp = finalIncXp;
       if (incDone !== undefined && incDone > 0) inc.done = incDone;
 
       const push = {};
