@@ -40,7 +40,7 @@ export async function POST(req) {
     }
 
     if (data.action === 'sync') {
-      const { userId, progress, xp, level, incXp, incDone, pushVault, pushHistory } = data;
+      const { userId, progress, xp, level, incXp, incDone, pushVault, pushHistory, clearNotification } = data;
       if (!userId) return NextResponse.json({ error: 'Missing userId' }, { status: 400 });
  
       // Security: verify user exists
@@ -51,6 +51,7 @@ export async function POST(req) {
       if (progress) update.$set.progress = progress;
       if (xp !== undefined) update.$set.xp = xp;
       if (level !== undefined) update.$set.level = level;
+      if (clearNotification) update.$set['notification.show'] = false;
 
       const inc = {};
       let finalIncXp = incXp;

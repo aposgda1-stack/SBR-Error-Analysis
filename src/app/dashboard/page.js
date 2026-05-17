@@ -17,6 +17,7 @@ export default function Dashboard() {
   const [user, setUser] = useState(null);
   const [stats, setStats] = useState({ done: 0, xp: 0, rank: 0, sessions: 0 });
   const [loaded, setLoaded] = useState(false);
+  const [fairPlayNotice, setFairPlayNotice] = useState(null); // stores deductedXp if present
 
   useEffect(() => {
     const localUser = JSON.parse(localStorage.getItem('sbr_user') || '{}');
@@ -40,6 +41,21 @@ export default function Dashboard() {
             rank: data.user.rank || 'Unranked',
             sessions: data.user.done || 0
           });
+
+          // Fair Play Check: Detect if user had duplicate final exam points deducted
+          if (data.user.notification && data.user.notification.show && data.user.notification.type === 'fair_play_deduction') {
+            setFairPlayNotice(data.user.notification.deductedXp || 0);
+            // Dismiss notice on the server instantly
+            fetch('/api/user', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                action: 'sync',
+                userId: localUser.userId,
+                clearNotification: true
+              })
+            }).catch(console.error);
+          }
         }
         setLoaded(true);
       })
@@ -344,6 +360,83 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
+
+      {fairPlayNotice !== null && (
+        <div style={{
+          position: 'fixed',
+          inset: 0,
+          background: 'rgba(5, 2, 12, 0.85)',
+          backdropFilter: 'blur(16px)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 9999,
+          padding: 24
+        }} className="animate-fade-in">
+          <div style={{
+            background: 'linear-gradient(135deg, rgba(239, 68, 68, 0.08) 0%, rgba(12, 8, 25, 0.98) 100%)',
+            border: '1px solid rgba(239, 68, 68, 0.25)',
+            boxShadow: '0 25px 70px rgba(239, 68, 68, 0.15)',
+            borderRadius: 32,
+            padding: '36px 28px',
+            maxWidth: 480,
+            width: '100%',
+            textAlign: 'center',
+            position: 'relative'
+          }} className="animate-scale-up">
+            <div style={{
+              width: 72,
+              height: 72,
+              borderRadius: '50%',
+              background: 'rgba(239, 68, 68, 0.15)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 20px',
+              border: '1px solid rgba(239, 68, 68, 0.3)'
+            }}>
+              <span className="mi" style={{ color: 'var(--error)', fontSize: 36 }}>gavel</span>
+            </div>
+            
+            <h3 style={{ fontSize: 22, fontWeight: 900, color: 'white', marginBottom: 12 }}>
+              Fair Play Enforcement
+            </h3>
+            
+            <p style={{ fontSize: 13, color: 'var(--text-dim)', lineHeight: 1.6, marginBottom: 20 }}>
+              Dear student, in alignment with our <strong>Fair Play & Fair Competition Policy</strong>, a system audit resolved an exploit where the Final Exam was completed multiple times to farm duplicate XP. 
+            </p>
+
+            <div style={{
+              background: 'rgba(239, 68, 68, 0.06)',
+              border: '1px solid rgba(239, 68, 68, 0.2)',
+              borderRadius: 16,
+              padding: '16px 20px',
+              marginBottom: 20
+            }}>
+              <span style={{ fontSize: 13, color: 'var(--error)', fontWeight: 800, textTransform: 'uppercase', letterSpacing: 1.5 }}>
+                Deducted Balance
+              </span>
+              <div style={{ fontSize: 32, fontWeight: 950, color: 'var(--error)', fontFamily: 'monospace', marginTop: 4 }}>
+                -{fairPlayNotice} XP
+              </div>
+            </div>
+
+            <p style={{ fontSize: 13, color: 'var(--text-muted)', lineHeight: 1.6, marginBottom: 28, textAlign: 'left' }}>
+              ⚠️ Points for major exams (Final & Midterm) are only awarded once to preserve competitive integrity.
+              <br/><br/>
+              💡 <strong>Boost your score safely:</strong> You can earn unlimited points by repeating the <strong>Practice Sections</strong> (130 Sentences, Grammar Blitz, Phrasal Verbs, etc.) as many times as you want!
+            </p>
+
+            <button 
+              onClick={() => setFairPlayNotice(null)} 
+              className="premium-btn" 
+              style={{ width: '100%', padding: '16px 24px', fontSize: 14, borderRadius: 16, background: 'var(--grad-primary)' }}
+            >
+              I Understand & Agree
+            </button>
+          </div>
+        </div>
+      )}
 
       <BottomNav />
     </main>
