@@ -5,6 +5,7 @@ import BottomNav from '../../../components/BottomNav';
 import sectionsData from '../../../../data/sections.json';
 import audioManager from '../../../utils/audio.js';
 import { calcAnswerXP, calcEndBonus, syncXP, XP_BASE, STREAK_THRESHOLD } from '../../../utils/scoring.js';
+import { getArabicExplanation } from '../../../utils/feedback.js';
 
 function XPToast({ xp, bonuses, onDone }) {
   useEffect(() => { const t = setTimeout(onDone, 2200); return () => clearTimeout(t); }, [onDone]);
@@ -34,6 +35,15 @@ const GRAMMAR = sectionsData.grammar_guide;
 
 const UNIFIED_KEYS = [
   'comprehensive_study_guide',
+  'modal_verbs_can_and_could',
+  'modal_verbs_may_and_might',
+  'modal_verbs_speculation_and_deduction',
+  'modal_verbs_obligation_and_necessity',
+  'modal_verbs_advice_and_recommendations',
+  'modal_verbs_would',
+  'still_already_yet',
+  'opinions',
+  'hope_vs_wish',
   'and_but_or',
   'during_for_since',
   'to_infinitive_vs_ing',
@@ -61,6 +71,12 @@ const shuffleArray = (arr) => {
 const LOGICAL_DISTRACTORS = {
   comprehensive_study_guide: ['can', 'could', 'must', 'should', 'would', 'might', 'may', "can't", "couldn't", "shouldn't", "must not", "don't have to", "ought to", "would like", "had to", 'hope', 'wish', 'want', 'expect', 'would like', 'hopes', 'wishes', 'wanted', 'On the contrary', 'According to', 'Firstly', 'At first', 'However', 'Therefore', 'Furthermore', 'In addition', 'On the other hand', 'still', 'already', 'yet', 'anymore', 'any longer', 'no longer'],
   modal_verbs: ['can', 'could', 'must', 'should', 'would', 'might', 'may', "can't", "couldn't", "shouldn't", "must not", "don't have to", "ought to", "would like", "had to"],
+  modal_verbs_can_and_could: ['can', 'could', 'must', 'should', 'would', 'might', 'may', "can't", "couldn't", "shouldn't", "must not", "don't have to", "ought to", "would like", "had to"],
+  modal_verbs_may_and_might: ['can', 'could', 'must', 'should', 'would', 'might', 'may', "can't", "couldn't", "shouldn't", "must not", "don't have to", "ought to", "would like", "had to"],
+  modal_verbs_speculation_and_deduction: ['can', 'could', 'must', 'should', 'would', 'might', 'may', "can't", "couldn't", "shouldn't", "must not", "don't have to", "ought to", "would like", "had to"],
+  modal_verbs_obligation_and_necessity: ['can', 'could', 'must', 'should', 'would', 'might', 'may', "can't", "couldn't", "shouldn't", "must not", "don't have to", "ought to", "would like", "had to"],
+  modal_verbs_advice_and_recommendations: ['can', 'could', 'must', 'should', 'would', 'might', 'may', "can't", "couldn't", "shouldn't", "must not", "don't have to", "ought to", "would like", "had to"],
+  modal_verbs_would: ['can', 'could', 'must', 'should', 'would', 'might', 'may', "can't", "couldn't", "shouldn't", "must not", "don't have to", "ought to", "would like", "had to"],
   hope_vs_wish: ['hope', 'wish', 'want', 'expect', 'would like', 'hopes', 'wishes', 'wanted'],
   and_but_or: ['and', 'but', 'or', 'so', 'because', 'although', 'yet', 'while'],
   during_for_since: ['during', 'for', 'since', 'while', 'when', 'in', 'at', 'on'],
@@ -77,6 +93,79 @@ const LOGICAL_DISTRACTORS = {
   still_already_yet: ['still', 'already', 'yet', 'anymore', 'any longer', 'no longer'],
   do_vs_make: ['do', 'make', 'did', 'made', 'does', 'makes', 'doing', 'making', 'done', 'doing'],
   opportunity_possibility_chance: ['opportunity', 'possibility', 'chance', 'opportunities', 'possibilities', 'chances', 'occasion', 'occasions']
+};
+
+const getSpecificExplanation = (item, rules, topicKey) => {
+  if (!rules) return null;
+  if (typeof rules === 'string') return rules;
+
+  const ans = (item.answer || item.correct || '').toLowerCase();
+  const sentence = (item.sentence || '').toLowerCase();
+  const correct = (item.correct || '').toLowerCase();
+  const wrong = (item.wrong || '').toLowerCase();
+  
+  const allText = `${ans} ${sentence} ${correct} ${wrong}`;
+
+  // 1. Hope vs. Wish
+  if (allText.includes('hope') || allText.includes('wish')) {
+    const match = Object.keys(rules).find(k => k.toLowerCase().includes('hope') || k.toLowerCase().includes('wish'));
+    if (match) return { [match]: rules[match] };
+  }
+
+  // 2. Still, Already, Yet
+  if (allText.includes('still') || allText.includes('already') || allText.includes('yet')) {
+    const match = Object.keys(rules).find(k => k.toLowerCase().includes('still') || k.toLowerCase().includes('already') || k.toLowerCase().includes('yet'));
+    if (match) return { [match]: rules[match] };
+  }
+
+  // 3. Opinions (On the contrary, According to, Firstly, At first, On the other hand)
+  if (allText.includes('contrary') || allText.includes('according to') || allText.includes('firstly') || allText.includes('at first') || allText.includes('opinion') || allText.includes('hand')) {
+    const match = Object.keys(rules).find(k => k.toLowerCase().includes('opinion') || k.toLowerCase().includes('argument') || k.toLowerCase().includes('contrary') || k.toLowerCase().includes('firstly'));
+    if (match) return { [match]: rules[match] };
+  }
+
+  // 4. Modal Verbs - Can and Could
+  if (allText.includes('can ') || allText.includes('can\'t') || allText.includes('cannot') || allText.includes('could') || allText.includes('able to') || allText.includes('cans ')) {
+    const match = Object.keys(rules).find(k => k.toLowerCase().includes('can and could') || k.toLowerCase().includes('can & could'));
+    if (match) return { [match]: rules[match] };
+  }
+
+  // 5. Modal Verbs - May and Might
+  if (allText.includes('may ') || allText.includes('might') || allText.includes('maybe')) {
+    const match = Object.keys(rules).find(k => k.toLowerCase().includes('may and might') || k.toLowerCase().includes('may & might'));
+    if (match) return { [match]: rules[match] };
+  }
+
+  // 6. Modal Verbs - Speculation (Must be, Could be, Might be)
+  if (allText.includes('must') && (allText.includes('happy') || allText.includes('sleepy') || allText.includes('tired') || allText.includes('unwell') || allText.includes('anomaly') || allText.includes('outlier') || allText.includes('discrepancy'))) {
+    const match = Object.keys(rules).find(k => k.toLowerCase().includes('speculation'));
+    if (match) return { [match]: rules[match] };
+  }
+
+  // 7. Modal Verbs - Obligation and Necessity
+  if (allText.includes('must') || allText.includes('have to') || allText.includes('had to') || allText.includes('has to') || allText.includes('do not have') || allText.includes('don\'t have') || allText.includes('mustn\'t')) {
+    const match = Object.keys(rules).find(k => k.toLowerCase().includes('obligation'));
+    if (match) return { [match]: rules[match] };
+  }
+
+  // 8. Modal Verbs - Advice and Recommendations
+  if (allText.includes('should') || allText.includes('ought') || allText.includes('had better') || allText.includes('d better')) {
+    const match = Object.keys(rules).find(k => k.toLowerCase().includes('advice') || k.toLowerCase().includes('ought'));
+    if (match) return { [match]: rules[match] };
+  }
+
+  // 9. Modal Verbs - Would
+  if (allText.includes('would')) {
+    const match = Object.keys(rules).find(k => k.toLowerCase().includes('would'));
+    if (match) return { [match]: rules[match] };
+  }
+
+  // Fallback: return the first rule entry
+  const keys = Object.keys(rules);
+  if (keys.length > 0) {
+    return { [keys[0]]: rules[keys[0]] };
+  }
+  return null;
 };
 
 const buildMCQ = (topicKey) => {
@@ -149,7 +238,7 @@ const buildMCQ = (topicKey) => {
         answer: correctAns,
         options,
         topic: topicKey.replace(/_/g, ' '),
-        explanation: data.rules || null
+        explanation: getSpecificExplanation(item, data.rules, topicKey)
       });
 
     } else if (item.wrong && item.correct) {
@@ -196,7 +285,7 @@ const buildMCQ = (topicKey) => {
         answer: item.correct,
         options,
         topic: topicKey.replace(/_/g, ' '),
-        explanation: data.rules || null
+        explanation: getSpecificExplanation(item, data.rules, topicKey)
       });
     }
   });
@@ -418,32 +507,16 @@ export default function GrammarArena() {
                         </strong>
                       )}
                       
-                      {current.explanation ? (
-                        <div style={{ marginTop: 8 }}>
-                          <div style={{ fontSize: 12, fontWeight: 800, color: 'var(--primary)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: 1 }}>Grammar Rule</div>
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                            {Array.isArray(current.explanation) ? (
-                              current.explanation.map((rule, idx) => (
-                                <div key={idx} style={{ lineHeight: 1.5, display: 'flex', gap: 8, alignItems: 'flex-start' }}>
-                                  <span style={{ color: 'var(--primary)', fontWeight: 800 }}>•</span>
-                                  <span style={{ color: 'white' }}>{rule}</span>
-                                </div>
-                              ))
-                            ) : (
-                              Object.entries(current.explanation).map(([key, rule]) => (
-                                <div key={key} style={{ lineHeight: 1.5, marginBottom: 4 }}>
-                                  <strong style={{ color: 'white', display: 'block', marginBottom: 2 }}>{key.replace(/_/g, ' ')}:</strong>
-                                  <span style={{ whiteSpace: 'pre-line' }}>{rule}</span>
-                                </div>
-                              ))
-                            )}
+                        <div style={{ marginTop: 12, borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 12 }}>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                            {Object.entries(getArabicExplanation(current, activeModule)).map(([title, content]) => (
+                              <div key={title} style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-glass)', borderRadius: 12, padding: '12px 16px', direction: 'rtl', textAlign: 'right' }}>
+                                <div style={{ fontSize: 11, fontWeight: 800, color: 'var(--primary)', marginBottom: 6, textTransform: 'uppercase', letterSpacing: 0.5 }}>{title}</div>
+                                <div style={{ color: 'white', lineHeight: 1.5, fontSize: 13, whiteSpace: 'pre-line' }}>{content}</div>
+                              </div>
+                            ))}
                           </div>
                         </div>
-                      ) : (
-                        <div style={{ marginTop: 4 }}>
-                          Topic: <strong style={{ color: 'white' }}>{current.topic}</strong>
-                        </div>
-                      )}
                     </div>
                   </div>
                 )}

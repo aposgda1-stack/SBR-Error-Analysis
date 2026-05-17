@@ -2482,6 +2482,272 @@
           "answer": "arrives"
         }
       ]
+    },
+    "modal_verbs_can_and_could": {
+      "rules": {
+        "Can and Could": "• Ability: Can denotes capability in the present tense, whereas could signifies capability in the past tense.\n  - Present: The current infrastructure can support the new application.\n  - Past: Previously, the department could solely rely on manual processing.\n  - Note regarding Future Tense: To articulate future capability, the phrase will be able to is required rather than can (e.g., Following the upgrade, the server will be able to manage increased traffic).\n• Permission: Utilized to request or authorize permission concerning present or future actions.\n  - Example: Authorized personnel can access the secure archives.\n• Possibility & Suggestions: Expresses potential options or theoretical possibilities in the present or future.\n  - Example: Assuming sufficient capital is acquired, the organization can expand its facilities.\n  - Example: The committee could consult an independent auditor prior to finalizing the fiscal report."
+      },
+      "practice": [
+        {
+          "sentence": "John ___ drive. He doesn't have a driver's license.",
+          "answer": "can't"
+        },
+        {
+          "sentence": "Frank lived in Beijing for ten years, so he ___ speak Chinese very well.",
+          "answer": "could"
+        },
+        {
+          "sentence": "My youngest son is only eleven months old, and he ___ already walk.",
+          "answer": "can"
+        },
+        {
+          "sentence": "Before I moved to Spain, I couldn't speak Spanish at all, but now I ___ speak it very well.",
+          "answer": "can"
+        },
+        {
+          "sentence": "John was sick today, so he ___ go to work.",
+          "answer": "couldn't"
+        },
+        {
+          "sentence": "I am sorry, but you ___ smoke in this restaurant. Please put out your cigarette.",
+          "answer": "can't"
+        },
+        {
+          "sentence": "I had to work, so I ___ go to Mavis's party last night.",
+          "answer": "couldn't"
+        },
+        {
+          "sentence": "Good news! The mechanic says that he ___ fix your car in an hour.",
+          "answer": "can"
+        },
+        {
+          "sentence": "I have a terrible toothache. I hope I ___ see the dentist today.",
+          "answer": "can"
+        },
+        {
+          "sentence": "Yesterday, we ___ go for a hike. The weather was terrible.",
+          "answer": "couldn't"
+        },
+        {
+          "sentence": "I think we ___ go to the beach tomorrow.",
+          "answer": "can"
+        },
+        {
+          "sentence": "___ you pass me the salt, please?",
+          "answer": "Could"
+        },
+        {
+          "sentence": "Peggy ___ go on vacation in Spain this year.",
+          "answer": "couldn't"
+        },
+        {
+          "sentence": "___ I use your mobile phone for a moment?",
+          "answer": "Can"
+        },
+        {
+          "sentence": "It's raining, so we ___ go on a picnic.",
+          "answer": "can't"
+        },
+        {
+          "sentence": "I ___ go out with my friends last night. I had to work.",
+          "answer": "couldn't"
+        },
+        {
+          "sentence": "John ___ work late yesterday. He had a doctor's appointment after work.",
+          "answer": "could not"
+        },
+        {
+          "wrong": "He cans drive a motorcycle.",
+          "correct": "He can drive a motorcycle."
+        },
+        {
+          "wrong": "They can to come to the party.",
+          "correct": "They can come to the party."
+        },
+        {
+          "wrong": "You can not park in front of a fire hydrant.",
+          "correct": "You cannot park in front of a fire hydrant."
+        },
+        {
+          "wrong": "After using this book, you can speak English accurately.",
+          "correct": "After using this book, you will be able to speak English accurately."
+        },
+        {
+          "wrong": "I hope to can go to the movies tonight.",
+          "correct": "I hope to be able to go to the movies tonight."
+        },
+        {
+          "wrong": "Maria doesn't can drive.",
+          "correct": "Maria can't drive."
+        }
+      ]
+    },
+    "modal_verbs_may_and_might": {
+      "rules": {
+        "May and Might": "• Possibility: Indicates that a circumstance is feasible in the present or future. May typically conveys a marginally higher degree of probability than might.\n  - Example: Precipitation might occur tomorrow. / The preliminary coordinates may be inaccurate.\n• Permission: May is formally employed to grant or request authorization.\n  - Example: Delegates may proceed to the designated conference hall.\n• Optional Actions: Might serves to denote discretionary future actions.\n  - Example: Should an individual miss the initial presentation, they might attend the supplementary session.\n• Grammar Note: It is imperative to distinguish between the modal verb phrase may be and the adverb maybe.\n  - Modal: The physical document may be misfiled.\n  - Adverb: Maybe the physical document is misfiled."
+      },
+      "practice": [
+        {
+          "sentence": "This computer isn't working? You ___ try the computer in the hall.",
+          "answer": "might"
+        },
+        {
+          "sentence": "It ___ rain tomorrow.",
+          "answer": "might"
+        },
+        {
+          "sentence": "We ___ go to England next year on vacation.",
+          "answer": "may"
+        },
+        {
+          "wrong": "He maybe outside.",
+          "correct": "He may be outside."
+        }
+      ]
+    },
+    "modal_verbs_speculation_and_deduction": {
+      "rules": {
+        "Speculation and Deduction (Must be, Could be, Might be)": "The integration of modal verbs with the auxiliary be facilitates deductive reasoning regarding present circumstances based on available evidence:\n• High Certainty: Must be (e.g., The primary investigator is absent today; he must be unwell.)\n• Moderate Certainty: Could be (e.g., The numerical discrepancy could be attributed to a systematic error.)\n• Low Certainty: Might be (e.g., The observed anomaly might be a statistical outlier.)\n• Negative Certainty: To assert that a hypothesis is definitively false, the constructions cannot be or could not be are utilized (e.g., The suspect departed mere moments ago; he cannot be far.)."
+      },
+      "practice": [
+        {
+          "sentence": "Ben and Luke hiked for miles today. They ___ be very tired.",
+          "answer": "must"
+        },
+        {
+          "sentence": "She just won the lottery. She ___ be very happy.",
+          "answer": "must"
+        },
+        {
+          "sentence": "John stayed up all night studying for the test. He ___ be sleepy.",
+          "answer": "must"
+        }
+      ]
+    },
+    "modal_verbs_obligation_and_necessity": {
+      "rules": {
+        "Obligation and Necessity (Must and Have to)": "• Must: Articulates a definitive obligation or necessity pertaining to the present or future.\n  - Example: All personnel must adhere to established safety protocols.\n• Must not (Mustn't): Imposes a strict prohibition against an action.\n  - Example: Unauthorized data extraction must not occur in this sector.\n• Have to / Had to: While semantically analogous to must, have to does not function grammatically as a modal verb. It is succeeded by an infinitive and possesses a distinct past tense formulation, had to, indicating historical obligations.\n  - Example: It was necessary to submit the regulatory documentation yesterday; therefore, the team had to expedite the review process.\n• Do not have to: Signifies an absence of obligation; the specified action is entirely discretionary.\n  - Example: Attendance at the supplementary seminar is not mandatory; employees do not have to participate."
+      },
+      "practice": [
+        {
+          "sentence": "You ___ turn on the printer before you use it.",
+          "answer": "must"
+        },
+        {
+          "sentence": "Today is a holiday, so I ___ go to work.",
+          "answer": "don't have to"
+        },
+        {
+          "sentence": "Yesterday I ___ go to the dentist.",
+          "answer": "had to"
+        },
+        {
+          "sentence": "Employees ___ use the guest parking lot. They can use employee parking lots A and B.",
+          "answer": "must not"
+        },
+        {
+          "sentence": "You ___ wear a seat belt in a car.",
+          "answer": "must"
+        },
+        {
+          "sentence": "Mary Jane's doctor says that she ___ stop smoking right away.",
+          "answer": "must"
+        }
+      ]
+    },
+    "modal_verbs_advice_and_recommendations": {
+      "rules": {
+        "Advice and Recommendations (Should, Ought to, Had better)": "• Should / Ought to: Employed to offer professional recommendations or counsel.\n  - Example: It is recommended that researchers should rigorously verify their primary sources.\n  - Negative Formulation: In standard professional discourse, should not is overwhelmingly preferred to the archaic ought not to.\n• Had better ('d better): Utilized to issue emphatic recommendations or advisories, frequently implying negative operational or strategic consequences for non-compliance.\n  - Example: The administration had better address the infrastructural vulnerabilities, or significant operational delays will ensue."
+      },
+      "practice": [
+        {
+          "sentence": "We ___ finish cleaning the kitchen before we watch TV.",
+          "answer": "should"
+        },
+        {
+          "sentence": "You ___ lock your bike, or someone will steal it.",
+          "answer": "should"
+        },
+        {
+          "sentence": "He ___ drink so much coffee! I think he drinks more than ten cups a day.",
+          "answer": "shouldn't"
+        },
+        {
+          "sentence": "Tim has high blood pressure. He ___ see a doctor.",
+          "answer": "should"
+        },
+        {
+          "sentence": "I had trouble sleeping last night. Maybe I ___ take a nap.",
+          "answer": "should"
+        },
+        {
+          "sentence": "It looks like a blizzard outside. You ___ drive anywhere right now.",
+          "answer": "shouldn't"
+        },
+        {
+          "sentence": "To stay healthy, you ___ eat a diet low in sugar and fat.",
+          "answer": "should"
+        },
+        {
+          "sentence": "It looks like rain. You ___ take an umbrella with you.",
+          "answer": "should"
+        },
+        {
+          "sentence": "Young children ___ stay up past 11:00 at night.",
+          "answer": "shouldn't"
+        },
+        {
+          "sentence": "You ___ arrive at the airport at least an hour before your plane departs.",
+          "answer": "should"
+        },
+        {
+          "sentence": "You ___ to get more sleep.",
+          "answer": "ought"
+        },
+        {
+          "wrong": "You ought wash your car.",
+          "correct": "You ought to wash your car."
+        },
+        {
+          "wrong": "You oughtn't to drive so fast.",
+          "correct": "You shouldn't drive so fast."
+        }
+      ]
+    },
+    "modal_verbs_would": {
+      "rules": {
+        "Would": "• Past Intentions/Future in the Past: Applied to discuss past intentions or future events from a retrospective viewpoint. It functions as a more formal equivalent to was going to.\n  - Example: The director indicated that he would independently review the proposal.\n• Polite Offers and Requests: The phrasing would like is universally applied to formulate courteous and professional requests, establishing a clear distinction from general declarations of preference.\n  - Request: I would like to formally request an extension for the project deadline.\n  - Preference: I favor extended project deadlines.\n• Past Habits: Illustrates habitual or recurring actions executed in the past.\n  - Example: During previous fiscal years, the organization would routinely allocate surplus funds to research and development initiatives."
+      },
+      "practice": [
+        {
+          "sentence": "___ you like cream or sugar with your coffee?",
+          "answer": "Would"
+        },
+        {
+          "sentence": "Tim said that he ___ arrive at 8:30.",
+          "answer": "would"
+        },
+        {
+          "sentence": "When I lived in New York, I ___ take the subway to work every day.",
+          "answer": "would"
+        },
+        {
+          "sentence": "If I were you, I ___ go to bed earlier.",
+          "answer": "would"
+        },
+        {
+          "sentence": "When we were young, we ___ play baseball after school every day.",
+          "answer": "would"
+        },
+        {
+          "sentence": "I ___ a slice of apple pie, please.",
+          "answer": "would like"
+        },
+        {
+          "wrong": "He said he had help us.",
+          "correct": "He said he would help us."
+        }
+      ]
     }
   },
   "phrasal_verbs": {

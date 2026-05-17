@@ -2,6 +2,7 @@
 import { useState, useMemo } from 'react';
 import audioManager from '../utils/audio.js';
 import { calcEndBonus, syncXP, XP_BASE } from '../utils/scoring.js';
+import { getArabicExplanation } from '../utils/feedback.js';
 
 export default function VocabExercise({ task, onFinish }) {
   const [answers, setAnswers] = useState({});
@@ -169,6 +170,12 @@ export default function VocabExercise({ task, onFinish }) {
                             .replace(new RegExp(`\\(${g}\\)`, 'g'), `[${wText}]`);
                         };
 
+                        const itemMock = {
+                          sentence: sentence,
+                          answer: correctAnswers[g],
+                          correct: correctAnswers[g]
+                        };
+
                         return (
                           <div key={g} style={{ 
                             padding: '12px 16px', borderRadius: 12, 
@@ -182,7 +189,7 @@ export default function VocabExercise({ task, onFinish }) {
                               </span>
                               <strong style={{ color: 'white' }}>Sentence {g}:</strong>
                             </div>
-                            <div style={{ paddingLeft: 26, direction: 'ltr' }}>
+                            <div style={{ paddingLeft: 26, direction: 'ltr', marginBottom: 12 }}>
                               {!isRight && (
                                 <div style={{ marginBottom: 4, textDecoration: 'line-through', opacity: 0.6 }}>
                                   {makeReconstructed(answer?.word)}
@@ -191,6 +198,15 @@ export default function VocabExercise({ task, onFinish }) {
                               <div style={{ color: isRight ? 'white' : 'var(--success)', fontWeight: isRight ? 400 : 700 }}>
                                 {makeReconstructed(correctAnswers[g])}
                               </div>
+                            </div>
+                            
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: 8, paddingLeft: 26 }}>
+                              {Object.entries(getArabicExplanation(itemMock, task.title || 'confusing_words')).map(([title, content]) => (
+                                <div key={title} style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-glass)', borderRadius: 10, padding: '8px 12px', direction: 'rtl', textAlign: 'right' }}>
+                                  <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--primary)', marginBottom: 3, textTransform: 'uppercase' }}>{title}</div>
+                                  <div style={{ color: 'rgba(255,255,255,0.85)', lineHeight: 1.4, fontSize: 12, whiteSpace: 'pre-line' }}>{content}</div>
+                                </div>
+                              ))}
                             </div>
                           </div>
                         );

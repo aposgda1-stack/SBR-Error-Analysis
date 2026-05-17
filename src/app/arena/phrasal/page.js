@@ -4,6 +4,7 @@ import TopBar from '../../../components/TopBar';
 import BottomNav from '../../../components/BottomNav';
 import sectionsData from '../../../../data/sections.json';
 import audioManager from '../../../utils/audio.js';
+import { getArabicExplanation } from '../../../utils/feedback.js';
 
 const PHRASAL_DATA = sectionsData.phrasal_verbs || {};
 
@@ -243,17 +244,27 @@ export default function PhrasalArena() {
                       <h4 style={{ fontSize: 18, fontWeight: 800, color: selectedOpt === current.correctParticle ? 'var(--primary)' : 'var(--error)', marginBottom: 12 }}>
                         {selectedOpt === current.correctParticle ? 'Excellent! 🎉' : 'Incorrect ❌'}
                       </h4>
+                      {selectedOpt !== current.correctParticle && (
+                        <div style={{ marginBottom: 12 }}>
+                          <strong style={{ color: 'var(--success)', display: 'block', marginBottom: 4 }}>
+                            ✓ Correct Answer: {current.correctParticle}
+                          </strong>
+                        </div>
+                      )}
                       <div style={{ marginBottom: 12 }}>
                         <p style={{ fontWeight: 600, color: 'white', marginBottom: 4 }}>Completed Phrasal Verb:</p>
                         <p style={{ color: 'var(--primary)', fontStyle: 'italic', fontSize: 16 }}>
                           &ldquo;{current.rootWord} {current.correctParticle}&rdquo;
                         </p>
                       </div>
-                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 8, marginTop: 12, paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-                        <span className="mi" style={{ fontSize: 16, color: 'var(--secondary)', marginTop: 2 }}>menu_book</span>
-                        <div>
-                          <strong style={{ color: 'white' }}>Meaning:</strong> {current.definition}
-                        </div>
+                      
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 12, paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+                        {Object.entries(getArabicExplanation(current, 'phrasal_verbs')).map(([title, content]) => (
+                          <div key={title} style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-glass)', borderRadius: 12, padding: '10px 14px', direction: 'rtl', textAlign: 'right' }}>
+                            <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--primary)', marginBottom: 4, textTransform: 'uppercase' }}>{title}</div>
+                            <div style={{ color: 'white', lineHeight: 1.5, fontSize: 13, whiteSpace: 'pre-line' }}>{content}</div>
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </div>

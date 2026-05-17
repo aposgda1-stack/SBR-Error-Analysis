@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import audioManager from '../utils/audio.js';
 import { calcAnswerXP, calcEndBonus, syncXP, XP_BASE, STREAK_THRESHOLD } from '../utils/scoring.js';
+import { getArabicExplanation } from '../utils/feedback.js';
 
 /* ── helpers ── */
 const shuffleArray = (arr) => {
@@ -342,12 +343,15 @@ export default function MistakesExercise({ data, startIndex = 0, onComplete }) {
               <p style={{ fontWeight: 600, color: 'white', marginBottom: 4 }}>The completely correct sentence is:</p>
               <p style={{ color: 'var(--primary)', fontStyle: 'italic', fontSize: 16 }}>&ldquo;{currentItem.correct}&rdquo;</p>
             </div>
-            {currentItem.topic && (
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 12, paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-                <span className="mi" style={{ fontSize: 16, color: 'var(--secondary)' }}>menu_book</span>
-                <span>Rule Topic: <strong style={{ color: 'white' }}>{currentItem.topic}</strong></span>
-              </div>
-            )}
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginTop: 12, paddingTop: 12, borderTop: '1px solid rgba(255,255,255,0.08)' }}>
+              {Object.entries(getArabicExplanation(currentItem, 'error_correction')).map(([title, content]) => (
+                <div key={title} style={{ background: 'rgba(255,255,255,0.02)', border: '1px solid var(--border-glass)', borderRadius: 12, padding: '10px 14px', direction: 'rtl', textAlign: 'right' }}>
+                  <div style={{ fontSize: 10, fontWeight: 800, color: 'var(--primary)', marginBottom: 4, textTransform: 'uppercase' }}>{title}</div>
+                  <div style={{ color: 'white', lineHeight: 1.5, fontSize: 13, whiteSpace: 'pre-line' }}>{content}</div>
+                </div>
+              ))}
+            </div>
           </div>
           <button className="premium-btn" style={{ width: '100%', padding: '20px' }} onClick={handleNext}>
             {currentIndex < mistakes.length - 1 ? 'Next Question' : 'See Results'}
