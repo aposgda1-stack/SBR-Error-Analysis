@@ -56,8 +56,8 @@ export async function POST(req) {
       const inc = {};
       let finalIncXp = incXp;
 
-      // Anti-cheat/tampering guard: Verify that exam points are only awarded once
-      if (pushHistory && (pushHistory.type === 'Final Exam' || pushHistory.type === 'Midterm Exam')) {
+      // Anti-cheat/tampering guard: Verify that exam and comprehensive guide points are only awarded once
+      if (pushHistory && (pushHistory.type === 'Final Exam' || pushHistory.type === 'Midterm Exam' || pushHistory.type === 'Comprehensive Study Guide')) {
         const currentProgress = await db.collection("progress").findOne({ userId });
         const alreadyTaken = currentProgress?.history?.some(h => h.type === pushHistory.type);
         if (alreadyTaken) {

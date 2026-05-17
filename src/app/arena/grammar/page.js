@@ -350,9 +350,10 @@ export default function GrammarArena() {
       audioManager.play('VICTORY');
       const { xp: bonusXp, isPerfect } = calcEndBonus(correctCount, questions.length);
       if (bonusXp > 0) syncXP({ incXp: bonusXp });
+      const historyType = activeModule === 'comprehensive_study_guide' ? 'Comprehensive Study Guide' : 'Grammar Blitz';
       syncXP({
         incXp: 0, incDone: 1,
-        historyEntry: { date: new Date(), xp: totalXp + bonusXp, type: 'Grammar Blitz', accuracy: Math.round((correctCount / questions.length) * 100) }
+        historyEntry: { date: new Date(), xp: totalXp + bonusXp, type: historyType, accuracy: Math.round((correctCount / questions.length) * 100) }
       });
       setCompleted(true);
     }
