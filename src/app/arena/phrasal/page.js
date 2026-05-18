@@ -86,6 +86,53 @@ const buildQuestions = (rootKey) => {
   });
 };
 
+// Build a compiled set of all phrasal verbs, shuffled
+const buildAllQuestions = () => {
+  let allVerbs = [];
+  Object.keys(PHRASAL_DATA).forEach(rootKey => {
+    const verbs = PHRASAL_DATA[rootKey] || [];
+    verbs.forEach((item, i) => {
+      const verbParts = item.verb.split(' ');
+      const rootWord = verbParts[0];
+      const correctParticle = verbParts.slice(1).join(' ');
+
+      let distractors = [];
+
+      if (correctParticle === "himself up") {
+        distractors = ['himself in', 'himself out', 'himself over', 'himself down'];
+      } else if (correctParticle === "up one's mind") {
+        distractors = ["up one's papers", "up one's room", "up one's books"];
+      } else {
+        const isMultiWord = correctParticle.includes(' ');
+        if (isMultiWord) {
+          distractors = MULTI_WORD_PARTICLES.filter(p => p.toLowerCase() !== correctParticle.toLowerCase());
+        } else {
+          distractors = SINGLE_WORD_PARTICLES.filter(p => p.toLowerCase() !== correctParticle.toLowerCase());
+        }
+      }
+
+      const shuffledDistractors = distractors
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 3);
+
+      const options = [correctParticle, ...shuffledDistractors].sort(() => Math.random() - 0.5);
+
+      allVerbs.push({
+        id: `pv_all_${rootKey}_${i}`,
+        rootWord,
+        correctParticle,
+        definition: item.def,
+        options,
+        sentence: item.def 
+          ? `"${item.def.charAt(0).toUpperCase() + item.def.slice(1)}" — Complete: ${rootWord} ___`
+          : `${rootWord} ___`,
+      });
+    });
+  });
+  
+  return allVerbs.sort(() => Math.random() - 0.5);
+};
+
 export default function PhrasalArena() {
   const [activeRoot, setActiveRoot] = useState(null);
   const [completedSections, setCompletedSections] = useState([]);
@@ -115,7 +162,7 @@ export default function PhrasalArena() {
 
   const startModule = (root) => {
     audioManager.play('CLICK');
-    const qs = buildQuestions(root);
+    const qs = root === 'all' ? buildAllQuestions() : buildQuestions(root);
     setQuestions(qs);
     setActiveRoot(root);
     setCurrentIndex(0);
@@ -183,6 +230,50 @@ export default function PhrasalArena() {
               <h2 style={{ fontSize: 32, fontWeight: 800, color: 'white' }}>Phrasal Mastery</h2>
               <p style={{ color: 'var(--text-dim)', fontSize: 15 }}>MCQ questions on phrasal verbs grouped by root word.</p>
             </div>
+
+            {/* Phrasal Blitz Premium Card */}
+            {(() => {
+              const isAllDone = completedSections.includes('p_all');
+              return (
+                <button
+                  onClick={() => startModule('all')}
+                  className="glass-card animate-fade-in"
+                  style={{
+                    width: '100%', padding: '24px', textAlign: 'left', display: 'flex', justifyContent: 'space-between',
+                    alignItems: 'center', cursor: 'pointer', transition: '0.3s', marginBottom: 20,
+                    border: isAllDone ? '2px solid rgba(16, 185, 129, 0.6)' : '2px solid rgba(255, 64, 129, 0.4)',
+                    background: isAllDone 
+                      ? 'linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, transparent 100%)' 
+                      : 'linear-gradient(135deg, rgba(255, 64, 129, 0.15) 0%, rgba(124, 77, 255, 0.05) 50%, transparent 100%)',
+                    boxShadow: isAllDone ? '0 8px 32px rgba(16, 185, 129, 0.1)' : '0 8px 32px rgba(255, 64, 129, 0.15)',
+                    position: 'relative', overflow: 'hidden'
+                  }}
+                >
+                  <div className="animate-shimmer" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: 3, background: 'linear-gradient(90deg, transparent, rgba(255, 64, 129, 0.6), transparent)', opacity: 0.8 }} />
+                  <div>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                      <div style={{ padding: '2px 8px', background: 'rgba(255, 64, 129, 0.2)', border: '1px solid var(--accent)', borderRadius: 8, fontSize: 10, fontWeight: 900, color: 'white', letterSpacing: 1 }}>
+                        MEGA COMPILATION
+                      </div>
+                      {isAllDone && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 2, background: 'rgba(16, 185, 129, 0.2)', padding: '2px 8px', borderRadius: 8, fontSize: 9, fontWeight: 900, color: 'var(--success)' }}>
+                          <span className="mi" style={{ fontSize: 11 }}>check</span> EXCELLENT
+                        </div>
+                      )}
+                    </div>
+                    <div style={{ fontSize: 20, fontWeight: 900, color: 'white', display: 'flex', alignItems: 'center', gap: 6 }}>
+                      ⚡ Phrasal Blitz (المجمع الشامل)
+                    </div>
+                    <div style={{ fontSize: 13, color: 'var(--text-dim)', marginTop: 6, lineHeight: 1.4 }}>
+                      تدريب شامل ومكثف لجميع الـ 32 فعلاً تركيبياً دفعة واحدة بأسئلة عشوائية مجمعة!
+                    </div>
+                  </div>
+                  <div style={{ width: 48, height: 48, borderRadius: '50%', background: isAllDone ? 'rgba(16, 185, 129, 0.2)' : 'rgba(255, 64, 129, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: isAllDone ? 'var(--success)' : 'var(--accent)', boxShadow: '0 0 15px rgba(255,64,129,0.3)', flexShrink: 0 }}>
+                    <span className="mi" style={{ fontSize: 24 }}>{isAllDone ? 'emoji_events' : 'psychology'}</span>
+                  </div>
+                </button>
+              );
+            })()}
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {Object.keys(PHRASAL_DATA).map((rootKey, i) => {
